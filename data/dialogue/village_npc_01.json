@@ -1,0 +1,14 @@
+{
+  "id": "village_npc_01",
+  "lines": [
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "La miniera è stata invasa dai mostri."
+    },
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Se riesci a liberarla, il villaggio ti sarà debitore."
+    }
+  ],
+  "starts_quest": "quest_clear_dungeon"
+}

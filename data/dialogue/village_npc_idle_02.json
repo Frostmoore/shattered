@@ -1,0 +1,9 @@
+{
+  "id": "village_npc_idle_02",
+  "lines": [
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "I bambini non dormono più dall'inizio delle incursioni. Speriamo che qualcuno risolva questa faccenda."
+    }
+  ]
+}

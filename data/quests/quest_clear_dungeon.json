@@ -1,0 +1,22 @@
+{
+  "id": "quest_clear_dungeon",
+  "title": "Libera la miniera",
+  "description": "Sconfiggi il boss nella vecchia miniera.",
+  "completion_mode": "turn_in",
+  "objectives": [
+    {
+      "type": "kill_enemy",
+      "target_id": "mine_boss",
+      "required": 1
+    }
+  ],
+  "rewards": {
+    "xp": 200,
+    "gold": 50,
+    "items": ["small_potion"]
+  },
+  "sets_flags": {
+    "dungeon_boss_defeated": true,
+    "village_quest_completed": true
+  }
+}

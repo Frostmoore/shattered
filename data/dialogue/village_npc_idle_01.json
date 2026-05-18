@@ -1,0 +1,9 @@
+{
+  "id": "village_npc_idle_01",
+  "lines": [
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Un tempo la miniera era il cuore pulsante di questo posto. Adesso è solo silenzio e urla."
+    }
+  ]
+}

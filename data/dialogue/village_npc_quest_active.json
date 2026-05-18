@@ -1,0 +1,13 @@
+{
+  "id": "village_npc_quest_active",
+  "lines": [
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Sei ancora qui? La miniera non si libera da sola, sai."
+    },
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Il capo dei mostri è in fondo. Finché lui è vivo, gli altri non se ne andranno."
+    }
+  ]
+}

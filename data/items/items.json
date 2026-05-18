@@ -1,0 +1,82 @@
+[
+  {
+    "id": "small_potion",
+    "name": "Pozione piccola",
+    "type": "consumable",
+    "icon": "!",
+    "description": "Ripristina 10 HP.",
+    "effect": { "heal": 10 }
+  },
+  {
+    "id": "medium_potion",
+    "name": "Pozione media",
+    "type": "consumable",
+    "icon": "!",
+    "description": "Ripristina 25 HP.",
+    "effect": { "heal": 25 }
+  },
+  {
+    "id": "rusty_sword",
+    "name": "Spada arrugginita",
+    "type": "equipment",
+    "slot": "right_hand",
+    "icon": "/",
+    "description": "Una vecchia spada consumata dal tempo.",
+    "attack_bonus": 1
+  },
+  {
+    "id": "iron_sword",
+    "name": "Spada di ferro",
+    "type": "equipment",
+    "slot": "right_hand",
+    "icon": "/",
+    "description": "Una robusta spada di ferro.",
+    "attack_bonus": 3
+  },
+  {
+    "id": "leather_armor",
+    "name": "Armatura di cuoio",
+    "type": "equipment",
+    "slot": "armor",
+    "icon": "[",
+    "description": "Leggera armatura in cuoio.",
+    "defense_bonus": 2
+  },
+  {
+    "id": "iron_shield",
+    "name": "Scudo di ferro",
+    "type": "equipment",
+    "slot": "left_hand",
+    "icon": "(",
+    "description": "Uno scudo pesante ma resistente.",
+    "defense_bonus": 2
+  },
+  {
+    "id": "lucky_ring",
+    "name": "Anello portafortuna",
+    "type": "equipment",
+    "slot": "ring_1",
+    "icon": "o",
+    "description": "Un anello che porta fortuna al suo portatore.",
+    "attack_bonus": 1,
+    "defense_bonus": 1
+  },
+  {
+    "id": "leather_helm",
+    "name": "Elmo di cuoio",
+    "type": "equipment",
+    "slot": "helm",
+    "icon": "^",
+    "description": "Un semplice elmo in cuoio.",
+    "defense_bonus": 1
+  },
+  {
+    "id": "leather_boots",
+    "name": "Stivali di cuoio",
+    "type": "equipment",
+    "slot": "boots",
+    "icon": "u",
+    "description": "Stivali leggeri per avventurieri.",
+    "defense_bonus": 1
+  }
+]

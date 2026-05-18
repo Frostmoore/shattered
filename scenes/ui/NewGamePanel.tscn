@@ -1,0 +1,116 @@
+[gd_scene load_steps=3 format=3 uid="uid://newgamepanel"]
+
+[ext_resource type="Script" path="res://scripts/ui/NewGamePanel.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.10, 0.10, 0.16, 0.97)
+content_margin_left = 28.0
+content_margin_right = 28.0
+content_margin_top = 24.0
+content_margin_bottom = 24.0
+
+[node name="NewGamePanel" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 9
+process_mode = 3
+
+[node name="BG" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0, 0.0, 0.0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_right = 200.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(340, 0)
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+text = "NUOVA PARTITA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.9, 0.7, 0.1, 1.0)
+
+[node name="Spacer0" type="Control" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 4)
+
+[node name="WorldSectionLabel" type="Label" parent="Panel/VBox"]
+text = "Mondo"
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="WorldList" type="ItemList" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 110)
+
+[node name="NewWorldRow" type="HBoxContainer" parent="Panel/VBox"]
+visible = false
+theme_override_constants/separation = 8
+
+[node name="NewWorldLabel" type="Label" parent="Panel/VBox/NewWorldRow"]
+text = "Nome:"
+custom_minimum_size = Vector2(70, 0)
+vertical_alignment = 1
+
+[node name="NewWorldInput" type="LineEdit" parent="Panel/VBox/NewWorldRow"]
+size_flags_horizontal = 3
+placeholder_text = "Nome del mondo"
+max_length = 32
+
+[node name="CharSectionLabel" type="Label" parent="Panel/VBox"]
+text = "Personaggio"
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1.0)
+theme_override_font_sizes/font_size = 11
+
+[node name="CharRow" type="HBoxContainer" parent="Panel/VBox"]
+theme_override_constants/separation = 8
+
+[node name="CharLabel" type="Label" parent="Panel/VBox/CharRow"]
+text = "Nome:"
+custom_minimum_size = Vector2(70, 0)
+vertical_alignment = 1
+
+[node name="CharInput" type="LineEdit" parent="Panel/VBox/CharRow"]
+size_flags_horizontal = 3
+placeholder_text = "Nome personaggio"
+max_length = 32
+
+[node name="PermadeathRow" type="HBoxContainer" parent="Panel/VBox"]
+theme_override_constants/separation = 8
+
+[node name="PermadeathCheck" type="CheckBox" parent="Panel/VBox/PermadeathRow"]
+text = "Permadeath"
+
+[node name="PermadeathHint" type="Label" parent="Panel/VBox/PermadeathRow"]
+text = "(il save viene cancellato alla morte)"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1.0)
+vertical_alignment = 1
+
+[node name="ErrorLabel" type="Label" parent="Panel/VBox"]
+text = ""
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1.0)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 3
+
+[node name="Spacer1" type="Control" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 4)
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBox"]
+theme_override_constants/separation = 8
+
+[node name="CancelButton" type="Button" parent="Panel/VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Annulla"
+
+[node name="ConfirmButton" type="Button" parent="Panel/VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Inizia"

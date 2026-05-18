@@ -1,0 +1,14 @@
+{
+  "id": "village_npc_quest_done",
+  "completes_quest": "quest_clear_dungeon",
+  "lines": [
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Ce l'hai fatta davvero. Sono parole vuote, lo so, ma: grazie."
+    },
+    {
+      "speaker": "Vecchio del villaggio",
+      "text": "Tieni i tuoi 50 monete d'oro. E quella pozione, tienila stretta — non si sa mai."
+    }
+  ]
+}

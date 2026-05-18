@@ -1,0 +1,8 @@
+res://scenes/main/Main.tscn
+res://scripts/core/SaveManager.gd
+res://scripts/entities/Player.gd
+res://scripts/world/BaseMap.gd
+res://scripts/world/MapData.gd
+res://scripts/world/generators/DungeonGenerator.gd
+res://scripts/world/generators/OverworldGenerator.gd
+res://scripts/world/generators/VillageGenerator.gd

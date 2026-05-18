@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://toast"]
+
+[ext_resource type="Script" path="res://scripts/ui/Toast.gd" id="1"]
+
+[node name="Toast" type="PanelContainer"]
+script = ExtResource("1")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(160, 0)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3

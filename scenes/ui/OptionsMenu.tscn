@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://optionsmenu"]
+
+[ext_resource type="Script" path="res://scripts/ui/OptionsMenu.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.08, 0.08, 0.12, 0.97)
+content_margin_left = 20.0
+content_margin_right = 20.0
+content_margin_top = 16.0
+content_margin_bottom = 16.0
+
+[node name="OptionsMenu" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 7
+process_mode = 3
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0, 0.0, 0.0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_right = 175.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(280, 0)
+theme_override_constants/separation = 8
+
+[node name="OptionsTitle" type="Label" parent="Panel/VBox"]
+text = "- OPZIONI -"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.9, 0.85, 0.5, 1.0)
+
+[node name="LabelWindow" type="Label" parent="Panel/VBox"]
+text = "Dimensione finestra:"
+theme_override_font_sizes/font_size = 12
+
+[node name="WindowSizeOption" type="OptionButton" parent="Panel/VBox"]
+
+[node name="FullscreenCheck" type="CheckButton" parent="Panel/VBox"]
+text = "Schermo intero"
+
+[node name="LabelVolume" type="Label" parent="Panel/VBox"]
+text = "Volume master:"
+theme_override_font_sizes/font_size = 12
+
+[node name="VolumeSlider" type="HSlider" parent="Panel/VBox"]
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LabelZoom" type="Label" parent="Panel/VBox"]
+text = "Zoom camera (dimensione tessere):"
+theme_override_font_sizes/font_size = 12
+
+[node name="ZoomOption" type="OptionButton" parent="Panel/VBox"]
+
+[node name="ApplyButton" type="Button" parent="Panel/VBox"]
+text = "Applica"
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Panel/VBox"]
+text = "Indietro"
+alignment = 1

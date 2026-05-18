@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://questjournal"]
+
+[ext_resource type="Script" path="res://scripts/ui/QuestJournal.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.07, 0.08, 0.12, 0.97)
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+
+[node name="QuestJournal" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 7
+process_mode = 3
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+mouse_filter = 0
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_right = 210.0
+offset_top = -240.0
+offset_bottom = 240.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Panel/VBox"]
+
+[node name="Title" type="Label" parent="Panel/VBox/Header"]
+size_flags_horizontal = 3
+text = "DIARIO DELLE QUEST"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.9, 0.85, 0.5, 1.0)
+
+[node name="CloseButton" type="Button" parent="Panel/VBox/Header"]
+text = "✕"
+flat = true
+
+[node name="Separator" type="HSeparator" parent="Panel/VBox"]
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/VBox"]
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="QuestList" type="VBoxContainer" parent="Panel/VBox/Scroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
