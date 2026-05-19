@@ -62,6 +62,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	# Status screen toggle (C key).
+	if event is InputEventKey and (event as InputEventKey).keycode == KEY_C \
+			and event.is_pressed() and not event.is_echo():
+		EventBus.toggle_status_screen.emit()
+		get_viewport().set_input_as_handled()
+		return
+
 	# Non-directional actions.
 	if event.is_action_pressed("interact"):
 		_try_interact()
@@ -114,7 +121,10 @@ func _try_move(dir: Vector2i) -> void:
 		if entity_at.faction == "enemy":
 			CombatManager.attack(self, entity_at)
 			_action_done()
-		return
+			return
+		# Blocking entity (closed door, NPC, etc.) — use interact key to open/use
+		if entity_at.is_blocking:
+			return
 
 	if not map.is_walkable(target):
 		return
@@ -147,6 +157,7 @@ func _try_interact() -> void:
 		var entity_at: Node = map.get_entity_at(adj)
 		if entity_at != null and entity_at.has_method("interact"):
 			entity_at.interact(self)
+			_action_done()
 			return
 
 
@@ -159,6 +170,7 @@ func _use_save_point() -> void:
 	ScreenFade.fade(
 		func() -> void:
 			map.respawn_non_boss_enemies()
+			LocationRegistry.respawn_non_boss_enemies_in_unloaded_floors(GameState.current_map_id)
 			GameState.player_stats["hp"] = int(GameState.player_stats["max_hp"])
 			EventBus.player_stats_changed.emit()
 			SaveManager.save_game(),
@@ -177,6 +189,7 @@ func _refresh_stats() -> void:
 	max_hp  = GameState.player_stats["max_hp"]
 	attack  = GameState.player_stats["attack"] + Equipment.get_attack_bonus()
 	defense = GameState.player_stats["defense"] + Equipment.get_defense_bonus()
+	# mp and stamina live in GameState only — no Entity field needed
 
 
 func take_damage(amount: int) -> void:

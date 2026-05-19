@@ -54,6 +54,11 @@ theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1.0)
 [node name="WorldList" type="ItemList" parent="Panel/OuterVBox/HBox/WorldCol"]
 size_flags_vertical = 3
 
+[node name="DeleteWorldButton" type="Button" parent="Panel/OuterVBox/HBox/WorldCol"]
+text = "Elimina mondo"
+disabled = true
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1.0)
+
 [node name="CharCol" type="VBoxContainer" parent="Panel/OuterVBox/HBox"]
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
@@ -65,14 +70,22 @@ theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1.0)
 [node name="CharList" type="ItemList" parent="Panel/OuterVBox/HBox/CharCol"]
 size_flags_vertical = 3
 
-[node name="VBox" type="HBoxContainer" parent="Panel/OuterVBox"]
+[node name="DeleteCharButton" type="Button" parent="Panel/OuterVBox/HBox/CharCol"]
+text = "Elimina personaggio"
+disabled = true
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1.0)
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/OuterVBox"]
 theme_override_constants/separation = 8
 
-[node name="CancelButton" type="Button" parent="Panel/OuterVBox/VBox"]
+[node name="CancelButton" type="Button" parent="Panel/OuterVBox/Buttons"]
 size_flags_horizontal = 3
 text = "Annulla"
 
-[node name="LoadButton" type="Button" parent="Panel/OuterVBox/VBox"]
+[node name="LoadButton" type="Button" parent="Panel/OuterVBox/Buttons"]
 size_flags_horizontal = 3
 text = "Carica"
 disabled = true
+
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
+title = "Conferma"

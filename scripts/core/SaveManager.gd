@@ -37,6 +37,7 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"character_name":   char_name,
 		"level":            GameState.level,
 		"xp":               GameState.xp,
+		"attributes":       GameState.attributes.duplicate(),
 		"current_map_id":   GameState.current_map_id,
 		"player_position":  {"x": GameState.player_position.x, "y": GameState.player_position.y},
 		"player_stats":     GameState.player_stats.duplicate(),
@@ -138,14 +139,27 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 		var pos: Dictionary = raw_pos as Dictionary
 		GameState.player_position = Vector2i(int(pos.get("x", 5)), int(pos.get("y", 5)))
 
+	var raw_attrs: Variant = data.get("attributes", {})
+	if raw_attrs is Dictionary:
+		for key: String in (raw_attrs as Dictionary):
+			if GameState.attributes.has(key):
+				GameState.attributes[key] = int((raw_attrs as Dictionary)[key])
+
 	var raw_stats: Variant = data.get("player_stats", {})
 	if raw_stats is Dictionary:
 		for key: String in (raw_stats as Dictionary):
 			GameState.player_stats[key] = (raw_stats as Dictionary)[key]
+	# Ensure derived stats are consistent with loaded attributes
+	GameState.recalculate_derived_stats()
 
 	var raw_inv: Variant = data.get("inventory", [])
 	if raw_inv is Array:
-		GameState.inventory = raw_inv as Array
+		GameState.inventory = []
+		for item: Variant in (raw_inv as Array):
+			if item is String:
+				GameState.inventory.append({"id": str(item), "qty": 1})
+			elif item is Dictionary:
+				GameState.inventory.append(item)
 
 	var raw_aq: Variant = data.get("active_quests", [])
 	if raw_aq is Array:

@@ -1,0 +1,188 @@
+[gd_scene load_steps=2 format=3 uid="uid://statusscreen"]
+
+[ext_resource type="Script" uid="uid://bxp3mq7wkcntf" path="res://scripts/ui/StatusScreen.gd" id="1"]
+
+[node name="StatusScreen" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+mouse_filter = 0
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -200.0
+offset_right = 220.0
+offset_bottom = 200.0
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+text = "Stato del Personaggio"
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+
+[node name="Sep1" type="HSeparator" parent="Panel/Margin/VBox"]
+
+[node name="Columns" type="HBoxContainer" parent="Panel/Margin/VBox"]
+theme_override_constants/separation = 20
+
+[node name="Attrs" type="VBoxContainer" parent="Panel/Margin/VBox/Columns"]
+custom_minimum_size = Vector2(150, 0)
+theme_override_constants/separation = 5
+
+[node name="AttrTitle" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "ATTRIBUTI"
+theme_override_font_sizes/font_size = 11
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="StrLabel" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "STR  5"
+theme_override_font_sizes/font_size = 13
+
+[node name="DexLabel" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "DEX  5"
+theme_override_font_sizes/font_size = 13
+
+[node name="IntLabel" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "INT  5"
+theme_override_font_sizes/font_size = 13
+
+[node name="VitLabel" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "VIT  5"
+theme_override_font_sizes/font_size = 13
+
+[node name="WilLabel" type="Label" parent="Panel/Margin/VBox/Columns/Attrs"]
+text = "WIL  5"
+theme_override_font_sizes/font_size = 13
+
+[node name="Stats" type="VBoxContainer" parent="Panel/Margin/VBox/Columns"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="StatsTitle" type="Label" parent="Panel/Margin/VBox/Columns/Stats"]
+text = "CARATTERISTICHE"
+theme_override_font_sizes/font_size = 11
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="HPRow" type="HBoxContainer" parent="Panel/Margin/VBox/Columns/Stats"]
+theme_override_constants/separation = 6
+
+[node name="HPTag" type="Label" parent="Panel/Margin/VBox/Columns/Stats/HPRow"]
+custom_minimum_size = Vector2(28, 0)
+text = "HP"
+theme_override_font_sizes/font_size = 12
+
+[node name="HPBar" type="ProgressBar" parent="Panel/Margin/VBox/Columns/Stats/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 16)
+show_percentage = false
+
+[node name="HPVal" type="Label" parent="Panel/Margin/VBox/Columns/Stats/HPRow"]
+custom_minimum_size = Vector2(64, 0)
+text = "25 / 25"
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+
+[node name="MPRow" type="HBoxContainer" parent="Panel/Margin/VBox/Columns/Stats"]
+theme_override_constants/separation = 6
+
+[node name="MPTag" type="Label" parent="Panel/Margin/VBox/Columns/Stats/MPRow"]
+custom_minimum_size = Vector2(28, 0)
+text = "MP"
+theme_override_font_sizes/font_size = 12
+
+[node name="MPBar" type="ProgressBar" parent="Panel/Margin/VBox/Columns/Stats/MPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 16)
+show_percentage = false
+
+[node name="MPVal" type="Label" parent="Panel/Margin/VBox/Columns/Stats/MPRow"]
+custom_minimum_size = Vector2(64, 0)
+text = "20 / 20"
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+
+[node name="STRow" type="HBoxContainer" parent="Panel/Margin/VBox/Columns/Stats"]
+theme_override_constants/separation = 6
+
+[node name="STTag" type="Label" parent="Panel/Margin/VBox/Columns/Stats/STRow"]
+custom_minimum_size = Vector2(28, 0)
+text = "ST"
+theme_override_font_sizes/font_size = 12
+
+[node name="STBar" type="ProgressBar" parent="Panel/Margin/VBox/Columns/Stats/STRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 16)
+show_percentage = false
+
+[node name="STVal" type="Label" parent="Panel/Margin/VBox/Columns/Stats/STRow"]
+custom_minimum_size = Vector2(64, 0)
+text = "20 / 20"
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+
+[node name="Sep2" type="HSeparator" parent="Panel/Margin/VBox"]
+
+[node name="Combat" type="VBoxContainer" parent="Panel/Margin/VBox"]
+theme_override_constants/separation = 4
+
+[node name="AtkLabel" type="Label" parent="Panel/Margin/VBox/Combat"]
+text = "Attacco:  4  (base 4  +0 equip)"
+theme_override_font_sizes/font_size = 12
+mouse_filter = 0
+
+[node name="DefLabel" type="Label" parent="Panel/Margin/VBox/Combat"]
+text = "Difesa:   1  (base 1  +0 equip)"
+theme_override_font_sizes/font_size = 12
+mouse_filter = 0
+
+[node name="Sep3" type="HSeparator" parent="Panel/Margin/VBox"]
+
+[node name="XPSection" type="VBoxContainer" parent="Panel/Margin/VBox"]
+theme_override_constants/separation = 4
+
+[node name="LevelLabel" type="Label" parent="Panel/Margin/VBox/XPSection"]
+text = "Livello  1"
+theme_override_font_sizes/font_size = 13
+
+[node name="XPRow" type="HBoxContainer" parent="Panel/Margin/VBox/XPSection"]
+theme_override_constants/separation = 6
+
+[node name="XPBar" type="ProgressBar" parent="Panel/Margin/VBox/XPSection/XPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 16)
+show_percentage = false
+
+[node name="XPVal" type="Label" parent="Panel/Margin/VBox/XPSection/XPRow"]
+custom_minimum_size = Vector2(100, 0)
+text = "0 / 100 XP"
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 2
+
+[node name="Sep4" type="HSeparator" parent="Panel/Margin/VBox"]
+
+[node name="CloseHint" type="Label" parent="Panel/Margin/VBox"]
+text = "[C] o [Esc] per chiudere"
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+modulate = Color(0.6, 0.6, 0.6, 1)

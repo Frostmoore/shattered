@@ -6,7 +6,7 @@
   "objectives": [
     {
       "type": "kill_enemy",
-      "target_id": "mine_boss",
+      "target_id": "dungeon_boss",
       "required": 1
     }
   ],

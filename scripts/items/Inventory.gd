@@ -40,6 +40,13 @@ func has_item(item_id: String, quantity: int = 1) -> bool:
 	return false
 
 
+func get_quantity(item_id: String) -> int:
+	for entry: Dictionary in GameState.inventory:
+		if entry["id"] == item_id:
+			return int(entry["qty"])
+	return 0
+
+
 func use_item(item_id: String) -> void:
 	var item_data: Dictionary = ItemDB.get_item(item_id)
 	if item_data.is_empty():

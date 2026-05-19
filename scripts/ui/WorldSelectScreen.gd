@@ -4,15 +4,17 @@ class_name WorldSelectScreen
 signal load_requested(world_name: String, char_name: String)
 signal cancelled()
 
-@onready var world_list: ItemList  = $Panel/OuterVBox/HBox/WorldCol/WorldList
-@onready var char_list: ItemList   = $Panel/OuterVBox/HBox/CharCol/CharList
-@onready var load_btn: Button      = $Panel/OuterVBox/VBox/LoadButton
-@onready var cancel_btn: Button    = $Panel/OuterVBox/VBox/CancelButton
-@onready var world_label: Label    = $Panel/OuterVBox/HBox/WorldCol/WorldLabel
-@onready var char_label: Label     = $Panel/OuterVBox/HBox/CharCol/CharLabel
+@onready var world_list:       ItemList           = $Panel/OuterVBox/HBox/WorldCol/WorldList
+@onready var char_list:        ItemList           = $Panel/OuterVBox/HBox/CharCol/CharList
+@onready var load_btn:         Button             = $Panel/OuterVBox/Buttons/LoadButton
+@onready var cancel_btn:       Button             = $Panel/OuterVBox/Buttons/CancelButton
+@onready var del_world_btn:    Button             = $Panel/OuterVBox/HBox/WorldCol/DeleteWorldButton
+@onready var del_char_btn:     Button             = $Panel/OuterVBox/HBox/CharCol/DeleteCharButton
+@onready var confirm_dialog:   ConfirmationDialog = $ConfirmDialog
 
 var _selected_world: String = ""
-var _selected_char: String  = ""
+var _selected_char:  String = ""
+var _pending_action: String = ""  # "world" | "char"
 
 
 func _ready() -> void:
@@ -21,16 +23,21 @@ func _ready() -> void:
 	cancel_btn.pressed.connect(_on_cancel)
 	world_list.item_selected.connect(_on_world_selected)
 	char_list.item_selected.connect(_on_char_selected)
+	del_world_btn.pressed.connect(_on_delete_world_pressed)
+	del_char_btn.pressed.connect(_on_delete_char_pressed)
+	confirm_dialog.confirmed.connect(_on_delete_confirmed)
 
 
 func open() -> void:
 	_selected_world = ""
 	_selected_char  = ""
-	load_btn.disabled = true
+	_pending_action = ""
+	load_btn.disabled      = true
+	del_world_btn.disabled = true
+	del_char_btn.disabled  = true
 	char_list.clear()
 	world_list.clear()
-	var worlds: Array[String] = WorldSaveManager.list_worlds()
-	for w: String in worlds:
+	for w: String in WorldSaveManager.list_worlds():
 		world_list.add_item(w)
 	visible = true
 
@@ -40,18 +47,20 @@ func close() -> void:
 
 
 func _on_world_selected(index: int) -> void:
-	_selected_world = world_list.get_item_text(index)
-	_selected_char  = ""
-	load_btn.disabled = true
+	_selected_world        = world_list.get_item_text(index)
+	_selected_char         = ""
+	load_btn.disabled      = true
+	del_world_btn.disabled = false
+	del_char_btn.disabled  = true
 	char_list.clear()
-	var chars: Array[String] = SaveManager.list_characters(_selected_world)
-	for c: String in chars:
+	for c: String in SaveManager.list_characters(_selected_world):
 		char_list.add_item(c)
 
 
 func _on_char_selected(index: int) -> void:
-	_selected_char = char_list.get_item_text(index)
-	load_btn.disabled = (_selected_world == "" or _selected_char == "")
+	_selected_char        = char_list.get_item_text(index)
+	load_btn.disabled     = (_selected_world == "" or _selected_char == "")
+	del_char_btn.disabled = (_selected_char == "")
 
 
 func _on_load() -> void:
@@ -64,3 +73,33 @@ func _on_load() -> void:
 func _on_cancel() -> void:
 	close()
 	cancelled.emit()
+
+
+func _on_delete_world_pressed() -> void:
+	if _selected_world == "":
+		return
+	_pending_action = "world"
+	var char_count: int = SaveManager.list_characters(_selected_world).size()
+	var detail: String  = " (include %d personagg%s)" % [char_count, "i" if char_count != 1 else "io"] if char_count > 0 else ""
+	confirm_dialog.title       = "Elimina Mondo"
+	confirm_dialog.dialog_text = "Eliminare il mondo \"%s\"%s?\nQuest'azione è irreversibile." % [_selected_world, detail]
+	confirm_dialog.popup_centered()
+
+
+func _on_delete_char_pressed() -> void:
+	if _selected_world == "" or _selected_char == "":
+		return
+	_pending_action = "char"
+	confirm_dialog.title       = "Elimina Personaggio"
+	confirm_dialog.dialog_text = "Eliminare il personaggio \"%s\"?\nQuest'azione è irreversibile." % _selected_char
+	confirm_dialog.popup_centered()
+
+
+func _on_delete_confirmed() -> void:
+	match _pending_action:
+		"world":
+			WorldSaveManager.delete_world(_selected_world)
+		"char":
+			SaveManager.delete_character_save(_selected_world, _selected_char)
+	_pending_action = ""
+	open()

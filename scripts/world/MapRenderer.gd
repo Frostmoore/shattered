@@ -34,9 +34,20 @@ func _draw() -> void:
 	var theme: Dictionary = _get_theme(map.map_type)
 	draw_rect(Rect2(0, 0, map.map_width * CELL, map.map_height * CELL), theme["bg"])
 
+	# Dungeon-type maps use fog of war; overworld and village are always fully lit
+	var use_fov: bool = (map.map_type == "dungeon")
+
 	for y: int in range(map.map_height):
 		for x: int in range(map.map_width):
 			var pos: Vector2i = Vector2i(x, y)
+			var visible: int = map.is_tile_visible(pos)
+			var seen: int    = map.is_tile_seen(pos)
+
+			if use_fov and seen == 0:
+				continue  # never seen — leave as background (dark)
+
+			var dim: bool = use_fov and visible == 0  # seen but not currently visible
+
 			var ch: String
 			var col: Color
 
@@ -47,23 +58,35 @@ func _draw() -> void:
 				var trans: Variant = map.get_transition_at(pos)
 				if trans != null:
 					var t: Dictionary = trans as Dictionary
-					var target_type: String = str(t.get("target_type", ""))
-					match target_type:
-						"village":
-							ch  = "V"
-							col = Color(1.0, 0.88, 0.22, 1)
-						"dungeon":
-							ch  = ">"
-							col = Color(1.0, 0.48, 0.12, 1)
-						_:
-							ch  = "<"
-							col = Color(0.42, 0.95, 0.42, 1)
+					var stair_type: String = str(t.get("stair_type", ""))
+					if stair_type == "down":
+						ch  = ">"
+						col = Color(1.0, 0.48, 0.12, 1)
+					elif stair_type == "up":
+						ch  = "<"
+						col = Color(0.42, 0.95, 0.42, 1)
+					else:
+						# Legacy / non-dungeon transitions
+						match str(t.get("target_type", "")):
+							"village":
+								ch  = "V"
+								col = Color(1.0, 0.88, 0.22, 1)
+							"dungeon":
+								ch  = ">"
+								col = Color(1.0, 0.48, 0.12, 1)
+							_:
+								ch  = "<"
+								col = Color(0.42, 0.95, 0.42, 1)
 				elif map.has_save_point_at(pos):
 					ch  = "Ω"
 					col = Color(0.4, 0.88, 0.95, 1)
 				else:
 					ch  = theme["floor_char"]
 					col = theme["floor_color"]
+
+			if dim:
+				col = col * GameBalance.FOV_MEMORY_ALPHA
+				col.a = 1.0
 
 			draw_string(
 				_font,
@@ -73,6 +96,20 @@ func _draw() -> void:
 				CELL, FONT_SIZE,
 				col
 			)
+
+	# Draw entities on top — only if visible (when FOV is active)
+	if use_fov:
+		_draw_entities(map)
+
+
+func _draw_entities(map: BaseMap) -> void:
+	# Entity nodes render themselves via their own Label children.
+	# We only need to hide/show them based on FOV.
+	for child: Node in map.get_children():
+		if child is Entity and not (child is Player):
+			var entity: Entity = child as Entity
+			var visible_tile: int = map.is_tile_visible(entity.grid_position)
+			entity.visible = visible_tile > 0
 
 
 func _get_theme(map_type: String) -> Dictionary:

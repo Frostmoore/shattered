@@ -55,3 +55,29 @@ func get_defense_bonus() -> int:
 		var data: Dictionary = ItemDB.get_item(item_id)
 		bonus += int(data.get("defense_bonus", 0))
 	return bonus
+
+
+func get_attack_bonus_breakdown() -> Array:
+	var result: Array = []
+	for slot: String in GameState.equipped:
+		var item_id: String = str(GameState.equipped[slot])
+		if item_id == "":
+			continue
+		var data: Dictionary = ItemDB.get_item(item_id)
+		var bonus: int = int(data.get("attack_bonus", 0))
+		if bonus != 0:
+			result.append({"name": data.get("name", item_id), "bonus": bonus})
+	return result
+
+
+func get_defense_bonus_breakdown() -> Array:
+	var result: Array = []
+	for slot: String in GameState.equipped:
+		var item_id: String = str(GameState.equipped[slot])
+		if item_id == "":
+			continue
+		var data: Dictionary = ItemDB.get_item(item_id)
+		var bonus: int = int(data.get("defense_bonus", 0))
+		if bonus != 0:
+			result.append({"name": data.get("name", item_id), "bonus": bonus})
+	return result

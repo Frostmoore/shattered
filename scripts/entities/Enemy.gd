@@ -18,21 +18,20 @@ func setup(data: Dictionary) -> void:
 	is_boss        = bool(data.get("boss", false))
 	faction        = "enemy"
 
-	var char: String
-	var col: Color
-	match enemy_data_id:
-		"goblin":
-			char = "g"
-			col  = Color(0.28, 0.88, 0.28, 1)
-		"skeleton":
-			char = "s"
-			col  = Color(0.80, 0.78, 0.70, 1)
-		"mine_boss":
-			char = "B"
-			col  = Color(1.00, 0.12, 0.12, 1)
-		_:
-			char = "e"
-			col  = Color(0.88, 0.28, 0.28, 1)
+	# Look up visual from ENEMY_TABLE
+	var char: String = "e"
+	var col: Color   = Color(0.88, 0.28, 0.28, 1)
+	for entry: Variant in GameBalance.get_enemy_table():
+		var e: Dictionary = entry as Dictionary
+		if str(e["id"]) == enemy_data_id:
+			char = str(e["char"])
+			var c: Array = e["color"] as Array
+			col = Color(float(c[0]), float(c[1]), float(c[2]), float(c[3]))
+			break
+	# Boss: uppercase glyph, bright red
+	if is_boss:
+		char = char.to_upper()
+		col = Color(1.0, 0.15, 0.15, 1.0)
 	_setup_visual(char, col)
 
 
@@ -69,8 +68,15 @@ func _move_toward(target: Vector2i, map: BaseMap) -> void:
 		if step == Vector2i.ZERO:
 			continue
 		var candidate: Vector2i = grid_position + step
-		if map.is_walkable(candidate) and map.get_entity_at(candidate) == null:
+		if not map.is_walkable(candidate):
+			continue
+		var entity_at: Node = map.get_entity_at(candidate)
+		if entity_at == null:
 			move_to(candidate)
+			return
+		# Open closed doors instead of blocking
+		if entity_at.get("is_open") != null and not bool(entity_at.get("is_open")):
+			entity_at.call("open")
 			return
 
 
@@ -83,5 +89,7 @@ func die() -> void:
 	TurnManager.unregister_enemy(self)
 	EventBus.enemy_died.emit(self)
 	QuestManager.on_enemy_killed(enemy_data_id)
+	if is_boss:
+		QuestManager.on_enemy_killed("dungeon_boss")
 	LevelSystem.add_xp(xp_reward)
 	queue_free()

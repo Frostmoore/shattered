@@ -35,9 +35,13 @@ func _check_level_up() -> void:
 
 
 func _apply_level_up() -> void:
-	GameState.player_stats["max_hp"] = int(GameState.player_stats["max_hp"]) + 5
-	GameState.player_stats["hp"]     = GameState.player_stats["max_hp"]
-	GameState.player_stats["attack"] = int(GameState.player_stats["attack"]) + 1
+	for attr: String in GameState.attributes:
+		GameState.attributes[attr] = int(GameState.attributes[attr]) + 1
+	GameState.recalculate_derived_stats()
+	# Heal all resources to full on level up
+	GameState.player_stats["hp"]      = int(GameState.player_stats["max_hp"])
+	GameState.player_stats["mp"]      = int(GameState.player_stats["max_mp"])
+	GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 	EventBus.player_leveled_up.emit(GameState.level)
 	EventBus.player_stats_changed.emit()
 	EventBus.notification_shown.emit(Notification.level_up(GameState.level))

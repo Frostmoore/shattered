@@ -7,9 +7,21 @@ var permadeath: bool = false
 var current_map_id: String = "overworld"
 var player_position: Vector2i = Vector2i(5, 5)
 
+var attributes: Dictionary = {
+	"str": 5,
+	"dex": 5,
+	"int": 5,
+	"vit": 5,
+	"wil": 5,
+}
+
 var player_stats: Dictionary = {
-	"hp": 20,
-	"max_hp": 20,
+	"hp": 25,
+	"max_hp": 25,
+	"mp": 20,
+	"max_mp": 20,
+	"stamina": 20,
+	"max_stamina": 20,
 	"attack": 4,
 	"defense": 1,
 	"gold": 0
@@ -43,6 +55,24 @@ var quick_slots: Array = ["", "", ""]
 
 var level: int = 1
 var xp: int = 0
+
+
+func recalculate_derived_stats() -> void:
+	var vit: int   = int(attributes["vit"])
+	var str_a: int = int(attributes["str"])
+	var dex: int   = int(attributes["dex"])
+	var int_a: int = int(attributes["int"])
+	var wil: int   = int(attributes["wil"])
+
+	player_stats["max_hp"]      = vit * 5
+	player_stats["max_mp"]      = (int_a + wil) * 2
+	player_stats["max_stamina"] = (str_a + dex) * 2
+	player_stats["attack"]      = 2 + int(str_a * 0.5)
+	player_stats["defense"]     = int(vit * 0.25)
+
+	player_stats["hp"]      = mini(int(player_stats["hp"]),      int(player_stats["max_hp"]))
+	player_stats["mp"]      = mini(int(player_stats["mp"]),      int(player_stats["max_mp"]))
+	player_stats["stamina"] = mini(int(player_stats["stamina"]), int(player_stats["max_stamina"]))
 
 
 func set_flag(flag_name: String, value: bool) -> void:

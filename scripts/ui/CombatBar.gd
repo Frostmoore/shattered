@@ -112,11 +112,7 @@ func _refresh_slots(_arg: Variant = null) -> void:
 			var name: String = data.get("name", item_id)
 			if name.length() > 8:
 				name = name.substr(0, 7) + "…"
-			var qty: int = 0
-			for entry: Dictionary in GameState.inventory:
-				if entry["id"] == item_id:
-					qty = int(entry["qty"])
-					break
+			var qty: int = Inventory.get_quantity(item_id)
 			var qty_str: String = " x%d" % qty if qty > 0 else ""
 			_slot_btns[i].text = "[%d] %s%s" % [i + 1, name, qty_str]
 			_slot_btns[i].disabled = qty == 0
