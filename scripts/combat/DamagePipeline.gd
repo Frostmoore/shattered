@@ -41,11 +41,19 @@ func execute(ctx: Object) -> void:
 	if bool(ctx.get("instant_kill")):
 		ctx.set("final_damage", ctx.defender.max_hp)
 	else:
-		var raw: float = float(int(ctx.get("base_damage")) + int(ctx.get("flat_bonus"))) \
+		var atk_level: int  = maxi(1, int(ctx.attacker.get("level"))) if ctx.attacker != null else 1
+		var lf: float       = BalanceCombat.level_factor(atk_level)
+		var out_mult: float = BalanceCombat.output_multiplier(atk_level)
+		var base: float = float(int(ctx.get("base_damage")) + int(ctx.get("flat_bonus"))) \
 				* float(ctx.get("attack_multiplier")) * float(ctx.get("target_multiplier"))
-		if not bool(ctx.get("ignore_defense")):
-			raw -= float(ctx.defender.defense + int(ctx.get("defense_bonus")))
-		ctx.set("final_damage", maxi(int(ctx.get("min_damage")), int(raw)))
+		var raw: float
+		if bool(ctx.get("ignore_defense")):
+			raw = lf * base / GameBalance.DAMAGE_K
+		else:
+			var eff_def: float = maxf(1.0, float(ctx.defender.defense + int(ctx.get("defense_bonus"))))
+			raw = lf * base / eff_def / GameBalance.DAMAGE_K
+		raw *= out_mult
+		ctx.set("final_damage", maxi(GameBalance.DAMAGE_MIN, floori(raw)))
 
 	# Divinità: override a 1 DOPO tutti i moltiplicatori, solo quando attacca
 	if player_attacks and GameState.current_class == "divinita":

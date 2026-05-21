@@ -8,7 +8,7 @@ const MARGIN           := 15
 const KEY_EGRAVE       := 232  # 'è' — non esiste come costante in Godot 4.4
 
 const TIER_COLORS: Array[Color] = [
-	Color.TRANSPARENT,
+	Color(0.35, 0.30, 0.22),   # Tier 0 — marrone (noob)
 	Color(0.38, 0.38, 0.38),   # Tier 1 — grigio
 	Color(0.16, 0.50, 0.26),   # Tier 2 — verde
 	Color(0.13, 0.30, 0.60),   # Tier 3 — blu
@@ -83,6 +83,18 @@ func _build_ui() -> void:
 	title_lbl.add_theme_color_override("font_color", Color(0.45, 0.70, 1.0))
 	title_lbl.add_theme_font_size_override("font_size", 11)
 	outer.add_child(title_lbl)
+
+	outer.add_child(HSeparator.new())
+
+	var controls := HBoxContainer.new()
+	controls.add_theme_constant_override("separation", 6)
+	outer.add_child(controls)
+
+	var lvup_btn := Button.new()
+	lvup_btn.text = "+ Livello"
+	lvup_btn.add_theme_font_size_override("font_size", 10)
+	lvup_btn.pressed.connect(_do_level_up)
+	controls.add_child(lvup_btn)
 
 	outer.add_child(HSeparator.new())
 
@@ -179,7 +191,7 @@ func _update_class_registry() -> void:
 		s.update(["ClassRegistry: non caricato"])
 		return
 	var lines: Array[String] = []
-	for tier: int in range(1, 7):
+	for tier: int in range(0, 7):
 		var tier_classes: Array = reg.call("get_by_tier", tier)
 		lines.append("Tier %d: %d classi" % [tier, tier_classes.size()])
 	var impl: Array = reg.call("get_implemented")
@@ -589,7 +601,7 @@ func _build_class_switcher() -> void:
 
 	# Pulsanti per tier
 	var all_classes: Array[Dictionary] = reg.call("get_all")
-	for tier: int in range(1, 7):
+	for tier: int in range(0, 7):
 		var tier_classes: Array = all_classes.filter(
 			func(d: Dictionary) -> bool: return int(d.get("tier", 0)) == tier
 		)
@@ -639,6 +651,16 @@ func _build_class_switcher() -> void:
 
 			btn.pressed.connect(_do_class_switch.bind(class_id))
 			flow.add_child(btn)
+
+
+func _do_level_up() -> void:
+	if GameState.level >= 100:
+		return
+	GameState.level += 1
+	var ls: Node = get_node_or_null("/root/LevelSystem")
+	if ls:
+		ls.call("_apply_level_up")
+	_refresh()
 
 
 func _btn_hover_style(base: Color) -> StyleBoxFlat:

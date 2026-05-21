@@ -35,7 +35,7 @@ func _check_level_up() -> void:
 
 
 func _apply_level_up() -> void:
-	GameState.apply_level_up_growth()
+	var gains: Dictionary = GameState.apply_level_up_growth()
 	GameState.recalculate_derived_stats()
 	# Heal all resources to full on level up
 	GameState.player_stats["hp"]      = int(GameState.player_stats["max_hp"])
@@ -43,4 +43,4 @@ func _apply_level_up() -> void:
 	GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 	EventBus.player_leveled_up.emit(GameState.level)
 	EventBus.player_stats_changed.emit()
-	EventBus.notification_shown.emit(Notification.level_up(GameState.level))
+	EventBus.notification_shown.emit(Notification.level_up(GameState.level, gains))

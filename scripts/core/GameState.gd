@@ -77,10 +77,28 @@ func recalculate_derived_stats() -> void:
 	player_stats["stamina"] = mini(int(player_stats["stamina"]), int(player_stats["max_stamina"]))
 
 
-func apply_level_up_growth() -> void:
+func apply_level_up_growth() -> Dictionary:
+	var gains: Dictionary = {}
+	var data: Dictionary = _get_class_data(current_class)
+	var curve: Variant   = data.get("growth_curve", null)
+	var idx: int         = level - 2  # level già incrementato; lvl 2 → idx 0
+	if curve is Array and idx >= 0 and idx < (curve as Array).size():
+		var entry: Variant = (curve as Array)[idx]
+		if entry is Dictionary:
+			for attr: String in base_attributes:
+				var delta: int = int((entry as Dictionary).get(attr, 0))
+				if delta != 0:
+					base_attributes[attr] = int(base_attributes[attr]) + delta
+					gains[attr] = delta
+			return gains
+	# Fallback: crescita piatta dalla growth dict
 	var growth: Dictionary = _get_class_field(current_class, "growth")
 	for attr: String in base_attributes:
-		base_attributes[attr] = int(base_attributes[attr]) + int(growth.get(attr, 1))
+		var delta: int = int(growth.get(attr, 1))
+		if delta != 0:
+			base_attributes[attr] = int(base_attributes[attr]) + delta
+			gains[attr] = delta
+	return gains
 
 
 func apply_class(class_id: String) -> void:

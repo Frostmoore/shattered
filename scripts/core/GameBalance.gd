@@ -13,6 +13,12 @@ const _Dungeon = preload("res://scripts/core/game_balance/BalanceDungeon.gd")
 const _Enemy   = preload("res://scripts/core/game_balance/BalanceEnemy.gd")
 const _Loot    = preload("res://scripts/core/game_balance/BalanceLoot.gd")
 const _Math    = preload("res://scripts/core/game_balance/BalanceMath.gd")
+const _Combat  = preload("res://scripts/core/game_balance/BalanceCombat.gd")
+
+# ─── Combat ───────────────────────────────────────────────────────────────────
+const DAMAGE_K:     float = _Combat.DAMAGE_K
+const DAMAGE_MIN:   int   = _Combat.DAMAGE_MIN
+const DAMAGE_SCALE: float = _Combat.DAMAGE_SCALE
 
 # ─── FOV ──────────────────────────────────────────────────────────────────────
 const FOV_RADIUS:            int   = _Fov.FOV_RADIUS

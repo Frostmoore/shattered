@@ -1,7 +1,7 @@
 extends Node
 
 const CLASS_DATA_ROOT := "res://data/classes/"
-const TIER_DIRS       := ["tier1", "tier2", "tier3", "tier4", "tier5", "tier6"]
+const TIER_DIRS       := ["tier0", "tier1", "tier2", "tier3", "tier4", "tier5", "tier6"]
 
 var _classes: Dictionary = {}  # id → data Dictionary
 
@@ -55,7 +55,7 @@ func get_class_data(id: String) -> Dictionary:
 
 func get_all() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
-	for tier: int in range(1, 7):
+	for tier: int in range(0, 7):
 		for data: Dictionary in _classes.values():
 			if int(data.get("tier", 0)) == tier:
 				result.append(data)

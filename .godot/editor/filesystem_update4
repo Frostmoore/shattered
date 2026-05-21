@@ -35,3 +35,4 @@ res://scripts/classes/specials/DruidShapeshift.gd
 res://scripts/classes/specials/SummonerElemental.gd
 res://scripts/ui/SummonerMenuPanel.gd
 res://scripts/classes/specials/SpecterPhase.gd
+res://scripts/classes/ClassRegistry.gd

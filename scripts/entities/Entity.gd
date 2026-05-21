@@ -5,6 +5,7 @@ var entity_id: String = ""
 var display_name: String = "Entity"
 var grid_position: Vector2i = Vector2i.ZERO
 
+var level: int = 1
 var hp: int = 10
 var max_hp: int = 10
 var attack: int = 2

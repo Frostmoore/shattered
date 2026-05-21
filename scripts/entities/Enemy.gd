@@ -11,6 +11,7 @@ var _alerted: bool = false
 func setup(data: Dictionary) -> void:
 	enemy_data_id = data.get("id", "unknown_enemy")
 	display_name   = data.get("name", "Enemy")
+	level          = int(data.get("level", 1))
 	hp             = data.get("hp", 8)
 	max_hp         = hp
 	attack         = data.get("attack", 3)

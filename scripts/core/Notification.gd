@@ -43,10 +43,19 @@ static func quest_completed(quest_name: String) -> Notification:
 	return n
 
 
-static func level_up(level: int) -> Notification:
+static func level_up(level: int, gains: Dictionary = {}) -> Notification:
 	var n := Notification.new()
-	n.text = "Livello %d!" % level
-	n.color = Color(0.75, 0.4, 1.0)
+	var lines: Array[String] = ["Livello %d!" % level]
+	var parts: Array[String] = []
+	for attr: String in ["str", "dex", "int", "vit", "wil"]:
+		var v: int = int(gains.get(attr, 0))
+		if v > 0:
+			parts.append("%s +%d" % [attr.to_upper(), v])
+	if not parts.is_empty():
+		lines.append("  ".join(parts))
+	lines.append("HP · MP · Stamina ripristinati")
+	n.text     = "\n".join(lines)
+	n.color    = Color(0.75, 0.4, 1.0)
 	n.duration = 4.0
 	return n
 

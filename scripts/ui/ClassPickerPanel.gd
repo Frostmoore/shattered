@@ -12,6 +12,7 @@ var _selected_class: Dictionary = {}
 var _confirm_btn: Button
 var _tooltip: PanelContainer
 var _tooltip_label: Label
+var _grid: GridContainer
 
 
 func _ready() -> void:
@@ -26,10 +27,16 @@ func _get_card_count() -> int:
 
 func open() -> void:
 	_selected_class = {}
-	for card: Node in _cards:
-		card.call("set_selected", false)
 	_confirm_btn.disabled = true
+	_refresh_grid()
 	visible = true
+
+
+func _refresh_grid() -> void:
+	for card: Node in _cards:
+		card.queue_free()
+	_cards.clear()
+	_populate_grid(_grid)
 
 
 # ── costruzione UI ────────────────────────────────────────────────────────────
@@ -83,7 +90,7 @@ func _build_ui() -> void:
 	grid.add_theme_constant_override("v_separation", 5)
 	scroll.add_child(grid)
 
-	_populate_grid(grid)
+	_grid = grid
 
 	outer.add_child(HSeparator.new())
 

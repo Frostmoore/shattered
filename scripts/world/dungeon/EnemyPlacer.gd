@@ -58,6 +58,10 @@ static func place(
 		if tp is Vector2i:
 			occupied[tp as Vector2i] = true
 
+	var pl_level: int  = GameState.level
+	var lf: float      = BalanceCombat.level_factor(pl_level)
+	var lf_base: float = BalanceCombat.level_factor(1)  # 2.4
+
 	var uid_counter: int = 0
 	for ri: int in range(eligible_rooms.size()):
 		var room_idx: int = eligible_rooms[ri]
@@ -89,12 +93,13 @@ static func place(
 			uid_counter += 1
 
 			data.add_entity("enemy", uid, pos, {
-				"id":            pick["id"],
-				"name":          pick["name"],
-				"hp":            int(pick["hp_base"]) + (floor_num - 1) * int(pick["hp_per_floor"]),
-				"attack":        int(pick["atk_base"]) + (floor_num - 1) * int(pick["atk_per_floor"]),
-				"defense":       int(pick["def_base"]) + (floor_num - 1) * int(pick["def_per_floor"]),
-				"xp_reward":     int(pick["xp_reward"]),
+				"id":              pick["id"],
+				"name":            pick["name"],
+				"level":           pl_level,
+				"hp":              roundi(float(int(pick["hp_base"])) * lf / lf_base),
+				"attack":          int(pick["atk_base"]),
+				"defense":         int(pick["def_base"]),
+				"xp_reward":       int(pick["xp_reward"]),
 				"detection_range": int(pick["detection"]),
 			})
 
@@ -107,7 +112,6 @@ static func place(
 				boss_base = e
 
 		var boss_room: Rect2i = rooms[boss_idx]
-		# Place boss at the interior corner farthest from the entrance (procedural)
 		var entrance_center: Vector2i = rooms[entrance_idx].position + Vector2i(rooms[entrance_idx].size.x / 2, rooms[entrance_idx].size.y / 2)
 		var corners: Array[Vector2i] = [
 			boss_room.position + Vector2i(1, 1),
@@ -124,13 +128,14 @@ static func place(
 				boss_pos = corner
 		occupied[boss_pos] = true
 
-		var base_hp: int  = int(boss_base["hp_base"])  + (floor_num - 1) * int(boss_base["hp_per_floor"])
-		var base_atk: int = int(boss_base["atk_base"]) + (floor_num - 1) * int(boss_base["atk_per_floor"])
-		var base_def: int = int(boss_base["def_base"]) + (floor_num - 1) * int(boss_base["def_per_floor"])
+		var base_hp: int  = roundi(float(int(boss_base["hp_base"])) * lf / lf_base)
+		var base_atk: int = int(boss_base["atk_base"])
+		var base_def: int = int(boss_base["def_base"])
 
 		data.add_entity("enemy", "boss_f%d" % floor_num, boss_pos, {
 			"id":              boss_base["id"],
 			"name":            "Gran " + str(boss_base["name"]),
+			"level":           pl_level,
 			"hp":              roundi(float(base_hp)  * boss_hp_mult),
 			"attack":          roundi(float(base_atk) * boss_atk_mult),
 			"defense":         roundi(float(base_def) * boss_def_mult),
