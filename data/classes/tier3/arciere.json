@@ -1,0 +1,15 @@
+{
+	"id": "arciere",
+	"name": "Arciere",
+	"desc": "La distanza è un vantaggio. La freccia arriva prima che lui lo sappia.",
+	"tier": 3,
+	"primary": ["dex", "str"],
+	"growth": { "str": 1, "dex": 3, "int": 0, "vit": 1, "wil": 1 },
+	"respec_bonus": { "str": 3, "dex": 12, "int": 0, "vit": 3, "wil": 3 },
+	"special_id": "archer_arrow",
+	"special_type": "active_target",
+	"special_name": "Freccia Precisa",
+	"special_desc": "Attacco fisico a distanza (range DEX/4 tile). Nessuna risposta nemica. Cooldown: 2 turni.",
+	"unlock": { "type": "stat_threshold", "attr": "dex", "value": 20, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

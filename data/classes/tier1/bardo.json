@@ -1,0 +1,15 @@
+{
+	"id": "bardo",
+	"name": "Bardo",
+	"desc": "Le sue canzoni cambiano il corso delle battaglie.",
+	"tier": 1,
+	"primary": ["wil", "dex"],
+	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 3, "wil": 8 },
+	"special_id": "bard_song",
+	"special_type": "active_key",
+	"special_name": "Ballata Ispiratrice",
+	"special_desc": "ATK, DEF, DEX ×1.2 per 5 turni. Una volta per piano. Costo: 15 MP.",
+	"unlock": { "type": "npcs_spoken", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

@@ -78,5 +78,13 @@
     "icon": "u",
     "description": "Stivali leggeri per avventurieri.",
     "defense_bonus": 1
+  },
+  {
+    "id": "class_license",
+    "name": "Licenza di Classe",
+    "type": "class_license",
+    "icon": "%",
+    "description": "Un documento antico che consente di cambiare la propria vocazione. Oggetto raro, caduto da boss.",
+    "rarity": "rare"
   }
 ]

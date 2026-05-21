@@ -1,0 +1,15 @@
+{
+	"id": "assassino",
+	"name": "Assassino",
+	"desc": "Colpisce nell'ombra. I boss sono la sua specialità.",
+	"tier": 2,
+	"primary": ["dex", "str"],
+	"growth": { "str": 2, "dex": 3, "int": 1, "vit": 0, "wil": 0 },
+	"respec_bonus": { "str": 8, "dex": 12, "int": 3, "vit": 0, "wil": 0 },
+	"special_id": "assassin_execute",
+	"special_type": "passive",
+	"special_name": "Esecuzione / Ombra",
+	"special_desc": "Nemici <20% HP: kill istantaneo. Dopo ogni kill: invisibile 1 turno.",
+	"unlock": { "type": "kills_boss", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

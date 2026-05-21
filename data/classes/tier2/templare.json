@@ -1,0 +1,15 @@
+{
+	"id": "templare",
+	"name": "Templare",
+	"desc": "La sua aura sacra indebolisce i nemici solo stando loro vicino.",
+	"tier": 2,
+	"primary": ["str", "wil"],
+	"growth": { "str": 2, "dex": 0, "int": 1, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 8, "dex": 0, "int": 3, "vit": 3, "wil": 8 },
+	"special_id": "templar_holy_aura",
+	"special_type": "passive_and_active",
+	"special_name": "Aura Sacra / Luce Sacra",
+	"special_desc": "Passiva: nemici entro 2 tile -15% ATK. Q: AoE danno sacro su tutti i nemici in vista (WIL×2, ignora DEF). Costo: 20 MP. Cooldown: 5 turni.",
+	"unlock": { "type": "dungeon_clear_no_death", "value": 1, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

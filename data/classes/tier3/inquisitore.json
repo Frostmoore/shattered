@@ -1,0 +1,15 @@
+{
+	"id": "inquisitore",
+	"name": "Inquisitore",
+	"desc": "Non c'è segreto che non riesca a scoprire. Con o senza consenso.",
+	"tier": 3,
+	"primary": ["str", "int"],
+	"growth": { "str": 2, "dex": 0, "int": 2, "vit": 1, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 0, "int": 8, "vit": 3, "wil": 3 },
+	"special_id": "inquisitor_analyze",
+	"special_type": "active_target",
+	"special_name": "Analisi",
+	"special_desc": "Rivela stats esatti + debolezze di un nemico adiacente, senza attaccarlo. Azione libera.",
+	"unlock": { "type": "dungeons_completed", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

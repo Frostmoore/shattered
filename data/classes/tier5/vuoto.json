@@ -1,0 +1,15 @@
+{
+	"id": "vuoto",
+	"name": "Il Vuoto",
+	"desc": "Oltre la morte, oltre il tempo. Non è più niente. Ed è tutto.",
+	"tier": 5,
+	"primary": ["wil", "int"],
+	"growth": { "str": 0, "dex": 0, "int": 4, "vit": 0, "wil": 4 },
+	"respec_bonus": { "str": 0, "dex": 0, "int": 20, "vit": 0, "wil": 20 },
+	"special_id": "void_form",
+	"special_type": "passive_and_active",
+	"special_name": "Forma del Vuoto / Intangibilità",
+	"special_desc": "Passiva: alla morte, rinasce con 1 HP (1/run). Ogni combattimento vinto: +1 WIL permanente per la run (max +20). Q: intangibile 3 turni (immune a tutto, non può attaccare). Costo: 20 MP.",
+	"unlock": { "type": "deaths_total", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

@@ -1,0 +1,15 @@
+{
+	"id": "dominatore",
+	"name": "Dominatore",
+	"desc": "Non uccide. Persuade. Con la forza mentale.",
+	"tier": 4,
+	"primary": ["wil", "int"],
+	"growth": { "str": 0, "dex": 1, "int": 2, "vit": 0, "wil": 4 },
+	"respec_bonus": { "str": 0, "dex": 5, "int": 8, "vit": 0, "wil": 20 },
+	"special_id": "dominator_control",
+	"special_type": "active_target",
+	"special_name": "Controllo Mentale",
+	"special_desc": "Controlla un nemico adiacente (WIL/3 turni): attacca i propri alleati. Max 1 controllato. Costo: 30 MP.",
+	"unlock": { "type": "dungeons_completed", "value": 20, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

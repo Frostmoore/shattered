@@ -51,6 +51,22 @@ static func level_up(level: int) -> Notification:
 	return n
 
 
+static func class_unlock(name: String) -> Notification:
+	var n := Notification.new()
+	n.text  = "Classe sbloccata: %s!" % name
+	n.color = Color(0.45, 0.90, 1.0)
+	n.duration = 5.0
+	return n
+
+
+static func class_respec(name: String) -> Notification:
+	var n := Notification.new()
+	n.text  = "Classe cambiata: %s!" % name
+	n.color = Color(0.95, 0.55, 0.95)
+	n.duration = 4.0
+	return n
+
+
 static func warning(msg: String) -> Notification:
 	var n := Notification.new()
 	n.text = msg

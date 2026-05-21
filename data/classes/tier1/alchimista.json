@@ -1,0 +1,15 @@
+{
+	"id": "alchimista",
+	"name": "Alchimista",
+	"desc": "Trasforma oggetti ordinari in strumenti straordinari.",
+	"tier": 1,
+	"primary": ["int", "dex"],
+	"growth": { "str": 0, "dex": 2, "int": 2, "vit": 1, "wil": 1 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 8, "vit": 3, "wil": 3 },
+	"special_id": "alchemist_brew",
+	"special_type": "active_key",
+	"special_name": "Mistura",
+	"special_desc": "Combina 2 consumabili per effetto potenziato. Apre mini-UI.",
+	"unlock": { "type": "consumables_used", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

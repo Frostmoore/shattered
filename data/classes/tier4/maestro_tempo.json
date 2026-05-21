@@ -1,0 +1,15 @@
+{
+	"id": "maestro_tempo",
+	"name": "Maestro del Tempo",
+	"desc": "Ha imparato che ogni momento si può riavvolgere. Quasi ogni momento.",
+	"tier": 4,
+	"primary": ["int", "dex"],
+	"growth": { "str": 0, "dex": 2, "int": 3, "vit": 0, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 15, "vit": 0, "wil": 8 },
+	"special_id": "time_rewind",
+	"special_type": "active_key",
+	"special_name": "Riavvolgimento",
+	"special_desc": "Annulla le ultime 5 azioni del player (movimento + danni subiti). Una volta per piano. Costo: 25 MP.",
+	"unlock": { "type": "dungeon_floors_total", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

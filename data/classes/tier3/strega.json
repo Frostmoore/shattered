@@ -1,0 +1,15 @@
+{
+	"id": "strega",
+	"name": "Strega",
+	"desc": "Le sue maledizioni indeboliscono il corpo e lo spirito.",
+	"tier": 3,
+	"primary": ["wil", "dex"],
+	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 3, "wil": 8 },
+	"special_id": "witch_curse",
+	"special_type": "active_target",
+	"special_name": "Maledizione",
+	"special_desc": "Un nemico visibile: tutti i suoi stat -20% per 5 turni. Costo: 10 MP.",
+	"unlock": { "type": "consumable_types_used", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

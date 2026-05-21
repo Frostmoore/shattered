@@ -47,6 +47,10 @@ alignment = 1
 text = "Inventario"
 alignment = 1
 
+[node name="StatusButton" type="Button" parent="Panel/VBox"]
+text = "Stato personaggio  [C]"
+alignment = 1
+
 [node name="QuestJournalButton" type="Button" parent="Panel/VBox"]
 text = "Diario quest  [J]"
 alignment = 1

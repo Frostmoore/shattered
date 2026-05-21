@@ -34,11 +34,13 @@ func _save_character(world_name: String, char_name: String) -> void:
 	var dir: String = SAVE_DIR + world_name + "/"
 	DirAccess.make_dir_recursive_absolute(dir)
 	var data: Dictionary = {
-		"character_name":   char_name,
-		"level":            GameState.level,
-		"xp":               GameState.xp,
-		"attributes":       GameState.attributes.duplicate(),
-		"current_map_id":   GameState.current_map_id,
+		"character_name":    char_name,
+		"level":             GameState.level,
+		"xp":                GameState.xp,
+		"current_class":     GameState.current_class,
+		"base_attributes":   GameState.base_attributes.duplicate(),
+		"class_bonus":       GameState.class_bonus.duplicate(),
+		"current_map_id":    GameState.current_map_id,
 		"player_position":  {"x": GameState.player_position.x, "y": GameState.player_position.y},
 		"player_stats":     GameState.player_stats.duplicate(),
 		"inventory":        GameState.inventory.duplicate(true),
@@ -48,8 +50,9 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"world_flags":      GameState.world_flags.duplicate(),
 		"equipped":         GameState.equipped.duplicate(),
 		"quick_slots":      GameState.quick_slots.duplicate(true),
-		"permadeath":       GameState.permadeath,
-		"location_states":  LocationRegistry.serialize_states()
+		"permadeath":         GameState.permadeath,
+		"permanent_allies":   GameState.permanent_allies.duplicate(true),
+		"location_states":    LocationRegistry.serialize_states()
 	}
 	var path: String = get_char_path(world_name, char_name)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
@@ -139,11 +142,19 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 		var pos: Dictionary = raw_pos as Dictionary
 		GameState.player_position = Vector2i(int(pos.get("x", 5)), int(pos.get("y", 5)))
 
-	var raw_attrs: Variant = data.get("attributes", {})
-	if raw_attrs is Dictionary:
-		for key: String in (raw_attrs as Dictionary):
-			if GameState.attributes.has(key):
-				GameState.attributes[key] = int((raw_attrs as Dictionary)[key])
+	GameState.current_class = str(data.get("current_class", "noob"))
+
+	var raw_base: Variant = data.get("base_attributes", data.get("attributes", {}))
+	if raw_base is Dictionary:
+		for key: String in (raw_base as Dictionary):
+			if GameState.base_attributes.has(key):
+				GameState.base_attributes[key] = int((raw_base as Dictionary)[key])
+
+	var raw_bonus: Variant = data.get("class_bonus", {})
+	if raw_bonus is Dictionary:
+		for key: String in (raw_bonus as Dictionary):
+			if GameState.class_bonus.has(key):
+				GameState.class_bonus[key] = int((raw_bonus as Dictionary)[key])
 
 	var raw_stats: Variant = data.get("player_stats", {})
 	if raw_stats is Dictionary:
@@ -196,3 +207,17 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 
 	EventBus.equipment_changed.emit()
 	EventBus.quick_slots_changed.emit()
+
+	var raw_pa: Variant = data.get("permanent_allies", [])
+	if raw_pa is Array:
+		GameState.permanent_allies = (raw_pa as Array).duplicate(true)
+
+	# Ripristina la special della classe caricata in ClassRuntime
+	var runtime: Node = get_node_or_null("/root/ClassRuntime")
+	if runtime:
+		runtime.call("set_active_class", GameState.current_class)
+
+	# Rispristina alleati permanenti in AllyManager
+	var ally_mgr: Node = get_node_or_null("/root/AllyManager")
+	if ally_mgr and not GameState.permanent_allies.is_empty():
+		ally_mgr.call("restore_permanent", GameState.permanent_allies)

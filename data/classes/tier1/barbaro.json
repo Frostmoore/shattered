@@ -1,0 +1,15 @@
+{
+	"id": "barbaro",
+	"name": "Barbaro",
+	"desc": "Forza bruta e urla. L'intelletto è sopravvalutato.",
+	"tier": 1,
+	"primary": ["str", "vit"],
+	"growth": { "str": 3, "dex": 0, "int": 0, "vit": 2, "wil": 1 },
+	"respec_bonus": { "str": 12, "dex": 0, "int": 0, "vit": 8, "wil": 3 },
+	"special_id": "barbarian_warcry",
+	"special_type": "active_key",
+	"special_name": "Grido di Guerra",
+	"special_desc": "Tutti i nemici in detection range: ATK -30% per 4 turni. Costo: 10 ST.",
+	"unlock": { "type": "damage_taken_total", "value": 200, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

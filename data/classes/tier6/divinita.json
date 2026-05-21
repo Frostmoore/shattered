@@ -1,0 +1,16 @@
+{
+	"id": "divinita",
+	"name": "Divinità",
+	"desc": "Ha completato tutto. Ha visto tutto. Adesso è annoiato.",
+	"tier": 6,
+	"primary": ["str", "dex", "int", "vit", "wil"],
+	"growth": { "str": 0, "dex": 0, "int": 0, "vit": 0, "wil": 0 },
+	"respec_bonus": { "str": 0, "dex": 0, "int": 0, "vit": 0, "wil": 0 },
+	"special_id": "god_mode",
+	"special_type": "passive",
+	"special_name": "God Mode",
+	"special_desc": "Non può morire. Nessun fog of war (mappa sempre visibile). Fa sempre esattamente 1 danno per attacco, indipendentemente da qualsiasi stat o bonus.",
+	"god_mode": { "invincible": true, "fov_disabled": true, "damage_override": 1 },
+	"unlock": { "type": "all_classes_completed", "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

@@ -35,8 +35,7 @@ func _check_level_up() -> void:
 
 
 func _apply_level_up() -> void:
-	for attr: String in GameState.attributes:
-		GameState.attributes[attr] = int(GameState.attributes[attr]) + 1
+	GameState.apply_level_up_growth()
 	GameState.recalculate_derived_stats()
 	# Heal all resources to full on level up
 	GameState.player_stats["hp"]      = int(GameState.player_stats["max_hp"])

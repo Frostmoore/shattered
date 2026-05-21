@@ -1,0 +1,15 @@
+{
+	"id": "geomante",
+	"name": "Geomante",
+	"desc": "La terra è la sua armatura e la sua arma.",
+	"tier": 3,
+	"primary": ["vit", "wil"],
+	"growth": { "str": 1, "dex": 0, "int": 1, "vit": 3, "wil": 2 },
+	"respec_bonus": { "str": 3, "dex": 0, "int": 3, "vit": 12, "wil": 8 },
+	"special_id": "geo_wall",
+	"special_type": "active_target",
+	"special_name": "Muro di Terra",
+	"special_desc": "Crea parete temporanea su tile adiacente libera. Blocca movimento e visione per VIT/3 turni.",
+	"unlock": { "type": "tiles_explored_total", "value": 1000, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

@@ -1,0 +1,15 @@
+{
+	"id": "ladro",
+	"name": "Ladro",
+	"desc": "Veloce e silenzioso. Il primo colpo è sempre fatale.",
+	"tier": 1,
+	"primary": ["dex", "int"],
+	"growth": { "str": 1, "dex": 2, "int": 2, "vit": 0, "wil": 1 },
+	"respec_bonus": { "str": 3, "dex": 8, "int": 8, "vit": 0, "wil": 3 },
+	"special_id": "rogue_backstab",
+	"special_type": "passive",
+	"special_name": "Pugnalata / Grimaldello",
+	"special_desc": "Primo attacco fuori-combattimento ×3 danno. Apre porte chiuse a chiave.",
+	"unlock": { "type": "chests_opened", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

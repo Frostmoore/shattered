@@ -1,0 +1,15 @@
+{
+	"id": "vampiro",
+	"name": "Vampiro",
+	"desc": "Ogni ferita inferta lo fa stare meglio. Un predatore perfetto.",
+	"tier": 3,
+	"primary": ["str", "wil"],
+	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 0, "wil": 2 },
+	"respec_bonus": { "str": 8, "dex": 3, "int": 3, "vit": 0, "wil": 8 },
+	"special_id": "vampire_lifesteal",
+	"special_type": "passive",
+	"special_name": "Morso Vitale",
+	"special_desc": "Ogni attacco fisico inferto cura HP pari al 25% dei danni inflitti.",
+	"unlock": { "type": "survived_at_1hp", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

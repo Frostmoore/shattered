@@ -1,0 +1,15 @@
+{
+	"id": "negromante",
+	"name": "Negromante",
+	"desc": "La morte non è una fine, è una risorsa.",
+	"tier": 1,
+	"primary": ["int", "wil"],
+	"growth": { "str": 0, "dex": 1, "int": 3, "vit": 0, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 3, "int": 10, "vit": 0, "wil": 7 },
+	"special_id": "necro_raise_dead",
+	"special_type": "active_key",
+	"special_name": "Risurrezione",
+	"special_desc": "Rianima l'ultimo nemico ucciso come alleato per INT/2 turni. Costo: 10 MP.",
+	"unlock": { "type": "kills_total", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

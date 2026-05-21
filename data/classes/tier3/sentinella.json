@@ -1,0 +1,15 @@
+{
+	"id": "sentinella",
+	"name": "Sentinella",
+	"desc": "Immobile come una roccia. Altrettanto difficile da abbattere.",
+	"tier": 3,
+	"primary": ["vit", "str"],
+	"growth": { "str": 2, "dex": 0, "int": 0, "vit": 3, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 0, "int": 0, "vit": 12, "wil": 3 },
+	"special_id": "sentinel_guard",
+	"special_type": "passive",
+	"special_name": "Posizione di Guardia",
+	"special_desc": "Ogni turno senza muoversi né attaccare: DEF ×(1+stacks), max ×4. Si azzera al primo movimento.",
+	"unlock": { "type": "damage_absorbed_total", "value": 1000, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

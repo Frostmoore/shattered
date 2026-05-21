@@ -3,6 +3,7 @@ class_name PauseMenu
 
 signal resume_requested()
 signal inventory_requested()
+signal status_requested()
 signal quest_journal_requested()
 signal options_requested()
 signal main_menu_requested()
@@ -14,6 +15,7 @@ func _ready() -> void:
 	visible = false
 	$Panel/VBox/ResumeButton.pressed.connect(func() -> void: resume_requested.emit())
 	$Panel/VBox/InventoryButton.pressed.connect(func() -> void: inventory_requested.emit())
+	$Panel/VBox/StatusButton.pressed.connect(func() -> void: status_requested.emit())
 	$Panel/VBox/QuestJournalButton.pressed.connect(func() -> void: quest_journal_requested.emit())
 	$Panel/VBox/OptionsButton.pressed.connect(func() -> void: options_requested.emit())
 	$Panel/VBox/SaveButton.pressed.connect(_on_save)

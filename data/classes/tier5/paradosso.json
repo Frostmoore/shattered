@@ -1,0 +1,15 @@
+{
+	"id": "paradosso",
+	"name": "Paradosso",
+	"desc": "Ogni turno è una sorpresa. Anche per lui.",
+	"tier": 5,
+	"primary": ["wil", "dex", "int"],
+	"growth": { "str": 2, "dex": 2, "int": 2, "vit": 0, "wil": 2 },
+	"respec_bonus": { "str": 8, "dex": 8, "int": 8, "vit": 0, "wil": 8 },
+	"special_id": "paradox_chaos",
+	"special_type": "passive",
+	"special_name": "Caos Assoluto",
+	"special_desc": "Ogni turno ottiene un effetto casuale dal pool (es: ATK×3, HP/2, invisibilità, DEF×0, +50 HP, -30 MP). Gli effetti si accumulano. La casualità è inarrestabile.",
+	"unlock": { "type": "class_respec_count", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

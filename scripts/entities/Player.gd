@@ -69,6 +69,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	# Abilità di classe (Q).
+	if event.is_action_pressed("class_ability"):
+		var runtime: Node = get_node_or_null("/root/ClassRuntime")
+		if runtime and runtime.can_use_active():
+			if runtime.call("uses_targeting"):
+				runtime.call("start_targeting", self)
+				# _action_done() chiamato da confirm_targeting dopo la scelta del tile
+			elif runtime.call("uses_menu"):
+				runtime.call("start_menu", self)
+				# _action_done() chiamato da confirm_menu dopo la scelta nel menu
+			else:
+				runtime.use_active()
+				_action_done()
+		get_viewport().set_input_as_handled()
+		return
+
 	# Non-directional actions.
 	if event.is_action_pressed("interact"):
 		_try_interact()
@@ -126,8 +142,14 @@ func _try_move(dir: Vector2i) -> void:
 		if entity_at.is_blocking:
 			return
 
+	var runtime: Node = get_node_or_null("/root/ClassRuntime")
 	if not map.is_walkable(target):
-		return
+		if not (runtime and runtime.call("can_phase_walls")):
+			return
+		if target.x < 0 or target.y < 0 or target.x >= map.map_width or target.y >= map.map_height:
+			return
+		if not runtime.call("can_enter_wall_at", map, target):
+			return
 
 	var transition: Variant = map.get_transition_at(target)
 	if transition != null:
@@ -169,18 +191,25 @@ func _use_save_point() -> void:
 	_hold_dir = Vector2i.ZERO
 	ScreenFade.fade(
 		func() -> void:
+			var ally_mgr: Node = get_node_or_null("/root/AllyManager")
+			if ally_mgr:
+				ally_mgr.call("clear_temp_allies")
 			map.respawn_non_boss_enemies()
 			LocationRegistry.respawn_non_boss_enemies_in_unloaded_floors(GameState.current_map_id)
-			GameState.player_stats["hp"] = int(GameState.player_stats["max_hp"])
+			GameState.player_stats["hp"]      = int(GameState.player_stats["max_hp"])
+			GameState.player_stats["mp"]      = int(GameState.player_stats["max_mp"])
+			GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 			EventBus.player_stats_changed.emit()
 			SaveManager.save_game(),
 		func() -> void:
+			EventBus.save_point_used.emit()
 			EventBus.notification_shown.emit(Notification.save_point())
 			_can_act = true
 	)
 
 
 func _action_done() -> void:
+	EventBus.turn_ended.emit(self)
 	TurnManager.on_player_action_done()
 
 

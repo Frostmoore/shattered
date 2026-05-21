@@ -1,0 +1,15 @@
+{
+	"id": "cacciatore_di_taglie",
+	"name": "Cacciatore di Taglie",
+	"desc": "Studia ogni nemico. Il Marchio garantisce che non sopravviva.",
+	"tier": 2,
+	"primary": ["dex", "wil"],
+	"growth": { "str": 1, "dex": 2, "int": 1, "vit": 1, "wil": 1 },
+	"respec_bonus": { "str": 3, "dex": 8, "int": 3, "vit": 3, "wil": 3 },
+	"special_id": "bounty_hunter_mark",
+	"special_type": "active_target",
+	"special_name": "Marchio",
+	"special_desc": "Designa un nemico visibile: riceve +50% danno da tutte le fonti. Max 1 bersaglio.",
+	"unlock": { "type": "kills_enemy_type_all", "value": 1, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

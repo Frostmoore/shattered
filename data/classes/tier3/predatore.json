@@ -1,0 +1,15 @@
+{
+	"id": "predatore",
+	"name": "Predatore",
+	"desc": "Ogni stanza è il suo territorio. Ogni nemico è già una preda.",
+	"tier": 3,
+	"primary": ["dex", "vit"],
+	"growth": { "str": 1, "dex": 2, "int": 1, "vit": 2, "wil": 0 },
+	"respec_bonus": { "str": 3, "dex": 8, "int": 3, "vit": 8, "wil": 0 },
+	"special_id": "predator_instinct",
+	"special_type": "passive_and_active",
+	"special_name": "Fiuto / Primo Colpo",
+	"special_desc": "Q: rivela posizione di tutti i nemici del piano. Passiva: primo attacco su nemico non-allertato ×2 danno.",
+	"unlock": { "type": "dungeon_rooms_explored", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

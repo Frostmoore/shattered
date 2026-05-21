@@ -1,0 +1,15 @@
+{
+	"id": "illusionista",
+	"name": "Illusionista",
+	"desc": "La realtà è negoziabile. I nemici attaccano ciò che vuole lui.",
+	"tier": 3,
+	"primary": ["int", "dex"],
+	"growth": { "str": 0, "dex": 2, "int": 2, "vit": 0, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 8, "vit": 0, "wil": 8 },
+	"special_id": "illusionist_double",
+	"special_type": "active_target",
+	"special_name": "Sosia",
+	"special_desc": "Crea copia illusoria su tile adiacente. I nemici attaccano il sosia per DEX/4 turni. Costo: 12 MP.",
+	"unlock": { "type": "attacks_dodged_total", "value": 20, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

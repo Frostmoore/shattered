@@ -1,0 +1,15 @@
+{
+	"id": "cacciatore_di_draghi",
+	"name": "Cacciatore di Draghi",
+	"desc": "Specializzato in nemici che nessun altro osa affrontare.",
+	"tier": 3,
+	"primary": ["str", "wil"],
+	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 1, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 3, "int": 3, "vit": 3, "wil": 3 },
+	"special_id": "dragonhunter_slayer",
+	"special_type": "passive",
+	"special_name": "Lama Antipavura / Cacciatore",
+	"special_desc": "+75% danno contro nemici con max_hp > player_max_hp×2. Immune a debuff paura.",
+	"unlock": { "type": "boss_killed_no_items", "value": 3, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

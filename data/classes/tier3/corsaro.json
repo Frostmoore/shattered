@@ -1,0 +1,15 @@
+{
+	"id": "corsaro",
+	"name": "Corsaro",
+	"desc": "Combatte sporco. I regolamenti sono per i perdenti.",
+	"tier": 3,
+	"primary": ["dex", "str"],
+	"growth": { "str": 2, "dex": 2, "int": 1, "vit": 0, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 8, "int": 3, "vit": 0, "wil": 3 },
+	"special_id": "corsair_dirty_hit",
+	"special_type": "passive",
+	"special_name": "Colpo Sporco",
+	"special_desc": "Ogni attacco fisico: 35% chance di stordire il nemico (salta 1 turno).",
+	"unlock": { "type": "gold_accumulated", "value": 200, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

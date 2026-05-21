@@ -1,0 +1,15 @@
+{
+	"id": "spellblade",
+	"name": "Spellblade",
+	"desc": "Fonde magia e acciaio in una singola lama letale.",
+	"tier": 3,
+	"primary": ["str", "int"],
+	"growth": { "str": 2, "dex": 1, "int": 2, "vit": 0, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 3, "int": 8, "vit": 0, "wil": 3 },
+	"special_id": "spellblade_enchant",
+	"special_type": "active_key",
+	"special_name": "Lama Incantata",
+	"special_desc": "I prossimi 3 attacchi fisici aggiungono INT come danno bonus (ignora DEF). Costo: 12 MP.",
+	"unlock": { "type": "dual_stat_threshold", "attr1": "str", "attr2": "int", "value": 15, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

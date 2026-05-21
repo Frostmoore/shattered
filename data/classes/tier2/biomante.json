@@ -1,0 +1,15 @@
+{
+	"id": "biomante",
+	"name": "Biomante",
+	"desc": "Ha imparato a rigenerare il proprio corpo nel momento più critico.",
+	"tier": 2,
+	"primary": ["int", "vit"],
+	"growth": { "str": 0, "dex": 1, "int": 2, "vit": 3, "wil": 0 },
+	"respec_bonus": { "str": 0, "dex": 3, "int": 8, "vit": 12, "wil": 0 },
+	"special_id": "biomancer_regen",
+	"special_type": "passive",
+	"special_name": "Rigenerazione",
+	"special_desc": "Recupera VIT/5 HP ogni turno in cui non si ricevono danni.",
+	"unlock": { "type": "near_death_survived", "value": 3, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

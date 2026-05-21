@@ -1,0 +1,15 @@
+{
+	"id": "arcanista",
+	"name": "Arcanista",
+	"desc": "Studia ogni scuola magica. Il danno magico diventa il suo carburante.",
+	"tier": 3,
+	"primary": ["int", "wil"],
+	"growth": { "str": 0, "dex": 1, "int": 2, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 3, "int": 8, "vit": 3, "wil": 8 },
+	"special_id": "arcanist_absorb",
+	"special_type": "passive",
+	"special_name": "Assorbimento Arcano",
+	"special_desc": "Ogni danno magico ricevuto converte 25% in MP recuperati.",
+	"unlock": { "type": "items_identified", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

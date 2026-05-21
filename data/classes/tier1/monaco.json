@@ -1,0 +1,15 @@
+{
+	"id": "monaco",
+	"name": "Monaco",
+	"desc": "Corpo come arma, mente come scudo. Niente equipaggiamento necessario.",
+	"tier": 1,
+	"primary": ["dex", "vit"],
+	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 2, "wil": 1 },
+	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 8, "wil": 3 },
+	"special_id": "monk_dodge",
+	"special_type": "passive",
+	"special_name": "Schivata",
+	"special_desc": "DEX/100 chance (cap 40%) di evadere ogni attacco in combattimento.",
+	"unlock": { "type": "dungeon_floor_no_damage", "value": 1, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

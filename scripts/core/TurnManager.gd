@@ -35,7 +35,14 @@ func on_player_action_done() -> void:
 	if not is_active:
 		return
 	is_player_turn = false
+	_run_ally_turns()
 	_run_enemy_turns()
+
+
+func _run_ally_turns() -> void:
+	var ally_mgr: Node = get_node_or_null("/root/AllyManager")
+	if ally_mgr:
+		ally_mgr.call("run_ally_turns")
 
 
 func _run_enemy_turns() -> void:

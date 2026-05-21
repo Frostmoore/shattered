@@ -1,7 +1,7 @@
 extends CanvasLayer
 class_name NewGamePanel
 
-signal confirmed(world_name: String, char_name: String, permadeath_enabled: bool)
+signal class_selection_requested(world_name: String, char_name: String, permadeath: bool)
 signal cancelled()
 
 const NEW_WORLD_LABEL: String = "[ + Nuovo mondo ]"
@@ -84,7 +84,7 @@ func _on_confirm() -> void:
 		return
 
 	close()
-	confirmed.emit(wn, cn, permadeath_check.button_pressed)
+	class_selection_requested.emit(wn, cn, permadeath_check.button_pressed)
 
 
 func _on_cancel() -> void:

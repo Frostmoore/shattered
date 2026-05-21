@@ -1,0 +1,15 @@
+{
+	"id": "campione",
+	"name": "Campione",
+	"desc": "Gli dei guardano. E spingono dalla sua parte.",
+	"tier": 4,
+	"primary": ["str", "wil"],
+	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 2, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 5, "int": 5, "vit": 8, "wil": 5 },
+	"special_id": "champion_divine",
+	"special_type": "passive_and_active",
+	"special_name": "Grazia Divina / Benedizione Divina",
+	"special_desc": "Passiva: una volta per run, alla morte viene resuscitato con 50% HP. Q: ATK+DEF ×1.5 per 5 turni. Costo: 20 MP.",
+	"unlock": { "type": "quests_completed", "value": 25, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

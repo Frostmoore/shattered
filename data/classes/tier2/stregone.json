@@ -1,0 +1,15 @@
+{
+	"id": "stregone",
+	"name": "Stregone",
+	"desc": "Ha stretto un patto con forze oscure. Il prezzo è il suo stesso corpo.",
+	"tier": 2,
+	"primary": ["wil", "str"],
+	"growth": { "str": 2, "dex": 0, "int": 1, "vit": 0, "wil": 3 },
+	"respec_bonus": { "str": 8, "dex": 0, "int": 3, "vit": 0, "wil": 12 },
+	"special_id": "warlock_dark_pact",
+	"special_type": "active_key",
+	"special_name": "Patto Oscuro",
+	"special_desc": "Q: consuma HP in MP (1:1), +5% ATK per ogni 10% HP mancante. Costo: 5 HP per attivazione.",
+	"unlock": { "type": "deaths_total", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

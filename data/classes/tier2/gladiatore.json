@@ -1,0 +1,15 @@
+{
+	"id": "gladiatore",
+	"name": "Gladiatore",
+	"desc": "Ogni vittoria alimenta la prossima. L'arena è la sua casa.",
+	"tier": 2,
+	"primary": ["str", "vit"],
+	"growth": { "str": 2, "dex": 1, "int": 0, "vit": 2, "wil": 1 },
+	"respec_bonus": { "str": 8, "dex": 3, "int": 0, "vit": 8, "wil": 3 },
+	"special_id": "gladiator_adrenaline",
+	"special_type": "passive",
+	"special_name": "Adrenalina",
+	"special_desc": "Ogni kill in combattimento: +1 ATK cumulativo (max +10). Dura fino a fine dungeon.",
+	"unlock": { "type": "combat_wins_no_items", "value": 15, "trigger_scope": "run", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

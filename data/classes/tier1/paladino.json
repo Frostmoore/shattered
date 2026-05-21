@@ -1,0 +1,15 @@
+{
+	"id": "paladino",
+	"name": "Paladino",
+	"desc": "Campione sacro. La fede lo protegge e lo guarisce.",
+	"tier": 1,
+	"primary": ["str", "wil"],
+	"growth": { "str": 2, "dex": 0, "int": 1, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 8, "dex": 0, "int": 3, "vit": 3, "wil": 8 },
+	"special_id": "paladin_lay_on_hands",
+	"special_type": "active_key",
+	"special_name": "Imposizione delle Mani",
+	"special_desc": "Cura VIT×3 HP. Una volta per piano.",
+	"unlock": { "type": "quests_completed", "value": 3, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

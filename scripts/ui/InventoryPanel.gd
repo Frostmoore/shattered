@@ -235,6 +235,10 @@ func _update_action_area() -> void:
 			action_btn.text = "Chiave"
 			action_btn.disabled = true
 			slot_row.visible = false
+		"class_license":
+			action_btn.text = "Usa Licenza"
+			action_btn.disabled = false
+			slot_row.visible = false
 		_:
 			action_btn.text = "Nessuna azione"
 			action_btn.disabled = true
@@ -276,6 +280,10 @@ func _on_action_pressed() -> void:
 				Equipment.unequip(slot)
 			else:
 				Equipment.equip(_selected_item)
+		"class_license":
+			_close()
+			EventBus.respec_screen_requested.emit()
+			return
 	_update_action_area()
 
 

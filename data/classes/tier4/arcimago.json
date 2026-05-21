@@ -1,0 +1,15 @@
+{
+	"id": "arcimago",
+	"name": "Arcimago",
+	"desc": "Non si specializza. Padroneggia ogni cosa.",
+	"tier": 4,
+	"primary": ["int", "wil"],
+	"growth": { "str": 0, "dex": 1, "int": 3, "vit": 0, "wil": 3 },
+	"respec_bonus": { "str": 0, "dex": 5, "int": 15, "vit": 0, "wil": 15 },
+	"special_id": "archmage_repertoire",
+	"special_type": "active_key",
+	"special_name": "Repertorio Arcano",
+	"special_desc": "Cicla tra 3 incantesimi appresi (proiettile, bruciatura, rallentamento). Q lancia l'incantesimo attivo. Nuovi incantesimi sbloccati trovando scroll rari.",
+	"unlock": { "type": "scrolls_collected", "value": 30, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

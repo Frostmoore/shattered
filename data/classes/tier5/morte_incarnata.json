@@ -1,0 +1,15 @@
+{
+	"id": "morte_incarnata",
+	"name": "Morte Incarnata",
+	"desc": "Non combatte. Falcia.",
+	"tier": 5,
+	"primary": ["str", "dex"],
+	"growth": { "str": 4, "dex": 4, "int": 0, "vit": 0, "wil": 0 },
+	"respec_bonus": { "str": 20, "dex": 20, "int": 0, "vit": 0, "wil": 0 },
+	"special_id": "death_incarnate",
+	"special_type": "passive",
+	"special_name": "Falce della Morte / Aura Mortale",
+	"special_desc": "Esecuzione istantanea su nemici con HP < 33% del player max_hp. Aura: nemici entro 1 tile perdono 5 HP per turno.",
+	"unlock": { "type": "kills_total", "value": 1000, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "implemented" }
+}

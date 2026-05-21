@@ -1,0 +1,15 @@
+{
+	"id": "sacerdote",
+	"name": "Sacerdote",
+	"desc": "Guaritore devoto. La sua fede si traduce in recupero continuo.",
+	"tier": 2,
+	"primary": ["wil", "int"],
+	"growth": { "str": 0, "dex": 1, "int": 2, "vit": 1, "wil": 2 },
+	"respec_bonus": { "str": 0, "dex": 3, "int": 8, "vit": 3, "wil": 8 },
+	"special_id": "priest_blessing",
+	"special_type": "passive",
+	"special_name": "Benedizione",
+	"special_desc": "Rigenera VIT/4 HP ogni 3 turni. Immunità ai debuff di tipo 'maledizione'.",
+	"unlock": { "type": "save_points_used", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
+	"implementation": { "status": "planned" }
+}

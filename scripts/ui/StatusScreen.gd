@@ -21,14 +21,40 @@ class_name StatusScreen
 @onready var _xp_bar: ProgressBar   = $Panel/Margin/VBox/XPSection/XPRow/XPBar
 @onready var _xp_val: Label         = $Panel/Margin/VBox/XPSection/XPRow/XPVal
 
+var _class_label:   Label
+var _special_label: Label
+
 
 func _ready() -> void:
 	visible = false
 	_setup_bar_colors()
+	_setup_class_section()
 	EventBus.toggle_status_screen.connect(_on_toggle)
 	EventBus.player_stats_changed.connect(_on_stats_changed)
 	EventBus.equipment_changed.connect(_on_stats_changed)
 	EventBus.player_leveled_up.connect(_on_stats_changed)
+
+
+func _setup_class_section() -> void:
+	var vbox: VBoxContainer = $Panel/Margin/VBox
+
+	_class_label = Label.new()
+	_class_label.add_theme_font_size_override("font_size", 11)
+	_class_label.add_theme_color_override("font_color", Color(0.92, 0.86, 0.55))
+
+	_special_label = Label.new()
+	_special_label.add_theme_font_size_override("font_size", 9)
+	_special_label.add_theme_color_override("font_color", Color(0.72, 0.72, 0.72))
+	_special_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
+	var sep := HSeparator.new()
+
+	vbox.add_child(_class_label)
+	vbox.move_child(_class_label, 0)
+	vbox.add_child(_special_label)
+	vbox.move_child(_special_label, 1)
+	vbox.add_child(sep)
+	vbox.move_child(sep, 2)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -54,7 +80,14 @@ func _on_stats_changed(_arg: Variant = null) -> void:
 
 
 func _refresh() -> void:
-	var attrs: Dictionary = GameState.attributes
+	# Classe corrente
+	var reg: Node = get_node_or_null("/root/ClassRegistry")
+	if reg and _class_label:
+		var cd: Dictionary = reg.call("get_class_data", GameState.current_class)
+		_class_label.text   = "%s  (Tier %d)" % [str(cd.get("name", "?")), int(cd.get("tier", 1))]
+		_special_label.text = "[%s]  %s" % [str(cd.get("special_name", "")), str(cd.get("special_desc", ""))]
+
+	var attrs: Dictionary = GameState.effective_attributes
 	_str_label.text = "STR  %d" % int(attrs.get("str", 0))
 	_dex_label.text = "DEX  %d" % int(attrs.get("dex", 0))
 	_int_label.text = "INT  %d" % int(attrs.get("int", 0))
