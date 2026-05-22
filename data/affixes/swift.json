@@ -1,0 +1,20 @@
+{
+	"id":             "swift",
+	"prefix":         "Agile",
+	"affix_category": "evasive",
+	"affix_rank":     "minor",
+
+	"hp_mult":        0.85,
+	"atk_mult":       1.1,
+	"def_mult":       1.0,
+	"dex_mult":       1.8,
+	"xp_mult":        1.2,
+	"pressure_mult":  1.25,
+
+	"color_tint": [0.4, 1.0, 0.8, 1.0],
+	"effect":     null,
+
+	"compatible_families":      [],
+	"incompatible_categories":  ["defensive"],
+	"min_floor": 1
+}

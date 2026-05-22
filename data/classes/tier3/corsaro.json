@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "corsaro",
 	"name": "Corsaro",
 	"desc": "Combatte sporco. I regolamenti sono per i perdenti.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["dex", "str"],
 	"growth": { "str": 2, "dex": 2, "int": 1, "vit": 0, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 8, "int": 3, "vit": 0, "wil": 3 },

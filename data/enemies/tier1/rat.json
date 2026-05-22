@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "rat",
+	"name": "Ratto",
+	"char": ".",
+	"color": [0.55, 0.45, 0.35, 1.0],
+
+	"family": "beast",
+	"role": "swarm",
+	"tier": 1,
+	"tags": ["melee", "swarm"],
+	"biomes": ["cave", "ruins", "dungeon"],
+
+	"hp_base": 3,
+	"atk_base": 1,
+	"def_base": 0,
+	"dex_base": 7,
+	"atk_growth": 0.10,
+	"def_growth": 0.03,
+
+	"xp_reward": 4,
+	"pressure_cost": 3,
+	"spawn_weight": 80,
+	"min_floor": 1,
+	"max_floor": 5,
+	"zone_min_level": 1,
+	"zone_max_level": 6,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_low"
+}

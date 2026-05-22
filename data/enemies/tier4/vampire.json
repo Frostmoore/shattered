@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "vampire",
+	"name": "Vampiro",
+	"char": "V",
+	"color": [0.78, 0.05, 0.15, 1.0],
+
+	"family": "undead",
+	"role": "assassin",
+	"tier": 4,
+	"tags": ["melee", "undead"],
+	"biomes": ["crypt", "dungeon", "castle"],
+
+	"hp_base": 16,
+	"atk_base": 8,
+	"def_base": 1,
+	"dex_base": 7,
+	"atk_growth": 0.20,
+	"def_growth": 0.06,
+
+	"xp_reward": 82,
+	"pressure_cost": 28,
+	"spawn_weight": 50,
+	"min_floor": 8,
+	"max_floor": 28,
+	"zone_min_level": 11,
+	"zone_max_level": 32,
+	"detection": 8,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_mid"
+}

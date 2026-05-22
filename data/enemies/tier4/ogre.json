@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "ogre",
+	"name": "Ogre",
+	"char": "Q",
+	"color": [0.55, 0.40, 0.20, 1.0],
+
+	"family": "humanoid",
+	"role": "brute",
+	"tier": 4,
+	"tags": ["melee", "large"],
+	"biomes": ["plains", "dungeon", "ruins"],
+
+	"hp_base": 30,
+	"atk_base": 9,
+	"def_base": 1,
+	"dex_base": 2,
+	"atk_growth": 0.22,
+	"def_growth": 0.06,
+
+	"xp_reward": 72,
+	"pressure_cost": 24,
+	"spawn_weight": 60,
+	"min_floor": 6,
+	"max_floor": 25,
+	"zone_min_level": 10,
+	"zone_max_level": 30,
+	"detection": 4,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_mid"
+}

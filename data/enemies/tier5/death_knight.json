@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "death_knight",
+	"name": "Cavaliere della Morte",
+	"char": "D",
+	"color": [0.25, 0.25, 0.68, 1.0],
+
+	"family": "undead",
+	"role": "soldier",
+	"tier": 5,
+	"tags": ["melee", "undead"],
+	"biomes": ["crypt", "dungeon"],
+
+	"hp_base": 24,
+	"atk_base": 11,
+	"def_base": 1,
+	"dex_base": 4,
+	"atk_growth": 0.20,
+	"def_growth": 0.08,
+
+	"xp_reward": 120,
+	"pressure_cost": 40,
+	"spawn_weight": 55,
+	"min_floor": 10,
+	"max_floor": 35,
+	"zone_min_level": 15,
+	"zone_max_level": 42,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_high"
+}

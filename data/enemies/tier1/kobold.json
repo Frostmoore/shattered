@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "kobold",
+	"name": "Coboldo",
+	"char": "k",
+	"color": [0.75, 0.40, 0.20, 1.0],
+
+	"family": "humanoid",
+	"role": "soldier",
+	"tier": 1,
+	"tags": ["melee"],
+	"biomes": ["cave", "ruins", "dungeon"],
+
+	"hp_base": 6,
+	"atk_base": 3,
+	"def_base": 0,
+	"dex_base": 6,
+	"atk_growth": 0.15,
+	"def_growth": 0.05,
+
+	"xp_reward": 10,
+	"pressure_cost": 5,
+	"spawn_weight": 90,
+	"min_floor": 1,
+	"max_floor": 7,
+	"zone_min_level": 1,
+	"zone_max_level": 9,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_low"
+}

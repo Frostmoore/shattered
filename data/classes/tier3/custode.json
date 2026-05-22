@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "custode",
 	"name": "Custode",
 	"desc": "Protegge ciò che ha di caro. Con la vita se necessario.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["vit", "wil"],
 	"growth": { "str": 1, "dex": 0, "int": 1, "vit": 2, "wil": 2 },
 	"respec_bonus": { "str": 3, "dex": 0, "int": 3, "vit": 8, "wil": 8 },

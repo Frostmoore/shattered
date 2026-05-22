@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "dragon_whelp",
+	"name": "Drago Giovane",
+	"char": "p",
+	"color": [0.92, 0.46, 0.06, 1.0],
+
+	"family": "dragon",
+	"role": "glass_cannon",
+	"tier": 5,
+	"tags": ["melee", "flying"],
+	"biomes": ["dungeon", "abyss"],
+
+	"hp_base": 14,
+	"atk_base": 13,
+	"def_base": 1,
+	"dex_base": 5,
+	"atk_growth": 0.28,
+	"def_growth": 0.07,
+
+	"xp_reward": 155,
+	"pressure_cost": 50,
+	"spawn_weight": 35,
+	"min_floor": 12,
+	"max_floor": 38,
+	"zone_min_level": 16,
+	"zone_max_level": 46,
+	"detection": 8,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "dragon"
+}

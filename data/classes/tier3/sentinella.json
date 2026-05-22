@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "sentinella",
 	"name": "Sentinella",
 	"desc": "Immobile come una roccia. Altrettanto difficile da abbattere.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["vit", "str"],
 	"growth": { "str": 2, "dex": 0, "int": 0, "vit": 3, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 0, "int": 0, "vit": 12, "wil": 3 },

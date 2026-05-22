@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "chaos_knight",
+	"name": "Cavaliere del Caos",
+	"char": "K",
+	"color": [0.72, 0.00, 0.28, 1.0],
+
+	"family": "demon",
+	"role": "soldier",
+	"tier": 6,
+	"tags": ["melee"],
+	"biomes": ["dungeon", "abyss", "castle"],
+
+	"hp_base": 28,
+	"atk_base": 15,
+	"def_base": 1,
+	"dex_base": 5,
+	"atk_growth": 0.22,
+	"def_growth": 0.10,
+
+	"xp_reward": 210,
+	"pressure_cost": 65,
+	"spawn_weight": 50,
+	"min_floor": 14,
+	"max_floor": 50,
+	"zone_min_level": 20,
+	"zone_max_level": 50,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "demon"
+}

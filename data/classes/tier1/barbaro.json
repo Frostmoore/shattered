@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "barbaro",
 	"name": "Barbaro",
 	"desc": "Forza bruta e urla. L'intelletto è sopravvalutato.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["str", "vit"],
 	"growth": { "str": 3, "dex": 0, "int": 0, "vit": 2, "wil": 1 },
 	"respec_bonus": { "str": 12, "dex": 0, "int": 0, "vit": 8, "wil": 3 },

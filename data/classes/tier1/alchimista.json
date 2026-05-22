@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "alchimista",
 	"name": "Alchimista",
 	"desc": "Trasforma oggetti ordinari in strumenti straordinari.",
 	"tier": 1,
+	"combat_type": "magic",
 	"primary": ["int", "dex"],
 	"growth": { "str": 0, "dex": 2, "int": 2, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 8, "vit": 3, "wil": 3 },

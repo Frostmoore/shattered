@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "eletto",
 	"name": "L'Eletto",
 	"desc": "Il destino non si sceglie. Ma lui avrebbe rifiutato se avesse potuto.",
 	"tier": 5,
+	"combat_type": "melee",
 	"primary": ["str", "dex", "int", "vit", "wil"],
 	"growth": { "str": 2, "dex": 2, "int": 2, "vit": 2, "wil": 2 },
 	"respec_bonus": { "str": 10, "dex": 10, "int": 10, "vit": 10, "wil": 10 },

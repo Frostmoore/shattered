@@ -97,9 +97,32 @@ func _draw() -> void:
 				col
 			)
 
+	# Draw corpses above floor, below living entities
+	_draw_corpses(map, use_fov)
+
 	# Draw entities on top — only if visible (when FOV is active)
 	if use_fov:
 		_draw_entities(map)
+
+
+func _draw_corpses(map: BaseMap, use_fov: bool) -> void:
+	for corpse: Dictionary in map._corpses:
+		var pos: Vector2i = corpse["pos"] as Vector2i
+		var col: Color    = corpse["color"] as Color
+		if use_fov:
+			if map.is_tile_seen(pos) == 0:
+				continue
+			if map.is_tile_visible(pos) == 0:
+				col = col * GameBalance.FOV_MEMORY_ALPHA
+				col.a = 1.0
+		draw_string(
+			_font,
+			Vector2(pos.x * CELL, pos.y * CELL + BASELINE_Y),
+			"_",
+			HORIZONTAL_ALIGNMENT_CENTER,
+			CELL, FONT_SIZE,
+			col
+		)
 
 
 func _draw_entities(map: BaseMap) -> void:
@@ -108,6 +131,9 @@ func _draw_entities(map: BaseMap) -> void:
 	for child: Node in map.get_children():
 		if child is Entity and not (child is Player):
 			var entity: Entity = child as Entity
+			if entity.is_dead:
+				entity.visible = false
+				continue
 			var visible_tile: int = map.is_tile_visible(entity.grid_position)
 			entity.visible = visible_tile > 0
 

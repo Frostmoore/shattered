@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "demonista",
 	"name": "Demonista",
 	"desc": "Ha imparato a piegare forze che non andrebbero toccate.",
 	"tier": 3,
+	"combat_type": "magic",
 	"primary": ["wil", "int"],
 	"growth": { "str": 0, "dex": 0, "int": 2, "vit": 0, "wil": 3 },
 	"respec_bonus": { "str": 0, "dex": 0, "int": 8, "vit": 0, "wil": 12 },

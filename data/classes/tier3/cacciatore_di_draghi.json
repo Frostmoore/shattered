@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "cacciatore_di_draghi",
 	"name": "Cacciatore di Draghi",
 	"desc": "Specializzato in nemici che nessun altro osa affrontare.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["str", "wil"],
 	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 3, "int": 3, "vit": 3, "wil": 3 },

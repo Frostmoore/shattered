@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "fallen_angel",
+	"name": "Angelo Caduto",
+	"char": "a",
+	"color": [1.00, 0.76, 0.20, 1.0],
+
+	"family": "demon",
+	"role": "glass_cannon",
+	"tier": 6,
+	"tags": ["melee", "flying"],
+	"biomes": ["dungeon", "abyss"],
+
+	"hp_base": 17,
+	"atk_base": 14,
+	"def_base": 1,
+	"dex_base": 8,
+	"atk_growth": 0.26,
+	"def_growth": 0.08,
+
+	"xp_reward": 250,
+	"pressure_cost": 74,
+	"spawn_weight": 30,
+	"min_floor": 15,
+	"max_floor": 50,
+	"zone_min_level": 21,
+	"zone_max_level": 50,
+	"detection": 9,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "demon"
+}

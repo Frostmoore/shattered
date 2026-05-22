@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "demon",
+	"name": "Demone",
+	"char": "d",
+	"color": [0.92, 0.14, 0.05, 1.0],
+
+	"family": "demon",
+	"role": "brute",
+	"tier": 5,
+	"tags": ["melee", "flying"],
+	"biomes": ["dungeon", "abyss"],
+
+	"hp_base": 28,
+	"atk_base": 12,
+	"def_base": 1,
+	"dex_base": 6,
+	"atk_growth": 0.25,
+	"def_growth": 0.07,
+
+	"xp_reward": 135,
+	"pressure_cost": 44,
+	"spawn_weight": 45,
+	"min_floor": 11,
+	"max_floor": 35,
+	"zone_min_level": 15,
+	"zone_max_level": 44,
+	"detection": 7,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "demon"
+}

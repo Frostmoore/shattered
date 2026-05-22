@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "bat",
+	"name": "Pipistrello",
+	"char": "v",
+	"color": [0.45, 0.30, 0.55, 1.0],
+
+	"family": "beast",
+	"role": "skirmisher",
+	"tier": 1,
+	"tags": ["melee"],
+	"biomes": ["cave", "dungeon"],
+
+	"hp_base": 4,
+	"atk_base": 2,
+	"def_base": 0,
+	"dex_base": 9,
+	"atk_growth": 0.12,
+	"def_growth": 0.03,
+
+	"xp_reward": 6,
+	"pressure_cost": 4,
+	"spawn_weight": 90,
+	"min_floor": 1,
+	"max_floor": 7,
+	"zone_min_level": 1,
+	"zone_max_level": 9,
+	"detection": 7,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_low"
+}

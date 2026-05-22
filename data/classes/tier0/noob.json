@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "noob",
 	"name": "Noob",
 	"desc": "Nessuna specializzazione. Sopravvive a tutto, eccelle in niente.",
 	"tier": 0,
+	"combat_type": "melee",
 	"primary": [],
 	"growth": { "str": 1, "dex": 1, "int": 1, "vit": 1, "wil": 1 },
 	"growth_curve": [

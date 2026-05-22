@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "void_stalker",
+	"name": "Predatore del Vuoto",
+	"char": "#",
+	"color": [0.18, 0.00, 0.56, 1.0],
+
+	"family": "aberration",
+	"role": "assassin",
+	"tier": 6,
+	"tags": ["melee"],
+	"biomes": ["dungeon", "abyss"],
+
+	"hp_base": 15,
+	"atk_base": 14,
+	"def_base": 1,
+	"dex_base": 10,
+	"atk_growth": 0.25,
+	"def_growth": 0.05,
+
+	"xp_reward": 225,
+	"pressure_cost": 68,
+	"spawn_weight": 30,
+	"min_floor": 15,
+	"max_floor": 50,
+	"zone_min_level": 20,
+	"zone_max_level": 50,
+	"detection": 10,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "aberration_high"
+}

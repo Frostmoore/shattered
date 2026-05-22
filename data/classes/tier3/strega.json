@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "strega",
 	"name": "Strega",
 	"desc": "Le sue maledizioni indeboliscono il corpo e lo spirito.",
 	"tier": 3,
+	"combat_type": "magic",
 	"primary": ["wil", "dex"],
 	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 1, "wil": 2 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 3, "wil": 8 },

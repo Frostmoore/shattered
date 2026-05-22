@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "ancient_dragon",
+	"name": "Drago Antico",
+	"char": "P",
+	"color": [0.92, 0.36, 0.00, 1.0],
+
+	"family": "dragon",
+	"role": "brute",
+	"tier": 6,
+	"tags": ["melee", "flying", "large"],
+	"biomes": ["dungeon", "abyss"],
+
+	"hp_base": 47,
+	"atk_base": 16,
+	"def_base": 1,
+	"dex_base": 4,
+	"atk_growth": 0.28,
+	"def_growth": 0.10,
+
+	"xp_reward": 290,
+	"pressure_cost": 80,
+	"spawn_weight": 25,
+	"min_floor": 18,
+	"max_floor": 50,
+	"zone_min_level": 24,
+	"zone_max_level": 50,
+	"detection": 8,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "dragon"
+}

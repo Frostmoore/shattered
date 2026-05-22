@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "witch",
+	"name": "Strega",
+	"char": "w",
+	"color": [0.70, 0.15, 0.85, 1.0],
+
+	"family": "humanoid",
+	"role": "controller",
+	"tier": 4,
+	"tags": ["magic"],
+	"biomes": ["dungeon", "swamp", "ruins"],
+
+	"hp_base": 16,
+	"atk_base": 8,
+	"def_base": 1,
+	"dex_base": 5,
+	"atk_growth": 0.22,
+	"def_growth": 0.04,
+
+	"xp_reward": 74,
+	"pressure_cost": 24,
+	"spawn_weight": 50,
+	"min_floor": 7,
+	"max_floor": 26,
+	"zone_min_level": 10,
+	"zone_max_level": 30,
+	"detection": 7,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_mid"
+}

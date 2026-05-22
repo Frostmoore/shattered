@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "golem",
+	"name": "Golem",
+	"char": "M",
+	"color": [0.50, 0.50, 0.56, 1.0],
+
+	"family": "construct",
+	"role": "tank",
+	"tier": 5,
+	"tags": ["melee", "large"],
+	"biomes": ["dungeon", "ruins", "castle"],
+
+	"hp_base": 25,
+	"atk_base": 8,
+	"def_base": 2,
+	"dex_base": 1,
+	"atk_growth": 0.15,
+	"def_growth": 0.12,
+
+	"xp_reward": 140,
+	"pressure_cost": 48,
+	"spawn_weight": 40,
+	"min_floor": 12,
+	"max_floor": 38,
+	"zone_min_level": 16,
+	"zone_max_level": 46,
+	"detection": 4,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "construct"
+}

@@ -4,6 +4,11 @@ var world_name:     String = ""
 var character_name: String = ""
 var permadeath:     bool   = false
 
+# ── World seed (set at generation, restored on load) ─────────────────────────
+var world_seed:    int    = 0
+var danger_rating: int    = 1
+var budget_curve:  String = "rising"
+
 var current_map_id:  String   = "overworld"
 var player_position: Vector2i = Vector2i(5, 5)
 

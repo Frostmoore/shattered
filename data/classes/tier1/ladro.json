@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "ladro",
 	"name": "Ladro",
 	"desc": "Veloce e silenzioso. Il primo colpo è sempre fatale.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["dex", "int"],
 	"growth": { "str": 1, "dex": 2, "int": 2, "vit": 0, "wil": 1 },
 	"respec_bonus": { "str": 3, "dex": 8, "int": 8, "vit": 0, "wil": 3 },

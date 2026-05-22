@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "paladino",
 	"name": "Paladino",
 	"desc": "Campione sacro. La fede lo protegge e lo guarisce.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["str", "wil"],
 	"growth": { "str": 2, "dex": 0, "int": 1, "vit": 1, "wil": 2 },
 	"respec_bonus": { "str": 8, "dex": 0, "int": 3, "vit": 3, "wil": 8 },

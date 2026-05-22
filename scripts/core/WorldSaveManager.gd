@@ -11,6 +11,7 @@ func generate_new_world(world_name: String, world_seed: int = -1) -> void:
 	LocationRegistry.clear()
 	GameState.world_name = world_name
 	var seed: int = world_seed if world_seed >= 0 else randi()
+	GameState.world_seed = seed
 
 	# ── Generate procedural dungeon (all floors) before registering overworld,
 	#    so we know where floor 1's entrance is (needed for overworld transition target).
@@ -18,8 +19,25 @@ func generate_new_world(world_name: String, world_seed: int = -1) -> void:
 	var player_level: int = GameState.level
 	var meta_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	meta_rng.seed = seed ^ 0x9E3779B9  # separate seed so floor-count roll doesn't consume floor seeds
-	var floor_count: int    = GameBalance.roll_floor_count(meta_rng, player_level)
+	var floor_count: int      = GameBalance.roll_floor_count(meta_rng, player_level)
 	var enemy_balance: Dictionary = GameBalance.roll_enemy_balance(meta_rng, player_level)
+
+	# ── DungeonPressureProfile: pre-compute per-floor budgets ─────────────────
+	var danger_rating: int  = int(enemy_balance.get("danger_rating", 1))
+	var budget_curve: String = str(enemy_balance.get("budget_curve", "rising"))
+	GameState.danger_rating = danger_rating
+	GameState.budget_curve  = budget_curve
+
+	var total: int      = GameBalance.total_pressure_budget(danger_rating, floor_count)
+	var boss_res: int   = roundi(float(total) * GameBalance.BOSS_RESERVE_RATIO)
+	var elite_res: int  = roundi(float(total) * GameBalance.ELITE_RESERVE_RATIO)
+	var available: int  = total - boss_res - elite_res
+	var budgets: Array[int] = GameBalance.floor_pressure_budgets(available, floor_count, budget_curve, meta_rng)
+
+	enemy_balance["floor_budgets"]           = budgets
+	enemy_balance["total_pressure_budget"]   = total
+	enemy_balance["boss_pressure_reserved"]  = boss_res
+	enemy_balance["elite_pressure_reserved"] = elite_res
 
 	# Position on the overworld that leads into the dungeon
 	var overworld_dungeon_tile: Vector2i = Vector2i(18, 14)
@@ -99,7 +117,15 @@ func save_world(world_name: String) -> void:
 	var path: String = get_world_path(world_name)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if file:
-		file.store_string(JSON.stringify(LocationRegistry.serialize_definitions(), "\t"))
+		var world_data: Dictionary = {
+			"meta": {
+				"world_seed":    GameState.world_seed,
+				"danger_rating": GameState.danger_rating,
+				"budget_curve":  GameState.budget_curve,
+			},
+			"locations": LocationRegistry.serialize_definitions(),
+		}
+		file.store_string(JSON.stringify(world_data, "\t"))
 		file.close()
 		print("World saved to ", path)
 	else:
@@ -121,8 +147,20 @@ func load_world(world_name: String) -> bool:
 	if not parsed is Dictionary:
 		push_error("WorldSaveManager: invalid JSON in world file")
 		return false
+	var world_data: Dictionary = parsed as Dictionary
+
+	# Support both old format (flat locations dict) and new format (meta + locations)
+	var locations: Variant = world_data.get("locations", null)
+	if locations == null:
+		locations = world_data
+	else:
+		var meta: Dictionary = world_data.get("meta", {}) as Dictionary
+		GameState.world_seed    = int(meta.get("world_seed", 0))
+		GameState.danger_rating = int(meta.get("danger_rating", 1))
+		GameState.budget_curve  = str(meta.get("budget_curve", "rising"))
+
 	GameState.world_name = world_name
-	LocationRegistry.deserialize_definitions(parsed as Dictionary)
+	LocationRegistry.deserialize_definitions(locations as Dictionary)
 	print("World loaded from ", path)
 	return true
 

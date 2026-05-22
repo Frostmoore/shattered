@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "gladiatore",
 	"name": "Gladiatore",
 	"desc": "Ogni vittoria alimenta la prossima. L'arena è la sua casa.",
 	"tier": 2,
+	"combat_type": "melee",
 	"primary": ["str", "vit"],
 	"growth": { "str": 2, "dex": 1, "int": 0, "vit": 2, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 3, "int": 0, "vit": 8, "wil": 3 },

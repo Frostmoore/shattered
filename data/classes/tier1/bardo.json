@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "bardo",
 	"name": "Bardo",
 	"desc": "Le sue canzoni cambiano il corso delle battaglie.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["wil", "dex"],
 	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 1, "wil": 2 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 3, "wil": 8 },

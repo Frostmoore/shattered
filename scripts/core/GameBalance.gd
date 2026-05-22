@@ -8,17 +8,22 @@ class_name GameBalance
 ## parse-order errors (GDScript resolves class_name registrations lazily, but
 ## preload paths are resolved deterministically at compile time).
 
-const _Fov     = preload("res://scripts/core/game_balance/BalanceFov.gd")
-const _Dungeon = preload("res://scripts/core/game_balance/BalanceDungeon.gd")
-const _Enemy   = preload("res://scripts/core/game_balance/BalanceEnemy.gd")
-const _Loot    = preload("res://scripts/core/game_balance/BalanceLoot.gd")
-const _Math    = preload("res://scripts/core/game_balance/BalanceMath.gd")
-const _Combat  = preload("res://scripts/core/game_balance/BalanceCombat.gd")
+const _Fov      = preload("res://scripts/core/game_balance/BalanceFov.gd")
+const _Dungeon  = preload("res://scripts/core/game_balance/BalanceDungeon.gd")
+const _Enemy    = preload("res://scripts/core/game_balance/BalanceEnemy.gd")
+const _Loot     = preload("res://scripts/core/game_balance/BalanceLoot.gd")
+const _Math     = preload("res://scripts/core/game_balance/BalanceMath.gd")
+const _Combat   = preload("res://scripts/core/game_balance/BalanceCombat.gd")
+const _Pressure = preload("res://scripts/core/game_balance/BalancePressure.gd")
 
 # ─── Combat ───────────────────────────────────────────────────────────────────
-const DAMAGE_K:     float = _Combat.DAMAGE_K
-const DAMAGE_MIN:   int   = _Combat.DAMAGE_MIN
-const DAMAGE_SCALE: float = _Combat.DAMAGE_SCALE
+const DAMAGE_K:       float = _Combat.DAMAGE_K
+const DAMAGE_MIN:     int   = _Combat.DAMAGE_MIN
+const DAMAGE_SCALE:   float = _Combat.DAMAGE_SCALE
+const BASE_HIT_CHANCE: float = _Combat.BASE_HIT_CHANCE
+const ACCURACY_K:     float = _Combat.ACCURACY_K
+const MIN_HIT_CHANCE: float = _Combat.MIN_HIT_CHANCE
+const MAX_HIT_CHANCE: float = _Combat.MAX_HIT_CHANCE
 
 # ─── FOV ──────────────────────────────────────────────────────────────────────
 const FOV_RADIUS:            int   = _Fov.FOV_RADIUS
@@ -52,13 +57,24 @@ static func roll_chest_count(rng: RandomNumberGenerator, player_level: int) -> i
 	return _Math.weighted_roll(rng, player_level, lv, CHEST_COUNT_WEIGHTS)
 
 # ─── Enemy ────────────────────────────────────────────────────────────────────
-static func get_enemy_table() -> Array:
-	return _Enemy.get_enemy_table()
-
 ## Rolls all enemy-balance parameters for a dungeon in one pass.
 ## Call once per dungeon (not per floor) so difficulty is consistent across floors.
+## Il roster nemici si ottiene da EnemyRegistry.get_all(), non più da qui.
 static func roll_enemy_balance(rng: RandomNumberGenerator, player_level: int) -> Dictionary:
 	return _Enemy.roll_balance(rng, player_level)
+
+# ─── Pressure ─────────────────────────────────────────────────────────────────
+const BOSS_RESERVE_RATIO:  float = _Pressure.BOSS_RESERVE_RATIO
+const ELITE_RESERVE_RATIO: float = _Pressure.ELITE_RESERVE_RATIO
+
+static func total_pressure_budget(danger_rating: int, floor_count: int) -> int:
+	return _Pressure.total_budget(danger_rating, floor_count)
+
+static func floor_pressure_budgets(available: int, floor_count: int, curve: String, rng: RandomNumberGenerator) -> Array[int]:
+	return _Pressure.floor_budgets(available, floor_count, curve, rng)
+
+static func level_pressure_mult(enemy_level: int, zone_recommended_level: int) -> float:
+	return _Pressure.level_pressure_mult(enemy_level, zone_recommended_level)
 
 # ─── Dungeon rolls ────────────────────────────────────────────────────────────
 static func roll_floor_count(rng: RandomNumberGenerator, player_level: int) -> int:

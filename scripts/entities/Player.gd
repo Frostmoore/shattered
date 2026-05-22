@@ -215,6 +215,7 @@ func _action_done() -> void:
 
 func _refresh_stats() -> void:
 	level   = GameState.level
+	dex     = int(GameState.effective_attributes.get("dex", 5))
 	hp      = GameState.player_stats["hp"]
 	max_hp  = GameState.player_stats["max_hp"]
 	attack  = GameState.player_stats["attack"] + Equipment.get_attack_bonus()

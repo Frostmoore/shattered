@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "berserker",
 	"name": "Berserker",
 	"desc": "Entra in frenesia e non si ferma finché c'è ancora qualcosa in piedi.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["str", "dex"],
 	"growth": { "str": 3, "dex": 2, "int": 0, "vit": 1, "wil": 0 },
 	"respec_bonus": { "str": 12, "dex": 8, "int": 0, "vit": 3, "wil": 0 },

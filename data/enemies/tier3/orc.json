@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "orc",
+	"name": "Orco",
+	"char": "O",
+	"color": [0.40, 0.65, 0.20, 1.0],
+
+	"family": "humanoid",
+	"role": "brute",
+	"tier": 3,
+	"tags": ["melee"],
+	"biomes": ["plains", "dungeon", "ruins"],
+
+	"hp_base": 18,
+	"atk_base": 7,
+	"def_base": 1,
+	"dex_base": 4,
+	"atk_growth": 0.20,
+	"def_growth": 0.05,
+
+	"xp_reward": 42,
+	"pressure_cost": 15,
+	"spawn_weight": 80,
+	"min_floor": 3,
+	"max_floor": 18,
+	"zone_min_level": 5,
+	"zone_max_level": 22,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_mid"
+}

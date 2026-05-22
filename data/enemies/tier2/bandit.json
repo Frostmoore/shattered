@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "bandit",
+	"name": "Bandito",
+	"char": "b",
+	"color": [0.65, 0.35, 0.25, 1.0],
+
+	"family": "humanoid",
+	"role": "glass_cannon",
+	"tier": 2,
+	"tags": ["melee"],
+	"biomes": ["ruins", "dungeon", "plains"],
+
+	"hp_base": 8,
+	"atk_base": 5,
+	"def_base": 1,
+	"dex_base": 6,
+	"atk_growth": 0.18,
+	"def_growth": 0.04,
+
+	"xp_reward": 22,
+	"pressure_cost": 9,
+	"spawn_weight": 85,
+	"min_floor": 2,
+	"max_floor": 11,
+	"zone_min_level": 2,
+	"zone_max_level": 14,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_low"
+}

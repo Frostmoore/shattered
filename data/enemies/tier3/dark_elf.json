@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "dark_elf",
+	"name": "Elfo Oscuro",
+	"char": "e",
+	"color": [0.50, 0.20, 0.75, 1.0],
+
+	"family": "humanoid",
+	"role": "assassin",
+	"tier": 3,
+	"tags": ["melee"],
+	"biomes": ["dungeon", "ruins"],
+
+	"hp_base": 13,
+	"atk_base": 6,
+	"def_base": 1,
+	"dex_base": 9,
+	"atk_growth": 0.18,
+	"def_growth": 0.04,
+
+	"xp_reward": 38,
+	"pressure_cost": 14,
+	"spawn_weight": 65,
+	"min_floor": 4,
+	"max_floor": 18,
+	"zone_min_level": 6,
+	"zone_max_level": 22,
+	"detection": 7,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_mid"
+}

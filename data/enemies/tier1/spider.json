@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "spider",
+	"name": "Ragno",
+	"char": "r",
+	"color": [0.70, 0.50, 0.20, 1.0],
+
+	"family": "beast",
+	"role": "skirmisher",
+	"tier": 1,
+	"tags": ["melee"],
+	"biomes": ["cave", "ruins"],
+
+	"hp_base": 5,
+	"atk_base": 2,
+	"def_base": 0,
+	"dex_base": 8,
+	"atk_growth": 0.15,
+	"def_growth": 0.05,
+
+	"xp_reward": 8,
+	"pressure_cost": 4,
+	"spawn_weight": 100,
+	"min_floor": 1,
+	"max_floor": 6,
+	"zone_min_level": 1,
+	"zone_max_level": 8,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_low"
+}

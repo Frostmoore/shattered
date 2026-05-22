@@ -5,36 +5,114 @@ var enemy_data_id: String = ""
 var detection_range: int = 5
 var xp_reward: int = 0
 var is_boss: bool = false
+var affixes: Array = []
 var _alerted: bool = false
 
 
 func setup(data: Dictionary) -> void:
-	enemy_data_id = data.get("id", "unknown_enemy")
-	display_name   = data.get("name", "Enemy")
-	level          = int(data.get("level", 1))
-	hp             = data.get("hp", 8)
-	max_hp         = hp
-	attack         = data.get("attack", 3)
-	defense        = data.get("defense", 0)
-	xp_reward      = data.get("xp_reward", 0)
-	is_boss        = bool(data.get("boss", false))
-	faction        = "enemy"
+	enemy_data_id   = data.get("id", "unknown_enemy")
+	display_name    = data.get("name", "Enemy")
+	level           = int(data.get("level", GameState.level))
+	dex             = int(data.get("dex", 5))
+	xp_reward       = data.get("xp_reward", 0)
+	is_boss         = bool(data.get("boss", false))
+	detection_range = int(data.get("detection_range", 5))
+	faction         = "enemy"
 
-	# Look up visual from ENEMY_TABLE
+	_apply_runtime_stats(data)
+	affixes = data.get("affixes", []) as Array
+
 	var char: String = "e"
 	var col: Color   = Color(0.88, 0.28, 0.28, 1)
-	for entry: Variant in GameBalance.get_enemy_table():
-		var e: Dictionary = entry as Dictionary
-		if str(e["id"]) == enemy_data_id:
-			char = str(e["char"])
-			var c: Array = e["color"] as Array
-			col = Color(float(c[0]), float(c[1]), float(c[2]), float(c[3]))
-			break
-	# Boss: uppercase glyph, bright red
+	var entry: Dictionary = EnemyRegistry.get_enemy_data(enemy_data_id)
+	if not entry.is_empty():
+		char = str(entry["char"])
+		var c: Array = entry["color"] as Array
+		col = Color(float(c[0]), float(c[1]), float(c[2]), float(c[3]))
 	if is_boss:
 		char = char.to_upper()
 		col = Color(1.0, 0.15, 0.15, 1.0)
+
+	# Apply affix prefix to name and color tint (last affix tint wins)
+	var affix_ids: Array = data.get("affixes", []) as Array
+	var prefix_parts: Array = []
+	for affix_id: Variant in affix_ids:
+		var affix: Dictionary = AffixRegistry.get_affix(str(affix_id))
+		if affix.is_empty():
+			continue
+		var pfx: String = str(affix.get("prefix", ""))
+		if pfx != "":
+			prefix_parts.append(pfx)
+		if affix.has("color_tint") and not is_boss:
+			var t: Array = affix["color_tint"] as Array
+			col = Color(float(t[0]), float(t[1]), float(t[2]), float(t[3]))
+	if not prefix_parts.is_empty():
+		display_name = " ".join(prefix_parts) + " " + display_name
+
 	_setup_visual(char, col)
+
+
+func _apply_runtime_stats(data: Dictionary) -> void:
+	var template: Dictionary = EnemyRegistry.get_enemy_data(enemy_data_id)
+	if template.is_empty():
+		# Fallback: use baked values if registry lookup fails (unknown id or old save)
+		hp      = int(data.get("hp", 8))
+		max_hp  = hp
+		attack  = int(data.get("attack", 3))
+		defense = int(data.get("defense", 0))
+		return
+
+	# Enemy level = player level offset by floor depth and tier, clamped to zone range
+	var floor_num:   int = int(data.get("floor_num", 1))
+	var tier:        int = int(template.get("tier", 3))
+	var zone_min:    int = int(template.get("zone_min_level", 1))
+	var zone_max:    int = int(template.get("zone_max_level", 50))
+	var floor_bonus: int = floori(float(floor_num - 1) / 5.0)
+	var enemy_level: int = clampi(GameState.level + floor_bonus + (tier - 3), zone_min, zone_max)
+	level = enemy_level
+
+	var lf:      float = BalanceCombat.level_factor(enemy_level)
+	var lf_base: float = BalanceCombat.level_factor(1)
+
+	var base_hp:  int = roundi(float(int(template["hp_base"])) * lf / lf_base)
+	var base_atk: int = int(template["atk_base"]) + floori(float(enemy_level - 1) * float(template.get("atk_growth", 0.15)))
+	var base_def: int = maxi(0, int(template["def_base"]) + floori(float(enemy_level - 1) * float(template.get("def_growth", 0.05))))
+
+	# Affix multipliers (applied before boss multipliers so boss stacks on top)
+	var affix_ids: Array  = data.get("affixes", []) as Array
+	var aff_hp:   float   = 1.0
+	var aff_atk:  float   = 1.0
+	var aff_def:  float   = 1.0
+	var aff_dex:  float   = 1.0
+	var aff_xp:   float   = 1.0
+	for affix_id: Variant in affix_ids:
+		var affix: Dictionary = AffixRegistry.get_affix(str(affix_id))
+		if affix.is_empty():
+			continue
+		aff_hp  *= float(affix.get("hp_mult",  1.0))
+		aff_atk *= float(affix.get("atk_mult", 1.0))
+		aff_def *= float(affix.get("def_mult", 1.0))
+		aff_dex *= float(affix.get("dex_mult", 1.0))
+		aff_xp  *= float(affix.get("xp_mult",  1.0))
+
+	base_hp  = roundi(float(base_hp)  * aff_hp)
+	base_atk = roundi(float(base_atk) * aff_atk)
+	base_def = maxi(0, roundi(float(base_def) * aff_def))
+	dex      = roundi(float(dex) * aff_dex)
+	xp_reward = roundi(float(xp_reward) * aff_xp)
+
+	if is_boss:
+		var hp_mult:  float = float(data.get("boss_hp_mult",  1.8))
+		var atk_mult: float = float(data.get("boss_atk_mult", 1.2))
+		var def_mult: float = float(data.get("boss_def_mult", 1.3))
+		hp      = roundi(float(base_hp)  * hp_mult)
+		attack  = roundi(float(base_atk) * atk_mult)
+		defense = roundi(float(base_def) * def_mult)
+	else:
+		hp      = base_hp
+		attack  = base_atk
+		defense = base_def
+	max_hp = hp
 
 
 func take_turn() -> void:
@@ -165,6 +243,9 @@ func _manhattan(a: Vector2i, b: Vector2i) -> int:
 func die() -> void:
 	is_dead = true
 	TurnManager.unregister_enemy(self)
+	var map: BaseMap = get_parent() as BaseMap
+	if map != null:
+		map.add_corpse(grid_position, entity_color.darkened(0.5))
 	EventBus.enemy_died.emit(self)
 	QuestManager.on_enemy_killed(enemy_data_id)
 	if is_boss:

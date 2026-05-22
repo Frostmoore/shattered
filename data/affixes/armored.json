@@ -1,0 +1,20 @@
+{
+	"id":             "armored",
+	"prefix":         "Corazzato",
+	"affix_category": "defensive",
+	"affix_rank":     "minor",
+
+	"hp_mult":        1.2,
+	"atk_mult":       0.9,
+	"def_mult":       2.0,
+	"dex_mult":       1.0,
+	"xp_mult":        1.25,
+	"pressure_mult":  1.30,
+
+	"color_tint": [0.7, 0.7, 1.0, 1.0],
+	"effect":     null,
+
+	"compatible_families":      [],
+	"incompatible_categories":  ["evasive"],
+	"min_floor": 1
+}

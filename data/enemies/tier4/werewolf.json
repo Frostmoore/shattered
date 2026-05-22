@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "werewolf",
+	"name": "Lupo Mannaro",
+	"char": "W",
+	"color": [0.60, 0.40, 0.25, 1.0],
+
+	"family": "beast",
+	"role": "glass_cannon",
+	"tier": 4,
+	"tags": ["melee"],
+	"biomes": ["forest", "plains", "dungeon"],
+
+	"hp_base": 14,
+	"atk_base": 10,
+	"def_base": 1,
+	"dex_base": 7,
+	"atk_growth": 0.25,
+	"def_growth": 0.04,
+
+	"xp_reward": 78,
+	"pressure_cost": 26,
+	"spawn_weight": 55,
+	"min_floor": 7,
+	"max_floor": 26,
+	"zone_min_level": 10,
+	"zone_max_level": 30,
+	"detection": 8,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_medium"
+}

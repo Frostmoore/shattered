@@ -96,6 +96,12 @@ func _build_ui() -> void:
 	lvup_btn.pressed.connect(_do_level_up)
 	controls.add_child(lvup_btn)
 
+	var sim_btn := Button.new()
+	sim_btn.text = "TTK Sim"
+	sim_btn.add_theme_font_size_override("font_size", 10)
+	sim_btn.pressed.connect(_do_ttk_sim)
+	controls.add_child(sim_btn)
+
 	outer.add_child(HSeparator.new())
 
 	var scroll := ScrollContainer.new()
@@ -651,6 +657,10 @@ func _build_class_switcher() -> void:
 
 			btn.pressed.connect(_do_class_switch.bind(class_id))
 			flow.add_child(btn)
+
+
+func _do_ttk_sim() -> void:
+	CombatSimulator.run_validation()
 
 
 func _do_level_up() -> void:

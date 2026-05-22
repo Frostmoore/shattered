@@ -6,6 +6,9 @@ var display_name: String = "Entity"
 var grid_position: Vector2i = Vector2i.ZERO
 
 var level: int = 1
+var dex: int = 5
+var accuracy: int = 0
+var evasion: int = 0
 var hp: int = 10
 var max_hp: int = 10
 var attack: int = 2
@@ -14,6 +17,9 @@ var defense: int = 0
 var is_blocking: bool = true
 var faction: String = "neutral"
 var is_dead: bool = false
+
+var entity_char: String = "?"
+var entity_color: Color = Color.WHITE
 
 
 func take_damage(amount: int) -> void:
@@ -52,6 +58,8 @@ func _setup_visual(char: String, col: Color) -> void:
 		lbl.name = "Label"
 		add_child(lbl)
 
+	entity_char  = char
+	entity_color = col
 	lbl.text = char
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

@@ -7,6 +7,7 @@ static func get_data() -> Dictionary:
 		"hp_base": 22,
 		"atk_base": 6,
 		"def_base": 2,
+		"dex_base": 2,
 		"xp_reward": 55, "pressure_cost": 16,
 		"min_floor": 3,  "detection": 4,
 	}

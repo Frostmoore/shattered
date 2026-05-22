@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "guerriero",
 	"name": "Guerriero",
 	"desc": "Combattente diretto. Più è in pericolo, più è pericoloso.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["str", "vit"],
 	"growth": { "str": 2, "dex": 1, "int": 0, "vit": 2, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 3, "int": 0, "vit": 8, "wil": 3 },

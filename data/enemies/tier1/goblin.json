@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "goblin",
+	"name": "Goblin",
+	"char": "g",
+	"color": [0.28, 0.88, 0.28, 1.0],
+
+	"family": "humanoid",
+	"role": "skirmisher",
+	"tier": 1,
+	"tags": ["melee"],
+	"biomes": ["cave", "ruins", "plains"],
+
+	"hp_base": 7,
+	"atk_base": 3,
+	"def_base": 0,
+	"dex_base": 5,
+	"atk_growth": 0.15,
+	"def_growth": 0.05,
+
+	"xp_reward": 15,
+	"pressure_cost": 6,
+	"spawn_weight": 100,
+	"min_floor": 1,
+	"max_floor": 8,
+	"zone_min_level": 1,
+	"zone_max_level": 10,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "humanoid_low"
+}

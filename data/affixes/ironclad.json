@@ -1,0 +1,20 @@
+{
+	"id":             "ironclad",
+	"prefix":         "Indistruttibile",
+	"affix_category": "defensive",
+	"affix_rank":     "major",
+
+	"hp_mult":        1.5,
+	"atk_mult":       0.9,
+	"def_mult":       3.0,
+	"dex_mult":       0.7,
+	"xp_mult":        2.0,
+	"pressure_mult":  2.00,
+
+	"color_tint": [0.5, 0.5, 1.0, 1.0],
+	"effect":     null,
+
+	"compatible_families":      [],
+	"incompatible_categories":  ["evasive", "offensive", "defensive"],
+	"min_floor": 5
+}

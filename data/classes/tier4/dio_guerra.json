@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "dio_guerra",
 	"name": "Dio della Guerra",
 	"desc": "Due attacchi. Sempre. Non c'è altra regola.",
 	"tier": 4,
+	"combat_type": "melee",
 	"primary": ["str", "dex"],
 	"growth": { "str": 3, "dex": 2, "int": 0, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 15, "dex": 8, "int": 0, "vit": 5, "wil": 5 },

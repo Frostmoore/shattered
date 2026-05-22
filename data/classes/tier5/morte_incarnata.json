@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "morte_incarnata",
 	"name": "Morte Incarnata",
 	"desc": "Non combatte. Falcia.",
 	"tier": 5,
+	"combat_type": "melee",
 	"primary": ["str", "dex"],
 	"growth": { "str": 4, "dex": 4, "int": 0, "vit": 0, "wil": 0 },
 	"respec_bonus": { "str": 20, "dex": 20, "int": 0, "vit": 0, "wil": 0 },

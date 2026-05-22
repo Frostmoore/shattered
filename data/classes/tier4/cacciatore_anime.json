@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "cacciatore_anime",
 	"name": "Cacciatore di Anime",
 	"desc": "Ogni nemico ucciso lascia qualcosa di sé.",
 	"tier": 4,
+	"combat_type": "ranged",
 	"primary": ["dex", "wil"],
 	"growth": { "str": 1, "dex": 2, "int": 1, "vit": 1, "wil": 2 },
 	"respec_bonus": { "str": 5, "dex": 8, "int": 5, "vit": 5, "wil": 8 },

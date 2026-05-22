@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "spellblade",
 	"name": "Spellblade",
 	"desc": "Fonde magia e acciaio in una singola lama letale.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["str", "int"],
 	"growth": { "str": 2, "dex": 1, "int": 2, "vit": 0, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 3, "int": 8, "vit": 0, "wil": 3 },

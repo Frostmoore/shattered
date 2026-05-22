@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "inventore",
 	"name": "Inventore",
 	"desc": "Trasforma oggetti trovati in trappole micidiali.",
 	"tier": 2,
+	"combat_type": "ranged",
 	"primary": ["int", "dex"],
 	"growth": { "str": 0, "dex": 2, "int": 3, "vit": 0, "wil": 1 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 12, "vit": 0, "wil": 3 },

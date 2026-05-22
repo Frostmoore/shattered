@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "colosso",
 	"name": "Colosso",
 	"desc": "Non è veloce. Non è furbo. Ma è impossibile fermarlo.",
 	"tier": 4,
+	"combat_type": "melee",
 	"primary": ["vit", "str"],
 	"growth": { "str": 3, "dex": 0, "int": 0, "vit": 4, "wil": 0 },
 	"respec_bonus": { "str": 15, "dex": 0, "int": 0, "vit": 20, "wil": 0 },

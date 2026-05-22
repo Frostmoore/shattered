@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "mannaro",
 	"name": "Mannaro",
 	"desc": "Nel dungeon non è più un uomo. È qualcosa di peggio.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["str", "vit"],
 	"growth": { "str": 3, "dex": 1, "int": 0, "vit": 2, "wil": 0 },
 	"respec_bonus": { "str": 12, "dex": 3, "int": 0, "vit": 8, "wil": 0 },

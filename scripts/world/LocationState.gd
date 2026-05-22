@@ -10,6 +10,8 @@ var entity_positions: Dictionary = {}
 var open_entity_uids: Array[String] = []
 # Per-tile fog-of-war: 0 = unseen, 1 = seen/remembered.  Size = width × height.
 var fog_of_war: PackedByteArray = PackedByteArray()
+# Corpse positions: [{x, y, color: [r,g,b,a]}, ...]
+var corpse_defs: Array[Dictionary] = []
 
 
 func serialize() -> Dictionary:
@@ -21,6 +23,7 @@ func serialize() -> Dictionary:
 		"entity_positions":  entity_positions.duplicate(true),
 		"open_doors":        open_entity_uids.duplicate(),
 		"fog_of_war":        fog_of_war.hex_encode(),
+		"corpses":           corpse_defs.duplicate(true),
 	}
 
 
@@ -54,5 +57,11 @@ static func deserialize(data: Dictionary) -> LocationState:
 	var raw_fog: Variant = data.get("fog_of_war", "")
 	if raw_fog is String and (raw_fog as String) != "":
 		state.fog_of_war = (raw_fog as String).hex_decode()
+
+	var raw_corpses: Variant = data.get("corpses", [])
+	if raw_corpses is Array:
+		for cd: Variant in (raw_corpses as Array):
+			if cd is Dictionary:
+				state.corpse_defs.append(cd as Dictionary)
 
 	return state

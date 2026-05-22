@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "monaco",
 	"name": "Monaco",
 	"desc": "Corpo come arma, mente come scudo. Niente equipaggiamento necessario.",
 	"tier": 1,
+	"combat_type": "melee",
 	"primary": ["dex", "vit"],
 	"growth": { "str": 0, "dex": 2, "int": 1, "vit": 2, "wil": 1 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 3, "vit": 8, "wil": 3 },

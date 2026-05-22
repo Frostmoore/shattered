@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "vampiro",
 	"name": "Vampiro",
 	"desc": "Ogni ferita inferta lo fa stare meglio. Un predatore perfetto.",
 	"tier": 3,
+	"combat_type": "melee",
 	"primary": ["str", "wil"],
 	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 0, "wil": 2 },
 	"respec_bonus": { "str": 8, "dex": 3, "int": 3, "vit": 0, "wil": 8 },

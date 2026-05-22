@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "divinita",
 	"name": "Divinità",
 	"desc": "Ha completato tutto. Ha visto tutto. Adesso è annoiato.",
 	"tier": 6,
+	"combat_type": "melee",
 	"primary": ["str", "dex", "int", "vit", "wil"],
 	"growth": { "str": 0, "dex": 0, "int": 0, "vit": 0, "wil": 0 },
 	"respec_bonus": { "str": 0, "dex": 0, "int": 0, "vit": 0, "wil": 0 },

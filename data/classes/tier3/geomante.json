@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "geomante",
 	"name": "Geomante",
 	"desc": "La terra è la sua armatura e la sua arma.",
 	"tier": 3,
+	"combat_type": "magic",
 	"primary": ["vit", "wil"],
 	"growth": { "str": 1, "dex": 0, "int": 1, "vit": 3, "wil": 2 },
 	"respec_bonus": { "str": 3, "dex": 0, "int": 3, "vit": 12, "wil": 8 },

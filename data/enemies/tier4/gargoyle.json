@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "gargoyle",
+	"name": "Garguglia",
+	"char": "q",
+	"color": [0.55, 0.55, 0.62, 1.0],
+
+	"family": "construct",
+	"role": "tank",
+	"tier": 4,
+	"tags": ["melee", "flying"],
+	"biomes": ["dungeon", "ruins", "castle"],
+
+	"hp_base": 18,
+	"atk_base": 6,
+	"def_base": 2,
+	"dex_base": 3,
+	"atk_growth": 0.14,
+	"def_growth": 0.10,
+
+	"xp_reward": 68,
+	"pressure_cost": 26,
+	"spawn_weight": 60,
+	"min_floor": 7,
+	"max_floor": 28,
+	"zone_min_level": 10,
+	"zone_max_level": 32,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "construct"
+}

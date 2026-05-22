@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "spettro",
 	"name": "Spettro",
 	"desc": "Non è nel dungeon. È parte di esso.",
 	"tier": 4,
+	"combat_type": "melee",
 	"primary": ["dex", "wil"],
 	"growth": { "str": 0, "dex": 3, "int": 1, "vit": 0, "wil": 3 },
 	"respec_bonus": { "str": 0, "dex": 15, "int": 5, "vit": 0, "wil": 15 },

@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "archlich",
+	"name": "Arcilich",
+	"char": "A",
+	"color": [0.40, 0.86, 1.00, 1.0],
+
+	"family": "undead",
+	"role": "controller",
+	"tier": 6,
+	"tags": ["magic", "undead"],
+	"biomes": ["crypt", "dungeon"],
+
+	"hp_base": 30,
+	"atk_base": 13,
+	"def_base": 1,
+	"dex_base": 5,
+	"atk_growth": 0.25,
+	"def_growth": 0.07,
+
+	"xp_reward": 240,
+	"pressure_cost": 72,
+	"spawn_weight": 35,
+	"min_floor": 16,
+	"max_floor": 50,
+	"zone_min_level": 22,
+	"zone_max_level": 50,
+	"detection": 9,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_high"
+}

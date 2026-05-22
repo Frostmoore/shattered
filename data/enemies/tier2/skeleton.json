@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "skeleton",
+	"name": "Scheletro",
+	"char": "s",
+	"color": [0.80, 0.78, 0.70, 1.0],
+
+	"family": "undead",
+	"role": "soldier",
+	"tier": 2,
+	"tags": ["melee"],
+	"biomes": ["cave", "crypt", "ruins"],
+
+	"hp_base": 12,
+	"atk_base": 4,
+	"def_base": 1,
+	"dex_base": 3,
+	"atk_growth": 0.15,
+	"def_growth": 0.05,
+
+	"xp_reward": 25,
+	"pressure_cost": 9,
+	"spawn_weight": 100,
+	"min_floor": 2,
+	"max_floor": 12,
+	"zone_min_level": 2,
+	"zone_max_level": 15,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_low"
+}

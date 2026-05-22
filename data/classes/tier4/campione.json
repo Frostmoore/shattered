@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "campione",
 	"name": "Campione",
 	"desc": "Gli dei guardano. E spingono dalla sua parte.",
 	"tier": 4,
+	"combat_type": "melee",
 	"primary": ["str", "wil"],
 	"growth": { "str": 2, "dex": 1, "int": 1, "vit": 2, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 5, "int": 5, "vit": 8, "wil": 5 },

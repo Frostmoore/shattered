@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "esploratore",
 	"name": "Esploratore",
 	"desc": "Nessuna mappa gli è sconosciuta. Ogni segreto è suo.",
 	"tier": 3,
+	"combat_type": "ranged",
 	"primary": ["dex", "int"],
 	"growth": { "str": 0, "dex": 2, "int": 2, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 8, "vit": 3, "wil": 3 },

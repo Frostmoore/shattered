@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "ghoul",
+	"name": "Ghoul",
+	"char": "G",
+	"color": [0.55, 0.65, 0.40, 1.0],
+
+	"family": "undead",
+	"role": "soldier",
+	"tier": 3,
+	"tags": ["melee", "undead"],
+	"biomes": ["crypt", "dungeon"],
+
+	"hp_base": 15,
+	"atk_base": 5,
+	"def_base": 1,
+	"dex_base": 3,
+	"atk_growth": 0.15,
+	"def_growth": 0.06,
+
+	"xp_reward": 44,
+	"pressure_cost": 16,
+	"spawn_weight": 80,
+	"min_floor": 4,
+	"max_floor": 18,
+	"zone_min_level": 6,
+	"zone_max_level": 24,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_mid"
+}

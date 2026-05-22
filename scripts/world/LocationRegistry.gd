@@ -161,3 +161,4 @@ func respawn_non_boss_enemies_in_unloaded_floors(exclude_map_id: String) -> void
 			if boss_uids.has(uid):
 				kept.append(uid)
 		state.dead_entity_uids = kept
+		state.corpse_defs.clear()

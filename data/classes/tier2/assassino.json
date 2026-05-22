@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "assassino",
 	"name": "Assassino",
 	"desc": "Colpisce nell'ombra. I boss sono la sua specialità.",
 	"tier": 2,
+	"combat_type": "melee",
 	"primary": ["dex", "str"],
 	"growth": { "str": 2, "dex": 3, "int": 1, "vit": 0, "wil": 0 },
 	"respec_bonus": { "str": 8, "dex": 12, "int": 3, "vit": 0, "wil": 0 },

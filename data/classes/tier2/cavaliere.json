@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "cavaliere",
 	"name": "Cavaliere",
 	"desc": "Armatura pesante, disciplina totale. La carica è inarrestabile.",
 	"tier": 2,
+	"combat_type": "melee",
 	"primary": ["str", "dex"],
 	"growth": { "str": 2, "dex": 2, "int": 0, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 8, "int": 0, "vit": 3, "wil": 3 },

@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "maestro_tempo",
 	"name": "Maestro del Tempo",
 	"desc": "Ha imparato che ogni momento si può riavvolgere. Quasi ogni momento.",
 	"tier": 4,
+	"combat_type": "magic",
 	"primary": ["int", "dex"],
 	"growth": { "str": 0, "dex": 2, "int": 3, "vit": 0, "wil": 2 },
 	"respec_bonus": { "str": 0, "dex": 8, "int": 15, "vit": 0, "wil": 8 },

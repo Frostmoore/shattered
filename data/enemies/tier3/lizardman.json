@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "lizardman",
+	"name": "Uomo Lucertola",
+	"char": "l",
+	"color": [0.20, 0.65, 0.45, 1.0],
+
+	"family": "beast",
+	"role": "soldier",
+	"tier": 3,
+	"tags": ["melee"],
+	"biomes": ["swamp", "cave", "dungeon"],
+
+	"hp_base": 14,
+	"atk_base": 5,
+	"def_base": 1,
+	"dex_base": 5,
+	"atk_growth": 0.15,
+	"def_growth": 0.08,
+
+	"xp_reward": 36,
+	"pressure_cost": 14,
+	"spawn_weight": 85,
+	"min_floor": 3,
+	"max_floor": 16,
+	"zone_min_level": 5,
+	"zone_max_level": 22,
+	"detection": 5,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_medium"
+}

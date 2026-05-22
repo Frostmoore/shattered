@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "arciere",
 	"name": "Arciere",
 	"desc": "La distanza è un vantaggio. La freccia arriva prima che lui lo sappia.",
 	"tier": 3,
+	"combat_type": "ranged",
 	"primary": ["dex", "str"],
 	"growth": { "str": 1, "dex": 3, "int": 0, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 3, "dex": 12, "int": 0, "vit": 3, "wil": 3 },

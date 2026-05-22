@@ -13,6 +13,7 @@ var _entity_uids: Dictionary = {}        # entity node → spawn uid string
 var _save_point_positions: Array[Vector2i] = []
 var _map_data: MapData = null            # kept for enemy respawn
 var _player: Player = null
+var _corpses: Array[Dictionary] = []     # {pos: Vector2i, color: Color}
 
 # ── Fog of War ────────────────────────────────────────────────────────────────
 # _visible_tiles: transient per-frame visibility (0 = not in FOV, 1 = in FOV)
@@ -64,6 +65,15 @@ func populate(data: MapData, state: LocationState) -> void:
 		# Restore fog of war
 		if state.fog_of_war.size() == tile_count:
 			_seen_tiles = state.fog_of_war.duplicate()
+		# Restore corpses
+		for cdef: Variant in state.corpse_defs:
+			var d: Dictionary = cdef as Dictionary
+			var raw_col: Variant = d.get("color", [])
+			var col: Color = Color(0.35, 0.10, 0.06, 1.0)
+			if raw_col is Array and (raw_col as Array).size() >= 4:
+				var ca: Array = raw_col as Array
+				col = Color(float(ca[0]), float(ca[1]), float(ca[2]), float(ca[3]))
+			_corpses.append({"pos": Vector2i(int(d.get("x", 0)), int(d.get("y", 0))), "color": col})
 
 	for def: Dictionary in data.entity_defs:
 		var uid: String = def.get("uid", "")
@@ -158,7 +168,20 @@ func save_location_state() -> void:
 	# Persist fog of war
 	state.fog_of_war = _seen_tiles.duplicate()
 
+	# Persist corpses
+	for corpse: Dictionary in _corpses:
+		var cpos: Vector2i = corpse["pos"] as Vector2i
+		var ccol: Color    = corpse["color"] as Color
+		state.corpse_defs.append({
+			"x": cpos.x, "y": cpos.y,
+			"color": [ccol.r, ccol.g, ccol.b, ccol.a],
+		})
+
 	LocationRegistry.set_state(map_id, state)
+
+
+func add_corpse(pos: Vector2i, color: Color) -> void:
+	_corpses.append({"pos": pos, "color": color})
 
 
 func _add_renderer() -> void:
@@ -304,6 +327,11 @@ func respawn_non_boss_enemies() -> void:
 
 	if uids_to_respawn.size() > 0:
 		_setup_turn_manager()
+
+	_corpses.clear()
+	var renderer: Node = get_node_or_null("MapRenderer")
+	if renderer != null:
+		renderer.queue_redraw()
 
 
 func _add_entity(entity: Node, pos: Vector2i, uid: String = "") -> void:

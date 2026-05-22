@@ -28,6 +28,7 @@ func _ready() -> void:
 	_setup_class_picker()
 	_setup_respec_screen()
 	_setup_targeting_overlay()
+	_setup_enemy_tooltip()
 	_connect_menus()
 	main_menu.show_menu()
 	_setup_debug_screen()
@@ -63,6 +64,19 @@ func _setup_targeting_overlay() -> void:
 	var runtime: Node = get_node_or_null("/root/ClassRuntime")
 	if runtime:
 		runtime.call("register_targeting_overlay", overlay)
+
+
+func _setup_enemy_tooltip() -> void:
+	var layer := CanvasLayer.new()
+	layer.name  = "EnemyTooltipLayer"
+	layer.layer = 90
+	add_child(layer)
+	var tooltip: Node = load("res://scripts/ui/EnemyTooltip.gd").new()
+	tooltip.name = "EnemyTooltip"
+	layer.add_child(tooltip)
+	var targeting_overlay: Node = get_node_or_null("TargetingLayer/TargetingOverlay")
+	if targeting_overlay:
+		tooltip.set("_targeting_overlay", targeting_overlay)
 
 
 func _setup_class_picker() -> void:

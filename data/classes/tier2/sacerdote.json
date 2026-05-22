@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "sacerdote",
 	"name": "Sacerdote",
 	"desc": "Guaritore devoto. La sua fede si traduce in recupero continuo.",
 	"tier": 2,
+	"combat_type": "magic",
 	"primary": ["wil", "int"],
 	"growth": { "str": 0, "dex": 1, "int": 2, "vit": 1, "wil": 2 },
 	"respec_bonus": { "str": 0, "dex": 3, "int": 8, "vit": 3, "wil": 8 },

@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "giant_spider",
+	"name": "Ragno Gigante",
+	"char": "R",
+	"color": [0.55, 0.35, 0.15, 1.0],
+
+	"family": "beast",
+	"role": "brute",
+	"tier": 2,
+	"tags": ["melee"],
+	"biomes": ["cave", "dungeon"],
+
+	"hp_base": 14,
+	"atk_base": 5,
+	"def_base": 1,
+	"dex_base": 6,
+	"atk_growth": 0.15,
+	"def_growth": 0.06,
+
+	"xp_reward": 28,
+	"pressure_cost": 11,
+	"spawn_weight": 70,
+	"min_floor": 2,
+	"max_floor": 12,
+	"zone_min_level": 2,
+	"zone_max_level": 15,
+	"detection": 6,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "beast_low"
+}

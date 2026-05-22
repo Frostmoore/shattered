@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "paradosso",
 	"name": "Paradosso",
 	"desc": "Ogni turno è una sorpresa. Anche per lui.",
 	"tier": 5,
+	"combat_type": "magic",
 	"primary": ["wil", "dex", "int"],
 	"growth": { "str": 2, "dex": 2, "int": 2, "vit": 0, "wil": 2 },
 	"respec_bonus": { "str": 8, "dex": 8, "int": 8, "vit": 0, "wil": 8 },

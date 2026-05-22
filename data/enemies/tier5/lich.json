@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "lich",
+	"name": "Lich",
+	"char": "L",
+	"color": [0.50, 0.78, 0.96, 1.0],
+
+	"family": "undead",
+	"role": "controller",
+	"tier": 5,
+	"tags": ["magic", "undead"],
+	"biomes": ["crypt", "dungeon"],
+
+	"hp_base": 20,
+	"atk_base": 10,
+	"def_base": 1,
+	"dex_base": 4,
+	"atk_growth": 0.22,
+	"def_growth": 0.05,
+
+	"xp_reward": 128,
+	"pressure_cost": 42,
+	"spawn_weight": 40,
+	"min_floor": 11,
+	"max_floor": 35,
+	"zone_min_level": 15,
+	"zone_max_level": 44,
+	"detection": 8,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "undead_high"
+}

@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "stregone",
 	"name": "Stregone",
 	"desc": "Ha stretto un patto con forze oscure. Il prezzo è il suo stesso corpo.",
 	"tier": 2,
+	"combat_type": "magic",
 	"primary": ["wil", "str"],
 	"growth": { "str": 2, "dex": 0, "int": 1, "vit": 0, "wil": 3 },
 	"respec_bonus": { "str": 8, "dex": 0, "int": 3, "vit": 0, "wil": 12 },

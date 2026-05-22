@@ -1,8 +1,9 @@
-{
+﻿{
 	"id": "arcicacciatore",
 	"name": "Arcicacciatore",
 	"desc": "Ha visto tutto. Sa dove colpire. Il resto è noia.",
 	"tier": 4,
+	"combat_type": "ranged",
 	"primary": ["dex", "str"],
 	"growth": { "str": 2, "dex": 3, "int": 0, "vit": 1, "wil": 1 },
 	"respec_bonus": { "str": 8, "dex": 15, "int": 0, "vit": 5, "wil": 5 },

@@ -1,0 +1,33 @@
+{
+	"schema_version": 1,
+	"id": "slime",
+	"name": "Melma",
+	"char": "*",
+	"color": [0.30, 0.85, 0.40, 1.0],
+
+	"family": "aberration",
+	"role": "tank",
+	"tier": 2,
+	"tags": ["melee", "slow"],
+	"biomes": ["cave", "dungeon", "swamp"],
+
+	"hp_base": 9,
+	"atk_base": 2,
+	"def_base": 1,
+	"dex_base": 2,
+	"atk_growth": 0.10,
+	"def_growth": 0.10,
+
+	"xp_reward": 16,
+	"pressure_cost": 7,
+	"spawn_weight": 75,
+	"min_floor": 2,
+	"max_floor": 10,
+	"zone_min_level": 2,
+	"zone_max_level": 12,
+	"detection": 3,
+
+	"resistances": {},
+	"abilities": [],
+	"loot_profile": "aberration_low"
+}
