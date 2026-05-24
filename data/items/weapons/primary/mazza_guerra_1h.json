@@ -1,0 +1,20 @@
+{
+  "id": "mazza_guerra_1h",
+  "name": "Mazza da Guerra",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "mazza",
+  "slot": "right_hand",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 18,
+  "base_stats": {
+    "attack_bonus": 9
+  },
+  "requirements": {
+    "str": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

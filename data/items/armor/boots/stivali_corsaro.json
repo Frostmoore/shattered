@@ -1,0 +1,18 @@
+{
+  "id": "stivali_corsaro",
+  "name": "Stivali del Corsaro",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 33,
+  "base_stats": {
+    "defense_bonus": 8
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

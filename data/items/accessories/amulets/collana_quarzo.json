@@ -1,0 +1,19 @@
+{
+  "id": "collana_quarzo",
+  "name": "Collana di Quarzo",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 20,
+  "base_stats": {
+    "magic_bonus": 2,
+    "mp_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

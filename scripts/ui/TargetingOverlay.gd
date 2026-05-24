@@ -148,7 +148,7 @@ func _try_confirm() -> void:
 		var eb: Node = get_node_or_null("/root/EventBus")
 		if eb:
 			eb.notification_shown.emit(
-				Notification.warning("Seleziona un bersaglio valido (tile verde)."))
+				Notification.warning(LocaleManager.t("UI_TARGETING_INVALID")))
 		return
 	var tile: Vector2i = _hover_tile
 	deactivate()

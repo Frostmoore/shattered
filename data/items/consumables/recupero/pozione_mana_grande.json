@@ -1,0 +1,13 @@
+{
+  "id": "pozione_mana_grande",
+  "name": "Pozione di Mana Grande",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 70
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

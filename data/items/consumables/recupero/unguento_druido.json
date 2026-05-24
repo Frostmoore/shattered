@@ -1,0 +1,13 @@
+{
+  "id": "unguento_druido",
+  "name": "Unguento del Druido",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 35
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

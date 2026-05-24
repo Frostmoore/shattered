@@ -1,0 +1,18 @@
+{
+  "id": "calzari_mannaro",
+  "name": "Calzari del Mannaro",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 45,
+  "base_stats": {
+    "defense_bonus": 11
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

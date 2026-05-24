@@ -1,0 +1,18 @@
+{
+  "id": "armatura_druido",
+  "name": "Armatura del Druido",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 39,
+  "max_level": 46,
+  "base_stats": {
+    "defense_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

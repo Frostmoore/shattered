@@ -1,0 +1,20 @@
+{
+  "id": "dito_scheletrico",
+  "name": "Dito Scheletrico",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 46,
+  "base_stats": {
+    "hp_bonus": 40,
+    "magic_bonus": 5,
+    "attack_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

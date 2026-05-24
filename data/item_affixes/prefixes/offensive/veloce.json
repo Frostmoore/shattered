@@ -1,0 +1,32 @@
+{
+  "id": "veloce",
+  "type": "prefix",
+  "name_m": "Veloce",
+  "name_f": "Veloce",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spada",
+    "ascia",
+    "mazza",
+    "pugnale",
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia",
+    "arco",
+    "balestra"
+  ],
+  "min_level": 1,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 18,
+  "bonuses": {
+    "attack_bonus": 1,
+    "dex_bonus": 2
+  }
+}

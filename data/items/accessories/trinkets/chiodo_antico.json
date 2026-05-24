@@ -1,0 +1,19 @@
+{
+  "id": "chiodo_antico",
+  "name": "Chiodo Antico",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 14,
+  "base_stats": {
+    "attack_bonus": 2,
+    "hp_bonus": 10
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

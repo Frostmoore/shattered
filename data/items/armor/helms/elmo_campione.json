@@ -1,0 +1,18 @@
+{
+  "id": "elmo_campione",
+  "name": "Elmo del Campione",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 4,
+  "min_level": 35,
+  "max_level": 46,
+  "base_stats": {
+    "defense_bonus": 15
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

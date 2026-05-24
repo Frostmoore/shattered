@@ -1,0 +1,15 @@
+{
+  "id": "veleno_vampiro",
+  "name": "Veleno del Vampiro",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "lifesteal_per_turn": 5,
+    "poison_type": "drain"
+  },
+  "stackable": true,
+  "loot_weight": 6
+}

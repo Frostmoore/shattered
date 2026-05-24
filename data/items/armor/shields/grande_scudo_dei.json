@@ -1,0 +1,20 @@
+{
+  "id": "grande_scudo_dei",
+  "name": "Grande Scudo degli Dei",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 6,
+  "min_level": 60,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 57
+  },
+  "requirements": {
+    "str": 30
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,18 @@
+{
+  "id": "fascia_mago",
+  "name": "Fascia del Mago",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 12,
+  "base_stats": {
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

@@ -1,0 +1,19 @@
+{
+  "id": "bottone_arcimago",
+  "name": "Bottone dell'Arcimago",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 3,
+  "min_level": 25,
+  "max_level": 38,
+  "base_stats": {
+    "mp_bonus": 30,
+    "magic_bonus": 7
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

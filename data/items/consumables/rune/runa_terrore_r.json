@@ -1,0 +1,14 @@
+{
+  "id": "runa_terrore_r",
+  "name": "Runa del Terrore",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "flee_all": 1,
+    "rune_type": "terror"
+  },
+  "stackable": false,
+  "loot_weight": 5
+}

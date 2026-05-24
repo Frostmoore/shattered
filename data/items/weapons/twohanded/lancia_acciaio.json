@@ -1,0 +1,20 @@
+{
+  "id": "lancia_acciaio",
+  "name": "Lancia d'Acciaio",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "lancia",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 34,
+  "base_stats": {
+    "attack_bonus": 25
+  },
+  "requirements": {
+    "str": 15
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

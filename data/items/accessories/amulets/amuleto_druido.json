@@ -1,0 +1,19 @@
+{
+  "id": "amuleto_druido",
+  "name": "Amuleto del Druido",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 2,
+  "min_level": 14,
+  "max_level": 22,
+  "base_stats": {
+    "hp_bonus": 22,
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

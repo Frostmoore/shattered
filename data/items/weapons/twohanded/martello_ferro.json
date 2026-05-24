@@ -1,0 +1,20 @@
+{
+  "id": "martello_ferro",
+  "name": "Martello di Ferro",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "martello_guerra",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 18,
+  "base_stats": {
+    "attack_bonus": 11
+  },
+  "requirements": {
+    "str": 5
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

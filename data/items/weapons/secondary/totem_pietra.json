@@ -1,0 +1,21 @@
+{
+  "id": "totem_pietra",
+  "name": "Totem della Pietra",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 15,
+  "max_level": 24,
+  "base_stats": {
+    "hp_bonus": 26,
+    "magic_bonus": 12
+  },
+  "requirements": {
+    "int": 7
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,0 +1,20 @@
+{
+  "id": "pavese_legno",
+  "name": "Pavese di Legno",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 16,
+  "base_stats": {
+    "defense_bonus": 7
+  },
+  "requirements": {
+    "str": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

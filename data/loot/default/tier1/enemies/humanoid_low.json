@@ -1,0 +1,103 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "guaranteed": [],
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 15,
+      "pool": [
+        {
+          "item_category": "weapon",
+          "weight": 15
+        },
+        {
+          "item_category": "armor",
+          "weight": 12
+        },
+        {
+          "item_id": "pozione_piccola",
+          "weight": 14
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 8
+        },
+        {
+          "type": "gold",
+          "min": 3,
+          "max": 15,
+          "weight": 35
+        },
+        {
+          "nothing": true,
+          "weight": 30
+        }
+      ]
+    },
+    {
+      "level_min": 16,
+      "level_max": 35,
+      "pool": [
+        {
+          "item_category": "weapon",
+          "weight": 12
+        },
+        {
+          "item_category": "armor",
+          "weight": 10
+        },
+        {
+          "item_id": "pozione_media",
+          "weight": 14
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 10
+        },
+        {
+          "type": "gold",
+          "min": 6,
+          "max": 30,
+          "weight": 30
+        },
+        {
+          "nothing": true,
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "level_min": 36,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_category": "weapon",
+          "weight": 12
+        },
+        {
+          "item_category": "armor",
+          "weight": 10
+        },
+        {
+          "item_category": "accessory",
+          "weight": 8
+        },
+        {
+          "item_id": "pozione_superiore",
+          "weight": 12
+        },
+        {
+          "type": "gold",
+          "min": 9,
+          "max": 45,
+          "weight": 25
+        },
+        {
+          "nothing": true,
+          "weight": 15
+        }
+      ]
+    }
+  ]
+}

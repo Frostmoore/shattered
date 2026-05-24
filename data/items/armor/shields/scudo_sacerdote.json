@@ -1,0 +1,20 @@
+{
+  "id": "scudo_sacerdote",
+  "name": "Scudo del Sacerdote",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 37,
+  "max_level": 51,
+  "base_stats": {
+    "defense_bonus": 32
+  },
+  "requirements": {
+    "str": 18
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

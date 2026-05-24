@@ -1,0 +1,20 @@
+{
+  "id": "pavese_ferro",
+  "name": "Pavese di Ferro",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 15,
+  "max_level": 24,
+  "base_stats": {
+    "defense_bonus": 12
+  },
+  "requirements": {
+    "str": 7
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

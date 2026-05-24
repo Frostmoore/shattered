@@ -1,0 +1,20 @@
+{
+  "id": "corpetto_maglia",
+  "name": "Corpetto di Maglia",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 5,
+  "max_level": 10,
+  "base_stats": {
+    "defense_bonus": 5
+  },
+  "requirements": {
+    "str": 2
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

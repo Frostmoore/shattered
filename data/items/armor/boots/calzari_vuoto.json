@@ -1,0 +1,18 @@
+{
+  "id": "calzari_vuoto",
+  "name": "Calzari del Vuoto",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 6,
+  "min_level": 55,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 18
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

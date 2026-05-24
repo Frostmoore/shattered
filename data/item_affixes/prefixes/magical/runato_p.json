@@ -1,0 +1,37 @@
+{
+  "id": "runato_p",
+  "type": "prefix",
+  "name_m": "Runato",
+  "name_f": "Runata",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "spada",
+    "ascia",
+    "mazza",
+    "pugnale",
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia",
+    "arco",
+    "balestra",
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone"
+  ],
+  "min_level": 15,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "magic_bonus": 2,
+    "attack_bonus": 1
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "pozione_ghiacciaio",
+  "name": "Pozione del Ghiacciaio",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 20,
+    "resist_ice": 1
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

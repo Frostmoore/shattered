@@ -1,0 +1,15 @@
+{
+  "id": "granata_ferro",
+  "name": "Granata di Ferro",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 20,
+    "area": 3,
+    "throw_type": "physical"
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

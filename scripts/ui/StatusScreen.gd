@@ -84,15 +84,15 @@ func _refresh() -> void:
 	var reg: Node = get_node_or_null("/root/ClassRegistry")
 	if reg and _class_label:
 		var cd: Dictionary = reg.call("get_class_data", GameState.current_class)
-		_class_label.text   = "%s  (Tier %d)" % [str(cd.get("name", "?")), int(cd.get("tier", 1))]
-		_special_label.text = "[%s]  %s" % [str(cd.get("special_name", "")), str(cd.get("special_desc", ""))]
+		_class_label.text   = LocaleManager.t("UI_STATUS_CLASS_TIER", {"class": str(cd.get("name", "?")), "tier": int(cd.get("tier", 1))})
+		_special_label.text = LocaleManager.t("UI_STATUS_SPECIAL_ABILITY", {"key": str(cd.get("special_name", "")), "name": str(cd.get("special_desc", ""))})
 
 	var attrs: Dictionary = GameState.effective_attributes
-	_str_label.text = "STR  %d" % int(attrs.get("str", 0))
-	_dex_label.text = "DEX  %d" % int(attrs.get("dex", 0))
-	_int_label.text = "INT  %d" % int(attrs.get("int", 0))
-	_vit_label.text = "VIT  %d" % int(attrs.get("vit", 0))
-	_wil_label.text = "WIL  %d" % int(attrs.get("wil", 0))
+	_str_label.text = LocaleManager.t("UI_STATUS_ATTR_LINE", {"attr": LocaleManager.t("ATTR_STR"), "value": int(attrs.get("str", 0))})
+	_dex_label.text = LocaleManager.t("UI_STATUS_ATTR_LINE", {"attr": LocaleManager.t("ATTR_DEX"), "value": int(attrs.get("dex", 0))})
+	_int_label.text = LocaleManager.t("UI_STATUS_ATTR_LINE", {"attr": LocaleManager.t("ATTR_INT"), "value": int(attrs.get("int", 0))})
+	_vit_label.text = LocaleManager.t("UI_STATUS_ATTR_LINE", {"attr": LocaleManager.t("ATTR_VIT"), "value": int(attrs.get("vit", 0))})
+	_wil_label.text = LocaleManager.t("UI_STATUS_ATTR_LINE", {"attr": LocaleManager.t("ATTR_WIL"), "value": int(attrs.get("wil", 0))})
 
 	var hp: int     = int(GameState.player_stats["hp"])
 	var max_hp: int = int(GameState.player_stats["max_hp"])
@@ -118,30 +118,30 @@ func _refresh() -> void:
 	var base_def: int  = int(GameState.player_stats["defense"])
 	var equip_def: int = Equipment.get_defense_bonus()
 
-	_atk_label.text = "Attacco:  %d  (base %d  +%d equip)" % [base_atk + equip_atk, base_atk, equip_atk]
-	_def_label.text = "Difesa:   %d  (base %d  +%d equip)" % [base_def + equip_def, base_def, equip_def]
+	_atk_label.text = LocaleManager.t("UI_STATUS_ATTACK_LINE", {"total": base_atk + equip_atk, "base": base_atk, "equip": equip_atk})
+	_def_label.text = LocaleManager.t("UI_STATUS_DEFENSE_LINE", {"total": base_def + equip_def, "base": base_def, "equip": equip_def})
 
-	_atk_label.tooltip_text = _build_tooltip(Equipment.get_attack_bonus_breakdown(), "attacco")
-	_def_label.tooltip_text = _build_tooltip(Equipment.get_defense_bonus_breakdown(), "difesa")
+	_atk_label.tooltip_text = _build_tooltip(Equipment.get_attack_bonus_breakdown(), LocaleManager.t("UI_STATUS_STAT_ATK"))
+	_def_label.tooltip_text = _build_tooltip(Equipment.get_defense_bonus_breakdown(), LocaleManager.t("UI_STATUS_STAT_DEF"))
 
 	var lv: int      = GameState.level
 	var xp_next: int = LevelSystem.xp_for_next_level(lv)
-	_level_label.text = "Livello  %d" % lv
+	_level_label.text = LocaleManager.t("UI_STATUS_LEVEL", {"level": lv})
 	_xp_bar.max_value = maxf(1.0, float(xp_next))
 	_xp_bar.value     = GameState.xp
 	if lv >= LevelSystem.MAX_LEVEL:
-		_xp_val.text = "Livello massimo"
+		_xp_val.text = LocaleManager.t("UI_STATUS_MAX_LEVEL")
 	else:
-		_xp_val.text = "%d / %d XP" % [GameState.xp, xp_next]
+		_xp_val.text = LocaleManager.t("UI_STATUS_XP", {"current": GameState.xp, "max": xp_next})
 
 
 func _build_tooltip(breakdown: Array, stat_name: String) -> String:
 	if breakdown.is_empty():
-		return "Nessun bonus da equipaggiamento"
-	var lines: Array[String] = ["Bonus %s da equipaggiamento:" % stat_name]
+		return LocaleManager.t("UI_STATUS_EQUIP_BONUS_NONE")
+	var lines: Array[String] = [LocaleManager.t("UI_STATUS_EQUIP_BONUS_HEADER", {"attr": stat_name})]
 	for entry: Variant in breakdown:
 		var e: Dictionary = entry as Dictionary
-		lines.append("  +%d  %s" % [int(e["bonus"]), str(e["name"])])
+		lines.append(LocaleManager.t("UI_STATUS_EQUIP_BONUS_LINE", {"amount": int(e["bonus"]), "source": str(e["name"])}))
 	return "\n".join(lines)
 
 

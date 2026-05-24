@@ -1,0 +1,18 @@
+{
+  "id": "guanti_campione",
+  "name": "Guanti del Campione",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 3,
+  "min_level": 29,
+  "max_level": 40,
+  "base_stats": {
+    "defense_bonus": 11
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,15 @@
+{
+  "id": "fiala_fulmine",
+  "name": "Fiala del Fulmine",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 22,
+    "throw_type": "lightning",
+    "stun": 1
+  },
+  "stackable": true,
+  "loot_weight": 11
+}

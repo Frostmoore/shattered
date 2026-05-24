@@ -1,0 +1,14 @@
+{
+  "id": "runa_fuoco",
+  "name": "Runa del Fuoco",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "damage_mult": 2,
+    "rune_type": "fire"
+  },
+  "stackable": false,
+  "loot_weight": 14
+}

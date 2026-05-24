@@ -1,0 +1,20 @@
+{
+  "id": "balestra_legno",
+  "name": "Balestra di Legno",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "balestra",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 5,
+  "max_level": 12,
+  "base_stats": {
+    "attack_bonus": 6
+  },
+  "requirements": {
+    "dex": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

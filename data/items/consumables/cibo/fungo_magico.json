@@ -1,0 +1,13 @@
+{
+  "id": "fungo_magico",
+  "name": "Fungo Magico",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_mp": 15
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

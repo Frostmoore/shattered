@@ -1,0 +1,18 @@
+{
+  "id": "stivali_campione",
+  "name": "Stivali del Campione",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 43,
+  "base_stats": {
+    "defense_bonus": 11
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

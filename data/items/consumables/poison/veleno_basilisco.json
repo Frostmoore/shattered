@@ -1,0 +1,16 @@
+{
+  "id": "veleno_basilisco",
+  "name": "Veleno del Basilisco",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "slow": 1,
+    "applies_on_hit": 1,
+    "poison_type": "slow_poison",
+    "damage_per_turn": 10
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

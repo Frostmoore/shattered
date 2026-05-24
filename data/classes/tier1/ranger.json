@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "ranger",
 	"name": "Ranger",
 	"desc": "Esploratore selvaggio. Non combatte mai da solo.",
@@ -12,5 +12,7 @@
 	"special_name": "Compagno Lupo",
 	"special_desc": "Un lupo alleato (permanent) combatte insieme a te. Respawna al piano successivo se muore.",
 	"unlock": { "type": "overworld_tiles", "value": 500, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["arco", "balestra", "pugnale", "spada", "armatura_leggera", "armatura_media", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

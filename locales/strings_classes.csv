@@ -1,0 +1,302 @@
+keys,it
+# ── Class picker / respec UI ──────────────────────────────────────────────────
+CLASS_PICKER_TITLE,Scegli la tua Classe
+CLASS_PICKER_CONFIRM,Inizia Avventura →
+CLASS_RESPEC_TITLE,Cambia Classe
+CLASS_RESPEC_SUBTITLE,La Licenza di Classe verrà consumata alla conferma
+CLASS_RESPEC_CONFIRM,Cambia Classe →
+# ── Tooltip section labels ────────────────────────────────────────────────────
+CLASS_TOOLTIP_ATTR_MAIN,Principale: {attrs}
+CLASS_TOOLTIP_GROWTH,Crescita/lv: {values}
+CLASS_TOOLTIP_UNLOCK,Sblocco: {condition}
+CLASS_TOOLTIP_TIER,{name}  •  Tier {tier}
+# ── Ability types ─────────────────────────────────────────────────────────────
+CLASS_STYPE_PASSIVE,Passiva
+CLASS_STYPE_ACTIVE_KEY,Attiva Q
+CLASS_STYPE_ACTIVE_TARGET,Attiva: mira
+CLASS_STYPE_PASSIVE_AND_ACTIVE,Passiva + Q
+CLASS_STYPE_ACTIVE_TOGGLE,Toggle Q
+# ── Unlock conditions ─────────────────────────────────────────────────────────
+CLASS_UNLOCK_ALWAYS,Sempre disponibile
+CLASS_UNLOCK_LEVEL,Raggiungi livello {value}
+CLASS_UNLOCK_KILLS_TOTAL,Uccidi {value} nemici (totale)
+CLASS_UNLOCK_KILLS_BOSS,Sconfiggi {value} boss
+CLASS_UNLOCK_DUNGEONS,Completa {value} dungeon
+CLASS_UNLOCK_DUNGEONS_NO_DEATH,Completa {value} dungeon senza morire
+CLASS_UNLOCK_DEATHS,Muori {value} volte
+CLASS_UNLOCK_DAMAGE_DEALT,Infliggi {value} danni (totale)
+CLASS_UNLOCK_DAMAGE_TAKEN,Subisci {value} danni in una run
+CLASS_UNLOCK_DAMAGE_ABSORBED,Assorbi {value} danni (totale)
+CLASS_UNLOCK_SCROLLS,Raccogli {value} scroll
+CLASS_UNLOCK_CHESTS,Apri {value} forzieri
+CLASS_UNLOCK_QUESTS,Completa {value} missioni
+CLASS_UNLOCK_NPCS,Parla con {value} PNG
+CLASS_UNLOCK_CONSUMABLES,Usa {value} consumabili
+CLASS_UNLOCK_CONSUMABLE_TYPES,Usa {value} tipi di consumabili
+CLASS_UNLOCK_ITEMS_UNIQUE,Raccogli {value} oggetti diversi
+CLASS_UNLOCK_ITEMS_IDENTIFIED,Identifica {value} oggetti
+CLASS_UNLOCK_OVERWORLD_TILES,Esplora {value} tile overworld
+CLASS_UNLOCK_OVERWORLD_ZONES_VISITED,Visita {value} zone overworld
+CLASS_UNLOCK_OVERWORLD_ZONES_ALL,Esplora tutte le zone overworld
+CLASS_UNLOCK_DUNGEON_FLOORS,Completa {value} piani dungeon
+CLASS_UNLOCK_DUNGEON_FLOOR_NO_DAMAGE,Attraversa un piano senza danni
+CLASS_UNLOCK_DUNGEON_ROOMS,Esplora {value} stanze dungeon
+CLASS_UNLOCK_DUNGEON_CLEAR_NO_DEATH,Pulisci un dungeon senza morire
+CLASS_UNLOCK_TILES_TOTAL,Esplora {value} tile (totale)
+CLASS_UNLOCK_COMBAT_NO_ITEMS,Vinci {value} combattimenti senza oggetti
+CLASS_UNLOCK_EQUIP_FULL_SET,Indossa un set completo
+CLASS_UNLOCK_STAT_THRESHOLD,Raggiungi {attr} {value}
+CLASS_UNLOCK_DUAL_STAT_THRESHOLD,Raggiungi {attr1} e {attr2} a {value}
+CLASS_UNLOCK_NEAR_DEATH,Sopravvivi a ≤10% HP × {value} in una run
+CLASS_UNLOCK_1HP_SURVIVED,Sopravvivi con 1 HP ({value} volte)
+CLASS_UNLOCK_ATTACKS_DODGED,Schiva {value} attacchi (totale)
+CLASS_UNLOCK_GOLD,Accumula {value} monete d'oro
+CLASS_UNLOCK_BOSS_NO_DAMAGE,Sconfiggi un boss senza subire danni
+CLASS_UNLOCK_BOSS_NO_ITEMS,Sconfiggi 3 boss senza oggetti
+CLASS_UNLOCK_RESPEC_COUNT,Cambia classe {value} volte
+CLASS_UNLOCK_KILLS_ALL_TYPES,Uccidi almeno 1 di ogni tipo di nemico
+CLASS_UNLOCK_SAVE_POINTS,Usa {value} punti di salvataggio
+CLASS_UNLOCK_ENEMIES_SEEN_DIE,Osserva morire {value} nemici
+CLASS_UNLOCK_ALL_CLASSES,Completa il gioco con tutte le altre classi
+CLASS_UNLOCK_ALL_CLASSES_59,Completa il gioco con tutte le altre 59 classi
+# ── Class data strings ────────────────────────────────────────────────────────
+CLASS_ALCHIMISTA_NAME,Alchimista
+CLASS_ALCHIMISTA_DESC,Trasforma oggetti ordinari in strumenti straordinari.
+CLASS_ALCHIMISTA_SPECIAL_NAME,Mistura
+CLASS_ALCHIMISTA_SPECIAL_DESC,Combina 2 consumabili per effetto potenziato. Apre mini-UI.
+CLASS_ARCANISTA_NAME,Arcanista
+CLASS_ARCANISTA_DESC,Studia ogni scuola magica. Il danno magico diventa il suo carburante.
+CLASS_ARCANISTA_SPECIAL_NAME,Assorbimento Arcano
+CLASS_ARCANISTA_SPECIAL_DESC,Ogni danno magico ricevuto converte 25% in MP recuperati.
+CLASS_ARCICACCIATORE_NAME,Arcicacciatore
+CLASS_ARCICACCIATORE_DESC,Ha visto tutto. Sa dove colpire. Il resto è noia.
+CLASS_ARCICACCIATORE_SPECIAL_NAME,Perforazione / Predatore Nato
+CLASS_ARCICACCIATORE_SPECIAL_DESC,Gli attacchi fisici ignorano completamente la DEF nemica. DEX aggiunge DEX/4 all'ATK.
+CLASS_ARCIERE_NAME,Arciere
+CLASS_ARCIERE_DESC,La distanza è un vantaggio. La freccia arriva prima che lui lo sappia.
+CLASS_ARCIERE_SPECIAL_NAME,Freccia Precisa
+CLASS_ARCIERE_SPECIAL_DESC,Attacco fisico a distanza (range DEX/4 tile). Nessuna risposta nemica. Cooldown: 2 turni.
+CLASS_ARCIMAGO_NAME,Arcimago
+CLASS_ARCIMAGO_DESC,Non si specializza. Padroneggia ogni cosa.
+CLASS_ARCIMAGO_SPECIAL_NAME,Repertorio Arcano
+CLASS_ARCIMAGO_SPECIAL_DESC,"Cicla tra 3 incantesimi appresi (proiettile, bruciatura, rallentamento). Q lancia l'incantesimo attivo. Nuovi incantesimi sbloccati trovando scroll rari."
+CLASS_ASSASSINO_NAME,Assassino
+CLASS_ASSASSINO_DESC,Colpisce nell'ombra. I boss sono la sua specialità.
+CLASS_ASSASSINO_SPECIAL_NAME,Esecuzione / Ombra
+CLASS_ASSASSINO_SPECIAL_DESC,Nemici <20% HP: kill istantaneo. Dopo ogni kill: invisibile 1 turno.
+CLASS_BARBARO_NAME,Barbaro
+CLASS_BARBARO_DESC,Forza bruta e urla. L'intelletto è sopravvalutato.
+CLASS_BARBARO_SPECIAL_NAME,Grido di Guerra
+CLASS_BARBARO_SPECIAL_DESC,Tutti i nemici in detection range: ATK -30% per 4 turni. Costo: 10 ST.
+CLASS_BARDO_NAME,Bardo
+CLASS_BARDO_DESC,Le sue canzoni cambiano il corso delle battaglie.
+CLASS_BARDO_SPECIAL_NAME,Ballata Ispiratrice
+CLASS_BARDO_SPECIAL_DESC,"ATK, DEF, DEX ×1.2 per 5 turni. Una volta per piano. Costo: 15 MP."
+CLASS_BERSERKER_NAME,Berserker
+CLASS_BERSERKER_DESC,Entra in frenesia e non si ferma finché c'è ancora qualcosa in piedi.
+CLASS_BERSERKER_SPECIAL_NAME,Frenesia Totale
+CLASS_BERSERKER_SPECIAL_DESC,Con nemici in vista: ATK +40%. Non può ritirarsi né usare oggetti in combattimento.
+CLASS_BIOMANTE_NAME,Biomante
+CLASS_BIOMANTE_DESC,Ha imparato a rigenerare il proprio corpo nel momento più critico.
+CLASS_BIOMANTE_SPECIAL_NAME,Rigenerazione
+CLASS_BIOMANTE_SPECIAL_DESC,Recupera VIT/5 HP ogni turno in cui non si ricevono danni.
+CLASS_CACCIATORE_ANIME_NAME,Cacciatore di Anime
+CLASS_CACCIATORE_ANIME_DESC,Ogni nemico ucciso lascia qualcosa di sé.
+CLASS_CACCIATORE_ANIME_SPECIAL_NAME,Raccolta Anime / Consumo
+CLASS_CACCIATORE_ANIME_SPECIAL_DESC,Passiva: accumula 1 anima per kill (max INT/2). Q: spendi 1 anima per curare WIL HP o +5 ATK per 3 turni.
+CLASS_CACCIATORE_DI_DRAGHI_NAME,Cacciatore di Draghi
+CLASS_CACCIATORE_DI_DRAGHI_DESC,Specializzato in nemici che nessun altro osa affrontare.
+CLASS_CACCIATORE_DI_DRAGHI_SPECIAL_NAME,Lama Antipavura / Cacciatore
+CLASS_CACCIATORE_DI_DRAGHI_SPECIAL_DESC,+75% danno contro nemici con max_hp > player_max_hp×2. Immune a debuff paura.
+CLASS_CACCIATORE_DI_TAGLIE_NAME,Cacciatore di Taglie
+CLASS_CACCIATORE_DI_TAGLIE_DESC,Studia ogni nemico. Il Marchio garantisce che non sopravviva.
+CLASS_CACCIATORE_DI_TAGLIE_SPECIAL_NAME,Marchio
+CLASS_CACCIATORE_DI_TAGLIE_SPECIAL_DESC,Designa un nemico visibile: riceve +50% danno da tutte le fonti. Max 1 bersaglio.
+CLASS_CAMPIONE_NAME,Campione
+CLASS_CAMPIONE_DESC,Gli dei guardano. E spingono dalla sua parte.
+CLASS_CAMPIONE_SPECIAL_NAME,Grazia Divina / Benedizione Divina
+CLASS_CAMPIONE_SPECIAL_DESC,"Passiva: una volta per run, alla morte viene resuscitato con 50% HP. Q: ATK+DEF ×1.5 per 5 turni. Costo: 20 MP."
+CLASS_CAVALIERE_NAME,Cavaliere
+CLASS_CAVALIERE_DESC,"Armatura pesante, disciplina totale. La carica è inarrestabile."
+CLASS_CAVALIERE_SPECIAL_NAME,Carica
+CLASS_CAVALIERE_SPECIAL_DESC,Muovendosi in linea retta verso un nemico adiacente: danno ×2 + stordito 1 turno.
+CLASS_COLOSSO_NAME,Colosso
+CLASS_COLOSSO_DESC,Non è veloce. Non è furbo. Ma è impossibile fermarlo.
+CLASS_COLOSSO_SPECIAL_NAME,Resilienza
+CLASS_COLOSSO_SPECIAL_DESC,"Immune a stordimento, rallentamento e paura. Rigenera VIT/2 HP ogni turno in combattimento."
+CLASS_CORSARO_NAME,Corsaro
+CLASS_CORSARO_DESC,Combatte sporco. I regolamenti sono per i perdenti.
+CLASS_CORSARO_SPECIAL_NAME,Colpo Sporco
+CLASS_CORSARO_SPECIAL_DESC,Ogni attacco fisico: 35% chance di stordire il nemico (salta 1 turno).
+CLASS_CRONOMANTE_NAME,Cronomante
+CLASS_CRONOMANTE_DESC,Il tempo è una risorsa come tutte le altre. E lui sa come spenderlo.
+CLASS_CRONOMANTE_SPECIAL_NAME,Rallentamento
+CLASS_CRONOMANTE_SPECIAL_DESC,Un nemico visibile salta ogni altro turno per INT/2 turni. Costo: 15 MP.
+CLASS_CUSTODE_NAME,Custode
+CLASS_CUSTODE_DESC,Protegge ciò che ha di caro. Con la vita se necessario.
+CLASS_CUSTODE_SPECIAL_NAME,Scudo Divino
+CLASS_CUSTODE_SPECIAL_DESC,Crea scudo che assorbe VIT×2 danni. Una volta per piano. Costo: 15 MP.
+CLASS_DEMONISTA_NAME,Demonista
+CLASS_DEMONISTA_DESC,Ha imparato a piegare forze che non andrebbero toccate.
+CLASS_DEMONISTA_SPECIAL_NAME,Servo Demoniaco
+CLASS_DEMONISTA_SPECIAL_DESC,"Evoca un demone (ATK×1.5, HP×0.5) per WIL/2 turni. Costo: 20 MP. Max 1. Non permanente."
+CLASS_DIO_GUERRA_NAME,Dio della Guerra
+CLASS_DIO_GUERRA_DESC,Due attacchi. Sempre. Non c'è altra regola.
+CLASS_DIO_GUERRA_SPECIAL_NAME,Doppio Colpo
+CLASS_DIO_GUERRA_SPECIAL_DESC,Ogni attacco fisico colpisce due volte (secondo colpo: 50% danno). Ogni kill riduce i cooldown di 1 turno.
+CLASS_DIVINITA_NAME,Divinità
+CLASS_DIVINITA_DESC,Ha completato tutto. Ha visto tutto. Adesso è annoiato.
+CLASS_DIVINITA_SPECIAL_NAME,God Mode
+CLASS_DIVINITA_SPECIAL_DESC,"Non può morire. Nessun fog of war (mappa sempre visibile). Fa sempre esattamente 1 danno per attacco, indipendentemente da qualsiasi stat o bonus."
+CLASS_DOMINATORE_NAME,Dominatore
+CLASS_DOMINATORE_DESC,Non uccide. Persuade. Con la forza mentale.
+CLASS_DOMINATORE_SPECIAL_NAME,Controllo Mentale
+CLASS_DOMINATORE_SPECIAL_DESC,Controlla un nemico adiacente (WIL/3 turni): attacca i propri alleati. Max 1 controllato. Costo: 30 MP.
+CLASS_DRUIDO_NAME,Druido
+CLASS_DRUIDO_DESC,"Si fonde con la natura, diventa la natura."
+CLASS_DRUIDO_SPECIAL_NAME,Forma Animale
+CLASS_DRUIDO_SPECIAL_DESC,"Q: cicla Forma Orso (ATK×1.5) → Forma Lupo (schivata +20%) → Normale. Durata: 5 turni, 10 MP ciascuna."
+CLASS_ELETTO_NAME,L'Eletto
+CLASS_ELETTO_DESC,Il destino non si sceglie. Ma lui avrebbe rifiutato se avesse potuto.
+CLASS_ELETTO_SPECIAL_NAME,Prescelto
+CLASS_ELETTO_SPECIAL_DESC,Tutti gli attributi iniziano a 10. Crescita +2 per attributo per livello. XP richiesta per ogni livello ×3.
+CLASS_ESPLORATORE_NAME,Esploratore
+CLASS_ESPLORATORE_DESC,Nessuna mappa gli è sconosciuta. Ogni segreto è suo.
+CLASS_ESPLORATORE_SPECIAL_NAME,Senso del Dungeon
+CLASS_ESPLORATORE_SPECIAL_DESC,Mappa intera del piano rivelata all'ingresso. +25% XP da nemici dungeon.
+CLASS_EVOCATORE_NAME,Evocatore
+CLASS_EVOCATORE_DESC,Chiama spiriti elementali dal piano eterico.
+CLASS_EVOCATORE_SPECIAL_NAME,Spirito Elementale
+CLASS_EVOCATORE_SPECIAL_DESC,Evoca elementale a scelta (menu). Fuoco: ATK; Acqua: cura periodica; Terra: muro. Durata: 5 turni. Costo: 18 MP. Non permanente.
+CLASS_GEOMANTE_NAME,Geomante
+CLASS_GEOMANTE_DESC,La terra è la sua armatura e la sua arma.
+CLASS_GEOMANTE_SPECIAL_NAME,Muro di Terra
+CLASS_GEOMANTE_SPECIAL_DESC,Crea parete temporanea su tile adiacente libera. Blocca movimento e visione per VIT/3 turni.
+CLASS_GLADIATORE_NAME,Gladiatore
+CLASS_GLADIATORE_DESC,Ogni vittoria alimenta la prossima. L'arena è la sua casa.
+CLASS_GLADIATORE_SPECIAL_NAME,Adrenalina
+CLASS_GLADIATORE_SPECIAL_DESC,Ogni kill in combattimento: +1 ATK cumulativo (max +10). Dura fino a fine dungeon.
+CLASS_GUERRIERO_NAME,Guerriero
+CLASS_GUERRIERO_DESC,"Combattente diretto. Più è in pericolo, più è pericoloso."
+CLASS_GUERRIERO_SPECIAL_NAME,Furia
+CLASS_GUERRIERO_SPECIAL_DESC,"Sotto 30% HP: ATK ×1.5, glyph rosso acceso."
+CLASS_ILLUSIONISTA_NAME,Illusionista
+CLASS_ILLUSIONISTA_DESC,La realtà è negoziabile. I nemici attaccano ciò che vuole lui.
+CLASS_ILLUSIONISTA_SPECIAL_NAME,Sosia
+CLASS_ILLUSIONISTA_SPECIAL_DESC,Crea copia illusoria su tile adiacente. I nemici attaccano il sosia per DEX/4 turni. Costo: 12 MP.
+CLASS_INQUISITORE_NAME,Inquisitore
+CLASS_INQUISITORE_DESC,Non c'è segreto che non riesca a scoprire. Con o senza consenso.
+CLASS_INQUISITORE_SPECIAL_NAME,Analisi
+CLASS_INQUISITORE_SPECIAL_DESC,"Rivela stats esatti + debolezze di un nemico adiacente, senza attaccarlo. Azione libera."
+CLASS_INVENTORE_NAME,Inventore
+CLASS_INVENTORE_DESC,Trasforma oggetti trovati in trappole micidiali.
+CLASS_INVENTORE_SPECIAL_NAME,Trappola
+CLASS_INVENTORE_SPECIAL_DESC,Piazza trappola su tile adiacente libera. Esplode al calpestio (INT×2 danno). Max 3 attive.
+CLASS_LADRO_NAME,Ladro
+CLASS_LADRO_DESC,Veloce e silenzioso. Il primo colpo è sempre fatale.
+CLASS_LADRO_SPECIAL_NAME,Pugnalata / Grimaldello
+CLASS_LADRO_SPECIAL_DESC,Primo attacco fuori-combattimento ×3 danno. Apre porte chiuse a chiave.
+CLASS_LICH_NAME,Lich
+CLASS_LICH_DESC,Ha sfidato la morte e vinto. L'aveva già vista dall'interno.
+CLASS_LICH_SPECIAL_NAME,Esercito Non-Morto
+CLASS_LICH_SPECIAL_DESC,Ogni kill crea uno scheletro alleato permanente (max INT/4). Gli scheletri vengono distrutti se colpiti (hp=1). Respawnano al piano successivo.
+CLASS_MAESTRO_TEMPO_NAME,Maestro del Tempo
+CLASS_MAESTRO_TEMPO_DESC,Ha imparato che ogni momento si può riavvolgere. Quasi ogni momento.
+CLASS_MAESTRO_TEMPO_SPECIAL_NAME,Riavvolgimento
+CLASS_MAESTRO_TEMPO_SPECIAL_DESC,Annulla le ultime 5 azioni del player (movimento + danni subiti). Una volta per piano. Costo: 25 MP.
+CLASS_MAGO_NAME,Mago
+CLASS_MAGO_DESC,Controlla forze arcane. Fragile ma letale a distanza.
+CLASS_MAGO_SPECIAL_NAME,Proiettile Arcano
+CLASS_MAGO_SPECIAL_DESC,Attacca a distanza (range INT/3 tile). Costo: 5 MP. Danno: INT. Richiede line-of-sight.
+CLASS_MANNARO_NAME,Mannaro
+CLASS_MANNARO_DESC,Nel dungeon non è più un uomo. È qualcosa di peggio.
+CLASS_MANNARO_SPECIAL_NAME,Licantropia
+CLASS_MANNARO_SPECIAL_DESC,"Nel dungeon (anche ai falò): ATK×2, HP×1.5, blocca magia e oggetti scroll. Forma umana solo nell'overworld/buildings/villaggi."
+CLASS_MONACO_NAME,Monaco
+CLASS_MONACO_DESC,"Corpo come arma, mente come scudo. Niente equipaggiamento necessario."
+CLASS_MONACO_SPECIAL_NAME,Schivata
+CLASS_MONACO_SPECIAL_DESC,DEX/100 chance (cap 40%) di evadere ogni attacco in combattimento.
+CLASS_MORTE_INCARNATA_NAME,Morte Incarnata
+CLASS_MORTE_INCARNATA_DESC,Non combatte. Falcia.
+CLASS_MORTE_INCARNATA_SPECIAL_NAME,Falce della Morte / Aura Mortale
+CLASS_MORTE_INCARNATA_SPECIAL_DESC,Esecuzione istantanea su nemici con HP < 33% del player max_hp. Aura: nemici entro 1 tile perdono 5 HP per turno.
+CLASS_NEGROMANTE_NAME,Negromante
+CLASS_NEGROMANTE_DESC,"La morte non è una fine, è una risorsa."
+CLASS_NEGROMANTE_SPECIAL_NAME,Risurrezione
+CLASS_NEGROMANTE_SPECIAL_DESC,Rianima l'ultimo nemico ucciso come alleato per INT/2 turni. Costo: 10 MP.
+CLASS_NOOB_NAME,Noob
+CLASS_NOOB_DESC,"Nessuna specializzazione. Sopravvive a tutto, eccelle in niente."
+CLASS_NOOB_SPECIAL_NAME,Adattamento
+CLASS_NOOB_SPECIAL_DESC,Nessun requisito di classe su equipaggiamento. Può usare la Licenza di Classe senza penalità.
+CLASS_ORACOLO_NAME,Oracolo
+CLASS_ORACOLO_DESC,"Vede il futuro prossimo. Non abbastanza da evitarlo, ma abbastanza da prepararsi."
+CLASS_ORACOLO_SPECIAL_NAME,Presagio
+CLASS_ORACOLO_SPECIAL_DESC,Passiva: vede HP di tutti i nemici in vista. Q: schiva automaticamente il prossimo attacco (1/combattimento).
+CLASS_PALADINO_NAME,Paladino
+CLASS_PALADINO_DESC,Campione sacro. La fede lo protegge e lo guarisce.
+CLASS_PALADINO_SPECIAL_NAME,Imposizione delle Mani
+CLASS_PALADINO_SPECIAL_DESC,Cura VIT×3 HP. Una volta per piano.
+CLASS_PARADOSSO_NAME,Paradosso
+CLASS_PARADOSSO_DESC,Ogni turno è una sorpresa. Anche per lui.
+CLASS_PARADOSSO_SPECIAL_NAME,Caos Assoluto
+CLASS_PARADOSSO_SPECIAL_DESC,"Ogni turno ottiene un effetto casuale dal pool (es: ATK×3, HP/2, invisibilità, DEF×0, +50 HP, -30 MP). Gli effetti si accumulano. La casualità è inarrestabile."
+CLASS_PIROMANTE_NAME,Piromante
+CLASS_PIROMANTE_DESC,Il fuoco obbedisce ai suoi comandi. E brucia tutto il resto.
+CLASS_PIROMANTE_SPECIAL_NAME,Pirobola
+CLASS_PIROMANTE_SPECIAL_DESC,Danno = INT al bersaglio + bruciatura (INT/3 danno/turno per 3 turni). Costo: 8 MP. Range: INT/3 tile.
+CLASS_PREDATORE_NAME,Predatore
+CLASS_PREDATORE_DESC,Ogni stanza è il suo territorio. Ogni nemico è già una preda.
+CLASS_PREDATORE_SPECIAL_NAME,Fiuto / Primo Colpo
+CLASS_PREDATORE_SPECIAL_DESC,Q: rivela posizione di tutti i nemici del piano. Passiva: primo attacco su nemico non-allertato ×2 danno.
+CLASS_RANGER_NAME,Ranger
+CLASS_RANGER_DESC,Esploratore selvaggio. Non combatte mai da solo.
+CLASS_RANGER_SPECIAL_NAME,Compagno Lupo
+CLASS_RANGER_SPECIAL_DESC,Un lupo alleato (permanent) combatte insieme a te. Respawna al piano successivo se muore.
+CLASS_SACERDOTE_NAME,Sacerdote
+CLASS_SACERDOTE_DESC,Guaritore devoto. La sua fede si traduce in recupero continuo.
+CLASS_SACERDOTE_SPECIAL_NAME,Benedizione
+CLASS_SACERDOTE_SPECIAL_DESC,Rigenera VIT/4 HP ogni 3 turni. Immunità ai debuff di tipo 'maledizione'.
+CLASS_SCIAMANO_NAME,Sciamano
+CLASS_SCIAMANO_DESC,Invoca spiriti protettori che vigilano sul campo di battaglia.
+CLASS_SCIAMANO_SPECIAL_NAME,Totem Curativo
+CLASS_SCIAMANO_SPECIAL_DESC,Piazza un totem su tile adiacente. Entro 3 tile: +WIL/4 HP ogni 2 turni. Max 1 totem. HP=1.
+CLASS_SENTINELLA_NAME,Sentinella
+CLASS_SENTINELLA_DESC,Immobile come una roccia. Altrettanto difficile da abbattere.
+CLASS_SENTINELLA_SPECIAL_NAME,Posizione di Guardia
+CLASS_SENTINELLA_SPECIAL_DESC,"Ogni turno senza muoversi né attaccare: DEF ×(1+stacks), max ×4. Si azzera al primo movimento."
+CLASS_SPECCHIO_ABISSO_NAME,Specchio dell'Abisso
+CLASS_SPECCHIO_ABISSO_DESC,Il suo dolore è il dolore degli altri.
+CLASS_SPECCHIO_ABISSO_SPECIAL_NAME,Riflesso dell'Abisso
+CLASS_SPECCHIO_ABISSO_SPECIAL_DESC,100% dei danni subiti riflessi su tutti i nemici in vista. Non può morire per il riflesso stesso. Immune ai colpi critici.
+CLASS_SPELLBLADE_NAME,Spellblade
+CLASS_SPELLBLADE_DESC,Fonde magia e acciaio in una singola lama letale.
+CLASS_SPELLBLADE_SPECIAL_NAME,Lama Incantata
+CLASS_SPELLBLADE_SPECIAL_DESC,I prossimi 3 attacchi fisici aggiungono INT come danno bonus (ignora DEF). Costo: 12 MP.
+CLASS_SPETTRO_NAME,Spettro
+CLASS_SPETTRO_DESC,Non è nel dungeon. È parte di esso.
+CLASS_SPETTRO_SPECIAL_NAME,Incorporeità
+CLASS_SPETTRO_SPECIAL_DESC,Può muoversi attraverso i muri (non porte). I nemici hanno 50% miss rate. Non si allertano oltre 1 tile.
+CLASS_STREGA_NAME,Strega
+CLASS_STREGA_DESC,Le sue maledizioni indeboliscono il corpo e lo spirito.
+CLASS_STREGA_SPECIAL_NAME,Maledizione
+CLASS_STREGA_SPECIAL_DESC,Un nemico visibile: tutti i suoi stat -20% per 5 turni. Costo: 10 MP.
+CLASS_STREGONE_NAME,Stregone
+CLASS_STREGONE_DESC,Ha stretto un patto con forze oscure. Il prezzo è il suo stesso corpo.
+CLASS_STREGONE_SPECIAL_NAME,Patto Oscuro
+CLASS_STREGONE_SPECIAL_DESC,"Q: consuma HP in MP (1:1), +5% ATK per ogni 10% HP mancante. Costo: 5 HP per attivazione."
+CLASS_TEMPLARE_NAME,Templare
+CLASS_TEMPLARE_DESC,La sua aura sacra indebolisce i nemici solo stando loro vicino.
+CLASS_TEMPLARE_SPECIAL_NAME,Aura Sacra / Luce Sacra
+CLASS_TEMPLARE_SPECIAL_DESC,"Passiva: nemici entro 2 tile -15% ATK. Q: AoE danno sacro su tutti i nemici in vista (WIL×2, ignora DEF). Costo: 20 MP. Cooldown: 5 turni."
+CLASS_VAMPIRO_NAME,Vampiro
+CLASS_VAMPIRO_DESC,Ogni ferita inferta lo fa stare meglio. Un predatore perfetto.
+CLASS_VAMPIRO_SPECIAL_NAME,Morso Vitale
+CLASS_VAMPIRO_SPECIAL_DESC,Ogni attacco fisico inferto cura HP pari al 25% dei danni inflitti.
+CLASS_VIANDANTE_NAME,Viandante
+CLASS_VIANDANTE_DESC,Ha visto tutto. Sa dove andare. I nemici non lo sentono arrivare.
+CLASS_VIANDANTE_SPECIAL_NAME,Passo Furtivo
+CLASS_VIANDANTE_SPECIAL_DESC,I nemici non si allertano entro 2 tile. Detection range nemici verso player dimezzato.
+CLASS_VUOTO_NAME,Il Vuoto
+CLASS_VUOTO_DESC,"Oltre la morte, oltre il tempo. Non è più niente. Ed è tutto."
+CLASS_VUOTO_SPECIAL_NAME,Forma del Vuoto / Intangibilità
+CLASS_VUOTO_SPECIAL_DESC,"Passiva: alla morte, rinasce con 1 HP (1/run). Ogni combattimento vinto: +1 WIL permanente per la run (max +20). Q: intangibile 3 turni (immune a tutto, non può attaccare). Costo: 20 MP."

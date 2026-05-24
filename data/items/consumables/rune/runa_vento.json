@@ -1,0 +1,14 @@
+{
+  "id": "runa_vento",
+  "name": "Runa del Vento",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "knockback": 3,
+    "rune_type": "wind"
+  },
+  "stackable": false,
+  "loot_weight": 12
+}

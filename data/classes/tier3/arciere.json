@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "arciere",
 	"name": "Arciere",
 	"desc": "La distanza è un vantaggio. La freccia arriva prima che lui lo sappia.",
@@ -12,5 +12,7 @@
 	"special_name": "Freccia Precisa",
 	"special_desc": "Attacco fisico a distanza (range DEX/4 tile). Nessuna risposta nemica. Cooldown: 2 turni.",
 	"unlock": { "type": "stat_threshold", "attr": "dex", "value": 20, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["arco", "balestra", "pugnale", "armatura_leggera", "armatura_media", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

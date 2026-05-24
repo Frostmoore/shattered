@@ -1,0 +1,24 @@
+{
+  "id": "paratore_cuoio",
+  "name": "Paratore di Cuoio",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 1,
+  "min_level": 2,
+  "max_level": 8,
+  "base_stats": {
+    "attack_bonus": 2,
+    "defense_bonus": 1
+  },
+  "requirements": {
+    "dex": 0
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

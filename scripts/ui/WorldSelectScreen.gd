@@ -80,9 +80,9 @@ func _on_delete_world_pressed() -> void:
 		return
 	_pending_action = "world"
 	var char_count: int = SaveManager.list_characters(_selected_world).size()
-	var detail: String  = " (include %d personagg%s)" % [char_count, "i" if char_count != 1 else "io"] if char_count > 0 else ""
-	confirm_dialog.title       = "Elimina Mondo"
-	confirm_dialog.dialog_text = "Eliminare il mondo \"%s\"%s?\nQuest'azione è irreversibile." % [_selected_world, detail]
+	var detail: String  = LocaleManager.t("UI_WORLDSELECT_DELETE_WORLD_DETAIL", {"count": char_count, "suffix": "i" if char_count != 1 else "io"}) if char_count > 0 else ""
+	confirm_dialog.title       = LocaleManager.t("UI_WORLDSELECT_DELETE_WORLD_TITLE")
+	confirm_dialog.dialog_text = LocaleManager.t("UI_WORLDSELECT_DELETE_WORLD_TEXT", {"name": _selected_world, "detail": detail})
 	confirm_dialog.popup_centered()
 
 
@@ -90,8 +90,8 @@ func _on_delete_char_pressed() -> void:
 	if _selected_world == "" or _selected_char == "":
 		return
 	_pending_action = "char"
-	confirm_dialog.title       = "Elimina Personaggio"
-	confirm_dialog.dialog_text = "Eliminare il personaggio \"%s\"?\nQuest'azione è irreversibile." % _selected_char
+	confirm_dialog.title       = LocaleManager.t("UI_WORLDSELECT_DELETE_CHAR_TITLE")
+	confirm_dialog.dialog_text = LocaleManager.t("UI_WORLDSELECT_DELETE_CHAR_TEXT", {"name": _selected_char})
 	confirm_dialog.popup_centered()
 
 

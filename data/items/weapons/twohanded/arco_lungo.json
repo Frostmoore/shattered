@@ -1,0 +1,20 @@
+{
+  "id": "arco_lungo",
+  "name": "Arco Lungo",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 23,
+  "max_level": 34,
+  "base_stats": {
+    "attack_bonus": 24
+  },
+  "requirements": {
+    "dex": 14
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

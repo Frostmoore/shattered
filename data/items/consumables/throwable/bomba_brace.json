@@ -1,0 +1,16 @@
+{
+  "id": "bomba_brace",
+  "name": "Bomba di Brace",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "duration": 8,
+    "area": 3,
+    "throw_type": "fire",
+    "burn": 1
+  },
+  "stackable": true,
+  "loot_weight": 10
+}

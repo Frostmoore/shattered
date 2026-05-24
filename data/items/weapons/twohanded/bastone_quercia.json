@@ -1,0 +1,21 @@
+{
+  "id": "bastone_quercia",
+  "name": "Bastone di Quercia",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 14,
+  "base_stats": {
+    "attack_bonus": 5,
+    "magic_bonus": 7
+  },
+  "requirements": {
+    "int": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

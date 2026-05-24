@@ -1,0 +1,13 @@
+{
+  "id": "distillato_vitalita",
+  "name": "Distillato di Vitalita",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 100
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

@@ -1,0 +1,21 @@
+{
+  "id": "simbolo_sole",
+  "name": "Simbolo del Sole",
+  "gender": "m",
+  "icon": "+",
+  "item_category": "weapon",
+  "item_type": "simbolo_sacro",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 15,
+  "max_level": 24,
+  "base_stats": {
+    "defense_bonus": 4,
+    "magic_bonus": 12
+  },
+  "requirements": {
+    "int": 7
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

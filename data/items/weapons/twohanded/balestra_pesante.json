@@ -1,0 +1,20 @@
+{
+  "id": "balestra_pesante",
+  "name": "Balestra Pesante",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "balestra",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 34,
+  "base_stats": {
+    "attack_bonus": 25
+  },
+  "requirements": {
+    "dex": 15
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

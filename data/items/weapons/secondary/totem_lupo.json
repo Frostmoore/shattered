@@ -1,0 +1,21 @@
+{
+  "id": "totem_lupo",
+  "name": "Totem del Lupo",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 14,
+  "base_stats": {
+    "hp_bonus": 14,
+    "magic_bonus": 6
+  },
+  "requirements": {
+    "int": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

@@ -55,6 +55,11 @@ func get_enemy_data(id: String) -> Dictionary:
 	return _enemies.get(id, {})
 
 
+func get_display_name(id: String) -> String:
+	var raw: String = str(_enemies.get(id, {}).get("name", id))
+	return LocaleManager.t_or("ENEMY_" + id.to_upper() + "_NAME", raw)
+
+
 func get_all() -> Array:
 	return _enemies.values()
 

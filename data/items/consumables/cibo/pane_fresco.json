@@ -1,0 +1,13 @@
+{
+  "id": "pane_fresco",
+  "name": "Pane Fresco",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 8
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

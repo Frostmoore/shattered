@@ -1,0 +1,25 @@
+{
+  "id": "ascia_del_mannaro",
+  "name": "Ascia del Mannaro",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "ascia",
+  "slot": "right_hand",
+  "tier": 4,
+  "min_level": 30,
+  "max_level": 60,
+  "scalable": true,
+  "scaling_mode": "threshold",
+  "scale_levels": [30, 40, 50, 60],
+  "scale": { "attack_bonus": "floor(level * 1.1)" },
+  "base_stats": {
+    "attack_bonus": 30
+  },
+  "requirements": {
+    "str": 25
+  },
+  "loot_weight": 3,
+  "lore": "Chi la impugna sente qualcosa muoversi sotto la pelle.",
+  "flavor": "Ulula."
+}

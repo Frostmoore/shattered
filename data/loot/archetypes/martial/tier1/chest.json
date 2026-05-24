@@ -1,0 +1,41 @@
+{
+	"comune":     { "rolls_min": 1, "rolls_max": 2, "quality_bias": 0, "guaranteed": [] },
+	"ricca":      { "rolls_min": 2, "rolls_max": 3, "quality_bias": 0, "guaranteed": [] },
+	"abbondante": { "rolls_min": 3, "rolls_max": 4, "quality_bias": 1, "guaranteed": [] },
+	"boss": {
+		"rolls_min": 4, "rolls_max": 6, "quality_bias": 2,
+		"guaranteed": [{ "item_category": "weapon", "min_quality": "raro" }]
+	},
+	"segreto": {
+		"rolls_min": 3, "rolls_max": 5, "quality_bias": 2,
+		"guaranteed": [{ "item_category": "accessory", "min_quality": "epico" }]
+	},
+	"level_bands": [
+		{
+			"level_min": 1,
+			"level_max": 15,
+			"pool": [
+				{ "item_id": "spada_corta",              "weight": 18 },
+				{ "item_id": "armatura_cuoio",           "weight": 16 },
+				{ "item_id": "anello_base",              "weight": 10 },
+				{ "item_id": "pergamena_identificazione","weight": 14 },
+				{ "item_id": "pozione_piccola",          "weight": 20 },
+				{ "type": "gold", "min": 5, "max": 30,  "weight": 28 },
+				{ "nothing": true,                       "weight":  8 }
+			]
+		},
+		{
+			"level_min": 16,
+			"level_max": 999,
+			"pool": [
+				{ "item_category": "weapon",             "weight": 20 },
+				{ "item_category": "armor",              "weight": 18 },
+				{ "item_category": "accessory",          "weight": 12 },
+				{ "item_id": "pergamena_identificazione","weight": 12 },
+				{ "item_id": "pozione_piccola",          "weight": 16 },
+				{ "type": "gold", "min": 20, "max": 80, "weight": 24 },
+				{ "nothing": true,                       "weight":  6 }
+			]
+		}
+	]
+}

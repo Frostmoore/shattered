@@ -1,0 +1,20 @@
+{
+  "id": "martello_fabbro",
+  "name": "Martello da Fabbro",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "martello_guerra",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 5,
+  "max_level": 12,
+  "base_stats": {
+    "attack_bonus": 7
+  },
+  "requirements": {
+    "str": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

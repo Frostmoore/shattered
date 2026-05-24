@@ -1,0 +1,15 @@
+{
+  "id": "runa_tempo",
+  "name": "Runa del Tempo",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "timestop": 1,
+    "rune_type": "time",
+    "duration": 3
+  },
+  "stackable": false,
+  "loot_weight": 7
+}

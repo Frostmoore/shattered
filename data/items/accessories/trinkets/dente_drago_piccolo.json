@@ -1,0 +1,19 @@
+{
+  "id": "dente_drago_piccolo",
+  "name": "Dente di Drago (piccolo)",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 18,
+  "base_stats": {
+    "attack_bonus": 3,
+    "hp_bonus": 15
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

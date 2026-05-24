@@ -1,0 +1,13 @@
+{
+  "id": "carne_drago_piccola",
+  "name": "Carne di Drago (piccola)",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 80
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

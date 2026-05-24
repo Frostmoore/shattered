@@ -1,0 +1,20 @@
+{
+  "id": "ciondolo_runato",
+  "name": "Ciondolo Runato",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 3,
+  "min_level": 28,
+  "max_level": 40,
+  "base_stats": {
+    "defense_bonus": 3,
+    "magic_bonus": 3,
+    "attack_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

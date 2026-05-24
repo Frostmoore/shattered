@@ -1,0 +1,22 @@
+{
+  "id": "anello_inciso",
+  "name": "Anello Inciso",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 9,
+  "base_stats": {
+    "attack_bonus": 1,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

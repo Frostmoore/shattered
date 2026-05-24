@@ -1,0 +1,20 @@
+{
+  "id": "spadone_guerriero",
+  "name": "Spadone del Guerriero",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spadone",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 34,
+  "base_stats": {
+    "attack_bonus": 29
+  },
+  "requirements": {
+    "str": 14
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "predatore",
 	"name": "Predatore",
 	"desc": "Ogni stanza è il suo territorio. Ogni nemico è già una preda.",
@@ -12,5 +12,7 @@
 	"special_name": "Fiuto / Primo Colpo",
 	"special_desc": "Q: rivela posizione di tutti i nemici del piano. Passiva: primo attacco su nemico non-allertato ×2 danno.",
 	"unlock": { "type": "dungeon_rooms_explored", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "planned" }
+	"implementation": { "status": "planned" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["pugnale", "arco", "armatura_leggera", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

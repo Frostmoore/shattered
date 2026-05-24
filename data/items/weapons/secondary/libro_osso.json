@@ -1,0 +1,20 @@
+{
+  "id": "libro_osso",
+  "name": "Libro d'Osso",
+  "gender": "m",
+  "icon": "B",
+  "item_category": "weapon",
+  "item_type": "libro_arcano",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 20,
+  "base_stats": {
+    "magic_bonus": 9
+  },
+  "requirements": {
+    "int": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

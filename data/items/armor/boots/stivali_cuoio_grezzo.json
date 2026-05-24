@@ -1,0 +1,18 @@
+{
+  "id": "stivali_cuoio_grezzo",
+  "name": "Stivali di Cuoio Grezzo",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 6,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

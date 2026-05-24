@@ -1,0 +1,21 @@
+{
+  "id": "totem_spiriti",
+  "name": "Totem degli Spiriti",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 50,
+  "base_stats": {
+    "hp_bonus": 68,
+    "magic_bonus": 30
+  },
+  "requirements": {
+    "int": 19
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

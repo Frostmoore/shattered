@@ -1,0 +1,14 @@
+{
+  "id": "fiala_oblio",
+  "name": "Fiala dell'Oblio",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "reset_detection": 1,
+    "throw_type": "oblivion"
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

@@ -68,13 +68,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_combat_started() -> void:
 	_in_combat = true
-	log_label.text = "Combattimento!"
+	log_label.text = LocaleManager.t("UI_COMBATBAR_COMBAT")
 	_set_combat_buttons_active(true)
 
 
 func _on_combat_ended() -> void:
 	_in_combat = false
-	log_label.text = "Esplora il mondo..."
+	log_label.text = LocaleManager.t("UI_COMBATBAR_EXPLORE")
 	_set_combat_buttons_active(false)
 
 
@@ -91,9 +91,9 @@ func _on_map_changed(map_id: String) -> void:
 	_in_combat = false
 	_set_combat_buttons_active(false)
 	if map_id == "dungeon":
-		log_label.text = "Dungeon - attento ai nemici!"
+		log_label.text = LocaleManager.t("UI_COMBATBAR_DUNGEON")
 	else:
-		log_label.text = "Esplora il mondo..."
+		log_label.text = LocaleManager.t("UI_COMBATBAR_EXPLORE")
 
 
 func _set_combat_buttons_active(active: bool) -> void:

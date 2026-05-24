@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "demonista",
 	"name": "Demonista",
 	"desc": "Ha imparato a piegare forze che non andrebbero toccate.",
@@ -12,5 +12,7 @@
 	"special_name": "Servo Demoniaco",
 	"special_desc": "Evoca un demone (ATK×1.5, HP×0.5) per WIL/2 turni. Costo: 20 MP. Max 1. Non permanente.",
 	"unlock": { "type": "dungeons_completed", "value": 3, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["libro_arcano", "bacchetta", "bastone", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

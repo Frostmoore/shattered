@@ -1,0 +1,20 @@
+{
+  "id": "grano_sabbia_oro",
+  "name": "Grano di Sabbia d'Oro",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 32,
+  "base_stats": {
+    "defense_bonus": 3,
+    "magic_bonus": 3,
+    "attack_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

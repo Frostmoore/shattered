@@ -1,0 +1,11 @@
+{
+	"id": "pergamena_identificazione",
+	"name": "Pergamena di Identificazione",
+	"gender": "f",
+	"icon": "?",
+	"item_category": "consumable",
+	"item_subtype": "scroll",
+	"effect": { "identify": true },
+	"stackable": true,
+	"loot_weight": 18
+}

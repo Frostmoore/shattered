@@ -1,0 +1,15 @@
+{
+  "id": "runa_curativa",
+  "name": "Runa Curativa",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "rune_type": "heal",
+    "restore_hp": 50,
+    "area": 1
+  },
+  "stackable": false,
+  "loot_weight": 10
+}

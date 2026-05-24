@@ -1,0 +1,20 @@
+{
+  "id": "lacrima_drago",
+  "name": "Lacrima di Drago",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 4,
+  "min_level": 38,
+  "max_level": 52,
+  "base_stats": {
+    "hp_bonus": 50,
+    "magic_bonus": 6,
+    "attack_bonus": 7
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

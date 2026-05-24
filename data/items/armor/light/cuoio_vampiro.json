@@ -1,0 +1,18 @@
+{
+  "id": "cuoio_vampiro",
+  "name": "Cuoio del Vampiro",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 41,
+  "max_level": 48,
+  "base_stats": {
+    "defense_bonus": 21
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

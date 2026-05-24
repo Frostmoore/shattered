@@ -1,0 +1,15 @@
+{
+  "id": "coscia_lupo",
+  "name": "Coscia di Lupo",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Carne cruda di lupo. Commestibile, se si è disperati.",
+  "effect": {
+    "restore_hp": 12,
+    "restore_stamina": 8
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

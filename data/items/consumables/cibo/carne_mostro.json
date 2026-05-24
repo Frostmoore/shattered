@@ -1,0 +1,13 @@
+{
+  "id": "carne_mostro",
+  "name": "Carne di Mostro",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 35
+  },
+  "stackable": true,
+  "loot_weight": 13
+}

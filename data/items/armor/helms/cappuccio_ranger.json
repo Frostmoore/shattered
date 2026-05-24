@@ -1,0 +1,18 @@
+{
+  "id": "cappuccio_ranger",
+  "name": "Cappuccio del Ranger",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 2,
+  "min_level": 13,
+  "max_level": 20,
+  "base_stats": {
+    "defense_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

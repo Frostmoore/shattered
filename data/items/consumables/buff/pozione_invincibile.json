@@ -1,0 +1,14 @@
+{
+  "id": "pozione_invincibile",
+  "name": "Pozione dell'Invincibile",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 50,
+    "duration": 6
+  },
+  "stackable": true,
+  "loot_weight": 6
+}

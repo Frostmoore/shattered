@@ -1,0 +1,18 @@
+{
+  "id": "elmo_colosso",
+  "name": "Elmo del Colosso",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 4,
+  "min_level": 39,
+  "max_level": 50,
+  "base_stats": {
+    "defense_bonus": 17
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

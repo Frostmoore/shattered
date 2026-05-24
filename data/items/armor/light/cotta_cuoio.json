@@ -1,0 +1,18 @@
+{
+  "id": "cotta_cuoio",
+  "name": "Cotta di Cuoio",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 15,
+  "max_level": 22,
+  "base_stats": {
+    "defense_bonus": 8
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

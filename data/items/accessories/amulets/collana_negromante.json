@@ -1,0 +1,19 @@
+{
+  "id": "collana_negromante",
+  "name": "Collana del Negromante",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 35,
+  "base_stats": {
+    "attack_bonus": 2,
+    "magic_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

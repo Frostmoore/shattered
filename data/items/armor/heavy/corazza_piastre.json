@@ -1,0 +1,20 @@
+{
+  "id": "corazza_piastre",
+  "name": "Corazza a Piastre",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 16,
+  "base_stats": {
+    "defense_bonus": 10
+  },
+  "requirements": {
+    "str": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

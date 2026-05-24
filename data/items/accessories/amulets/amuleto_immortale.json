@@ -1,0 +1,20 @@
+{
+  "id": "amuleto_immortale",
+  "name": "Amuleto dell'Immortale",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 5,
+  "min_level": 45,
+  "max_level": 58,
+  "base_stats": {
+    "hp_bonus": 80,
+    "defense_bonus": 8,
+    "magic_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

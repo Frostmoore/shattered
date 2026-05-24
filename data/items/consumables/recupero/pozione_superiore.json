@@ -1,0 +1,13 @@
+{
+  "id": "pozione_superiore",
+  "name": "Pozione Superiore",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 160
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

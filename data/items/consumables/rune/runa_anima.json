@@ -1,0 +1,14 @@
+{
+  "id": "runa_anima",
+  "name": "Runa dell'Anima",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "lifesteal": 1,
+    "rune_type": "soul"
+  },
+  "stackable": false,
+  "loot_weight": 6
+}

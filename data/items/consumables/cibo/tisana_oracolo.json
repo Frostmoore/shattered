@@ -1,0 +1,14 @@
+{
+  "id": "tisana_oracolo",
+  "name": "Tisana dell'Oracolo",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "reveal_area": 3,
+    "restore_mp": 50
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

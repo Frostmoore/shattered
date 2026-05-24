@@ -1,0 +1,19 @@
+{
+  "id": "medaglione_arcano",
+  "name": "Medaglione Arcano",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 4,
+  "min_level": 30,
+  "max_level": 42,
+  "base_stats": {
+    "mp_bonus": 40,
+    "magic_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

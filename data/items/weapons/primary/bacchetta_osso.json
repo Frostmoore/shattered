@@ -1,0 +1,21 @@
+{
+  "id": "bacchetta_osso",
+  "name": "Bacchetta d'Osso",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bacchetta",
+  "slot": "right_hand",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 14,
+  "base_stats": {
+    "attack_bonus": 2,
+    "magic_bonus": 6
+  },
+  "requirements": {
+    "int": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

@@ -1,0 +1,31 @@
+{
+  "id": "spirituale",
+  "type": "prefix",
+  "name_m": "Spirituale",
+  "name_f": "Spirituale",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 8,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 13,
+  "bonuses": {
+    "magic_bonus": 2,
+    "mp_bonus": 10
+  }
+}

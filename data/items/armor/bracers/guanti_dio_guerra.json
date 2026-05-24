@@ -1,0 +1,18 @@
+{
+  "id": "guanti_dio_guerra",
+  "name": "Guanti del Dio della Guerra",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 5,
+  "min_level": 41,
+  "max_level": 54,
+  "base_stats": {
+    "defense_bonus": 16
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

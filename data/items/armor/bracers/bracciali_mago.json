@@ -1,0 +1,18 @@
+{
+  "id": "bracciali_mago",
+  "name": "Bracciali del Mago",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 13,
+  "base_stats": {
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

@@ -1,0 +1,13 @@
+{
+  "id": "tonico_stamina",
+  "name": "Tonico della Stamina",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_stamina": 20
+  },
+  "stackable": true,
+  "loot_weight": 16
+}

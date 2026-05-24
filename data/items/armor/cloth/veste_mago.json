@@ -1,0 +1,21 @@
+{
+  "id": "veste_mago",
+  "name": "Veste del Mago",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 12,
+  "base_stats": {
+    "magic_bonus": 4,
+    "defense_bonus": 1
+  },
+  "requirements": {
+    "int": 2
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

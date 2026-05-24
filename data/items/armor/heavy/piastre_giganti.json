@@ -1,0 +1,20 @@
+{
+  "id": "piastre_giganti",
+  "name": "Piastre dei Giganti",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 58,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 67
+  },
+  "requirements": {
+    "str": 35
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

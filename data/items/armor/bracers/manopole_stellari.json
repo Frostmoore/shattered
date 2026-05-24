@@ -1,0 +1,18 @@
+{
+  "id": "manopole_stellari",
+  "name": "Manopole Stellari",
+  "gender": "f",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 6,
+  "min_level": 54,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 22
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,18 @@
+{
+  "id": "calzari_esploratore",
+  "name": "Calzari dell'Esploratore",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 2,
+  "min_level": 18,
+  "max_level": 26,
+  "base_stats": {
+    "defense_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

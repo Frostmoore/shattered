@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "geomante",
 	"name": "Geomante",
 	"desc": "La terra è la sua armatura e la sua arma.",
@@ -12,5 +12,7 @@
 	"special_name": "Muro di Terra",
 	"special_desc": "Crea parete temporanea su tile adiacente libera. Blocca movimento e visione per VIT/3 turni.",
 	"unlock": { "type": "tiles_explored_total", "value": 1000, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["bastone", "totem", "armatura_leggera", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

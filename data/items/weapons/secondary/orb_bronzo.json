@@ -1,0 +1,21 @@
+{
+  "id": "orb_bronzo",
+  "name": "Orb di Bronzo",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 10,
+  "base_stats": {
+    "mp_bonus": 6,
+    "magic_bonus": 3
+  },
+  "requirements": {
+    "int": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

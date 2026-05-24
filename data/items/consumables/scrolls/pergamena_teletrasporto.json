@@ -1,0 +1,13 @@
+{
+  "id": "pergamena_teletrasporto",
+  "name": "Pergamena di Teletrasporto",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "scroll",
+  "effect": {
+    "scroll_type": "teleport_random"
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

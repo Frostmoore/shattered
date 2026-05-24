@@ -1,0 +1,29 @@
+{
+  "id": "del_druido",
+  "type": "suffix",
+  "name_m": "del Druido",
+  "name_f": "del Druido",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_leggera",
+    "armatura_media",
+    "armatura_pesante",
+    "veste",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 5,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 12,
+  "bonuses": {
+    "magic_bonus": 1,
+    "hp_bonus": 15
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "libro_strappato",
+  "name": "Libro Strappato",
+  "gender": "m",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

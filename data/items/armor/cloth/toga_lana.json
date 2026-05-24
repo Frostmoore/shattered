@@ -1,0 +1,21 @@
+{
+  "id": "toga_lana",
+  "name": "Toga di Lana",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 10,
+  "base_stats": {
+    "magic_bonus": 3,
+    "defense_bonus": 1
+  },
+  "requirements": {
+    "int": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

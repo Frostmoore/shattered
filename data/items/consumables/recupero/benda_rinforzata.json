@@ -1,0 +1,13 @@
+{
+  "id": "benda_rinforzata",
+  "name": "Benda Rinforzata",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 30
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

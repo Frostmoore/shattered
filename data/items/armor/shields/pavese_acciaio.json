@@ -1,0 +1,20 @@
+{
+  "id": "pavese_acciaio",
+  "name": "Pavese d'Acciaio",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 35,
+  "max_level": 49,
+  "base_stats": {
+    "defense_bonus": 30
+  },
+  "requirements": {
+    "str": 17
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

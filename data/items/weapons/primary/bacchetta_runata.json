@@ -1,0 +1,21 @@
+{
+  "id": "bacchetta_runata",
+  "name": "Bacchetta Runata",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bacchetta",
+  "slot": "right_hand",
+  "tier": 4,
+  "min_level": 30,
+  "max_level": 42,
+  "base_stats": {
+    "attack_bonus": 9,
+    "magic_bonus": 23
+  },
+  "requirements": {
+    "int": 14
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

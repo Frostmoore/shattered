@@ -1,0 +1,20 @@
+{
+  "id": "corazza_guerriero_h",
+  "name": "Corazza del Guerriero",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 37,
+  "max_level": 47,
+  "base_stats": {
+    "defense_bonus": 41
+  },
+  "requirements": {
+    "str": 22
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

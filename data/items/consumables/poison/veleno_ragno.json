@@ -1,0 +1,16 @@
+{
+  "id": "veleno_ragno",
+  "name": "Veleno di Ragno",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 5,
+    "poison_type": "weak",
+    "damage_per_turn": 2
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

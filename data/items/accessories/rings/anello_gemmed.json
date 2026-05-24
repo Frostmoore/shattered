@@ -1,0 +1,21 @@
+{
+  "id": "anello_gemmed",
+  "name": "Anello Gemmed",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 12,
+  "base_stats": {
+    "magic_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

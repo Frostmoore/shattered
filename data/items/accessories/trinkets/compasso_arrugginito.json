@@ -1,0 +1,19 @@
+{
+  "id": "compasso_arrugginito",
+  "name": "Compasso Arrugginito",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 2,
+  "min_level": 10,
+  "max_level": 20,
+  "base_stats": {
+    "mp_bonus": 15,
+    "magic_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

@@ -1,0 +1,21 @@
+{
+  "id": "orb_vuoto",
+  "name": "Orb del Vuoto",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 27,
+  "max_level": 38,
+  "base_stats": {
+    "mp_bonus": 54,
+    "magic_bonus": 20
+  },
+  "requirements": {
+    "int": 12
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

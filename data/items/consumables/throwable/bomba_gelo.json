@@ -1,0 +1,16 @@
+{
+  "id": "bomba_gelo",
+  "name": "Bomba di Gelo",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "freeze": 1,
+    "area": 3,
+    "throw_type": "ice",
+    "duration": 4
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

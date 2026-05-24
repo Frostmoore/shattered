@@ -1,0 +1,15 @@
+{
+  "id": "pozione_gigante",
+  "name": "Pozione del Gigante",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 30,
+    "buff_atk": 50,
+    "duration": 5
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

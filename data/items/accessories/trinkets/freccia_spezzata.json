@@ -1,0 +1,19 @@
+{
+  "id": "freccia_spezzata",
+  "name": "Freccia Spezzata",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 2,
+  "min_level": 13,
+  "max_level": 24,
+  "base_stats": {
+    "attack_bonus": 4,
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

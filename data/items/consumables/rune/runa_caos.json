@@ -1,0 +1,15 @@
+{
+  "id": "runa_caos",
+  "name": "Runa del Caos",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "random_effect": 1,
+    "rune_type": "chaos",
+    "enhanced": 1
+  },
+  "stackable": false,
+  "loot_weight": 6
+}

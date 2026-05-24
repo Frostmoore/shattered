@@ -1,0 +1,13 @@
+{
+  "id": "chiave_oro",
+  "name": "Chiave d'Oro",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "high_tier_chest"
+  },
+  "stackable": false,
+  "loot_weight": 7
+}

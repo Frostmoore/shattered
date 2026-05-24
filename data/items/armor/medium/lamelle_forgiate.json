@@ -1,0 +1,20 @@
+{
+  "id": "lamelle_forgiate",
+  "name": "Lamelle Forgiate",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 39,
+  "max_level": 49,
+  "base_stats": {
+    "defense_bonus": 31
+  },
+  "requirements": {
+    "str": 17
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,21 @@
+{
+  "id": "totem_legno",
+  "name": "Totem di Legno",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 6,
+  "base_stats": {
+    "hp_bonus": 5,
+    "magic_bonus": 1
+  },
+  "requirements": {
+    "int": 0
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

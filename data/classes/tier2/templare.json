@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "templare",
 	"name": "Templare",
 	"desc": "La sua aura sacra indebolisce i nemici solo stando loro vicino.",
@@ -12,5 +12,7 @@
 	"special_name": "Aura Sacra / Luce Sacra",
 	"special_desc": "Passiva: nemici entro 2 tile -15% ATK. Q: AoE danno sacro su tutti i nemici in vista (WIL×2, ignora DEF). Costo: 20 MP. Cooldown: 5 turni.",
 	"unlock": { "type": "dungeon_clear_no_death", "value": 1, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "planned" }
+	"implementation": { "status": "planned" },
+	"loot_archetype": "divine",
+	"allowed_item_types": ["spada", "mazza", "simbolo_sacro", "armatura_media", "armatura_pesante", "scudo", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

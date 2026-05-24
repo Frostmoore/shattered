@@ -1,0 +1,14 @@
+{
+  "id": "pozione_resistenza",
+  "name": "Pozione di Resistenza",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "temp_hp": 30,
+    "duration": 15
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

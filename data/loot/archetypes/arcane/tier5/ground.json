@@ -1,0 +1,90 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 20,
+      "pool": [
+        {
+          "item_id": "pozione_piccola",
+          "weight": 28
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 14
+        },
+        {
+          "item_category": "consumable",
+          "weight": 10
+        },
+        {
+          "type": "gold",
+          "min": 60,
+          "max": 250,
+          "weight": 22
+        },
+        {
+          "nothing": true,
+          "weight": 40
+        }
+      ]
+    },
+    {
+      "level_min": 21,
+      "level_max": 40,
+      "pool": [
+        {
+          "item_category": "consumable",
+          "weight": 22
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 12
+        },
+        {
+          "item_category": "weapon",
+          "weight": 8
+        },
+        {
+          "type": "gold",
+          "min": 60,
+          "max": 250,
+          "weight": 20
+        },
+        {
+          "nothing": true,
+          "weight": 35
+        }
+      ]
+    },
+    {
+      "level_min": 41,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_category": "consumable",
+          "weight": 20
+        },
+        {
+          "item_category": "weapon",
+          "weight": 12
+        },
+        {
+          "item_category": "accessory",
+          "weight": 8
+        },
+        {
+          "type": "gold",
+          "min": 120,
+          "max": 500,
+          "weight": 18
+        },
+        {
+          "nothing": true,
+          "weight": 30
+        }
+      ]
+    }
+  ]
+}

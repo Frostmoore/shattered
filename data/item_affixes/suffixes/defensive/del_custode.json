@@ -1,0 +1,23 @@
+{
+  "id": "del_custode",
+  "type": "suffix",
+  "name_m": "del Custode",
+  "name_f": "del Custode",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_pesante",
+    "armatura_media",
+    "scudo"
+  ],
+  "min_level": 10,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "defense_bonus": 4
+  }
+}

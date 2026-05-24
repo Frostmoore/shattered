@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "spettro",
 	"name": "Spettro",
 	"desc": "Non è nel dungeon. È parte di esso.",
@@ -12,5 +12,7 @@
 	"special_name": "Incorporeità",
 	"special_desc": "Può muoversi attraverso i muri (non porte). I nemici hanno 50% miss rate. Non si allertano oltre 1 tile.",
 	"unlock": { "type": "deaths_total", "value": 30, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "rogue",
+	"allowed_item_types": ["pugnale", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

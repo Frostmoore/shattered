@@ -1,0 +1,22 @@
+{
+  "id": "anello_arcano",
+  "name": "Anello Arcano",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 53,
+  "base_stats": {
+    "mp_bonus": 40,
+    "magic_bonus": 7
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

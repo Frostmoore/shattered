@@ -1,0 +1,20 @@
+{
+  "id": "grimorio_abissi",
+  "name": "Grimorio degli Abissi",
+  "gender": "m",
+  "icon": "B",
+  "item_category": "weapon",
+  "item_type": "libro_arcano",
+  "slot": "left_hand",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 50,
+  "base_stats": {
+    "magic_bonus": 33
+  },
+  "requirements": {
+    "int": 19
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

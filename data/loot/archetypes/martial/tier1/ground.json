@@ -1,0 +1,17 @@
+{
+	"rolls": 1,
+	"quality_bias": 0,
+	"level_bands": [
+		{
+			"level_min": 1,
+			"level_max": 999,
+			"pool": [
+				{ "item_id": "pozione_piccola",          "weight": 28 },
+				{ "item_id": "pergamena_identificazione","weight": 12 },
+				{ "item_category": "weapon",             "weight":  8 },
+				{ "type": "gold", "min": 1, "max": 8,   "weight": 18 },
+				{ "nothing": true,                       "weight": 55 }
+			]
+		}
+	]
+}

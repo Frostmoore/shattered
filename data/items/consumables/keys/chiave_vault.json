@@ -1,0 +1,14 @@
+{
+  "id": "chiave_vault",
+  "name": "Chiave del Vault",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "once_per_dungeon": 1,
+    "opens": "vault"
+  },
+  "stackable": false,
+  "loot_weight": 3
+}

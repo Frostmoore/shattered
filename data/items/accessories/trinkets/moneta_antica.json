@@ -1,0 +1,19 @@
+{
+  "id": "moneta_antica",
+  "name": "Moneta Antica",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 10,
+  "base_stats": {
+    "hp_bonus": 8,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

@@ -1,0 +1,15 @@
+{
+  "id": "carne_cinghiale",
+  "name": "Carne di Cinghiale",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Carne dura ma nutriente.",
+  "effect": {
+    "restore_hp": 18,
+    "restore_stamina": 12
+  },
+  "stackable": true,
+  "loot_weight": 16
+}

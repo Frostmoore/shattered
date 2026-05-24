@@ -1,0 +1,20 @@
+{
+  "id": "maglio_corto",
+  "name": "Maglio Corto",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "mazza",
+  "slot": "right_hand",
+  "tier": 2,
+  "min_level": 13,
+  "max_level": 22,
+  "base_stats": {
+    "attack_bonus": 13
+  },
+  "requirements": {
+    "str": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

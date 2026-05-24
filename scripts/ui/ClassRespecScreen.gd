@@ -64,14 +64,14 @@ func _build_ui() -> void:
 	panel.add_child(outer)
 
 	var title := Label.new()
-	title.text = "Cambia Classe"
+	title.text = LocaleManager.t("CLASS_RESPEC_TITLE")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 13)
 	title.add_theme_color_override("font_color", Color(0.92, 0.58, 0.58))
 	outer.add_child(title)
 
 	var subtitle := Label.new()
-	subtitle.text = "La Licenza di Classe verrà consumata alla conferma"
+	subtitle.text = LocaleManager.t("CLASS_RESPEC_SUBTITLE")
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.add_theme_font_size_override("font_size", 9)
 	subtitle.add_theme_color_override("font_color", Color(0.65, 0.55, 0.55))
@@ -106,7 +106,7 @@ func _build_ui() -> void:
 	btn_row.add_child(cancel_btn)
 
 	_confirm_btn = Button.new()
-	_confirm_btn.text = "Cambia Classe →"
+	_confirm_btn.text = LocaleManager.t("CLASS_RESPEC_CONFIRM")
 	_confirm_btn.disabled = true
 	_confirm_btn.pressed.connect(_on_confirm)
 	btn_row.add_child(_confirm_btn)
@@ -226,17 +226,18 @@ func _on_confirm() -> void:
 # ── tooltip text ──────────────────────────────────────────────────────────────
 
 func _tooltip_text(d: Dictionary) -> String:
+	var cid: String = str(d.get("id", ""))
 	var lines: Array[String] = []
-	lines.append("%s  •  Tier %d" % [str(d.get("name", "")), int(d.get("tier", 1))])
+	lines.append(LocaleManager.t("CLASS_TOOLTIP_TIER", {"name": ClassRegistry.get_display_name(cid), "tier": int(d.get("tier", 1))}))
 	lines.append("──────────────────")
-	lines.append(str(d.get("desc", "")))
+	lines.append(ClassRegistry.get_display_desc(cid))
 	lines.append("")
 
 	var primary: Variant = d.get("primary", [])
 	if primary is Array and not (primary as Array).is_empty():
 		var plist: Array = primary as Array
-		lines.append("Principale: " + ", ".join(plist.map(
-				func(a: Variant) -> String: return str(a).to_upper())))
+		lines.append(LocaleManager.t("CLASS_TOOLTIP_ATTR_MAIN", {
+			"attrs": ", ".join(plist.map(func(a: Variant) -> String: return str(a).to_upper()))}))
 
 	var growth: Variant = d.get("growth", {})
 	if growth is Dictionary:
@@ -246,30 +247,30 @@ func _tooltip_text(d: Dictionary) -> String:
 			if v > 0:
 				parts.append("%s+%d" % [attr.to_upper(), v])
 		if not parts.is_empty():
-			lines.append("Crescita/lv: " + ", ".join(parts))
+			lines.append(LocaleManager.t("CLASS_TOOLTIP_GROWTH", {"values": ", ".join(parts)}))
 
 	lines.append("")
 	lines.append("──────────────────")
 	var stype: String = str(d.get("special_type", "passive"))
-	lines.append("[%s]  %s" % [_stype_label(stype), str(d.get("special_name", ""))])
-	lines.append(str(d.get("special_desc", "")))
+	lines.append("[%s]  %s" % [_stype_label(stype), ClassRegistry.get_display_special_name(cid)])
+	lines.append(ClassRegistry.get_display_special_desc(cid))
 
 	lines.append("")
 	lines.append("──────────────────")
 	var unlock: Variant = d.get("unlock", {})
 	if unlock is Dictionary:
-		lines.append("Sblocco: " + _unlock_label(unlock as Dictionary))
+		lines.append(LocaleManager.t("CLASS_TOOLTIP_UNLOCK", {"condition": _unlock_label(unlock as Dictionary)}))
 
 	return "\n".join(lines)
 
 
 func _stype_label(t: String) -> String:
 	match t:
-		"passive":            return "Passiva"
-		"active_key":         return "Attiva Q"
-		"active_target":      return "Attiva: mira"
-		"passive_and_active": return "Passiva + Q"
-		"active_toggle":      return "Toggle Q"
+		"passive":            return LocaleManager.t("CLASS_STYPE_PASSIVE")
+		"active_key":         return LocaleManager.t("CLASS_STYPE_ACTIVE_KEY")
+		"active_target":      return LocaleManager.t("CLASS_STYPE_ACTIVE_TARGET")
+		"passive_and_active": return LocaleManager.t("CLASS_STYPE_PASSIVE_AND_ACTIVE")
+		"active_toggle":      return LocaleManager.t("CLASS_STYPE_ACTIVE_TOGGLE")
 		_:                    return t
 
 
@@ -277,32 +278,32 @@ func _unlock_label(u: Dictionary) -> String:
 	var t: String = str(u.get("type", ""))
 	var v: int    = int(u.get("value", 0))
 	match t:
-		"always":                      return "Sempre disponibile"
-		"kills_total":                 return "Uccidi %d nemici (totale)" % v
-		"kills_boss":                  return "Sconfiggi %d boss" % v
-		"dungeons_completed":          return "Completa %d dungeon" % v
-		"dungeons_completed_no_death": return "Completa %d dungeon senza morire" % v
-		"deaths_total":                return "Muori %d volte" % v
-		"damage_dealt_total":          return "Infliggi %d danni (totale)" % v
-		"damage_taken_total":          return "Subisci %d danni in una run" % v
-		"scrolls_collected":           return "Raccogli %d scroll" % v
-		"chests_opened":               return "Apri %d forzieri" % v
-		"quests_completed":            return "Completa %d missioni" % v
-		"npcs_spoken":                 return "Parla con %d PNG" % v
-		"consumables_used":            return "Usa %d consumabili" % v
-		"overworld_tiles":             return "Esplora %d tile overworld" % v
-		"overworld_zones_visited":     return "Visita %d zone overworld" % v
-		"overworld_zones_explored":    return "Esplora tutte le zone overworld"
-		"dungeon_floors_total":        return "Completa %d piani dungeon" % v
-		"dungeon_rooms_explored":      return "Esplora %d stanze dungeon" % v
-		"tiles_explored_total":        return "Esplora %d tile (totale)" % v
-		"combat_wins_no_items":        return "Vinci %d combattimenti senza oggetti" % v
-		"near_death_survived":         return "Sopravvivi a ≤10%% HP × %d in una run" % v
-		"survived_at_1hp":             return "Sopravvivi con 1 HP (%d volte)" % v
-		"attacks_dodged_total":        return "Schiva %d attacchi (totale)" % v
-		"gold_accumulated":            return "Accumula %d monete d'oro" % v
-		"class_respec_count":          return "Cambia classe %d volte" % v
-		"save_points_used":            return "Usa %d punti di salvataggio" % v
-		"enemies_seen_die":            return "Osserva morire %d nemici" % v
-		"all_classes_completed":       return "Completa il gioco con tutte le altre classi"
+		"always":                      return LocaleManager.t("CLASS_UNLOCK_ALWAYS")
+		"kills_total":                 return LocaleManager.t("CLASS_UNLOCK_KILLS_TOTAL", {"value": v})
+		"kills_boss":                  return LocaleManager.t("CLASS_UNLOCK_KILLS_BOSS", {"value": v})
+		"dungeons_completed":          return LocaleManager.t("CLASS_UNLOCK_DUNGEONS", {"value": v})
+		"dungeons_completed_no_death": return LocaleManager.t("CLASS_UNLOCK_DUNGEONS_NO_DEATH", {"value": v})
+		"deaths_total":                return LocaleManager.t("CLASS_UNLOCK_DEATHS", {"value": v})
+		"damage_dealt_total":          return LocaleManager.t("CLASS_UNLOCK_DAMAGE_DEALT", {"value": v})
+		"damage_taken_total":          return LocaleManager.t("CLASS_UNLOCK_DAMAGE_TAKEN", {"value": v})
+		"scrolls_collected":           return LocaleManager.t("CLASS_UNLOCK_SCROLLS", {"value": v})
+		"chests_opened":               return LocaleManager.t("CLASS_UNLOCK_CHESTS", {"value": v})
+		"quests_completed":            return LocaleManager.t("CLASS_UNLOCK_QUESTS", {"value": v})
+		"npcs_spoken":                 return LocaleManager.t("CLASS_UNLOCK_NPCS", {"value": v})
+		"consumables_used":            return LocaleManager.t("CLASS_UNLOCK_CONSUMABLES", {"value": v})
+		"overworld_tiles":             return LocaleManager.t("CLASS_UNLOCK_OVERWORLD_TILES", {"value": v})
+		"overworld_zones_visited":     return LocaleManager.t("CLASS_UNLOCK_OVERWORLD_ZONES_VISITED", {"value": v})
+		"overworld_zones_explored":    return LocaleManager.t("CLASS_UNLOCK_OVERWORLD_ZONES_ALL")
+		"dungeon_floors_total":        return LocaleManager.t("CLASS_UNLOCK_DUNGEON_FLOORS", {"value": v})
+		"dungeon_rooms_explored":      return LocaleManager.t("CLASS_UNLOCK_DUNGEON_ROOMS", {"value": v})
+		"tiles_explored_total":        return LocaleManager.t("CLASS_UNLOCK_TILES_TOTAL", {"value": v})
+		"combat_wins_no_items":        return LocaleManager.t("CLASS_UNLOCK_COMBAT_NO_ITEMS", {"value": v})
+		"near_death_survived":         return LocaleManager.t("CLASS_UNLOCK_NEAR_DEATH", {"value": v})
+		"survived_at_1hp":             return LocaleManager.t("CLASS_UNLOCK_1HP_SURVIVED", {"value": v})
+		"attacks_dodged_total":        return LocaleManager.t("CLASS_UNLOCK_ATTACKS_DODGED", {"value": v})
+		"gold_accumulated":            return LocaleManager.t("CLASS_UNLOCK_GOLD", {"value": v})
+		"class_respec_count":          return LocaleManager.t("CLASS_UNLOCK_RESPEC_COUNT", {"value": v})
+		"save_points_used":            return LocaleManager.t("CLASS_UNLOCK_SAVE_POINTS", {"value": v})
+		"enemies_seen_die":            return LocaleManager.t("CLASS_UNLOCK_ENEMIES_SEEN_DIE", {"value": v})
+		"all_classes_completed":       return LocaleManager.t("CLASS_UNLOCK_ALL_CLASSES")
 		_:                             return "%s (%d)" % [t, v]

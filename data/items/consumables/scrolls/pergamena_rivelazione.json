@@ -1,0 +1,13 @@
+{
+  "id": "pergamena_rivelazione",
+  "name": "Pergamena di Rivelazione",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "scroll",
+  "effect": {
+    "scroll_type": "reveal_map"
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

@@ -1,0 +1,21 @@
+{
+  "id": "collana_destino",
+  "name": "Collana del Destino",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 6,
+  "min_level": 53,
+  "max_level": 60,
+  "base_stats": {
+    "hp_bonus": 70,
+    "defense_bonus": 8,
+    "magic_bonus": 9,
+    "attack_bonus": 9
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

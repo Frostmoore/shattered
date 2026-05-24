@@ -130,8 +130,10 @@ func _update_content(enemy: Node) -> void:
 	var dn: Variant = enemy.get("display_name")
 	_name_lbl.text = str(dn) if dn != null else "?"
 
-	var family: String = str(entry.get("family", "")).capitalize()
-	var role:   String = str(entry.get("role",   "")).capitalize()
+	var family_raw: String = str(entry.get("family", ""))
+	var role_raw:   String = str(entry.get("role",   ""))
+	var family: String = LocaleManager.t_or("ENEMY_FAMILY_" + family_raw.to_upper(), family_raw.capitalize())
+	var role:   String = LocaleManager.t_or("ENEMY_ROLE_"   + role_raw.to_upper(),   role_raw.replace("_", " ").capitalize())
 	if family != "" and role != "":
 		_sub_lbl.text = "%s — %s" % [family, role]
 	elif family != "":
@@ -155,9 +157,12 @@ func _update_content(enemy: Node) -> void:
 		if affix.is_empty():
 			continue
 		var lbl := Label.new()
-		var prefix: String = str(affix.get("prefix", str(affix_id)))
+		var prefix: String = AffixRegistry.get_display_prefix(str(affix_id))
+		if prefix == "":
+			prefix = str(affix_id)
 		var rank:   String = str(affix.get("affix_rank", ""))
-		lbl.text = "▸ " + prefix + (" [maggiore]" if rank == "major" else "")
+		var rank_tag: String = " [%s]" % LocaleManager.t("ENEMY_AFFIX_RANK_MAJOR") if rank == "major" else ""
+		lbl.text = "▸ " + prefix + rank_tag
 		lbl.add_theme_color_override("font_color", AFFIX_COLOR)
 		lbl.add_theme_font_size_override("font_size", 11)
 		_affix_container.add_child(lbl)

@@ -1,0 +1,30 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_category": "accessory",
+          "weight": 20
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 18
+        },
+        {
+          "type": "gold",
+          "min": 30,
+          "max": 48,
+          "weight": 15
+        },
+        {
+          "nothing": true,
+          "weight": 55
+        }
+      ]
+    }
+  ]
+}

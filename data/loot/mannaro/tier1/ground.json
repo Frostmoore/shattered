@@ -1,0 +1,34 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_id": "coscia_lupo",
+          "weight": 30
+        },
+        {
+          "item_id": "carne_ratto",
+          "weight": 25
+        },
+        {
+          "item_id": "artiglio_goblin",
+          "weight": 20
+        },
+        {
+          "type": "gold",
+          "min": 3,
+          "max": 4,
+          "weight": 15
+        },
+        {
+          "nothing": true,
+          "weight": 45
+        }
+      ]
+    }
+  ]
+}

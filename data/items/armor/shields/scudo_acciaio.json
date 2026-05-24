@@ -1,0 +1,20 @@
+{
+  "id": "scudo_acciaio",
+  "name": "Scudo d'Acciaio",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 19,
+  "max_level": 29,
+  "base_stats": {
+    "defense_bonus": 16
+  },
+  "requirements": {
+    "str": 9
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

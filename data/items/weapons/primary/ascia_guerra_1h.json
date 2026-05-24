@@ -1,0 +1,20 @@
+{
+  "id": "ascia_guerra_1h",
+  "name": "Ascia da Guerra",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "ascia",
+  "slot": "right_hand",
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 16,
+  "base_stats": {
+    "attack_bonus": 8
+  },
+  "requirements": {
+    "str": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

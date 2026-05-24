@@ -33,3 +33,5 @@ signal game_completed(class_id: String)
 signal milestone_updated(key: String, value: int)
 signal class_unlocked(class_id: String, unlock_name: String)
 signal respec_screen_requested
+signal loot_screen_open(drops: Array, source_label: String)
+signal loot_screen_closed(remaining: Array)

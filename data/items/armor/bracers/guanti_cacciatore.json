@@ -1,0 +1,18 @@
+{
+  "id": "guanti_cacciatore",
+  "name": "Guanti del Cacciatore",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 4,
+  "min_level": 35,
+  "max_level": 47,
+  "base_stats": {
+    "defense_bonus": 14
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

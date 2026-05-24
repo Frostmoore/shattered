@@ -1,0 +1,18 @@
+{
+  "id": "elmetto_ferro",
+  "name": "Elmetto di Ferro",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 10,
+  "base_stats": {
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

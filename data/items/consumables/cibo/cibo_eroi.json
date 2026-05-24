@@ -1,0 +1,14 @@
+{
+  "id": "cibo_eroi",
+  "name": "Cibo degli Eroi",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_stamina": 80,
+    "restore_hp": 150
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

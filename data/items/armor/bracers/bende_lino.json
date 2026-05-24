@@ -1,0 +1,18 @@
+{
+  "id": "bende_lino",
+  "name": "Bende di Lino",
+  "gender": "f",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 4,
+  "base_stats": {
+    "defense_bonus": 0
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

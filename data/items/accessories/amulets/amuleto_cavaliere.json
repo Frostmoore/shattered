@@ -1,0 +1,20 @@
+{
+  "id": "amuleto_cavaliere",
+  "name": "Amuleto del Cavaliere",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 44,
+  "base_stats": {
+    "hp_bonus": 40,
+    "defense_bonus": 5,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

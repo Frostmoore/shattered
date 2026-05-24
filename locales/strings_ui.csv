@@ -1,0 +1,141 @@
+keys,it
+# ── Main Menu ─────────────────────────────────────────────────────────────────
+UI_GAME_TITLE,S H A T T E R E D
+UI_GAME_SUBTITLE,un dungeon crawler ASCII
+UI_MENU_NEW_GAME,Nuova Partita
+UI_MENU_LOAD,Carica
+UI_MENU_OPTIONS,Opzioni
+UI_MENU_QUIT,Esci
+# ── New Game Panel ────────────────────────────────────────────────────────────
+UI_NEWGAME_TITLE,NUOVA PARTITA
+UI_NEWGAME_WORLD_LABEL,Mondo
+UI_NEWGAME_WORLD_NAME_LABEL,Nome:
+UI_NEWGAME_WORLD_NAME_PLACEHOLDER,Nome del mondo
+UI_NEWGAME_CHAR_LABEL,Personaggio
+UI_NEWGAME_CHAR_NAME_PLACEHOLDER,Nome personaggio
+UI_NEWGAME_PERMADEATH_LABEL,Permadeath
+UI_NEWGAME_PERMADEATH_DESC,(il save viene cancellato alla morte)
+UI_NEWGAME_DEFAULT_CHAR_NAME,Avventuriero
+UI_NEWGAME_ERR_SELECT_WORLD,Seleziona un mondo.
+UI_NEWGAME_ERR_WORLD_NAME_EMPTY,Inserisci un nome per il nuovo mondo.
+UI_NEWGAME_ERR_WORLD_EXISTS,Esiste già un mondo con questo nome.
+UI_NEWGAME_ERR_CHAR_NAME_EMPTY,Inserisci un nome per il personaggio.
+UI_NEWGAME_ERR_CHAR_EXISTS,Personaggio già esistente in questo mondo.
+# ── World Select ──────────────────────────────────────────────────────────────
+UI_WORLDSELECT_TITLE,CARICA PARTITA
+UI_WORLDSELECT_WORLDS_LABEL,Mondi
+UI_WORLDSELECT_DELETE_WORLD,Elimina mondo
+UI_WORLDSELECT_CHARS_LABEL,Personaggi
+UI_WORLDSELECT_DELETE_CHAR,Elimina personaggio
+UI_WORLDSELECT_DELETE_WORLD_TITLE,Elimina Mondo
+UI_WORLDSELECT_DELETE_WORLD_TEXT,Eliminare il mondo "{name}"{detail}? Quest'azione è irreversibile.
+UI_WORLDSELECT_DELETE_WORLD_DETAIL, (include {count} personagg{suffix})
+UI_WORLDSELECT_DELETE_CHAR_TITLE,Elimina Personaggio
+UI_WORLDSELECT_DELETE_CHAR_TEXT,Eliminare il personaggio "{name}"? Quest'azione è irreversibile.
+# ── Pause Menu ────────────────────────────────────────────────────────────────
+UI_PAUSE_TITLE,- PAUSA -
+UI_PAUSE_RESUME,Riprendi
+UI_PAUSE_INVENTORY,Inventario
+UI_PAUSE_STATUS,Stato personaggio  [C]
+UI_PAUSE_QUEST_JOURNAL,Diario quest  [J]
+UI_PAUSE_OPTIONS,Opzioni
+UI_PAUSE_SAVE,Salva
+UI_PAUSE_LOAD,Carica
+UI_PAUSE_MAIN_MENU,Menu principale
+# ── Options Menu ─────────────────────────────────────────────────────────────
+UI_OPTIONS_TITLE,- OPZIONI -
+UI_OPTIONS_WINDOW_SIZE,Dimensione finestra:
+UI_OPTIONS_FULLSCREEN,Schermo intero
+UI_OPTIONS_MASTER_VOLUME,Volume master:
+UI_OPTIONS_ZOOM,Zoom camera (dimensione tessere):
+UI_OPTIONS_LANGUAGE,Lingua:
+UI_OPTIONS_APPLY,Applica
+UI_OPTIONS_BACK,Indietro
+# ── HUD ───────────────────────────────────────────────────────────────────────
+UI_HUD_HP,HP
+UI_HUD_MP,MP
+UI_HUD_STAMINA,ST
+UI_HUD_GOLD,Oro: {amount}
+UI_HUD_STATS,ATK: {atk}  DEF: {def}
+UI_HUD_ZONE,Zona: {zone}
+UI_HUD_QUEST,Quest: {title}
+UI_HUD_QUEST_NONE,Quest: —
+UI_HUD_MAX_LEVEL,MAX
+UI_HUD_LEVEL_TAG,LV{level}
+# ── Status Screen ─────────────────────────────────────────────────────────────
+UI_STATUS_TITLE,Stato del Personaggio
+UI_STATUS_SECTION_ATTRIBUTES,ATTRIBUTI
+UI_STATUS_SECTION_STATS,CARATTERISTICHE
+UI_STATUS_CLASS_TIER,{class}  (Tier {tier})
+UI_STATUS_SPECIAL_ABILITY,[{key}]  {name}
+UI_STATUS_ATTR_LINE,{attr}  {value}
+UI_STATUS_ATTACK_LINE,Attacco:  {total}  (base {base}  +{equip} equip)
+UI_STATUS_DEFENSE_LINE,Difesa:   {total}  (base {base}  +{equip} equip)
+UI_STATUS_LEVEL,Livello  {level}
+UI_STATUS_MAX_LEVEL,Livello massimo
+UI_STATUS_XP,{current} / {max} XP
+UI_STATUS_EQUIP_BONUS_NONE,Nessun bonus da equipaggiamento
+UI_STATUS_EQUIP_BONUS_HEADER,Bonus {attr} da equipaggiamento:
+UI_STATUS_EQUIP_BONUS_LINE,+{amount}  {source}
+UI_STATUS_STAT_ATK,attacco
+UI_STATUS_STAT_DEF,difesa
+# ── Quest Journal ─────────────────────────────────────────────────────────────
+UI_QUEST_TITLE,DIARIO DELLE QUEST
+UI_QUEST_SECTION_ACTIVE,IN CORSO
+UI_QUEST_SECTION_READY,DA CONSEGNARE
+UI_QUEST_SECTION_DONE,COMPLETATE
+UI_QUEST_EMPTY,Nessuna quest nel diario.
+UI_QUEST_OBJECTIVE_KILL,Sconfiggi {target}: {current}/{required}
+UI_QUEST_READY_HINT,→ Torna a consegnare la quest
+UI_QUEST_OBJECTIVE_DONE, ✓
+# ── Inventory Panel ───────────────────────────────────────────────────────────
+UI_INVENTORY_TITLE,INVENTARIO
+UI_INVENTORY_TAB_EQUIPMENT,Equip.
+UI_INVENTORY_TAB_BAG,Zaino
+UI_INVENTORY_SELECT,Seleziona
+UI_INVENTORY_SLOT_LABEL,Slot:
+UI_INV_FILTER_ALL,Tutti
+UI_INV_ACTION_USE,Usa
+UI_INV_ACTION_EQUIP,Equipaggia
+UI_INV_ACTION_UNEQUIP,Rimuovi
+UI_INV_ACTION_KEY,Chiave
+UI_INV_ACTION_LICENSE,Usa Licenza
+UI_INV_ACTION_NONE,Nessuna azione
+UI_INV_IDENTIFY_SELECT,Seleziona un oggetto non identificato.
+UI_INV_IDENTIFY_INVALID,Questo oggetto non può essere identificato.
+UI_INV_IDENTIFY_ALREADY,Questo oggetto è già identificato.
+UI_INV_JUNK_BTN,🗑 Getta tutto
+UI_INV_JUNK_TITLE,Getta ciarpame
+UI_INV_JUNK_CONFIRM,Eliminare {count} materiali dall'inventario?
+# ── Combat Bar ───────────────────────────────────────────────────────────────
+UI_COMBATBAR_EXPLORE,Esplora il mondo...
+UI_COMBATBAR_WAIT,[Q] Aspetta
+UI_COMBATBAR_FLEE,[F] Fuggi
+UI_COMBATBAR_INVENTORY,[I] Inventario
+UI_COMBATBAR_MENU,[Esc] Menu
+UI_COMBATBAR_COMBAT,Combattimento!
+UI_COMBATBAR_DUNGEON,Dungeon - attento ai nemici!
+# ── Game Over ─────────────────────────────────────────────────────────────────
+UI_GAMEOVER_TITLE,GAME  OVER
+UI_GAMEOVER_RETRY,Riprova
+UI_GAMEOVER_MAIN_MENU,Menu principale
+UI_GAMEOVER_QUIT,Esci
+# ── Dialogue Box ─────────────────────────────────────────────────────────────
+UI_DIALOGUE_SPEAKER_DEFAULT,???
+UI_DIALOGUE_CONTINUE,[E / Spazio per continuare]
+# ── Loot Screen ──────────────────────────────────────────────────────────────
+UI_LOOT_TITLE,Bottino
+UI_LOOT_TAKE_ALL,Prendi tutto
+UI_LOOT_CLOSE,Chiudi
+UI_LOOT_GOLD_LOG,Raccolto: {amount} oro
+# ── Generic / shared ─────────────────────────────────────────────────────────
+UI_BTN_CONFIRM,Conferma
+UI_BTN_CANCEL,Annulla
+UI_BTN_BACK,Indietro
+UI_BTN_CLOSE,Chiudi
+UI_BTN_DELETE,Elimina
+UI_CHEST_EMPTY_LOOTED,Il forziere è vuoto.
+UI_CHEST_EMPTY_NO_LOOT,Il forziere è vuoto!
+UI_WARN_CANT_USE_ITEMS,Non puoi usare oggetti in questo stato!
+UI_TARGETING_INVALID,Seleziona un bersaglio valido (tile verde).
+UI_SUMMONER_CHOOSE_TITLE,Scegli Elementale  (ESC = Annulla)

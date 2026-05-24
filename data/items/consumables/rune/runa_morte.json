@@ -1,0 +1,14 @@
+{
+  "id": "runa_morte",
+  "name": "Runa della Morte",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "damage_heavy": 1,
+    "rune_type": "death"
+  },
+  "stackable": false,
+  "loot_weight": 7
+}

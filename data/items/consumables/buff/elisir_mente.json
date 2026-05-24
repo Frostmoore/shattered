@@ -1,0 +1,15 @@
+{
+  "id": "elisir_mente",
+  "name": "Elisir della Mente",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_int": 4,
+    "buff_wil": 4,
+    "duration": 12
+  },
+  "stackable": true,
+  "loot_weight": 10
+}

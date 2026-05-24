@@ -1,0 +1,20 @@
+{
+  "id": "ciondolo_sacerdote",
+  "name": "Ciondolo del Sacerdote",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 2,
+  "min_level": 16,
+  "max_level": 25,
+  "base_stats": {
+    "hp_bonus": 20,
+    "defense_bonus": 2,
+    "magic_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

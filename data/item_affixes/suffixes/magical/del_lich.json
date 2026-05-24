@@ -1,0 +1,27 @@
+{
+  "id": "del_lich",
+  "type": "suffix",
+  "name_m": "del Lich",
+  "name_f": "del Lich",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "veste"
+  ],
+  "min_level": 30,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "magic_bonus": 7,
+    "mp_bonus": 40
+  }
+}

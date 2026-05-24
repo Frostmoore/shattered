@@ -1,0 +1,20 @@
+{
+  "id": "armatura_corsaro",
+  "name": "Armatura del Corsaro",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 33,
+  "max_level": 42,
+  "base_stats": {
+    "defense_bonus": 26
+  },
+  "requirements": {
+    "str": 14
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,18 @@
+{
+  "id": "corazza_cacciatore_taglie",
+  "name": "Corazza del Cacciatore di Taglie",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 55,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 28
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,20 @@
+{
+  "id": "scudo_custode",
+  "name": "Scudo del Custode",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 23,
+  "max_level": 34,
+  "base_stats": {
+    "defense_bonus": 19
+  },
+  "requirements": {
+    "str": 11
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,0 +1,20 @@
+{
+  "id": "arco_corto",
+  "name": "Arco Corto",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 10,
+  "base_stats": {
+    "attack_bonus": 4
+  },
+  "requirements": {
+    "dex": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

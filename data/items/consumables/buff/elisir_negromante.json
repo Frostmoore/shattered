@@ -1,0 +1,15 @@
+{
+  "id": "elisir_negromante",
+  "name": "Elisir del Negromante",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 30,
+    "immunity_disease": 1,
+    "immunity_poison": 1
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

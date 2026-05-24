@@ -53,15 +53,18 @@ func _ready() -> void:
 	vbox.size_flags_vertical   = Control.SIZE_EXPAND_FILL
 	add_child(vbox)
 
+	var cid: String = str(class_data.get("id", ""))
+	var disp_name: String = ClassRegistry.get_display_name(cid) if cid != "" else str(class_data.get("name", "?"))
+
 	var letter_lbl := Label.new()
-	letter_lbl.text = str(class_data.get("name", "?")).substr(0, 1).to_upper()
+	letter_lbl.text = disp_name.substr(0, 1).to_upper()
 	letter_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	letter_lbl.add_theme_font_size_override("font_size", 20)
 	letter_lbl.add_theme_color_override("font_color", Color.WHITE)
 	vbox.add_child(letter_lbl)
 
 	var name_lbl := Label.new()
-	name_lbl.text = _short(str(class_data.get("name", "")), 9)
+	name_lbl.text = _short(disp_name, 9)
 	name_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	name_lbl.add_theme_font_size_override("font_size", 8)
 	name_lbl.add_theme_color_override("font_color", Color(0.92, 0.92, 0.92))

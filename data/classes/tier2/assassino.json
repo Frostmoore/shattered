@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "assassino",
 	"name": "Assassino",
 	"desc": "Colpisce nell'ombra. I boss sono la sua specialità.",
@@ -12,5 +12,7 @@
 	"special_name": "Esecuzione / Ombra",
 	"special_desc": "Nemici <20% HP: kill istantaneo. Dopo ogni kill: invisibile 1 turno.",
 	"unlock": { "type": "kills_boss", "value": 5, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "planned" }
+	"implementation": { "status": "planned" },
+	"loot_archetype": "rogue",
+	"allowed_item_types": ["pugnale", "spada", "armatura_leggera", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

@@ -1,0 +1,19 @@
+{
+  "id": "ciondolo_inciso",
+  "name": "Ciondolo Inciso",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 12,
+  "base_stats": {
+    "attack_bonus": 1,
+    "magic_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

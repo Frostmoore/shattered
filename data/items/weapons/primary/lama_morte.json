@@ -1,0 +1,23 @@
+{
+  "id": "lama_morte",
+  "name": "Lama della Morte",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 5,
+  "min_level": 43,
+  "max_level": 50,
+  "base_stats": {
+    "attack_bonus": 29
+  },
+  "requirements": {
+    "dex": 21
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

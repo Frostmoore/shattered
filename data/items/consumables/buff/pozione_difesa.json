@@ -1,0 +1,14 @@
+{
+  "id": "pozione_difesa",
+  "name": "Pozione della Difesa",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 20,
+    "duration": 10
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

@@ -1,0 +1,30 @@
+{
+  "id": "eterico",
+  "type": "prefix",
+  "name_m": "Eterico",
+  "name_f": "Eterica",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 20,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 8,
+  "bonuses": {
+    "magic_bonus": 4,
+    "mp_bonus": 20
+  }
+}

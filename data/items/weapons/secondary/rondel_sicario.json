@@ -1,0 +1,24 @@
+{
+  "id": "rondel_sicario",
+  "name": "Rondel del Sicario",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 58,
+  "base_stats": {
+    "attack_bonus": 34,
+    "defense_bonus": 10
+  },
+  "requirements": {
+    "dex": 24
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "divinita",
 	"name": "Divinità",
 	"desc": "Ha completato tutto. Ha visto tutto. Adesso è annoiato.",
@@ -13,5 +13,7 @@
 	"special_desc": "Non può morire. Nessun fog of war (mappa sempre visibile). Fa sempre esattamente 1 danno per attacco, indipendentemente da qualsiasi stat o bonus.",
 	"god_mode": { "invincible": true, "fov_disabled": true, "damage_override": 1 },
 	"unlock": { "type": "all_classes_completed", "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "divine",
+	"allowed_item_types": ["spada", "ascia", "mazza", "pugnale", "bacchetta", "sfera", "simbolo_sacro", "totem", "libro_arcano", "spadone", "ascia_bipenne", "martello_guerra", "bastone", "arco", "balestra", "lancia", "armatura_leggera", "armatura_media", "armatura_pesante", "veste", "scudo", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

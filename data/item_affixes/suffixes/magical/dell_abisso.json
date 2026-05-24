@@ -1,0 +1,29 @@
+{
+  "id": "dell_abisso",
+  "type": "suffix",
+  "name_m": "dell'Abisso",
+  "name_f": "dell'Abisso",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 25,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "magic_bonus": 6,
+    "attack_bonus": 2
+  }
+}

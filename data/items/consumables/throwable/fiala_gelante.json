@@ -1,0 +1,15 @@
+{
+  "id": "fiala_gelante",
+  "name": "Fiala Gelante",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "slow": 1,
+    "damage": 18,
+    "throw_type": "ice"
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

@@ -1,0 +1,18 @@
+{
+  "id": "calzari_templare",
+  "name": "Calzari del Templare",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 30,
+  "base_stats": {
+    "defense_bonus": 7
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

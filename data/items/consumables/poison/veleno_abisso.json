@@ -1,0 +1,16 @@
+{
+  "id": "veleno_abisso",
+  "name": "Veleno dell'Abisso",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "debuff_all": 10,
+    "poison_type": "abyssal",
+    "applies_on_hit": 1,
+    "damage_per_turn": 12
+  },
+  "stackable": true,
+  "loot_weight": 4
+}

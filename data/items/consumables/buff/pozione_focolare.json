@@ -1,0 +1,14 @@
+{
+  "id": "pozione_focolare",
+  "name": "Pozione del Focolare",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "resist_fire": 1,
+    "duration": 20
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

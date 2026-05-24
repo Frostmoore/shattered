@@ -1,0 +1,21 @@
+{
+  "id": "toga_lich",
+  "name": "Toga del Lich",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 52,
+  "base_stats": {
+    "magic_bonus": 28,
+    "defense_bonus": 8
+  },
+  "requirements": {
+    "int": 18
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

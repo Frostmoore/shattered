@@ -1,0 +1,18 @@
+{
+  "id": "manopole_guerriero",
+  "name": "Manopole del Guerriero",
+  "gender": "f",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 3,
+  "min_level": 25,
+  "max_level": 35,
+  "base_stats": {
+    "defense_bonus": 9
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,0 +1,21 @@
+{
+  "id": "veste_stregone",
+  "name": "Veste dello Stregone",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 19,
+  "base_stats": {
+    "magic_bonus": 7,
+    "defense_bonus": 2
+  },
+  "requirements": {
+    "int": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

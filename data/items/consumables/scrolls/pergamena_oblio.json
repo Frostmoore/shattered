@@ -1,0 +1,13 @@
+{
+  "id": "pergamena_oblio",
+  "name": "Pergamena dell'Oblio",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "scroll",
+  "effect": {
+    "scroll_type": "reset_detection"
+  },
+  "stackable": true,
+  "loot_weight": 6
+}

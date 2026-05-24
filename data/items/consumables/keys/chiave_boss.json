@@ -1,0 +1,13 @@
+{
+  "id": "chiave_boss",
+  "name": "Chiave del Boss",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "boss_room"
+  },
+  "stackable": false,
+  "loot_weight": 4
+}

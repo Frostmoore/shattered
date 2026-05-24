@@ -1,0 +1,50 @@
+keys,it
+# ── Enemy names ───────────────────────────────────────────────────────────────
+ENEMY_ANCIENT_DRAGON_NAME,Drago Antico
+ENEMY_ARCHLICH_NAME,Arcilich
+ENEMY_BANDIT_NAME,Bandito
+ENEMY_BAT_NAME,Pipistrello
+ENEMY_CHAOS_KNIGHT_NAME,Cavaliere del Caos
+ENEMY_DARK_ELF_NAME,Elfo Oscuro
+ENEMY_DEATH_KNIGHT_NAME,Cavaliere della Morte
+ENEMY_DEMON_NAME,Demone
+ENEMY_DRAGON_WHELP_NAME,Drago Giovane
+ENEMY_FALLEN_ANGEL_NAME,Angelo Caduto
+ENEMY_GARGOYLE_NAME,Garguglia
+ENEMY_GHOUL_NAME,Ghoul
+ENEMY_GIANT_SPIDER_NAME,Ragno Gigante
+ENEMY_GOBLIN_NAME,Goblin
+ENEMY_GOLEM_NAME,Golem
+ENEMY_KOBOLD_NAME,Coboldo
+ENEMY_LICH_NAME,Lich
+ENEMY_LIZARDMAN_NAME,Uomo Lucertola
+ENEMY_OGRE_NAME,Ogre
+ENEMY_ORC_NAME,Orco
+ENEMY_RAT_NAME,Ratto
+ENEMY_SKELETON_NAME,Scheletro
+ENEMY_SLIME_NAME,Melma
+ENEMY_SPIDER_NAME,Ragno
+ENEMY_TROLL_NAME,Troll delle Caverne
+ENEMY_VAMPIRE_NAME,Vampiro
+ENEMY_VOID_STALKER_NAME,Predatore del Vuoto
+ENEMY_WEREWOLF_NAME,Lupo Mannaro
+ENEMY_WITCH_NAME,Strega
+ENEMY_ZOMBIE_NAME,Zombie
+# ── Enemy roles ───────────────────────────────────────────────────────────────
+ENEMY_ROLE_ASSASSIN,Assassino
+ENEMY_ROLE_BRUTE,Bruto
+ENEMY_ROLE_CONTROLLER,Controllore
+ENEMY_ROLE_GLASS_CANNON,Cannone di Vetro
+ENEMY_ROLE_SKIRMISHER,Schermagliatore
+ENEMY_ROLE_SOLDIER,Soldato
+ENEMY_ROLE_SWARM,Sciame
+ENEMY_ROLE_TANK,Tank
+# ── Enemy affix prefixes (nemici) ─────────────────────────────────────────────
+ENEMY_AFFIX_ARMORED_PREFIX,Corazzato
+ENEMY_AFFIX_BERSERKER_PREFIX,Berserker
+ENEMY_AFFIX_ENRAGED_PREFIX,Infuriato
+ENEMY_AFFIX_IRONCLAD_PREFIX,Indistruttibile
+ENEMY_AFFIX_SWIFT_PREFIX,Agile
+ENEMY_AFFIX_TOUGH_PREFIX,Resistente
+ENEMY_AFFIX_VENOMOUS_PREFIX,Velenoso
+ENEMY_AFFIX_RANK_MAJOR,maggiore

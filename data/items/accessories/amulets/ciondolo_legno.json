@@ -1,0 +1,18 @@
+{
+  "id": "ciondolo_legno",
+  "name": "Ciondolo di Legno",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 5,
+  "base_stats": {
+    "hp_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

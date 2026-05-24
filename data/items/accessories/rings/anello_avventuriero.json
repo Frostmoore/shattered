@@ -1,0 +1,22 @@
+{
+  "id": "anello_avventuriero",
+  "name": "Anello d'Avventuriero",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 15,
+  "base_stats": {
+    "attack_bonus": 2,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

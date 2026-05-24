@@ -1,0 +1,16 @@
+{
+	"id": "spada_corta",
+	"name": "Spada Corta",
+	"gender": "f",
+	"icon": "/",
+	"item_category": "weapon",
+	"item_type": "spada",
+	"slot": "right_hand",
+	"tier": 1,
+	"min_level": 1,
+	"max_level": 12,
+	"base_stats": { "attack_bonus": 3 },
+	"requirements": { "str": 4 },
+	"scalable": false,
+	"loot_weight": 25
+}

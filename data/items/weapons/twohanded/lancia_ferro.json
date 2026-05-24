@@ -1,0 +1,20 @@
+{
+  "id": "lancia_ferro",
+  "name": "Lancia di Ferro",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "lancia",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 10,
+  "max_level": 18,
+  "base_stats": {
+    "attack_bonus": 11
+  },
+  "requirements": {
+    "str": 6
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

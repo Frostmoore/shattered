@@ -1,0 +1,30 @@
+keys,it
+# ── Item notifications ────────────────────────────────────────────────────────
+NOTIF_ITEM_COLLECTED_SINGLE,Raccolto: {name}
+NOTIF_ITEM_COLLECTED_MULTI,{name} x{qty}
+NOTIF_GOLD_GAINED,+{amount} oro
+NOTIF_ITEM_IDENTIFIED,Identificato: {name}
+# ── Quest notifications ───────────────────────────────────────────────────────
+NOTIF_QUEST_STARTED,Nuova quest: {title}
+NOTIF_QUEST_READY,Torna a consegnare: {title}
+NOTIF_QUEST_COMPLETED,Quest completata: {title}
+# ── Level up notifications ────────────────────────────────────────────────────
+NOTIF_LEVEL_UP_TITLE,Livello {level}!
+NOTIF_LEVEL_UP_RESTORE,HP · MP · Stamina ripristinati
+NOTIF_ATTR_GAIN,{attr} +{amount}
+# ── Class notifications ───────────────────────────────────────────────────────
+NOTIF_CLASS_UNLOCKED,Classe sbloccata: {name}!
+NOTIF_CLASS_CHANGED,Classe cambiata: {name}!
+# ── Save point notification ───────────────────────────────────────────────────
+NOTIF_SAVE_POINT,Partita salvata — HP ripristinati
+# ── Combat notifications ──────────────────────────────────────────────────────
+NOTIF_ENEMY_KILLED,{name} sconfitto
+NOTIF_PLAYER_DIED,Sei morto.
+NOTIF_ESCAPED,Sei fuggito!
+NOTIF_CANT_FLEE,Non riesci a fuggire!
+NOTIF_DOOR_LOCKED,La porta è chiusa a chiave.
+NOTIF_DOOR_UNLOCKED,Porta aperta.
+NOTIF_NO_KEY,Non hai la chiave giusta.
+# ── Transition / exploration ──────────────────────────────────────────────────
+NOTIF_ENTERING_LOCATION,Entri in: {name}
+NOTIF_EXITING_DUNGEON,Risali in superficie.

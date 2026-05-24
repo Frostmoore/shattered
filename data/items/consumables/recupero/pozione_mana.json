@@ -1,0 +1,13 @@
+{
+  "id": "pozione_mana",
+  "name": "Pozione di Mana",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 30
+  },
+  "stackable": true,
+  "loot_weight": 20
+}

@@ -56,6 +56,7 @@ func _generate(type: String, params: Dictionary) -> MapData:
 	match type:
 		"overworld": return OverworldGenerator.generate(params)
 		"village":   return VillageGenerator.generate(params)
+		"city":      return CityGenerator.generate(params)
 		"dungeon":   return DungeonGenerator.generate(params)
 		"building":  return BuildingGenerator.generate(params)
 		_:

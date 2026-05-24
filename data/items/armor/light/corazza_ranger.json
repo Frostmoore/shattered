@@ -1,0 +1,18 @@
+{
+  "id": "corazza_ranger",
+  "name": "Corazza del Ranger",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 21,
+  "max_level": 28,
+  "base_stats": {
+    "defense_bonus": 11
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

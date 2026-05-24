@@ -1,0 +1,18 @@
+{
+  "id": "stivali_viandante",
+  "name": "Stivali del Viandante",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 10,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

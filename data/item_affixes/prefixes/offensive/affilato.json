@@ -1,0 +1,13 @@
+{
+	"id": "affilato",
+	"type": "prefix",
+	"name_m": "Affilato",
+	"name_f": "Affilata",
+	"affix_category": "offensive",
+	"allowed_item_types": ["spada", "ascia", "mazza", "pugnale", "spadone", "ascia_bipenne", "martello_guerra"],
+	"min_level": 1,
+	"min_quality": "magico",
+	"allowed_tiers": ["magico", "raro", "epico", "leggendario"],
+	"weight": 25,
+	"bonuses": { "attack_bonus": 2 }
+}

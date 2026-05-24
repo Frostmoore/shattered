@@ -1,0 +1,14 @@
+{
+  "id": "distillato_resistenza",
+  "name": "Distillato di Resistenza",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 35,
+    "duration": 8
+  },
+  "stackable": true,
+  "loot_weight": 11
+}

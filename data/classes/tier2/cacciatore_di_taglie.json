@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "cacciatore_di_taglie",
 	"name": "Cacciatore di Taglie",
 	"desc": "Studia ogni nemico. Il Marchio garantisce che non sopravviva.",
@@ -12,5 +12,7 @@
 	"special_name": "Marchio",
 	"special_desc": "Designa un nemico visibile: riceve +50% danno da tutte le fonti. Max 1 bersaglio.",
 	"unlock": { "type": "kills_enemy_type_all", "value": 1, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["arco", "balestra", "pugnale", "spada", "armatura_leggera", "armatura_media", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

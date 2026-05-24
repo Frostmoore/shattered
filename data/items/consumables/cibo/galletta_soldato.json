@@ -1,0 +1,13 @@
+{
+  "id": "galletta_soldato",
+  "name": "Galletta del Soldato",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 15
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

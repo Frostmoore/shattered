@@ -1,0 +1,15 @@
+{
+  "id": "runa_fulmine_r",
+  "name": "Runa del Fulmine",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "stun": 1,
+    "rune_type": "lightning",
+    "duration": 2
+  },
+  "stackable": false,
+  "loot_weight": 14
+}

@@ -1,0 +1,18 @@
+{
+  "id": "stivali_soldato",
+  "name": "Stivali del Soldato",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 19,
+  "base_stats": {
+    "defense_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

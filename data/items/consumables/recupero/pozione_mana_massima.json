@@ -1,0 +1,13 @@
+{
+  "id": "pozione_mana_massima",
+  "name": "Pozione di Mana Massima",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 220
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

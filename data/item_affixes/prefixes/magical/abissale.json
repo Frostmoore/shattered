@@ -1,0 +1,26 @@
+{
+  "id": "abissale",
+  "type": "prefix",
+  "name_m": "Abissale",
+  "name_f": "Abissale",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "veste"
+  ],
+  "min_level": 30,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "magic_bonus": 6
+  }
+}

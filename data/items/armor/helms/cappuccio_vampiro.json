@@ -1,0 +1,18 @@
+{
+  "id": "cappuccio_vampiro",
+  "name": "Cappuccio del Vampiro",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 5,
+  "min_level": 45,
+  "max_level": 56,
+  "base_stats": {
+    "defense_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

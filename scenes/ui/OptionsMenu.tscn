@@ -64,6 +64,12 @@ theme_override_font_sizes/font_size = 12
 
 [node name="ZoomOption" type="OptionButton" parent="Panel/VBox"]
 
+[node name="LabelLanguage" type="Label" parent="Panel/VBox"]
+text = "Lingua:"
+theme_override_font_sizes/font_size = 12
+
+[node name="LanguageOption" type="OptionButton" parent="Panel/VBox"]
+
 [node name="ApplyButton" type="Button" parent="Panel/VBox"]
 text = "Applica"
 alignment = 1

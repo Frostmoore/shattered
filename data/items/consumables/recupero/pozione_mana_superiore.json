@@ -1,0 +1,13 @@
+{
+  "id": "pozione_mana_superiore",
+  "name": "Pozione di Mana Superiore",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 130
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

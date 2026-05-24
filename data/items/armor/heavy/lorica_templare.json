@@ -1,0 +1,20 @@
+{
+  "id": "lorica_templare",
+  "name": "Lorica del Templare",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 30,
+  "max_level": 40,
+  "base_stats": {
+    "defense_bonus": 34
+  },
+  "requirements": {
+    "str": 18
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

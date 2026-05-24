@@ -1,0 +1,21 @@
+{
+  "id": "abiti_paradosso",
+  "name": "Abiti del Paradosso",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 56,
+  "max_level": 60,
+  "base_stats": {
+    "magic_bonus": 42,
+    "defense_bonus": 11
+  },
+  "requirements": {
+    "int": 25
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

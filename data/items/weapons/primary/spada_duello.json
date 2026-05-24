@@ -1,0 +1,20 @@
+{
+  "id": "spada_duello",
+  "name": "Spada da Duello",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spada",
+  "slot": "right_hand",
+  "tier": 2,
+  "min_level": 10,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 10
+  },
+  "requirements": {
+    "str": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

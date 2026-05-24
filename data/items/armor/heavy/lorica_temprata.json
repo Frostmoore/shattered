@@ -1,0 +1,20 @@
+{
+  "id": "lorica_temprata",
+  "name": "Lorica Temprata",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 50,
+  "base_stats": {
+    "defense_bonus": 45
+  },
+  "requirements": {
+    "str": 24
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

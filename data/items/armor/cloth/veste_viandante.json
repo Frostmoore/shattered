@@ -1,0 +1,21 @@
+{
+  "id": "veste_viandante",
+  "name": "Veste del Viandante",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 2,
+  "max_level": 8,
+  "base_stats": {
+    "magic_bonus": 2,
+    "defense_bonus": 0
+  },
+  "requirements": {
+    "int": 0
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

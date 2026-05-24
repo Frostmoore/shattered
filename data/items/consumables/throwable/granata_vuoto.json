@@ -1,0 +1,16 @@
+{
+  "id": "granata_vuoto",
+  "name": "Granata del Vuoto",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "slow": 1,
+    "damage": 60,
+    "area": 3,
+    "throw_type": "void"
+  },
+  "stackable": true,
+  "loot_weight": 6
+}

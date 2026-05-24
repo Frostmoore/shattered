@@ -1,0 +1,23 @@
+{
+  "id": "devastante",
+  "type": "prefix",
+  "name_m": "Devastante",
+  "name_f": "Devastante",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia"
+  ],
+  "min_level": 30,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "attack_bonus": 8
+  }
+}

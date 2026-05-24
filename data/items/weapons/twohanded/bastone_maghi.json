@@ -1,0 +1,21 @@
+{
+  "id": "bastone_maghi",
+  "name": "Bastone dei Maghi",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 48,
+  "base_stats": {
+    "attack_bonus": 21,
+    "magic_bonus": 33
+  },
+  "requirements": {
+    "int": 19
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,18 @@
+{
+  "id": "corona_oscura",
+  "name": "Corona Oscura",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 59,
+  "base_stats": {
+    "defense_bonus": 22
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

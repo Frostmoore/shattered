@@ -17,10 +17,18 @@ const TIER_COLORS: Array[Color] = [
 	Color(0.62, 0.52, 0.06),   # Tier 6 — oro
 ]
 
+const VALIDATOR_PATHS := {
+	"Items":        "res://scripts/tools/validators/validate_items.gd",
+	"Affissi":      "res://scripts/tools/validators/validate_affixes.gd",
+	"Loot Tables":  "res://scripts/tools/validators/validate_loot_tables.gd",
+	"Classi":       "res://scripts/tools/validators/validate_classes.gd",
+}
+
 var _sections: Dictionary = {}
 var _vbox:     VBoxContainer
 var _timer:    Timer
 var _switcher_current_lbl: Label   # aggiornata da _refresh()
+var _val_result_lbl: RichTextLabel
 
 
 func _ready() -> void:
@@ -46,7 +54,10 @@ func _ready() -> void:
 	_add_section("druid_form",       "DruidForm")
 	_add_section("milestones",       "Milestones")
 	_add_section("respec",           "Respec")
+	_add_section("loot_db",          "LootDB")
 	_build_class_switcher()
+	_build_loot_tools()
+	_build_validation_tools()
 	_refresh()
 
 
@@ -170,6 +181,7 @@ func _refresh() -> void:
 	_update_druid_form()
 	_update_milestones()
 	_update_respec()
+	_update_loot_db()
 	_update_switcher()
 
 
@@ -706,6 +718,210 @@ func _do_class_switch(class_id: String) -> void:
 	_refresh()
 
 
+func _update_loot_db() -> void:
+	var s: DebugSection = get_section("loot_db")
+	if not s:
+		return
+	var idb: Node  = get_node_or_null("/root/ItemDB")
+	var iadb: Node = get_node_or_null("/root/ItemAffixDB")
+	var ltdb: Node = get_node_or_null("/root/LootTableDB")
+	var igen: Node = get_node_or_null("/root/ItemGenerator")
+	var lres: Node = get_node_or_null("/root/LootResolver")
+	var lines: Array[String] = [
+		"ItemDB:        %s  (%d item)"   % [("OK" if idb  else "NON CARICATO"), (idb.get("_items")  as Dictionary).size() if idb  else 0],
+		"ItemAffixDB:   %s  (%d affissi)"% [("OK" if iadb else "NON CARICATO"), (iadb.get("_affixes") as Dictionary).size() if iadb else 0],
+		"LootTableDB:   %s  (%d cache)"  % [("OK" if ltdb else "NON CARICATO"), (ltdb.get("_cache")  as Dictionary).size() if ltdb else 0],
+		"ItemGenerator: %s"              %  ("OK" if igen else "NON CARICATO"),
+		"LootResolver:  %s"              %  ("OK" if lres else "NON CARICATO"),
+	]
+	s.update(lines)
+
+
+func _build_loot_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ LootTools"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(0.6, 1.0, 0.6))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "LootTools"
+	)
+
+	# Row 1: resolve buttons
+	var row1 := HBoxContainer.new()
+	row1.add_theme_constant_override("separation", 6)
+	body.add_child(row1)
+
+	var btn_enemy := Button.new()
+	btn_enemy.text = "Simula nemico"
+	btn_enemy.add_theme_font_size_override("font_size", 10)
+	btn_enemy.pressed.connect(_debug_loot_enemy)
+	row1.add_child(btn_enemy)
+
+	var btn_chest := Button.new()
+	btn_chest.text = "Simula chest"
+	btn_chest.add_theme_font_size_override("font_size", 10)
+	btn_chest.pressed.connect(_debug_loot_chest)
+	row1.add_child(btn_chest)
+
+	var btn_ground := Button.new()
+	btn_ground.text = "Simula ground"
+	btn_ground.add_theme_font_size_override("font_size", 10)
+	btn_ground.pressed.connect(_debug_loot_ground)
+	row1.add_child(btn_ground)
+
+	# Row 2: ItemGenerator tests
+	var row2 := HBoxContainer.new()
+	row2.add_theme_constant_override("separation", 6)
+	body.add_child(row2)
+
+	var btn_drop := Button.new()
+	btn_drop.text = "Drop spada_corta"
+	btn_drop.add_theme_font_size_override("font_size", 10)
+	btn_drop.pressed.connect(_debug_drop_item.bind("spada_corta"))
+	row2.add_child(btn_drop)
+
+	var btn_drop_unique := Button.new()
+	btn_drop_unique.text = "Drop unico"
+	btn_drop_unique.add_theme_font_size_override("font_size", 10)
+	btn_drop_unique.pressed.connect(_debug_drop_item.bind("spada_dell_alba"))
+	row2.add_child(btn_drop_unique)
+
+	var btn_open_screen := Button.new()
+	btn_open_screen.text = "Apri LootScreen"
+	btn_open_screen.add_theme_font_size_override("font_size", 10)
+	btn_open_screen.pressed.connect(_debug_open_loot_screen)
+	row2.add_child(btn_open_screen)
+
+	# Row 3: identify test
+	var row3 := HBoxContainer.new()
+	row3.add_theme_constant_override("separation", 6)
+	body.add_child(row3)
+
+	var btn_id_test := Button.new()
+	btn_id_test.text = "Test identificazione"
+	btn_id_test.add_theme_font_size_override("font_size", 10)
+	btn_id_test.pressed.connect(_debug_identify_test)
+	row3.add_child(btn_id_test)
+
+	var btn_reload := Button.new()
+	btn_reload.text = "Invalida cache loot"
+	btn_reload.add_theme_font_size_override("font_size", 10)
+	btn_reload.pressed.connect(_debug_invalidate_loot_cache)
+	row3.add_child(btn_reload)
+
+
+func _debug_loot_enemy() -> void:
+	var lres: Node = get_node_or_null("/root/LootResolver")
+	if not lres:
+		print("[LootTools] LootResolver non caricato")
+		return
+	var ctx: Dictionary = {
+		"source_type": "enemy", "loot_profile": "humanoid_low",
+		"player_class": str(GameState.current_class), "player_level": GameState.level, "floor": 1,
+	}
+	var drops: Array = lres.call("resolve", ctx)
+	print("[LootTools] enemy drops (%d):" % drops.size())
+	for d: Variant in drops:
+		print("  ", d)
+
+
+func _debug_loot_chest() -> void:
+	var lres: Node = get_node_or_null("/root/LootResolver")
+	if not lres:
+		print("[LootTools] LootResolver non caricato")
+		return
+	for variant: String in ["comune", "ricca", "abbondante", "boss", "segreto"]:
+		var ctx: Dictionary = {
+			"source_type": "chest", "chest_variant": variant,
+			"player_class": str(GameState.current_class), "player_level": GameState.level, "floor": 1,
+		}
+		var drops: Array = lres.call("resolve", ctx)
+		print("[LootTools] chest[%s] drops (%d):" % [variant, drops.size()])
+		for d: Variant in drops:
+			print("  ", d)
+
+
+func _debug_loot_ground() -> void:
+	var lres: Node = get_node_or_null("/root/LootResolver")
+	if not lres:
+		print("[LootTools] LootResolver non caricato")
+		return
+	var ctx: Dictionary = {
+		"source_type": "ground",
+		"player_class": str(GameState.current_class), "player_level": GameState.level, "floor": 1,
+	}
+	var drops: Array = lres.call("resolve", ctx)
+	print("[LootTools] ground drops (%d):" % drops.size())
+	for d: Variant in drops:
+		print("  ", d)
+
+
+func _debug_drop_item(base_id: String) -> void:
+	var igen: Node = get_node_or_null("/root/ItemGenerator")
+	if not igen:
+		print("[LootTools] ItemGenerator non caricato")
+		return
+	var instance: Dictionary = igen.call("drop", base_id, GameState.level, null, 0)
+	print("[LootTools] drop '%s': %s" % [base_id, instance])
+	if not bool(instance.get("identified", false)):
+		var identified: Dictionary = igen.call("identify", instance, GameState.level)
+		print("[LootTools] identified: %s" % identified)
+		print("[LootTools] stats: %s" % igen.call("resolve_stats", identified, GameState.level))
+
+
+func _debug_identify_test() -> void:
+	var igen: Node = get_node_or_null("/root/ItemGenerator")
+	if not igen:
+		print("[LootTools] ItemGenerator non caricato")
+		return
+	# Drop same item twice with same seed — verify same affixes
+	var instance: Dictionary = igen.call("drop", "spada_corta", 15, null, 2)
+	instance["quality"] = "raro"  # force raro for test
+	print("[LootTools] seed: %d" % int(instance.get("affix_seed", 0)))
+	var id1: Dictionary = igen.call("identify", instance.duplicate(true), 15)
+	var id2: Dictionary = igen.call("identify", instance.duplicate(true), 15)
+	var match_result: bool = str(id1.get("affixes")) == str(id2.get("affixes"))
+	print("[LootTools] identify idempotente: %s" % ("SI ✓" if match_result else "NO ✗"))
+	print("[LootTools]   pass1 affissi: %s  name: %s" % [id1.get("affixes"), id1.get("name")])
+	print("[LootTools]   pass2 affissi: %s  name: %s" % [id2.get("affixes"), id2.get("name")])
+
+
+func _debug_open_loot_screen() -> void:
+	var igen: Node = get_node_or_null("/root/ItemGenerator")
+	if not igen:
+		return
+	var test_drops: Array = [
+		igen.call("drop", "spada_corta",     GameState.level, null, 1),
+		igen.call("drop", "armatura_cuoio",  GameState.level, null, 0),
+		igen.call("drop", "anello_base",     GameState.level, null, 2),
+		igen.call("drop", "pozione_piccola", GameState.level, null, 0),
+		igen.call("drop", "spada_dell_alba", GameState.level, null, 0),
+		{ "type": "gold", "amount": randi_range(5, 50) },
+	]
+	EventBus.loot_screen_open.emit(test_drops, "Debug Loot Test")
+
+
+func _debug_invalidate_loot_cache() -> void:
+	var ltdb: Node = get_node_or_null("/root/LootTableDB")
+	if ltdb:
+		ltdb.call("invalidate_cache")
+		print("[LootTools] LootTableDB cache invalidata")
+
+
 func _update_switcher() -> void:
 	if not is_instance_valid(_switcher_current_lbl):
 		return
@@ -720,3 +936,151 @@ func _update_switcher() -> void:
 		current,
 		"caricata" if has_sp else "non implementata"
 	]
+
+
+# ── Validatori JSON ───────────────────────────────────────────────────────────
+
+func _build_validation_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ Validatori JSON"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(1.0, 0.85, 0.35))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "Validatori JSON"
+	)
+
+	# Riga pulsanti
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	body.add_child(row)
+
+	for label: String in VALIDATOR_PATHS.keys():
+		var btn := Button.new()
+		btn.text = label
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.add_theme_font_size_override("font_size", 10)
+		btn.pressed.connect(_run_single_validator.bind(VALIDATOR_PATHS[label], label))
+		row.add_child(btn)
+
+	var btn_all := Button.new()
+	btn_all.text = "Tutti"
+	btn_all.focus_mode = Control.FOCUS_NONE
+	btn_all.add_theme_font_size_override("font_size", 10)
+	var style_all := StyleBoxFlat.new()
+	style_all.bg_color = Color(0.20, 0.45, 0.20)
+	style_all.set_corner_radius_all(3)
+	style_all.content_margin_left = 6.0; style_all.content_margin_right = 6.0
+	style_all.content_margin_top  = 2.0; style_all.content_margin_bottom = 2.0
+	btn_all.add_theme_stylebox_override("normal", style_all)
+	btn_all.pressed.connect(_run_all_validators_debug)
+	row.add_child(btn_all)
+
+	# Label risultati
+	_val_result_lbl = RichTextLabel.new()
+	_val_result_lbl.bbcode_enabled    = true
+	_val_result_lbl.fit_content       = true
+	_val_result_lbl.scroll_active     = false
+	_val_result_lbl.add_theme_font_size_override("normal_font_size", 10)
+	_val_result_lbl.text = "[color=#666666]Premi un pulsante per eseguire la validazione.[/color]"
+	body.add_child(_val_result_lbl)
+
+
+func _run_single_validator(script_path: String, _label: String) -> void:
+	var v: RefCounted = load(script_path).new()
+	var r: Dictionary = v.call("run")
+	_print_val_result(r)
+	_show_val_results([r])
+
+
+func _run_all_validators_debug() -> void:
+	var results: Array = []
+	print("\n╔══════════════════════════════════════╗")
+	print("║        VALIDAZIONE JSON — TUTTI      ║")
+	print("╚══════════════════════════════════════╝")
+	for path: String in VALIDATOR_PATHS.values():
+		var v: RefCounted = load(path).new()
+		var r: Dictionary = v.call("run")
+		results.append(r)
+		_print_val_result(r)
+	_show_val_results(results)
+	var grand_err: int  = results.reduce(func(acc, r): return acc + (r["errors"] as Array).size(), 0)
+	var grand_warn: int = results.reduce(func(acc, r): return acc + (r["warnings"] as Array).size(), 0)
+	print("══════════════════════════════════════════")
+	if grand_err == 0 and grand_warn == 0:
+		print("✓  Tutti i dati validi — nessun problema trovato.")
+	else:
+		print("TOTALE: %d errori, %d warning" % [grand_err, grand_warn])
+	print("══════════════════════════════════════════\n")
+
+
+func _print_val_result(r: Dictionary) -> void:
+	var errors:   Array = r["errors"]   as Array
+	var warnings: Array = r["warnings"] as Array
+	var title: String   = str(r["title"])
+	var checked: int    = int(r["checked"])
+	var unit: String    = str(r.get("unit", "item"))
+	var bar: String     = "─".repeat(42)
+	print("\n┌%s┐" % bar)
+	print("│  %-38s  │" % ("Validatore: " + title))
+	print("│  %-38s  │" % ("Controllati: %d %s" % [checked, unit]))
+	print("└%s┘" % bar)
+	if errors.is_empty() and warnings.is_empty():
+		print("  ✓  OK — nessun problema trovato.")
+		return
+	if not errors.is_empty():
+		print("  ERRORI (%d):" % errors.size())
+		for e: Variant in errors:
+			print("    [ERR]  %s" % str(e))
+	if not warnings.is_empty():
+		print("  WARNING (%d):" % warnings.size())
+		for w: Variant in warnings:
+			print("    [WARN] %s" % str(w))
+
+
+func _show_val_results(results: Array) -> void:
+	if not is_instance_valid(_val_result_lbl):
+		return
+	var out: String = ""
+	var grand_err: int = 0
+	var grand_warn: int = 0
+	for r in results:
+		var errors:   Array = r["errors"]   as Array
+		var warnings: Array = r["warnings"] as Array
+		grand_err  += errors.size()
+		grand_warn += warnings.size()
+		var header_col: String = "#44dd44" if errors.is_empty() else "#ff5555"
+		out += "[color=%s]%s[/color]  [color=#888888]%d %s[/color]" % [
+			header_col, str(r["title"]), int(r["checked"]), str(r.get("unit", "item"))
+		]
+		if errors.is_empty() and warnings.is_empty():
+			out += "  [color=#44dd44]OK[/color]"
+		else:
+			if not errors.is_empty():
+				out += "  [color=#ff5555]%d ERR[/color]" % errors.size()
+			if not warnings.is_empty():
+				out += "  [color=#ffaa44]%d WARN[/color]" % warnings.size()
+		out += "\n"
+		for e: Variant in errors:
+			out += "  [color=#ff7777]• %s[/color]\n" % str(e)
+		for w: Variant in warnings:
+			out += "  [color=#ffcc66]△ %s[/color]\n" % str(w)
+	if results.size() > 1:
+		var summary_col: String = "#44dd44" if grand_err == 0 else "#ff5555"
+		out += "[color=%s]─── Totale: %d errori, %d warning ───[/color]" % [
+			summary_col, grand_err, grand_warn
+		]
+	_val_result_lbl.text = out.strip_edges()

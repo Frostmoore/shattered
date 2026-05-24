@@ -1,0 +1,18 @@
+{
+  "id": "elmo_soldato",
+  "name": "Elmo del Soldato",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 14,
+  "base_stats": {
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

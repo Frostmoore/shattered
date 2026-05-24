@@ -1,0 +1,15 @@
+{
+  "id": "bomba_cuoio",
+  "name": "Bomba di Cuoio",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 12,
+    "area": 2,
+    "throw_type": "explosive"
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

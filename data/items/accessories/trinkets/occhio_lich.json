@@ -1,0 +1,20 @@
+{
+  "id": "occhio_lich",
+  "name": "Occhio del Lich",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 4,
+  "min_level": 30,
+  "max_level": 43,
+  "base_stats": {
+    "hp_bonus": 45,
+    "defense_bonus": 5,
+    "magic_bonus": 8
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

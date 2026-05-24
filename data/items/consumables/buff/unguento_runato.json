@@ -1,0 +1,15 @@
+{
+  "id": "unguento_runato",
+  "name": "Unguento Runato",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 25,
+    "duration": 15,
+    "immunity_poison": 1
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

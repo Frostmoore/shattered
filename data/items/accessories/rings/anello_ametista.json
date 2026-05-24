@@ -1,0 +1,22 @@
+{
+  "id": "anello_ametista",
+  "name": "Anello di Ametista",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 31,
+  "base_stats": {
+    "mp_bonus": 22,
+    "magic_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

@@ -1,0 +1,18 @@
+{
+  "id": "stivali_rinforzati",
+  "name": "Stivali Rinforzati",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 15,
+  "base_stats": {
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

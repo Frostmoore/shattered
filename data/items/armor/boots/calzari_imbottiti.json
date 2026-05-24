@@ -1,0 +1,18 @@
+{
+  "id": "calzari_imbottiti",
+  "name": "Calzari Imbottiti",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 1,
+  "min_level": 2,
+  "max_level": 7,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

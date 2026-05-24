@@ -1,0 +1,19 @@
+{
+  "id": "sigillo_cera",
+  "name": "Sigillo di Cera",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 16,
+  "base_stats": {
+    "magic_bonus": 2,
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

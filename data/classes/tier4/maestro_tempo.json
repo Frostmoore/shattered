@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "maestro_tempo",
 	"name": "Maestro del Tempo",
 	"desc": "Ha imparato che ogni momento si può riavvolgere. Quasi ogni momento.",
@@ -12,5 +12,7 @@
 	"special_name": "Riavvolgimento",
 	"special_desc": "Annulla le ultime 5 azioni del player (movimento + danni subiti). Una volta per piano. Costo: 25 MP.",
 	"unlock": { "type": "dungeon_floors_total", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["bacchetta", "sfera", "bastone", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

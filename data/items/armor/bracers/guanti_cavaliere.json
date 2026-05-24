@@ -1,0 +1,18 @@
+{
+  "id": "guanti_cavaliere",
+  "name": "Guanti del Cavaliere",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 2,
+  "min_level": 15,
+  "max_level": 23,
+  "base_stats": {
+    "defense_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

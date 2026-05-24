@@ -1,0 +1,21 @@
+{
+  "id": "simbolo_divino",
+  "name": "Simbolo Divino",
+  "gender": "m",
+  "icon": "+",
+  "item_category": "weapon",
+  "item_type": "simbolo_sacro",
+  "slot": "left_hand",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 50,
+  "base_stats": {
+    "defense_bonus": 11,
+    "magic_bonus": 33
+  },
+  "requirements": {
+    "int": 19
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

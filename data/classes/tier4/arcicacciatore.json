@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "arcicacciatore",
 	"name": "Arcicacciatore",
 	"desc": "Ha visto tutto. Sa dove colpire. Il resto è noia.",
@@ -12,5 +12,7 @@
 	"special_name": "Perforazione / Predatore Nato",
 	"special_desc": "Gli attacchi fisici ignorano completamente la DEF nemica. DEX aggiunge DEX/4 all'ATK.",
 	"unlock": { "type": "damage_dealt_total", "value": 10000, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "ranger",
+	"allowed_item_types": ["arco", "balestra", "pugnale", "armatura_leggera", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

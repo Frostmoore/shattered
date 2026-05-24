@@ -11,7 +11,7 @@ var _alerted: bool = false
 
 func setup(data: Dictionary) -> void:
 	enemy_data_id   = data.get("id", "unknown_enemy")
-	display_name    = data.get("name", "Enemy")
+	display_name    = EnemyRegistry.get_display_name(enemy_data_id)
 	level           = int(data.get("level", GameState.level))
 	dex             = int(data.get("dex", 5))
 	xp_reward       = data.get("xp_reward", 0)
@@ -40,7 +40,7 @@ func setup(data: Dictionary) -> void:
 		var affix: Dictionary = AffixRegistry.get_affix(str(affix_id))
 		if affix.is_empty():
 			continue
-		var pfx: String = str(affix.get("prefix", ""))
+		var pfx: String = AffixRegistry.get_display_prefix(str(affix_id))
 		if pfx != "":
 			prefix_parts.append(pfx)
 		if affix.has("color_tint") and not is_boss:
@@ -245,10 +245,37 @@ func die() -> void:
 	TurnManager.unregister_enemy(self)
 	var map: BaseMap = get_parent() as BaseMap
 	if map != null:
-		map.add_corpse(grid_position, entity_color.darkened(0.5))
+		var loot_drops: Array = _generate_loot()
+		map.add_corpse(grid_position, entity_color.darkened(0.5), loot_drops)
 	EventBus.enemy_died.emit(self)
 	QuestManager.on_enemy_killed(enemy_data_id)
 	if is_boss:
 		QuestManager.on_enemy_killed("dungeon_boss")
 	LevelSystem.add_xp(xp_reward)
 	queue_free()
+
+
+func _generate_loot() -> Array:
+	var template: Dictionary = EnemyRegistry.get_enemy_data(enemy_data_id)
+	var loot_profile: String = str(template.get("loot_profile", ""))
+	if loot_profile == "":
+		return []
+	var map: BaseMap = get_parent() as BaseMap
+	var floor_num: int = 1
+	if map != null:
+		var map_id: String = str(map.get("map_id"))
+		# Extract floor number from map id (e.g. "dungeon_floor_3" → 3)
+		var parts: Array = map_id.split("_")
+		for part: String in parts:
+			if part.is_valid_int():
+				floor_num = int(part)
+				break
+	var ctx: Dictionary = {
+		"source_type":  "enemy",
+		"source_id":    enemy_data_id,
+		"loot_profile": loot_profile,
+		"player_class": str(GameState.current_class),
+		"player_level": GameState.level,
+		"floor":        floor_num,
+	}
+	return LootResolver.resolve(ctx)

@@ -1,0 +1,21 @@
+{
+  "id": "bastone_arcimago",
+  "name": "Bastone dell'Arcimago",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 5,
+  "min_level": 44,
+  "max_level": 54,
+  "base_stats": {
+    "attack_bonus": 25,
+    "magic_bonus": 40
+  },
+  "requirements": {
+    "int": 24
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

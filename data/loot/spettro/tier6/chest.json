@@ -1,0 +1,112 @@
+{
+  "comune": {
+    "rolls_min": 1,
+    "rolls_max": 2,
+    "quality_bias": 0,
+    "guaranteed": []
+  },
+  "ricca": {
+    "rolls_min": 1,
+    "rolls_max": 3,
+    "quality_bias": 0,
+    "guaranteed": []
+  },
+  "abbondante": {
+    "rolls_min": 2,
+    "rolls_max": 3,
+    "quality_bias": 1,
+    "guaranteed": []
+  },
+  "boss": {
+    "rolls_min": 3,
+    "rolls_max": 5,
+    "quality_bias": 2,
+    "guaranteed": [
+      {
+        "item_category": "accessory",
+        "min_quality": "raro"
+      }
+    ]
+  },
+  "segreto": {
+    "rolls_min": 3,
+    "rolls_max": 4,
+    "quality_bias": 2,
+    "guaranteed": [
+      {
+        "item_category": "accessory",
+        "min_quality": "epico"
+      }
+    ]
+  },
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 40,
+      "pool": [
+        {
+          "item_id": "coltellino",
+          "weight": 14
+        },
+        {
+          "item_id": "stiletto",
+          "weight": 12
+        },
+        {
+          "item_category": "accessory",
+          "weight": 16
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 12
+        },
+        {
+          "item_id": "pozione_piccola",
+          "weight": 16
+        },
+        {
+          "type": "gold",
+          "min": 100,
+          "max": 250,
+          "weight": 18
+        },
+        {
+          "nothing": true,
+          "weight": 30
+        }
+      ]
+    },
+    {
+      "level_min": 41,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_category": "weapon",
+          "weight": 12
+        },
+        {
+          "item_category": "accessory",
+          "weight": 18
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 14
+        },
+        {
+          "item_id": "pozione_media",
+          "weight": 14
+        },
+        {
+          "type": "gold",
+          "min": 100,
+          "max": 500,
+          "weight": 16
+        },
+        {
+          "nothing": true,
+          "weight": 25
+        }
+      ]
+    }
+  ]
+}

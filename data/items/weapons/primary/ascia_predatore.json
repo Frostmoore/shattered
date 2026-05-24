@@ -1,0 +1,20 @@
+{
+  "id": "ascia_predatore",
+  "name": "Ascia del Predatore",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "ascia",
+  "slot": "right_hand",
+  "tier": 3,
+  "min_level": 25,
+  "max_level": 36,
+  "base_stats": {
+    "attack_bonus": 24
+  },
+  "requirements": {
+    "str": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

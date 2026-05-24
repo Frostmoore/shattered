@@ -1,0 +1,47 @@
+{
+	"rolls": 1,
+	"quality_bias": 0,
+	"guaranteed": [],
+	"level_bands": [
+		{
+			"level_min": 1,
+			"level_max": 10,
+			"pool": [
+				{ "item_id": "spada_corta",              "weight": 18 },
+				{ "item_id": "pugnale",                  "weight": 15 },
+				{ "item_id": "armatura_cuoio",           "weight": 12 },
+				{ "item_id": "pergamena_identificazione","weight":  8 },
+				{ "item_id": "pozione_piccola",          "weight": 12 },
+				{ "type": "gold", "min": 1, "max": 6,   "weight": 35 },
+				{ "nothing": true,                       "weight": 55 }
+			]
+		},
+		{
+			"level_min": 11,
+			"level_max": 25,
+			"pool": [
+				{ "item_id": "spada_corta",              "weight": 14 },
+				{ "item_id": "pugnale",                  "weight": 12 },
+				{ "item_id": "armatura_cuoio",           "weight": 10 },
+				{ "item_id": "anello_base",              "weight":  8 },
+				{ "item_id": "pergamena_identificazione","weight": 12 },
+				{ "item_id": "pozione_piccola",          "weight": 14 },
+				{ "type": "gold", "min": 5, "max": 20,  "weight": 30 },
+				{ "nothing": true,                       "weight": 40 }
+			]
+		},
+		{
+			"level_min": 26,
+			"level_max": 999,
+			"pool": [
+				{ "item_category": "weapon",             "weight": 15 },
+				{ "item_category": "armor",              "weight": 12 },
+				{ "item_category": "accessory",          "weight": 10 },
+				{ "item_id": "pergamena_identificazione","weight": 14 },
+				{ "item_id": "pozione_piccola",          "weight": 14 },
+				{ "type": "gold", "min": 15, "max": 50, "weight": 28 },
+				{ "nothing": true,                       "weight": 30 }
+			]
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "cotta_cavaliere",
+  "name": "Cotta del Cavaliere",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 27,
+  "max_level": 36,
+  "base_stats": {
+    "defense_bonus": 21
+  },
+  "requirements": {
+    "str": 12
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

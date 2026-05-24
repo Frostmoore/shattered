@@ -1,0 +1,18 @@
+{
+  "id": "bracciali_vuoto",
+  "name": "Bracciali del Vuoto",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 6,
+  "min_level": 58,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 24
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

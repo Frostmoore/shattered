@@ -1,0 +1,21 @@
+{
+  "id": "reliquia_santa",
+  "name": "Reliquia Santa",
+  "gender": "m",
+  "icon": "+",
+  "item_category": "weapon",
+  "item_type": "simbolo_sacro",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "defense_bonus": 5,
+    "magic_bonus": 16
+  },
+  "requirements": {
+    "int": 9
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

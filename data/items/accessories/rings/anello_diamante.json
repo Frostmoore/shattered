@@ -1,0 +1,23 @@
+{
+  "id": "anello_diamante",
+  "name": "Anello di Diamante",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 46,
+  "base_stats": {
+    "defense_bonus": 3,
+    "magic_bonus": 3,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

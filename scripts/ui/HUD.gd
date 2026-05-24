@@ -62,27 +62,26 @@ func _refresh(_arg: Variant = null) -> void:
 	_st_val.text      = "%d/%d" % [st, max_st]
 
 	var xp_next: int = LevelSystem.xp_for_next_level(GameState.level)
-	_xp_tag.text      = "LV%d" % GameState.level
+	_xp_tag.text      = LocaleManager.t("UI_HUD_LEVEL_TAG", {"level": GameState.level})
 	_xp_bar.max_value = maxf(1.0, float(xp_next))
 	_xp_bar.value     = GameState.xp
 	if GameState.level >= LevelSystem.MAX_LEVEL:
-		_xp_val.text = "MAX"
+		_xp_val.text = LocaleManager.t("UI_HUD_MAX_LEVEL")
 	else:
 		_xp_val.text = "%d/%d" % [GameState.xp, xp_next]
 
-	gold_label.text  = "Oro: %d" % int(GameState.player_stats["gold"])
-	stats_label.text = "ATK: %d  DEF: %d" % [
-		int(GameState.player_stats["attack"]) + Equipment.get_attack_bonus(),
-		int(GameState.player_stats["defense"]) + Equipment.get_defense_bonus(),
-	]
-	quest_label.text = "Quest: " + (
-		QuestManager.get_active_quest_title()
-		if QuestManager.get_active_quest_title() != "" else "—"
-	)
+	gold_label.text  = LocaleManager.t("UI_HUD_GOLD", {"amount": int(GameState.player_stats["gold"])})
+	stats_label.text = LocaleManager.t("UI_HUD_STATS", {
+		"atk": int(GameState.player_stats["attack"]) + Equipment.get_attack_bonus(),
+		"def": int(GameState.player_stats["defense"]) + Equipment.get_defense_bonus(),
+	})
+	var quest_title: String = QuestManager.get_active_quest_title()
+	quest_label.text = LocaleManager.t("UI_HUD_QUEST", {"title": quest_title}) \
+		if quest_title != "" else LocaleManager.t("UI_HUD_QUEST_NONE")
 
 
 func _on_map_changed(map_id: String) -> void:
-	map_label.text = "Zona: " + map_id.replace("_", " ").capitalize()
+	map_label.text = LocaleManager.t("UI_HUD_ZONE", {"zone": map_id.replace("_", " ").capitalize()})
 	_refresh()
 
 

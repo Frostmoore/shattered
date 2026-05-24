@@ -1,0 +1,20 @@
+{
+  "id": "cuore_pietra",
+  "name": "Cuore di Pietra",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 4,
+  "min_level": 35,
+  "max_level": 48,
+  "base_stats": {
+    "hp_bonus": 55,
+    "defense_bonus": 7,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

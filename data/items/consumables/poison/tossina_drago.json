@@ -1,0 +1,16 @@
+{
+  "id": "tossina_drago",
+  "name": "Tossina del Drago",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 15,
+    "poison_type": "devastating",
+    "damage_per_turn": 20
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

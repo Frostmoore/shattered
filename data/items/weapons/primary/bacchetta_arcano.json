@@ -1,0 +1,21 @@
+{
+  "id": "bacchetta_arcano",
+  "name": "Bacchetta dell'Arcano",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bacchetta",
+  "slot": "right_hand",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 50,
+  "base_stats": {
+    "attack_bonus": 12,
+    "magic_bonus": 30
+  },
+  "requirements": {
+    "int": 20
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

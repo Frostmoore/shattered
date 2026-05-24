@@ -1,0 +1,21 @@
+{
+  "id": "anello_argento",
+  "name": "Anello d'Argento",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 10,
+  "base_stats": {
+    "mp_bonus": 8
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

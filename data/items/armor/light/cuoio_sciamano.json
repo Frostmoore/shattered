@@ -1,0 +1,18 @@
+{
+  "id": "cuoio_sciamano",
+  "name": "Cuoio dello Sciamano",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 19,
+  "max_level": 26,
+  "base_stats": {
+    "defense_bonus": 10
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

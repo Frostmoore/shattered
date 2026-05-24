@@ -1,0 +1,21 @@
+{
+  "id": "globo_luminoso",
+  "name": "Globo Luminoso",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 14,
+  "base_stats": {
+    "mp_bonus": 12,
+    "magic_bonus": 5
+  },
+  "requirements": {
+    "int": 2
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

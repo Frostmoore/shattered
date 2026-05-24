@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "eletto",
 	"name": "L'Eletto",
 	"desc": "Il destino non si sceglie. Ma lui avrebbe rifiutato se avesse potuto.",
@@ -13,5 +13,7 @@
 	"special_name": "Prescelto",
 	"special_desc": "Tutti gli attributi iniziano a 10. Crescita +2 per attributo per livello. XP richiesta per ogni livello ×3.",
 	"unlock": { "type": "dungeons_completed_no_death", "value": 10, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "martial",
+	"allowed_item_types": ["spada", "ascia", "mazza", "pugnale", "bacchetta", "sfera", "simbolo_sacro", "totem", "libro_arcano", "spadone", "ascia_bipenne", "martello_guerra", "bastone", "arco", "balestra", "lancia", "armatura_leggera", "armatura_media", "armatura_pesante", "veste", "scudo", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

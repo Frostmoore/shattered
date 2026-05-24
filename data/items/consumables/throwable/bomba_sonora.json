@@ -1,0 +1,15 @@
+{
+  "id": "bomba_sonora",
+  "name": "Bomba Sonora",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "area": 5,
+    "throw_type": "sonic",
+    "stun": 1
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

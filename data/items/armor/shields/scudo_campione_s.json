@@ -1,0 +1,20 @@
+{
+  "id": "scudo_campione_s",
+  "name": "Scudo del Campione",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 33,
+  "max_level": 46,
+  "base_stats": {
+    "defense_bonus": 28
+  },
+  "requirements": {
+    "str": 16
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

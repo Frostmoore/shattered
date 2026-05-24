@@ -8,6 +8,7 @@ var walls: Array[Vector2i] = []
 var transitions: Array[Dictionary] = []   # {position, target_id, target_type, target_position}
 var entity_defs: Array[Dictionary] = []   # {kind, uid, pos, params}
 var metadata: Dictionary = {}
+var player_start: Vector2i = Vector2i(1, 1)  # default spawn when entering this map
 
 
 func add_border_walls() -> void:

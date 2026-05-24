@@ -1,0 +1,13 @@
+{
+  "id": "carne_essiccata",
+  "name": "Carne Essiccata",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 12
+  },
+  "stackable": true,
+  "loot_weight": 16
+}

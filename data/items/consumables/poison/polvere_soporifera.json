@@ -1,0 +1,16 @@
+{
+  "id": "polvere_soporifera",
+  "name": "Polvere Soporifera",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "sleep": 1,
+    "poison_type": "sleep",
+    "duration": 3
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

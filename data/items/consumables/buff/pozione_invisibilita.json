@@ -1,0 +1,14 @@
+{
+  "id": "pozione_invisibilita",
+  "name": "Pozione di Invisibilita",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 8,
+    "invisible": 1
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

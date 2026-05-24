@@ -1,0 +1,15 @@
+{
+  "id": "grande_runa_caos",
+  "name": "Grande Runa del Caos",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "random_effect": 1,
+    "rune_type": "chaos_max",
+    "max_enhanced": 1
+  },
+  "stackable": false,
+  "loot_weight": 3
+}

@@ -13,6 +13,7 @@ var window_mode: int       = 0    # 0=windowed, 1=fullscreen
 var window_size_index: int = 1    # index into WINDOW_SIZES
 var master_volume: float   = 1.0  # 0.0–1.0
 var zoom_level: float      = 2.0
+var language: String       = "it"
 
 
 func _ready() -> void:
@@ -23,6 +24,7 @@ func _ready() -> void:
 func apply_all() -> void:
 	_apply_window()
 	_apply_volume()
+	LocaleManager.set_language(language)
 	EventBus.settings_changed.emit()
 
 
@@ -49,6 +51,7 @@ func save_settings() -> void:
 		"window_size_index": window_size_index,
 		"master_volume":     master_volume,
 		"zoom_level":        zoom_level,
+		"language":          language,
 	}
 	var file: FileAccess = FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
 	if file:
@@ -71,3 +74,4 @@ func load_settings() -> void:
 	window_size_index = int(d.get("window_size_index", 1))
 	master_volume     = float(d.get("master_volume",   1.0))
 	zoom_level        = float(d.get("zoom_level",      2.0))
+	language          = str(d.get("language",          "it"))

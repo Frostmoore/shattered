@@ -1,0 +1,20 @@
+{
+  "id": "arco_composito",
+  "name": "Arco Composito",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 13
+  },
+  "requirements": {
+    "dex": 7
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

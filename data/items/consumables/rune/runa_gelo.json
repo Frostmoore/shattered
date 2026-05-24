@@ -1,0 +1,15 @@
+{
+  "id": "runa_gelo",
+  "name": "Runa del Gelo",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "rune_type": "ice",
+    "duration": 5,
+    "slow": 1
+  },
+  "stackable": false,
+  "loot_weight": 14
+}

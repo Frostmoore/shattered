@@ -1,0 +1,18 @@
+{
+  "id": "armatura_mannaro",
+  "name": "Armatura del Mannaro",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 45,
+  "max_level": 52,
+  "base_stats": {
+    "defense_bonus": 23
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

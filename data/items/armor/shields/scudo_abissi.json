@@ -1,0 +1,20 @@
+{
+  "id": "scudo_abissi",
+  "name": "Scudo degli Abissi",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 6,
+  "min_level": 52,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 47
+  },
+  "requirements": {
+    "str": 26
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

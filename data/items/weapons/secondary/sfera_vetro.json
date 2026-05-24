@@ -1,0 +1,21 @@
+{
+  "id": "sfera_vetro",
+  "name": "Sfera di Vetro",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 6,
+  "base_stats": {
+    "mp_bonus": 2,
+    "magic_bonus": 1
+  },
+  "requirements": {
+    "int": 0
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

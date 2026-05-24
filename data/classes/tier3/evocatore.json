@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "evocatore",
 	"name": "Evocatore",
 	"desc": "Chiama spiriti elementali dal piano eterico.",
@@ -12,5 +12,7 @@
 	"special_name": "Spirito Elementale",
 	"special_desc": "Evoca elementale a scelta (menu). Fuoco: ATK; Acqua: cura periodica; Terra: muro. Durata: 5 turni. Costo: 18 MP. Non permanente.",
 	"unlock": { "type": "dungeon_floors_total", "value": 15, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["bastone", "sfera", "totem", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

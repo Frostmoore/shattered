@@ -1,0 +1,18 @@
+{
+  "id": "armatura_predatore_2",
+  "name": "Armatura del Predatore II",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 51,
+  "max_level": 58,
+  "base_stats": {
+    "defense_bonus": 26
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

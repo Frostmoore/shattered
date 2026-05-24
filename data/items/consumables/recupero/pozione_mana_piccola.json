@@ -1,0 +1,13 @@
+{
+  "id": "pozione_mana_piccola",
+  "name": "Pozione di Mana Piccola",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 10
+  },
+  "stackable": true,
+  "loot_weight": 20
+}

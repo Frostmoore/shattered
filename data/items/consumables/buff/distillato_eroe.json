@@ -1,0 +1,16 @@
+{
+  "id": "distillato_eroe",
+  "name": "Distillato dell'Eroe",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 30,
+    "buff_atk": 30,
+    "buff_dex": 5,
+    "duration": 8
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

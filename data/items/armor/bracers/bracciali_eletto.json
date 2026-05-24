@@ -1,0 +1,18 @@
+{
+  "id": "bracciali_eletto",
+  "name": "Bracciali dell'Eletto",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 5,
+  "min_level": 48,
+  "max_level": 59,
+  "base_stats": {
+    "defense_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

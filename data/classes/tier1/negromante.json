@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "negromante",
 	"name": "Negromante",
 	"desc": "La morte non è una fine, è una risorsa.",
@@ -12,5 +12,7 @@
 	"special_name": "Risurrezione",
 	"special_desc": "Rianima l'ultimo nemico ucciso come alleato per INT/2 turni. Costo: 10 MP.",
 	"unlock": { "type": "kills_total", "value": 50, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["bacchetta", "bastone", "libro_arcano", "sfera", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

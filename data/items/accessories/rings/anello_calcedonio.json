@@ -1,0 +1,21 @@
+{
+  "id": "anello_calcedonio",
+  "name": "Anello di Calcedonio",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 19,
+  "base_stats": {
+    "hp_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

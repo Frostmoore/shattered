@@ -1,0 +1,21 @@
+{
+  "id": "duro",
+  "type": "prefix",
+  "name_m": "Duro",
+  "name_f": "Dura",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_pesante"
+  ],
+  "min_level": 10,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "defense_bonus": 4
+  }
+}

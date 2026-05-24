@@ -1,0 +1,33 @@
+{
+  "id": "sacro",
+  "type": "prefix",
+  "name_m": "Sacro",
+  "name_f": "Sacra",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_leggera",
+    "armatura_media",
+    "armatura_pesante",
+    "veste",
+    "elmo",
+    "stivali",
+    "bracciali",
+    "scudo",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 8,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 12,
+  "bonuses": {
+    "wil_bonus": 1,
+    "defense_bonus": 2
+  }
+}

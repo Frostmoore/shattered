@@ -37,7 +37,7 @@
     "id": "leather_armor",
     "name": "Armatura di cuoio",
     "type": "equipment",
-    "slot": "armor",
+    "slot": "body",
     "icon": "[",
     "description": "Leggera armatura in cuoio.",
     "defense_bonus": 2
@@ -65,7 +65,7 @@
     "id": "leather_helm",
     "name": "Elmo di cuoio",
     "type": "equipment",
-    "slot": "helm",
+    "slot": "head",
     "icon": "^",
     "description": "Un semplice elmo in cuoio.",
     "defense_bonus": 1
@@ -74,7 +74,7 @@
     "id": "leather_boots",
     "name": "Stivali di cuoio",
     "type": "equipment",
-    "slot": "boots",
+    "slot": "feet",
     "icon": "u",
     "description": "Stivali leggeri per avventurieri.",
     "defense_bonus": 1

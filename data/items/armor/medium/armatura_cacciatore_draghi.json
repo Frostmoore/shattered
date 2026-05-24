@@ -1,0 +1,20 @@
+{
+  "id": "armatura_cacciatore_draghi",
+  "name": "Armatura del Cacciatore di Draghi",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 52,
+  "base_stats": {
+    "defense_bonus": 33
+  },
+  "requirements": {
+    "str": 18
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

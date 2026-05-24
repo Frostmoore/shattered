@@ -1,0 +1,24 @@
+{
+  "id": "rinforzato",
+  "type": "prefix",
+  "name_m": "Rinforzato",
+  "name_f": "Rinforzata",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_media",
+    "armatura_pesante",
+    "scudo"
+  ],
+  "min_level": 5,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 14,
+  "bonuses": {
+    "defense_bonus": 3
+  }
+}

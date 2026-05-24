@@ -200,7 +200,7 @@ func _show_inventory_from_combat() -> void:
 	var runtime: Node = get_node_or_null("/root/ClassRuntime")
 	if runtime and not runtime.can_use_item_in_combat():
 		EventBus.notification_shown.emit(
-			Notification.warning("Non puoi usare oggetti in questo stato!"))
+			Notification.warning(LocaleManager.t("UI_WARN_CANT_USE_ITEMS")))
 		return
 	inventory_panel.open()
 
@@ -303,14 +303,17 @@ func _reset_game_state(world_name: String, char_name: String, permadeath: bool =
 	GameState.completed_quests = []
 	GameState.inventory        = []
 	GameState.equipped         = {
-		"helm": "", "armor": "", "left_hand": "", "right_hand": "",
-		"ring_1": "", "ring_2": "", "amulet": "", "boots": "",
-		"cloak": "", "accessory": ""
+		"head": "", "body": "", "left_hand": "", "right_hand": "",
+		"ring_1": "", "ring_2": "", "neck": "", "feet": "",
+		"cloak": "", "trinket": "", "hands": ""
 	}
 	GameState.quick_slots      = ["", "", ""]
-	Inventory.add_item("rusty_sword",   1, false)
-	Inventory.add_item("leather_armor", 1, false)
-	Inventory.add_item("leather_helm",  1, false)
-	Inventory.add_item("leather_boots", 1, false)
-	Inventory.add_item("lucky_ring",    1, false)
-	Inventory.add_item("small_potion",  1, false)
+	Inventory.add_item("rusty_sword",    1, false)
+	Inventory.add_item("leather_armor",  1, false)
+	Inventory.add_item("leather_helm",   1, false)
+	Inventory.add_item("leather_boots",  1, false)
+	Inventory.add_item("lucky_ring",     1, false)
+	Inventory.add_item("pozione_piccola", 1, false)
+	var _test_leg: Dictionary = ItemGenerator.drop("spada_dell_alba", GameState.level)
+	Inventory.add_item_instance(_test_leg, false)
+	Inventory.add_item("pergamena_identificazione", 1, false)

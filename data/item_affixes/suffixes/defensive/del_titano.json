@@ -1,0 +1,31 @@
+{
+  "id": "del_titano",
+  "type": "suffix",
+  "name_m": "del Titano",
+  "name_f": "del Titano",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_leggera",
+    "armatura_media",
+    "armatura_pesante",
+    "veste",
+    "elmo",
+    "stivali",
+    "bracciali",
+    "scudo",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 30,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "defense_bonus": 7,
+    "hp_bonus": 50
+  }
+}

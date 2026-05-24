@@ -1,0 +1,20 @@
+{
+  "id": "spada_runata",
+  "name": "Spada Runata",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spada",
+  "slot": "right_hand",
+  "tier": 4,
+  "min_level": 35,
+  "max_level": 48,
+  "base_stats": {
+    "attack_bonus": 32
+  },
+  "requirements": {
+    "str": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

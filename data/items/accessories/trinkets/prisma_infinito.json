@@ -1,0 +1,21 @@
+{
+  "id": "prisma_infinito",
+  "name": "Prisma dell'Infinito",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 5,
+  "min_level": 46,
+  "max_level": 58,
+  "base_stats": {
+    "hp_bonus": 60,
+    "defense_bonus": 7,
+    "magic_bonus": 8,
+    "attack_bonus": 8
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

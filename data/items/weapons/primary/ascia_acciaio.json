@@ -1,0 +1,20 @@
+{
+  "id": "ascia_acciaio",
+  "name": "Ascia d'Acciaio",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "ascia",
+  "slot": "right_hand",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "attack_bonus": 20
+  },
+  "requirements": {
+    "str": 8
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

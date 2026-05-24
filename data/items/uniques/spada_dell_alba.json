@@ -1,0 +1,20 @@
+{
+	"id": "spada_dell_alba",
+	"name": "Spada dell'Alba",
+	"gender": "f",
+	"icon": "/",
+	"item_category": "weapon",
+	"item_type": "spada",
+	"slot": "right_hand",
+	"tier": 1,
+	"min_level": 1,
+	"scalable": true,
+	"scaling_mode": "threshold",
+	"scale_levels": [1, 10, 20, 35, 50],
+	"scale": { "attack_bonus": "2 + floor(level / 10) * 3" },
+	"base_stats": { "attack_bonus": 2 },
+	"fixed_affixes": ["affilato", "della_velocita"],
+	"lore": "Forgiata all'alba dei tempi, brucia ancora.",
+	"loot_weight": 1,
+	"quality_override": "unico"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "lama_velenifera",
+  "name": "Lama Velenifera",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 3,
+  "min_level": 26,
+  "max_level": 36,
+  "base_stats": {
+    "attack_bonus": 18
+  },
+  "requirements": {
+    "dex": 12
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

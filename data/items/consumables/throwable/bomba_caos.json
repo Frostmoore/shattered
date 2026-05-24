@@ -1,0 +1,15 @@
+{
+  "id": "bomba_caos",
+  "name": "Bomba del Caos",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "random_effects": 1,
+    "area": 4,
+    "throw_type": "chaos"
+  },
+  "stackable": true,
+  "loot_weight": 4
+}

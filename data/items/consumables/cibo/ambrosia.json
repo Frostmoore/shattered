@@ -1,0 +1,14 @@
+{
+  "id": "ambrosia",
+  "name": "Ambrosia",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_mp": 200,
+    "restore_hp": 200
+  },
+  "stackable": true,
+  "loot_weight": 4
+}

@@ -1,0 +1,13 @@
+{
+  "id": "piuma_pipistrello",
+  "name": "Piuma di Pipistrello",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

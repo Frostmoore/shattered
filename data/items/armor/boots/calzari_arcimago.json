@@ -1,0 +1,18 @@
+{
+  "id": "calzari_arcimago",
+  "name": "Calzari dell'Arcimago",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 54,
+  "base_stats": {
+    "defense_bonus": 14
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

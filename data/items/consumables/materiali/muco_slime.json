@@ -1,0 +1,13 @@
+{
+  "id": "muco_slime",
+  "name": "Muco di Slime",
+  "gender": "m",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

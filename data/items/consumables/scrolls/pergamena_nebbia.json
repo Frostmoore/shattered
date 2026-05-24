@@ -1,0 +1,14 @@
+{
+  "id": "pergamena_nebbia",
+  "name": "Pergamena di Nebbia",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "scroll",
+  "effect": {
+    "scroll_type": "fog",
+    "duration": 8
+  },
+  "stackable": true,
+  "loot_weight": 11
+}

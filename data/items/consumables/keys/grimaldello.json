@@ -1,0 +1,14 @@
+{
+  "id": "grimaldello",
+  "name": "Grimaldello",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "requires_dex": 1,
+    "opens": "any_door"
+  },
+  "stackable": false,
+  "loot_weight": 18
+}

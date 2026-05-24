@@ -1,0 +1,24 @@
+{
+  "id": "stiletto_ombra",
+  "name": "Stiletto dell'Ombra",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 55,
+  "base_stats": {
+    "attack_bonus": 29,
+    "defense_bonus": 8
+  },
+  "requirements": {
+    "dex": 20
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

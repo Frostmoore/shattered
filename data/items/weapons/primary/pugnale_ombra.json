@@ -1,0 +1,23 @@
+{
+  "id": "pugnale_ombra",
+  "name": "Pugnale dell'Ombra",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 44,
+  "base_stats": {
+    "attack_bonus": 23
+  },
+  "requirements": {
+    "dex": 16
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

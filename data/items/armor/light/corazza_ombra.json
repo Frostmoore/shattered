@@ -1,0 +1,18 @@
+{
+  "id": "corazza_ombra",
+  "name": "Corazza dell'Ombra",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 49,
+  "max_level": 56,
+  "base_stats": {
+    "defense_bonus": 25
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

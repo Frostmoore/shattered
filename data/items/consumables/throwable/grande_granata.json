@@ -1,0 +1,15 @@
+{
+  "id": "grande_granata",
+  "name": "Grande Granata",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 90,
+    "area": 4,
+    "throw_type": "physical"
+  },
+  "stackable": true,
+  "loot_weight": 3
+}

@@ -1,0 +1,26 @@
+{
+  "id": "del_mago",
+  "type": "suffix",
+  "name_m": "del Mago",
+  "name_f": "del Mago",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone"
+  ],
+  "min_level": 10,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "magic_bonus": 4
+  }
+}

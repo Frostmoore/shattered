@@ -1,0 +1,14 @@
+{
+  "id": "birra_guerriero",
+  "name": "Birra del Guerriero",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "accuracy_penalty": 10,
+    "restore_stamina": 40
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

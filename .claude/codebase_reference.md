@@ -8,6 +8,7 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 
 | Nome | File | Ruolo |
 |------|------|-------|
+| `LocaleManager` | `scripts/core/LocaleManager.gd` | i18n runtime: carica CSV da `locales/`; `t(key, params?)`, `t_or(key, fallback, params?)` |
 | `GameState` | `scripts/core/GameState.gd` | Stato globale del run (livello, stats, mappa corrente, inventario) |
 | `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa |
 | `LocationRegistry` | `scripts/world/LocationRegistry.gd` | Registro stati per-mappa (fog, morti, porte, cadaveri) |
@@ -16,13 +17,168 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `TurnManager` | `scripts/core/TurnManager.gd` | Gestione turni giocatore/nemici |
 | `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText |
 | `DamagePipeline` | `scripts/combat/DamagePipeline.gd` | Catena di modificatori danno, chiama `take_damage()` |
-| `EnemyRegistry` | *(autoload)* | Lookup dati nemici da JSON |
-| `AffixRegistry` | *(autoload)* | Lookup affissi nemici |
+| `EnemyRegistry` | *(autoload)* | Lookup dati nemici da JSON; `get_enemy_data(id)`, `get_display_name(id)` |
+| `AffixRegistry` | *(autoload)* | Lookup affissi nemici; `get_affix(id)`, `get_display_prefix(id)` |
+| `ClassRegistry` | `scripts/classes/ClassRegistry.gd` | Lookup dati classi da JSON; `get_class_data(id)`, `get_display_name/desc/special_name/special_desc(id)` |
 | `EventBus` | `scripts/core/EventBus.gd` | Tutti i signal globali |
 | `LevelSystem` | *(autoload)* | XP, level-up |
 | `QuestManager` | `scripts/dialogue/QuestManager.gd` | Quest attive/completate |
 | `BalanceCombat` | `scripts/core/game_balance/BalanceCombat.gd` | Costanti di bilanciamento combattimento |
 | `GameBalance` | *(autoload)* | FOV radius, memory alpha, ecc. |
+| `ItemDB` | `scripts/items/ItemDB.gd` | Scan ricorsivo `data/items/`; `get_item(id)`, `get_by_type(t)`, `get_by_slot(s)`, `pick_random(cat, lv, min_quality)`, `get_display_name(id)`, `get_display_description(id)` |
+| `ItemAffixDB` | `scripts/items/ItemAffixDB.gd` | Scan ricorsivo `data/item_affixes/`; `get_affix(id)`, `get_eligible(item_type, lv, quality)`, `get_display_name(id, gender)` |
+| `LootTableDB` | `scripts/items/LootTableDB.gd` | Lazy load `data/loot/`; `get_enemy(class_id, tier, profile)`, `get_chest(class_id, tier)`, `get_ground(class_id, tier)`; fallback `class_id → archetypes/{archetype} → default` |
+| `ItemGenerator` | `scripts/items/ItemGenerator.gd` | `drop(base_id, lv, rng, quality_bias)`, `identify(instance, lv)`, `resolve_stats(instance, lv)`, `get_quality_color(q)`, `get_id_threshold(q)` |
+| `LootResolver` | `scripts/items/LootResolver.gd` | `resolve(ctx: Dictionary) → Array`; legge `drop_context`, risolve loot table, restituisce array di drop (item instance o `{type:"gold", amount:N}`) |
+| `LootScreen` | `scripts/ui/LootScreen.gd` | CanvasLayer layer 80; si apre via `EventBus.loot_screen_open`; griglia con item, tooltip qualità, take-single, take-all, chiudi (Esc); blocca `_can_act` del player |
+| `ItemTooltipBuilder` | `scripts/items/ItemTooltipBuilder.gd` | Classe statica. `build_instance(entry, qty)`, `build_instance_compare(entry, qty, compare_stats)`, `build_legacy(item_id, data, qty)`, `build_gold(amount)`, `build_empty_slot(slot_name)` → BBCode string per `RichTextLabel`. |
+| `Inventory` | `scripts/items/Inventory.gd` | Autoload. `add_item(id, qty)`, `remove_item(id, qty)`, `has_item(id, qty)`, `add_item_instance(instance)`, `identify_instance(instance_id, lv)`, `use_item(id)` |
+| `Equipment` | `scripts/items/Equipment.gd` | Autoload. `equip(item_id) → bool`, `unequip(slot)`, `is_equipped(id) → bool`, `get_equipped_slot(id)`, `get_stats(id)`, `get_base_data(id)`, `get_attack_bonus()`, `get_defense_bonus()` |
+
+---
+
+## Localizzazione (i18n)
+
+### LocaleManager — `scripts/core/LocaleManager.gd`
+
+Autoload. Primo in ordine di caricamento (disponibile quando tutti gli altri autoload inizializzano).
+
+```gdscript
+LocaleManager.t(key: String, params: Dictionary = {}) -> String
+# Traduce key; usa String.format(params) se params non è vuoto.
+# Emette warning in Output se key mancante, restituisce key.
+
+LocaleManager.t_or(key: String, fallback: String, params: Dictionary = {}) -> String
+# Come t() ma restituisce fallback senza warning se key mancante.
+# Usato nei registry per auto-derivare chiavi senza toccare i JSON.
+```
+
+CSV caricati (in ordine):
+```
+locales/strings_ui.csv         — UI, HUD, menu, notifiche generiche
+locales/strings_notifications.csv
+locales/strings_data.csv       — tooltip stat, slot display, quality labels
+locales/strings_dialogue.csv
+locales/strings_classes.csv    — nomi/descrizioni delle 60 classi
+locales/strings_items.csv      — nomi item base + affissi item (name_m/name_f)
+locales/strings_enemies.csv    — nomi nemici, role/family label, affissi nemici
+```
+
+Formato CSV: `keys,it` come header; `#` come prima colonna = commento, riga ignorata.  
+Valori con virgole vanno fra doppi apici: `CLASS_CAVALIERE_DESC,"Armatura pesante, disciplina totale."`
+
+### Convenzione chiavi per sistema
+
+| Sistema | Pattern chiave | Helper |
+|---------|----------------|--------|
+| Nemici — nome | `ENEMY_<ID_UPPER>_NAME` | `EnemyRegistry.get_display_name(id)` |
+| Nemici — family | `ENEMY_FAMILY_<FAMILY_UPPER>` | `LocaleManager.t_or(…, raw.capitalize())` |
+| Nemici — role | `ENEMY_ROLE_<ROLE_UPPER>` | `LocaleManager.t_or(…, raw.replace("_"," ").capitalize())` |
+| Affissi nemici | `ENEMY_AFFIX_<ID_UPPER>_PREFIX` | `AffixRegistry.get_display_prefix(id)` |
+| Classi — nome | `CLASS_<ID_UPPER>_NAME` | `ClassRegistry.get_display_name(id)` |
+| Classi — desc | `CLASS_<ID_UPPER>_DESC` | `ClassRegistry.get_display_desc(id)` |
+| Classi — special name | `CLASS_<ID_UPPER>_SPECIAL_NAME` | `ClassRegistry.get_display_special_name(id)` |
+| Classi — special desc | `CLASS_<ID_UPPER>_SPECIAL_DESC` | `ClassRegistry.get_display_special_desc(id)` |
+| Item base — nome | `ITEM_<ID_UPPER>_NAME` | `ItemDB.get_display_name(id)` |
+| Item base — desc | `ITEM_<ID_UPPER>_DESC` | `ItemDB.get_display_description(id)` |
+| Affissi item (masch.) | `ITEM_AFFIX_<ID_UPPER>_M` | `ItemAffixDB.get_display_name(id, "m")` |
+| Affissi item (femm.) | `ITEM_AFFIX_<ID_UPPER>_F` | `ItemAffixDB.get_display_name(id, "f")` |
+
+`<ID_UPPER>` = `id.to_upper()` — gli underscore del campo `id` vengono preservati.  
+Esempio: `cacciatore_anime` → `CLASS_CACCIATORE_ANIME_NAME`.
+
+### Pattern registry con t_or
+
+```gdscript
+# Ogni registry espone helper che non richiedono modifiche ai JSON:
+func get_display_name(id: String) -> String:
+    var raw: String = str(_data.get(id, {}).get("name", id))
+    return LocaleManager.t_or("PREFIX_" + id.to_upper() + "_NAME", raw)
+# Se la chiave locale esiste → usa quella; altrimenti → raw dal JSON (graceful fallback).
+```
+
+---
+
+## Sistema Item / Loot
+
+### Schema item base (`data/items/**/*.json`)
+```jsonc
+{
+  "id": "spada_corta", "name": "Spada Corta", "gender": "f", "icon": "/",
+  "item_category": "weapon",      // weapon | armor | accessory | consumable | key_item | summon
+  "item_type": "spada",           // vedi tabella tassonomia in plan_item_system.md
+  "slot": "right_hand",           // slot principale
+  "allowed_slots": ["right_hand", "left_hand"],  // solo per pugnale e anelli
+  "tier": 1, "min_level": 1, "max_level": 12,
+  "base_stats": { "attack_bonus": 3 },
+  "scalable": false, "loot_weight": 25
+}
+```
+
+### Schema affisso item (`data/item_affixes/**/*.json`)
+```jsonc
+{
+  "id": "affilato", "type": "prefix",
+  "name_m": "Affilato", "name_f": "Affilata",   // localizzati via ITEM_AFFIX_AFFILATO_M/F
+  "affix_category": "offensive",
+  "allowed_item_types": ["spada", "ascia", ...],
+  "min_level": 1, "allowed_tiers": ["magico", "raro", "epico"],
+  "weight": 25, "bonuses": { "attack_bonus": 2 }
+}
+```
+Nomi visualizzati sempre via `ItemAffixDB.get_display_name(id, gender)` — mai leggere `name_m`/`name_f` direttamente a display.
+
+### drop_context (passato a `LootResolver.resolve()`)
+```gdscript
+var ctx = {
+  "source_type":   "enemy",        # "enemy" | "chest" | "ground"
+  "loot_profile":  "humanoid_low", # solo per enemy — corrisponde al file in enemies/
+  "chest_variant": "comune",       # solo per chest — chiave in chest.json
+  "player_class":  "guerriero",
+  "player_level":  12,
+  "floor":         2,
+}
+```
+
+### Struttura loot tables (`data/loot/`)
+```
+data/loot/
+  archetypes/
+    martial/tier1/enemies/humanoid_low.json
+    martial/tier1/chest.json          # contiene chiavi: comune, ricca, abbondante, boss, segreto
+    martial/tier1/ground.json
+  default/tier1/…
+  {class_id}/tier1/…                  # override specifico per classe
+```
+
+### Inventory — formati nel `GameState.inventory`
+- Stackabile: `{ "id": "pozione_piccola", "qty": 3 }` — usato da codice legacy e consumabili
+- Istanza non identificata: `{ "instance_id": "...", "base_id": "spada_corta", "quality": "magico", "affix_seed": 12345, "identified": false, "name_unid": "??? spada magico" }`
+- Istanza identificata: come sopra + `"name": "Spada Corta Affilata"`, `"affixes": ["affilato"]`, `"baked_stats": {"attack_bonus": 5}`
+- NOTA: i JSON nuovi usano `item_category` (non `type`); leggere sempre con `data.get("type", data.get("item_category", ""))`; `weapon`/`armor`/`accessory` vanno normalizzati a `"equipment"` nei match
+- **IMPORTANTE**: iterare `GameState.inventory` richiede guard `.get("id", "")` — le istanze non hanno "id". Usare `entry.get("id","")` e `entry.has("instance_id")` per distinguere i due formati.
+- `Inventory.identify_instance(instance_id, player_level) → bool` — sostituisce l'entry in-place con versione identificata via `ItemGenerator.identify()`; emette `inventory_changed`. Consuma la pergamena separatamente con `remove_item()`.
+
+### Budget loot (`DungeonLootBudget` / `FloorLootBudget`)
+
+`DungeonLootBudget` (RefCounted) — cap per dungeon: `for_tier(tier)`, `equipment_ok()`, `consumable_ok()`, `unique_ok()`, `consume_*()`.  
+`FloorLootBudget` (RefCounted) — cap per piano con slot separati chest/enemy/ground: `for_floor(dungeon_budget, floor_index, tier)`.  
+Passati in `ctx["budget"]` al resolver come `Variant` (duck typing).
+
+### EventBus — segnali loot
+```gdscript
+EventBus.loot_screen_open(drops: Array, source_label: String)
+EventBus.loot_screen_closed(remaining: Array)   # remaining = drop non presi
+```
+
+### BaseMap — loot cadaveri
+```gdscript
+map.add_corpse(pos, color, loot_drops)   # loot_drops opzionale
+map.has_corpse_at(pos) -> bool
+map.get_corpse_loot_at(pos) -> Array
+map.set_corpse_loot_at(pos, items)       # aggiorna loot rimasto sul cadavere
+map.clear_corpse_loot_at(pos)
+```
 
 ---
 
@@ -39,7 +195,8 @@ GameState.class_bonus            # {str,…} — bonus fisso classe corrente (so
 GameState.effective_attributes   # base + class_bonus — usati dal gioco
 GameState.current_class          # String, es. "warrior"
 GameState.inventory              # Array di item dict
-GameState.equipped               # {helm, armor, left_hand, right_hand, ring_1, ring_2, amulet, boots, cloak, accessory}
+GameState.equipped               # {head, body, left_hand, right_hand, ring_1, ring_2, neck, feet, cloak, trinket, hands}
+GameState.quick_slots            # Array[String] di 3 item_id (slot rapidi consumabili)
 GameState.world_flags            # {intro_completed, dungeon_boss_defeated, …}
 GameState.run_milestones         # {kills, deaths, save_points_used, …}
 ```
@@ -86,10 +243,20 @@ add_corpse(pos: Vector2i, color: Color)
 respawn_non_boss_enemies()                      # chiamato da save point; svuota anche _corpses
 ```
 
-### MapData — struttura dati mappa
+### MapData — struttura dati mappa (`scripts/world/MapData.gd`)
 
-Generata da `DungeonGenerator` / `VillageGenerator` / ecc.  
-Contiene: `walls`, `transitions`, `entity_defs` (kind, pos, params, uid).
+Generata da tutti i generator (`DungeonGenerator`, `CityGenerator`, ecc.).
+
+```gdscript
+var id: String
+var type: String          # "village" | "city" | "building" | "dungeon" | "ruin" | "overworld"
+var width, height: int
+var walls: Array[Vector2i]
+var transitions: Array[Dictionary]   # {position, target_id, target_type, target_position}
+var entity_defs: Array[Dictionary]   # {kind, uid, pos:{x,y}, params}
+var metadata: Dictionary
+var player_start: Vector2i           # spawn default quando si entra in questa mappa (default Vector2i(1,1))
+```
 
 ### LocationState — `scripts/world/LocationState.gd`
 
@@ -112,6 +279,110 @@ LocationRegistry.get_or_generate(map_id) -> MapData
 LocationRegistry.respawn_non_boss_enemies_in_unloaded_floors(exclude_map_id)
 # ↑ chiamato da save point — svuota dead_entity_uids e corpse_defs dei piani non caricati
 ```
+
+---
+
+## City Builder — Editor Plugin
+
+Plugin Godot (`addons/city_builder/`). Si apre da **Progetto → Strumenti → City Builder…** in una finestra floating.
+
+### File
+
+| File | Ruolo |
+|------|-------|
+| `plugin.gd` | `EditorPlugin`; registra la voce di menu, crea la `Window` floating |
+| `CityBuilderPanel.gd` | UI completa (~1100 righe): palette, canvas, proprietà, salvataggio |
+| `CityCanvas.gd` | `Control` minimale che delega `_draw` e `_gui_input` al pannello |
+
+### Encoding tile
+
+```
+valore_cella = categoria * 16 + variante   (0–255)
+categoria = valore >> 4
+variante  = valore & 0xF
+```
+
+| ID | Costante | Descrizione | Blocca mov? |
+|----|----------|-------------|-------------|
+| 0 | `CAT_FLOOR` | Pavimento (10 var) | no |
+| 1 | `CAT_WALL_ST` | Muro pietra (10 var) | **sì** |
+| 2 | `CAT_WALL_WD` | Muro legno (10 var) | **sì** |
+| 3 | `CAT_FENCE` | Staccionata (10 var) | **sì** |
+| 4 | `CAT_BARRICADE` | Barricata (10 var) | **sì** |
+| 5 | `CAT_PATH` | Sentiero (10 var) | no |
+| 6 | `CAT_SOLCO` | Solchi agricoltura (10 var) | no |
+| 7 | `CAT_BUCA` | Buca / voragine (10 var) | **sì** |
+| 8 | `CAT_ENTITY` | Categoria palette entità (non tile) | — |
+| 9 | `CAT_MARKER` | Categoria palette marker (non tile) | — |
+| 10–16 | `CAT_DECO_*` | Decorativi estetici (7 cat × 16 var = 112 item) | no |
+
+`BLOCKED_CATS = [1, 2, 3, 4, 7]`
+
+### Entità (`CAT_ENTITY`)
+
+| kind | char | note |
+|------|------|------|
+| `npc` | `N` giallo-oro | dialogo, quest |
+| `save_point` | `Ω` ciano | posizioni in `_save_point_positions` |
+| `transition` | `>` arancio | porta verso un'altra mappa |
+| `port` | `P` blu | porto, viaggio via mare |
+| `door` | `+` marrone | porta apribile, params: locked, key_id |
+| `plant` | `♣` verde | pianta, params: blocks_movement |
+| `well` | `o` azzurro | pozzo |
+| `item` | `?` oro | oggetto sul suolo |
+
+### Marker editor-only (`CAT_MARKER`) — invisibili in gioco
+
+| kind | char | note |
+|------|------|------|
+| `spawn_point` | `S` verde | → `MapData.player_start` |
+| `event_trigger` | `E` viola | ignorato da CityGenerator (futuro) |
+| `exit` | `X` ciano | → `MapData.add_transition()` verso overworld |
+
+### Formato JSON salvato (`data/cities/*.json`)
+
+```jsonc
+{
+  "id": "villaggio_nord",
+  "name": "Villaggio del Nord",
+  "type": "village",           // village | city | building | dungeon | ruin
+  "floors": [
+    {
+      "label": "Piano Terra",
+      "width": 40, "height": 30,
+      "tiles": [[...], ...],   // [y][x] = cat*16+var
+      "entities": [{ "kind": "npc", "x": 5, "y": 8, "uid": "npc_5_8", "params": {...} }]
+    },
+    { "label": "Primo Piano", ... }
+  ]
+}
+```
+
+Formato legacy (piatto `tiles`/`entities` senza `floors`) supportato in lettura da `CityGenerator`.
+
+### Multi-piano nel builder
+
+- Riga di navigazione sotto l'header: `◀ Piano N/Tot — Label ▶  + Piano  🗑`
+- Ogni piano ha dimensioni proprie (W/H spinbox applicano al piano corrente)
+- `_save_current_floor()` / `_load_floor(idx)` sincronizzano stato live ↔ `_floors[i]`
+
+---
+
+## CityGenerator — `scripts/world/generators/CityGenerator.gd`
+
+```gdscript
+CityGenerator.generate({"id": "city_id", "floor": 0}) -> MapData
+```
+
+- Legge `res://data/cities/{id}.json`
+- Supporta formato multi-piano (`floors` array) e legacy flat
+- Tile bloccate: `(valore >> 4) in [1,2,3,4,7]` → `data.walls`
+- `spawn_point` → `data.player_start`
+- `exit` o `transition` → `data.add_transition(...)`
+- `event_trigger` → ignorato (solo editor)
+- Tutto il resto → `data.add_entity(kind, uid, pos, params)`
+
+Registrato in `LocationRegistry` come tipo `"city"`.
 
 ---
 
@@ -317,6 +588,7 @@ Eseguire `CombatSimulator.run_validation()` dal pulsante TTK Sim nel DebugScreen
 
 30 nemici totali, organizzati in `data/enemies/tier1/` … `data/enemies/tier6/` (5 nemici per tier).  
 `EnemyRegistry` scansiona ricorsivamente tutte le sottocartelle.  
+Il campo `name` nel JSON è il fallback grezzo; a display usare sempre `EnemyRegistry.get_display_name(id)` (chiave `ENEMY_<ID_UPPER>_NAME`).  
 Calibrazione TTK verificata con `CombatSimulator.run_validation()`.
 
 ---
@@ -325,7 +597,8 @@ Calibrazione TTK verificata con `CombatSimulator.run_validation()`.
 
 - `z_index = -5` — disegna sotto i nodi Label delle entità (z=0)
 - Trigger redraw: `enemy_died`, `player_moved`, `map_changed`, `turn_ended`
-- FOV attivo solo per mappe `dungeon`; overworld/village sempre illuminati
+- FOV attivo per `dungeon` e `overworld`; village sempre illuminato
+- Overworld: raggio variabile (base 15, modificato da bioma e classe), fog of war per-personaggio via `explored_tiles` bitmask in GameState (non in LocationState)
 - `FOV_MEMORY_ALPHA`: moltiplicatore colore per tile viste ma fuori FOV
 
 Ordine di rendering in `_draw()`:
@@ -356,16 +629,33 @@ notification_shown(notif: Notification)
 
 ## Debug Tools
 
-**DebugScreen** (`scripts/debug/DebugScreen.gd`) — accessibile in-game.
+**DebugScreen** (`scripts/debug/DebugScreen.gd`) — accessibile in-game (tasto È).
 
-Pulsanti rilevanti:
-- **TTK Sim** → `CombatSimulator.run_validation()` — stampa tabella TTK per tutti i nemici nell'Output panel
-- **Map Info** — stato mappa corrente
-- **Player Stats** — dump stats giocatore
+Sezioni:
+- **TTK Sim** → `CombatSimulator.run_validation()` — stampa TTK per tutti i nemici
+- **LootDB** — mostra item/affissi/cache caricati; si aggiorna ogni 0.5s
+- **LootTools** — strumenti test loot:
+  - *Simula nemico/chest/ground* — risolve una loot table e stampa i drop nell'Output
+  - *Drop spada_corta* / *Drop unico* — genera un'istanza item e la identifica, stampa risultato
+  - *Apri LootScreen* — apre la schermata loot con 6 item di test (incluso unico + oro)
+  - *Test identificazione* — verifica che lo stesso `affix_seed` produca sempre gli stessi affissi
+  - *Invalida cache loot* — svuota `LootTableDB._cache` per ricaricare i file JSON da disco
+- **DevClassSwitch** — cambia classe al volo
 
 **CombatSimulator** (`scripts/tools/CombatSimulator.gd`)  
 Testa ogni nemico a `zone_min_level` contro i 4 profili classe.  
 Verdict da profili primari (melee_bruiser, caster_burst) — secondari sono informativi.
+
+### Validatori JSON (editor tool) — `scripts/tools/validators/`
+
+Eseguire in Godot: apri il file → **File > Run Script**. Output nel pannello Output del motore. Non usano autoload: caricano i JSON direttamente via `FileAccess`/`DirAccess`.
+
+| Script | Scansiona | Checks principali |
+|--------|-----------|-------------------|
+| `validate_items.gd` | `data/items/` + `items.json` | id unici, item_category/type validi, slot presente, scalable→scale+mode, consumable→effect, key_item→droppable/sellable false |
+| `validate_affixes.gd` | `data/item_affixes/` | id unici, type prefix/suffix, allowed_item_types validi e non vuoti, allowed_tiers validi, bonuses non vuoto, weight > 0 |
+| `validate_loot_tables.gd` | `data/loot/` | chest ha 5 varianti, level_bands senza gap, ultima a 999, item_id esistono, nothing weight ≤ 10 per chest |
+| `validate_classes.gd` | `data/classes/` | noob ha noob_adaptability, non-noob hanno allowed_item_types non vuoto con tipi validi, loot_archetype → cartella esistente |
 
 ---
 

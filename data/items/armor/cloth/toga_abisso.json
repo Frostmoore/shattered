@@ -1,0 +1,21 @@
+{
+  "id": "toga_abisso",
+  "name": "Toga dell'Abisso",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 58,
+  "base_stats": {
+    "magic_bonus": 36,
+    "defense_bonus": 10
+  },
+  "requirements": {
+    "int": 22
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

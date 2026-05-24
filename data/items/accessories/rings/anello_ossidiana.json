@@ -1,0 +1,22 @@
+{
+  "id": "anello_ossidiana",
+  "name": "Anello d'Ossidiana",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 48,
+  "base_stats": {
+    "hp_bonus": 55,
+    "defense_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

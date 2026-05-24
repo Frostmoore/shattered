@@ -1,0 +1,23 @@
+{
+  "id": "anello_immortale",
+  "name": "Anello dell'Immortale",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 59,
+  "base_stats": {
+    "hp_bonus": 80,
+    "defense_bonus": 6,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

@@ -1,0 +1,19 @@
+{
+  "id": "amuleto_viaggiatore",
+  "name": "Amuleto del Viaggiatore",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 5,
+  "max_level": 11,
+  "base_stats": {
+    "hp_bonus": 10,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

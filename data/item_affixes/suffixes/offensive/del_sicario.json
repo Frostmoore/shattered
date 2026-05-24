@@ -1,0 +1,23 @@
+{
+  "id": "del_sicario",
+  "type": "suffix",
+  "name_m": "del Sicario",
+  "name_f": "del Sicario",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "pugnale"
+  ],
+  "min_level": 5,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 16,
+  "bonuses": {
+    "attack_bonus": 1,
+    "dex_bonus": 2
+  }
+}

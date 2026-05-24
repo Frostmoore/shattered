@@ -1,0 +1,18 @@
+{
+  "id": "camicia_imbottita",
+  "name": "Camicia Imbottita",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 5,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

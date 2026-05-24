@@ -1,0 +1,21 @@
+{
+  "id": "totem_tuono",
+  "name": "Totem del Tuono",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 26,
+  "max_level": 36,
+  "base_stats": {
+    "hp_bonus": 44,
+    "magic_bonus": 19
+  },
+  "requirements": {
+    "int": 12
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

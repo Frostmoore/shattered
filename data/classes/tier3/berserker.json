@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "berserker",
 	"name": "Berserker",
 	"desc": "Entra in frenesia e non si ferma finché c'è ancora qualcosa in piedi.",
@@ -12,5 +12,7 @@
 	"special_name": "Frenesia Totale",
 	"special_desc": "Con nemici in vista: ATK +40%. Non può ritirarsi né usare oggetti in combattimento.",
 	"unlock": { "type": "boss_killed_no_damage", "value": 1, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "martial",
+	"allowed_item_types": ["ascia", "ascia_bipenne", "martello_guerra", "spadone", "mazza", "armatura_leggera", "armatura_media", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

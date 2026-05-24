@@ -1,0 +1,13 @@
+{
+  "id": "zuppa_ossa",
+  "name": "Zuppa di Ossa",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_hp": 30
+  },
+  "stackable": true,
+  "loot_weight": 13
+}

@@ -1,0 +1,15 @@
+{
+  "id": "fegato_goblin",
+  "name": "Fegato di Goblin",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Sgradevole ma energizzante.",
+  "effect": {
+    "restore_hp": 8,
+    "restore_stamina": 20
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

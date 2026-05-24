@@ -1,0 +1,14 @@
+{
+  "id": "elisir_immortale_b",
+  "name": "Elisir dell'Immortale",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "temp_hp": 100,
+    "duration": 10
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

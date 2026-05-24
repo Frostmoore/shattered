@@ -1,0 +1,26 @@
+{
+  "id": "dell_assassino",
+  "type": "suffix",
+  "name_m": "dell'Assassino",
+  "name_f": "dell'Assassina",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "pugnale",
+    "spada",
+    "arco",
+    "balestra"
+  ],
+  "min_level": 8,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 12,
+  "bonuses": {
+    "attack_bonus": 2,
+    "dex_bonus": 2
+  }
+}

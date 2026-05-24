@@ -1,0 +1,15 @@
+{
+  "id": "carne_ratto",
+  "name": "Carne di Ratto",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Sopravvivenza di base.",
+  "effect": {
+    "restore_hp": 6,
+    "restore_stamina": 4
+  },
+  "stackable": true,
+  "loot_weight": 20
+}

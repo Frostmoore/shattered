@@ -1,0 +1,18 @@
+{
+  "id": "stivali_colosso",
+  "name": "Stivali del Colosso",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 5,
+  "min_level": 40,
+  "max_level": 52,
+  "base_stats": {
+    "defense_bonus": 13
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

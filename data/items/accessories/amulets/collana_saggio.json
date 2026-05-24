@@ -1,0 +1,20 @@
+{
+  "id": "collana_saggio",
+  "name": "Collana del Saggio",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 49,
+  "base_stats": {
+    "hp_bonus": 40,
+    "magic_bonus": 7,
+    "mp_bonus": 50
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

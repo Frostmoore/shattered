@@ -1,0 +1,13 @@
+{
+	"id": "della_velocita",
+	"type": "suffix",
+	"name_m": "della Velocità",
+	"name_f": "della Velocità",
+	"affix_category": "offensive",
+	"allowed_item_types": ["spada", "pugnale", "ascia", "arco", "balestra", "lancia", "stivali"],
+	"min_level": 1,
+	"min_quality": "magico",
+	"allowed_tiers": ["magico", "raro", "epico", "leggendario"],
+	"weight": 20,
+	"bonuses": { "attack_bonus": 1 }
+}

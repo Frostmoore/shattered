@@ -1,0 +1,15 @@
+{
+  "id": "runa_arcano",
+  "name": "Runa dell'Arcano",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "max_magic_dmg": 1,
+    "rune_type": "arcane",
+    "duration": 3
+  },
+  "stackable": false,
+  "loot_weight": 5
+}

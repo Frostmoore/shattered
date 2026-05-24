@@ -1,0 +1,13 @@
+{
+  "id": "chiave_ferro",
+  "name": "Chiave di Ferro",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "standard_door"
+  },
+  "stackable": false,
+  "loot_weight": 14
+}

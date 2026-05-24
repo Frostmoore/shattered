@@ -1,0 +1,16 @@
+{
+  "id": "estratto_negromante",
+  "name": "Estratto del Negromante",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "ignores_resist": 1,
+    "applies_on_hit": 1,
+    "poison_type": "necrotic",
+    "damage_per_turn": 8
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

@@ -1,0 +1,15 @@
+{
+  "id": "granata_magica",
+  "name": "Granata Magica",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 45,
+    "area": 3,
+    "throw_type": "magic"
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

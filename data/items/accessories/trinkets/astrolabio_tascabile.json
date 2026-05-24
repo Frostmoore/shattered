@@ -1,0 +1,19 @@
+{
+  "id": "astrolabio_tascabile",
+  "name": "Astrolabio Tascabile",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 12,
+  "base_stats": {
+    "mp_bonus": 8,
+    "magic_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

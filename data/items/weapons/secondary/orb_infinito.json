@@ -1,0 +1,21 @@
+{
+  "id": "orb_infinito",
+  "name": "Orb dell'Infinito",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 5,
+  "min_level": 44,
+  "max_level": 54,
+  "base_stats": {
+    "mp_bonus": 88,
+    "magic_bonus": 33
+  },
+  "requirements": {
+    "int": 21
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

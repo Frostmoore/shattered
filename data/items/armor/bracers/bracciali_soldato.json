@@ -1,0 +1,18 @@
+{
+  "id": "bracciali_soldato",
+  "name": "Bracciali del Soldato",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 2,
+  "min_level": 13,
+  "max_level": 20,
+  "base_stats": {
+    "defense_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

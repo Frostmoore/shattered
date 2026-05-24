@@ -1,0 +1,18 @@
+{
+  "id": "pettorale_ladro",
+  "name": "Pettorale del Ladro",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 11,
+  "max_level": 18,
+  "base_stats": {
+    "defense_bonus": 6
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,0 +1,13 @@
+{
+  "id": "chiave_argento",
+  "name": "Chiave d'Argento",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "medium_chest"
+  },
+  "stackable": false,
+  "loot_weight": 10
+}

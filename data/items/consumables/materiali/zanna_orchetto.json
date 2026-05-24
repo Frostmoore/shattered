@@ -1,0 +1,13 @@
+{
+  "id": "zanna_orchetto",
+  "name": "Zanna di Orchetto",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

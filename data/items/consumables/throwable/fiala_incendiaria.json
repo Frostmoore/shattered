@@ -1,0 +1,16 @@
+{
+  "id": "fiala_incendiaria",
+  "name": "Fiala Incendiaria",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "damage": 15,
+    "throw_type": "fire",
+    "burn_duration": 5,
+    "burn": 1
+  },
+  "stackable": true,
+  "loot_weight": 13
+}

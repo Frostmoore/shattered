@@ -1,0 +1,15 @@
+{
+  "id": "runa_veleno",
+  "name": "Runa del Veleno",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "rune_type": "poison",
+    "area": 3,
+    "duration": 10
+  },
+  "stackable": false,
+  "loot_weight": 10
+}

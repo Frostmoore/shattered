@@ -1,0 +1,20 @@
+{
+  "id": "scudo_gladiatore",
+  "name": "Scudo del Gladiatore",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 27,
+  "max_level": 39,
+  "base_stats": {
+    "defense_bonus": 23
+  },
+  "requirements": {
+    "str": 13
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,18 @@
+{
+  "id": "guanti_ranger",
+  "name": "Guanti del Ranger",
+  "gender": "m",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 15,
+  "base_stats": {
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

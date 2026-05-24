@@ -49,6 +49,11 @@ func get_affix(id: String) -> Dictionary:
 	return _affixes.get(id, {})
 
 
+func get_display_prefix(id: String) -> String:
+	var raw: String = str(_affixes.get(id, {}).get("prefix", ""))
+	return LocaleManager.t_or("ENEMY_AFFIX_" + id.to_upper() + "_PREFIX", raw)
+
+
 func get_all() -> Array:
 	return _affixes.values()
 

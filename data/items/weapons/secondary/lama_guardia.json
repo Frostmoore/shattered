@@ -1,0 +1,24 @@
+{
+  "id": "lama_guardia",
+  "name": "Lama da Guardia",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 1,
+  "min_level": 6,
+  "max_level": 14,
+  "base_stats": {
+    "attack_bonus": 5,
+    "defense_bonus": 1
+  },
+  "requirements": {
+    "dex": 2
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

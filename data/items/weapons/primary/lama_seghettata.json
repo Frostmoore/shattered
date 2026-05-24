@@ -1,0 +1,23 @@
+{
+  "id": "lama_seghettata",
+  "name": "Lama Seghettata",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 2,
+  "min_level": 11,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 8
+  },
+  "requirements": {
+    "dex": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

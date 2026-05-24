@@ -1,0 +1,19 @@
+{
+  "id": "dado_portafortuna",
+  "name": "Dado Portafortuna",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 8,
+  "base_stats": {
+    "attack_bonus": 1,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

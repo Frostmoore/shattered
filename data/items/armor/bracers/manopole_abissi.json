@@ -1,0 +1,18 @@
+{
+  "id": "manopole_abissi",
+  "name": "Manopole degli Abissi",
+  "gender": "f",
+  "icon": "]",
+  "item_category": "armor",
+  "item_type": "bracciali",
+  "slot": "hands",
+  "tier": 5,
+  "min_level": 44,
+  "max_level": 57,
+  "base_stats": {
+    "defense_bonus": 18
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,21 @@
+{
+  "id": "bacchetta_cristallo",
+  "name": "Bacchetta di Cristallo",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bacchetta",
+  "slot": "right_hand",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 32,
+  "base_stats": {
+    "attack_bonus": 7,
+    "magic_bonus": 17
+  },
+  "requirements": {
+    "int": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

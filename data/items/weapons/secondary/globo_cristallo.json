@@ -1,0 +1,21 @@
+{
+  "id": "globo_cristallo",
+  "name": "Globo di Cristallo",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 32,
+  "base_stats": {
+    "mp_bonus": 44,
+    "magic_bonus": 16
+  },
+  "requirements": {
+    "int": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

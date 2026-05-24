@@ -1,0 +1,13 @@
+{
+  "id": "essenza_vita",
+  "name": "Essenza della Vita",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 400
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

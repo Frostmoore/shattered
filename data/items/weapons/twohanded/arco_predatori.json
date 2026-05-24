@@ -1,0 +1,20 @@
+{
+  "id": "arco_predatori",
+  "name": "Arco dei Predatori",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 5,
+  "min_level": 44,
+  "max_level": 56,
+  "base_stats": {
+    "attack_bonus": 45
+  },
+  "requirements": {
+    "dex": 28
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

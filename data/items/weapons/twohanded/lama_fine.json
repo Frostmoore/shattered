@@ -1,0 +1,20 @@
+{
+  "id": "lama_fine",
+  "name": "Lama della Fine",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spadone",
+  "slot": "both_hands",
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 58,
+  "base_stats": {
+    "attack_bonus": 60
+  },
+  "requirements": {
+    "str": 32
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,13 @@
+{
+  "id": "pozione_forza_r",
+  "name": "Pozione della Forza",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_stamina": 50
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "biomante",
 	"name": "Biomante",
 	"desc": "Ha imparato a rigenerare il proprio corpo nel momento più critico.",
@@ -12,5 +12,7 @@
 	"special_name": "Rigenerazione",
 	"special_desc": "Recupera VIT/5 HP ogni turno in cui non si ricevono danni.",
 	"unlock": { "type": "near_death_survived", "value": 3, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "planned" }
+	"implementation": { "status": "planned" },
+	"loot_archetype": "divine",
+	"allowed_item_types": ["mazza", "simbolo_sacro", "bastone", "armatura_leggera", "armatura_media", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

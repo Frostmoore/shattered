@@ -1,0 +1,18 @@
+{
+  "id": "elmetto_stelle",
+  "name": "Elmetto delle Stelle",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 6,
+  "min_level": 59,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 27
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

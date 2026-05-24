@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "cacciatore_anime",
 	"name": "Cacciatore di Anime",
 	"desc": "Ogni nemico ucciso lascia qualcosa di sé.",
@@ -12,5 +12,7 @@
 	"special_name": "Raccolta Anime / Consumo",
 	"special_desc": "Passiva: accumula 1 anima per kill (max INT/2). Q: spendi 1 anima per curare WIL HP o +5 ATK per 3 turni.",
 	"unlock": { "type": "kills_total", "value": 500, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["spada", "pugnale", "bastone", "armatura_leggera", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

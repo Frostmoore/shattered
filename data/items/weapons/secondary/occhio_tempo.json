@@ -1,0 +1,21 @@
+{
+  "id": "occhio_tempo",
+  "name": "Occhio del Tempo",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 38,
+  "max_level": 48,
+  "base_stats": {
+    "mp_bonus": 76,
+    "magic_bonus": 28
+  },
+  "requirements": {
+    "int": 18
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

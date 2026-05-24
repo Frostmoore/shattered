@@ -1,0 +1,14 @@
+{
+  "id": "pozione_rigenerazione",
+  "name": "Pozione di Rigenerazione",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 20,
+    "regen_hp": 5
+  },
+  "stackable": true,
+  "loot_weight": 10
+}

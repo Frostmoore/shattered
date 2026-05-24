@@ -1,0 +1,15 @@
+{
+  "id": "fiala_orrore",
+  "name": "Fiala dell'Orrore",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "terror": 1,
+    "area": 2,
+    "throw_type": "fear"
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

@@ -1,0 +1,13 @@
+{
+  "id": "pergamena_vuoto",
+  "name": "Pergamena del Vuoto",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "scroll",
+  "effect": {
+    "scroll_type": "delete_enemy"
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

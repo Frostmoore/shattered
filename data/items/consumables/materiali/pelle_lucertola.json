@@ -1,0 +1,13 @@
+{
+  "id": "pelle_lucertola",
+  "name": "Pelle di Lucertola",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

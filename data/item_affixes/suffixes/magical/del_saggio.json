@@ -1,0 +1,31 @@
+{
+  "id": "del_saggio",
+  "type": "suffix",
+  "name_m": "del Saggio",
+  "name_f": "del Saggio",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 8,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 13,
+  "bonuses": {
+    "magic_bonus": 3,
+    "mp_bonus": 15
+  }
+}

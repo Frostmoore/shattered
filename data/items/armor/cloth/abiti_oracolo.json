@@ -1,0 +1,21 @@
+{
+  "id": "abiti_oracolo",
+  "name": "Abiti dell'Oracolo",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 47,
+  "base_stats": {
+    "magic_bonus": 23,
+    "defense_bonus": 7
+  },
+  "requirements": {
+    "int": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,20 @@
+{
+  "id": "mazza_sacerdote",
+  "name": "Mazza del Sacerdote",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "mazza",
+  "slot": "right_hand",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "attack_bonus": 19
+  },
+  "requirements": {
+    "str": 8
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

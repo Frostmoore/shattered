@@ -1,0 +1,20 @@
+{
+  "id": "armatura_gladiatore",
+  "name": "Armatura del Gladiatore",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 21,
+  "max_level": 30,
+  "base_stats": {
+    "defense_bonus": 17
+  },
+  "requirements": {
+    "str": 9
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

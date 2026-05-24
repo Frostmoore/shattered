@@ -1,0 +1,24 @@
+{
+  "id": "pugnale_parata",
+  "name": "Pugnale da Parata",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 22,
+  "base_stats": {
+    "attack_bonus": 9,
+    "defense_bonus": 2
+  },
+  "requirements": {
+    "dex": 6
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

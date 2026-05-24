@@ -1,0 +1,53 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "guaranteed": [],
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 20,
+      "pool": [
+        {
+          "item_category": "consumable",
+          "weight": 12
+        },
+        {
+          "nothing": true,
+          "weight": 55
+        }
+      ]
+    },
+    {
+      "level_min": 21,
+      "level_max": 40,
+      "pool": [
+        {
+          "item_category": "consumable",
+          "weight": 15
+        },
+        {
+          "nothing": true,
+          "weight": 45
+        }
+      ]
+    },
+    {
+      "level_min": 41,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_category": "consumable",
+          "weight": 20
+        },
+        {
+          "item_category": "weapon",
+          "weight": 8
+        },
+        {
+          "nothing": true,
+          "weight": 35
+        }
+      ]
+    }
+  ]
+}

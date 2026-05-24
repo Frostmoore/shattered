@@ -1,0 +1,24 @@
+{
+  "id": "lama_assassini",
+  "name": "Lama degli Assassini",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 6,
+  "min_level": 55,
+  "max_level": 60,
+  "base_stats": {
+    "attack_bonus": 38,
+    "defense_bonus": 11
+  },
+  "requirements": {
+    "dex": 27
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

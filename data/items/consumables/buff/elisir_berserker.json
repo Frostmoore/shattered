@@ -1,0 +1,15 @@
+{
+  "id": "elisir_berserker",
+  "name": "Elisir del Berserker",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_atk": 40,
+    "debuff_def": 20,
+    "duration": 6
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

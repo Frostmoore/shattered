@@ -1,0 +1,18 @@
+{
+  "id": "elmo_guerriero",
+  "name": "Elmo del Guerriero",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 3,
+  "min_level": 23,
+  "max_level": 32,
+  "base_stats": {
+    "defense_bonus": 9
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

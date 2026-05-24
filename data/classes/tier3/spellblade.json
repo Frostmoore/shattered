@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "spellblade",
 	"name": "Spellblade",
 	"desc": "Fonde magia e acciaio in una singola lama letale.",
@@ -12,5 +12,7 @@
 	"special_name": "Lama Incantata",
 	"special_desc": "I prossimi 3 attacchi fisici aggiungono INT come danno bonus (ignora DEF). Costo: 12 MP.",
 	"unlock": { "type": "dual_stat_threshold", "attr1": "str", "attr2": "int", "value": 15, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["spada", "sfera", "libro_arcano", "armatura_leggera", "armatura_media", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

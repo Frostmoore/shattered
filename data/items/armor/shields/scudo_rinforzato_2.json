@@ -1,0 +1,20 @@
+{
+  "id": "scudo_rinforzato_2",
+  "name": "Scudo Rinforzato II",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 31,
+  "max_level": 44,
+  "base_stats": {
+    "defense_bonus": 26
+  },
+  "requirements": {
+    "str": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

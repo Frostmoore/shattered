@@ -1,0 +1,27 @@
+{
+  "id": "cuore_della_divinita",
+  "name": "Cuore della Divinita",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 5,
+  "min_level": 45,
+  "max_level": 60,
+  "scalable": true,
+  "scaling_mode": "partial",
+  "scale_factor": 0.8,
+  "scale": { "attack_bonus": "5 + floor(level * 0.18)", "defense_bonus": "5 + floor(level * 0.18)", "magic_bonus": "5 + floor(level * 0.18)", "hp_bonus": "30 + level", "mp_bonus": "30 + level" },
+  "base_stats": {
+    "attack_bonus": 15,
+    "defense_bonus": 15,
+    "magic_bonus": 15,
+    "hp_bonus": 100,
+    "mp_bonus": 100
+  },
+  "requirements": {},
+  "loot_weight": 2,
+  "lore": "Pulsa ancora. Non sappiamo se sia di un dio vivo o morto.",
+  "flavor": "Continua."
+}

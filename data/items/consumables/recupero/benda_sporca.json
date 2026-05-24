@@ -1,0 +1,13 @@
+{
+  "id": "benda_sporca",
+  "name": "Benda Sporca",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 5
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

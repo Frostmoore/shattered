@@ -1,0 +1,21 @@
+{
+  "id": "abiti_novizio",
+  "name": "Abiti da Novizio",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 5,
+  "base_stats": {
+    "magic_bonus": 1,
+    "defense_bonus": 0
+  },
+  "requirements": {
+    "int": 0
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

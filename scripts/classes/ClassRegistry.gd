@@ -53,6 +53,26 @@ func get_class_data(id: String) -> Dictionary:
 	return _classes.get(id, {})
 
 
+func get_display_name(id: String) -> String:
+	var raw: String = str(_classes.get(id, {}).get("name", id))
+	return LocaleManager.t_or("CLASS_" + id.to_upper() + "_NAME", raw)
+
+
+func get_display_desc(id: String) -> String:
+	var raw: String = str(_classes.get(id, {}).get("desc", ""))
+	return LocaleManager.t_or("CLASS_" + id.to_upper() + "_DESC", raw)
+
+
+func get_display_special_name(id: String) -> String:
+	var raw: String = str(_classes.get(id, {}).get("special_name", ""))
+	return LocaleManager.t_or("CLASS_" + id.to_upper() + "_SPECIAL_NAME", raw)
+
+
+func get_display_special_desc(id: String) -> String:
+	var raw: String = str(_classes.get(id, {}).get("special_desc", ""))
+	return LocaleManager.t_or("CLASS_" + id.to_upper() + "_SPECIAL_DESC", raw)
+
+
 func get_all() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for tier: int in range(0, 7):

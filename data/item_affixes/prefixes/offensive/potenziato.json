@@ -1,0 +1,31 @@
+{
+  "id": "potenziato",
+  "type": "prefix",
+  "name_m": "Potenziato",
+  "name_f": "Potenziata",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spada",
+    "ascia",
+    "mazza",
+    "pugnale",
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia",
+    "arco",
+    "balestra"
+  ],
+  "min_level": 5,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 15,
+  "bonuses": {
+    "attack_bonus": 3
+  }
+}

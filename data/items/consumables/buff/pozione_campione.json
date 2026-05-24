@@ -1,0 +1,14 @@
+{
+  "id": "pozione_campione",
+  "name": "Pozione del Campione",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 8,
+    "buff_all": 20
+  },
+  "stackable": true,
+  "loot_weight": 8
+}

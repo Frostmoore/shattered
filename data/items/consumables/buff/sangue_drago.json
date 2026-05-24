@@ -1,0 +1,14 @@
+{
+  "id": "sangue_drago",
+  "name": "Sangue del Drago",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 5,
+    "buff_atk": 60
+  },
+  "stackable": true,
+  "loot_weight": 4
+}

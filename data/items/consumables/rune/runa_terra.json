@@ -1,0 +1,14 @@
+{
+  "id": "runa_terra",
+  "name": "Runa della Terra",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "create_wall": 1,
+    "rune_type": "earth"
+  },
+  "stackable": false,
+  "loot_weight": 12
+}

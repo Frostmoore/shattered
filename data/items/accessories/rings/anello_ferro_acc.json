@@ -1,0 +1,21 @@
+{
+  "id": "anello_ferro_acc",
+  "name": "Anello di Ferro",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 6,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

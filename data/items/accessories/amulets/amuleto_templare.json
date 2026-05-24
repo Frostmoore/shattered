@@ -1,0 +1,19 @@
+{
+  "id": "amuleto_templare",
+  "name": "Amuleto del Templare",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 3,
+  "min_level": 26,
+  "max_level": 37,
+  "base_stats": {
+    "hp_bonus": 30,
+    "defense_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

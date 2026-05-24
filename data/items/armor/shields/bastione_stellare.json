@@ -1,0 +1,20 @@
+{
+  "id": "bastione_stellare",
+  "name": "Bastione Stellare",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 6,
+  "min_level": 58,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 54
+  },
+  "requirements": {
+    "str": 28
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,18 @@
+{
+  "id": "cuoio_cacciatore",
+  "name": "Cuoio del Cacciatore",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 25,
+  "max_level": 32,
+  "base_stats": {
+    "defense_bonus": 13
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 20
+}

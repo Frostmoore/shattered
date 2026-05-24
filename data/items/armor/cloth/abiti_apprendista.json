@@ -1,0 +1,21 @@
+{
+  "id": "abiti_apprendista",
+  "name": "Abiti dell'Apprendista",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 9,
+  "base_stats": {
+    "magic_bonus": 2,
+    "defense_bonus": 1
+  },
+  "requirements": {
+    "int": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

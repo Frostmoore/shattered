@@ -1,0 +1,20 @@
+{
+  "id": "lama_acciaio",
+  "name": "Lama d'Acciaio",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spada",
+  "slot": "right_hand",
+  "tier": 2,
+  "min_level": 14,
+  "max_level": 24,
+  "base_stats": {
+    "attack_bonus": 13
+  },
+  "requirements": {
+    "str": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

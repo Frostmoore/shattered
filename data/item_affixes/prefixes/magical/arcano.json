@@ -1,0 +1,27 @@
+{
+  "id": "arcano",
+  "type": "prefix",
+  "name_m": "Arcano",
+  "name_f": "Arcana",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone"
+  ],
+  "min_level": 1,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 18,
+  "bonuses": {
+    "magic_bonus": 2
+  }
+}

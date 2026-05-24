@@ -1,0 +1,18 @@
+{
+  "id": "gilet_ladro",
+  "name": "Gilet del Ladro",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 4,
+  "max_level": 10,
+  "base_stats": {
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

@@ -1,0 +1,13 @@
+{
+	"id": "della_guarigione",
+	"type": "suffix",
+	"name_m": "della Guarigione",
+	"name_f": "della Guarigione",
+	"affix_category": "defensive",
+	"allowed_item_types": ["anello", "amuleto", "accessorio", "armatura_leggera", "armatura_media", "armatura_pesante"],
+	"min_level": 1,
+	"min_quality": "magico",
+	"allowed_tiers": ["magico", "raro", "epico", "leggendario"],
+	"weight": 18,
+	"bonuses": { "defense_bonus": 1, "attack_bonus": 0 }
+}

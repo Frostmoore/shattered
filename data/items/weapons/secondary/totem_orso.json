@@ -1,0 +1,21 @@
+{
+  "id": "totem_orso",
+  "name": "Totem dell'Orso",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 10,
+  "base_stats": {
+    "hp_bonus": 8,
+    "magic_bonus": 3
+  },
+  "requirements": {
+    "int": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

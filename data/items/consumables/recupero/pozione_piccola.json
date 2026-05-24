@@ -1,0 +1,11 @@
+{
+	"id": "pozione_piccola",
+	"name": "Pozione Piccola",
+	"gender": "f",
+	"icon": "!",
+	"item_category": "consumable",
+	"item_subtype": "recupero",
+	"effect": { "restore_hp": 20, "heal": 20 },
+	"stackable": true,
+	"loot_weight": 30
+}

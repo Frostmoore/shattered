@@ -1,0 +1,25 @@
+{
+  "id": "brutale",
+  "type": "prefix",
+  "name_m": "Brutale",
+  "name_f": "Brutale",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia"
+  ],
+  "min_level": 8,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 12,
+  "bonuses": {
+    "attack_bonus": 4
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "veste_eletto",
+  "name": "Veste dell'Eletto",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 58,
+  "max_level": 60,
+  "base_stats": {
+    "magic_bonus": 45,
+    "defense_bonus": 12
+  },
+  "requirements": {
+    "int": 26
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

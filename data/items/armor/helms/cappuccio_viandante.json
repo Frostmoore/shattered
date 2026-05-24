@@ -1,0 +1,18 @@
+{
+  "id": "cappuccio_viandante",
+  "name": "Cappuccio del Viandante",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 3,
+  "min_level": 29,
+  "max_level": 39,
+  "base_stats": {
+    "defense_bonus": 12
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

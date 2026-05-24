@@ -1,0 +1,21 @@
+{
+  "id": "toga_sacerdote",
+  "name": "Toga del Sacerdote",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 14,
+  "max_level": 22,
+  "base_stats": {
+    "magic_bonus": 8,
+    "defense_bonus": 3
+  },
+  "requirements": {
+    "int": 6
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

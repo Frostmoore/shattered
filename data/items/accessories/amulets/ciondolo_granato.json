@@ -1,0 +1,19 @@
+{
+  "id": "ciondolo_granato",
+  "name": "Ciondolo di Granato",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 32,
+  "base_stats": {
+    "hp_bonus": 35,
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

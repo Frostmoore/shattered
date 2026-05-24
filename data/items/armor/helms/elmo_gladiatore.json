@@ -1,0 +1,18 @@
+{
+  "id": "elmo_gladiatore",
+  "name": "Elmo del Gladiatore",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 4,
+  "min_level": 31,
+  "max_level": 42,
+  "base_stats": {
+    "defense_bonus": 13
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

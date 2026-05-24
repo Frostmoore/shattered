@@ -1,0 +1,21 @@
+{
+  "id": "orb_quarzo",
+  "name": "Orb di Quarzo",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 9,
+  "max_level": 18,
+  "base_stats": {
+    "mp_bonus": 18,
+    "magic_bonus": 7
+  },
+  "requirements": {
+    "int": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

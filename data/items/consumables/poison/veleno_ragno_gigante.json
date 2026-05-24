@@ -1,0 +1,16 @@
+{
+  "id": "veleno_ragno_gigante",
+  "name": "Veleno del Ragno Gigante",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 10,
+    "poison_type": "strong",
+    "damage_per_turn": 8
+  },
+  "stackable": true,
+  "loot_weight": 10
+}

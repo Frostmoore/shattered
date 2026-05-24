@@ -1,0 +1,23 @@
+{
+  "id": "rondel",
+  "name": "Rondel",
+  "gender": "m",
+  "icon": "-",
+  "item_category": "weapon",
+  "item_type": "pugnale",
+  "allowed_slots": [
+    "right_hand",
+    "left_hand"
+  ],
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "attack_bonus": 14
+  },
+  "requirements": {
+    "dex": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

@@ -1,0 +1,21 @@
+{
+  "id": "bastone_cristallo",
+  "name": "Bastone di Cristallo",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 16,
+  "max_level": 26,
+  "base_stats": {
+    "attack_bonus": 10,
+    "magic_bonus": 16
+  },
+  "requirements": {
+    "int": 8
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

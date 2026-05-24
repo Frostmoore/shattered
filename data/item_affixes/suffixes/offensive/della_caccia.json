@@ -1,0 +1,24 @@
+{
+  "id": "della_caccia",
+  "type": "suffix",
+  "name_m": "della Caccia",
+  "name_f": "della Caccia",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "arco",
+    "balestra"
+  ],
+  "min_level": 3,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 15,
+  "bonuses": {
+    "attack_bonus": 1,
+    "dex_bonus": 3
+  }
+}

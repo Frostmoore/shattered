@@ -12,5 +12,12 @@
 	"special_name": "Furia",
 	"special_desc": "Sotto 30% HP: ATK ×1.5, glyph rosso acceso.",
 	"unlock": { "type": "damage_dealt_total", "value": 100, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "martial",
+	"allowed_item_types": [
+		"spada", "ascia", "mazza", "spadone", "ascia_bipenne", "martello_guerra", "lancia",
+		"scudo",
+		"armatura_leggera", "armatura_media", "armatura_pesante",
+		"elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"
+	]
 }

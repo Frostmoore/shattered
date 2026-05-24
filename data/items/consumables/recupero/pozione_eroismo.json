@@ -1,0 +1,14 @@
+{
+  "id": "pozione_eroismo",
+  "name": "Pozione dell'Eroismo",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_mp": 80,
+    "restore_hp": 150
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

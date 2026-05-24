@@ -1,0 +1,18 @@
+{
+  "id": "cappuccio_ombra",
+  "name": "Cappuccio dell'Ombra",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 4,
+  "min_level": 37,
+  "max_level": 48,
+  "base_stats": {
+    "defense_bonus": 16
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

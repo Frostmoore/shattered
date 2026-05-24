@@ -1,0 +1,21 @@
+{
+  "id": "anello_diaspro",
+  "name": "Anello di Diaspro",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 13,
+  "base_stats": {
+    "defense_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

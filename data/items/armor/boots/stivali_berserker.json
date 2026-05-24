@@ -1,0 +1,18 @@
+{
+  "id": "stivali_berserker",
+  "name": "Stivali del Berserker",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 48,
+  "base_stats": {
+    "defense_bonus": 12
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

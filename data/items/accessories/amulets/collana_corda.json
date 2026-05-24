@@ -1,0 +1,18 @@
+{
+  "id": "collana_corda",
+  "name": "Collana di Corda",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 6,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

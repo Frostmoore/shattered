@@ -1,0 +1,20 @@
+{
+  "id": "mazza_benedetta",
+  "name": "Mazza Benedetta",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "mazza",
+  "slot": "right_hand",
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 46,
+  "base_stats": {
+    "attack_bonus": 31
+  },
+  "requirements": {
+    "str": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

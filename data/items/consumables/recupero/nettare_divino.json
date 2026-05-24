@@ -1,0 +1,13 @@
+{
+  "id": "nettare_divino",
+  "name": "Nettare Divino",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 320
+  },
+  "stackable": true,
+  "loot_weight": 7
+}

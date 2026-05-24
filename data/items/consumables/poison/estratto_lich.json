@@ -1,0 +1,16 @@
+{
+  "id": "estratto_lich",
+  "name": "Estratto del Lich",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "uncurable": 1,
+    "poison_type": "magical",
+    "applies_on_hit": 1,
+    "damage_per_turn": 15
+  },
+  "stackable": true,
+  "loot_weight": 3
+}

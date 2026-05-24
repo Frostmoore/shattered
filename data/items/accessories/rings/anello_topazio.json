@@ -1,0 +1,22 @@
+{
+  "id": "anello_topazio",
+  "name": "Anello di Topazio",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 43,
+  "base_stats": {
+    "attack_bonus": 5,
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

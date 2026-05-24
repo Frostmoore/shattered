@@ -1,0 +1,20 @@
+{
+  "id": "corazza_cavaliere_h",
+  "name": "Corazza del Cavaliere",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 27,
+  "max_level": 37,
+  "base_stats": {
+    "defense_bonus": 30
+  },
+  "requirements": {
+    "str": 16
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

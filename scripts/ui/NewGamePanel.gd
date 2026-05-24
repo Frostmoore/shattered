@@ -33,7 +33,7 @@ func open() -> void:
 	world_list.select(0)
 	_on_world_selected(0)
 	new_world_input.text     = ""
-	char_input.text          = "Avventuriero"
+	char_input.text          = LocaleManager.t("UI_NEWGAME_DEFAULT_CHAR_NAME")
 	permadeath_check.button_pressed = false
 	error_label.text         = ""
 	visible = true
@@ -57,7 +57,7 @@ func _on_world_selected(index: int) -> void:
 func _on_confirm() -> void:
 	var selected: PackedInt32Array = world_list.get_selected_items()
 	if selected.is_empty():
-		error_label.text = "Seleziona un mondo."
+		error_label.text = LocaleManager.t("UI_NEWGAME_ERR_SELECT_WORLD")
 		return
 
 	var index: int    = selected[0]
@@ -67,20 +67,20 @@ func _on_confirm() -> void:
 	if is_new:
 		wn = _sanitize(new_world_input.text.strip_edges())
 		if wn == "":
-			error_label.text = "Inserisci un nome per il nuovo mondo."
+			error_label.text = LocaleManager.t("UI_NEWGAME_ERR_WORLD_NAME_EMPTY")
 			return
 		if WorldSaveManager.has_world(wn):
-			error_label.text = "Esiste già un mondo con questo nome."
+			error_label.text = LocaleManager.t("UI_NEWGAME_ERR_WORLD_EXISTS")
 			return
 	else:
 		wn = world_list.get_item_text(index)
 
 	var cn: String = _sanitize(char_input.text.strip_edges())
 	if cn == "":
-		error_label.text = "Inserisci un nome per il personaggio."
+		error_label.text = LocaleManager.t("UI_NEWGAME_ERR_CHAR_NAME_EMPTY")
 		return
 	if SaveManager.list_characters(wn).has(cn):
-		error_label.text = "Personaggio già esistente in questo mondo."
+		error_label.text = LocaleManager.t("UI_NEWGAME_ERR_CHAR_EXISTS")
 		return
 
 	close()

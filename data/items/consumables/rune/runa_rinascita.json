@@ -1,0 +1,14 @@
+{
+  "id": "runa_rinascita",
+  "name": "Runa della Rinascita",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "auto_revive": 1,
+    "rune_type": "rebirth"
+  },
+  "stackable": false,
+  "loot_weight": 4
+}

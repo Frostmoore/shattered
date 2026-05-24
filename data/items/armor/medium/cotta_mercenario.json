@@ -1,0 +1,20 @@
+{
+  "id": "cotta_mercenario",
+  "name": "Cotta del Mercenario",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 18,
+  "max_level": 28,
+  "base_stats": {
+    "defense_bonus": 15
+  },
+  "requirements": {
+    "str": 8
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

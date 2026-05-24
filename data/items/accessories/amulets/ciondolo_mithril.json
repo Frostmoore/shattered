@@ -1,0 +1,20 @@
+{
+  "id": "ciondolo_mithril",
+  "name": "Ciondolo di Mithril",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 4,
+  "min_level": 34,
+  "max_level": 47,
+  "base_stats": {
+    "defense_bonus": 4,
+    "magic_bonus": 4,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

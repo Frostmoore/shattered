@@ -1,0 +1,14 @@
+{
+  "id": "elisir_agilita",
+  "name": "Elisir dell'Agilita",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_dex": 5,
+    "duration": 10
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

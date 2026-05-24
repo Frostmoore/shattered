@@ -1,0 +1,20 @@
+{
+  "id": "claymore_acciaio",
+  "name": "Claymore d'Acciaio",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spadone",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 16,
+  "max_level": 26,
+  "base_stats": {
+    "attack_bonus": 21
+  },
+  "requirements": {
+    "str": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

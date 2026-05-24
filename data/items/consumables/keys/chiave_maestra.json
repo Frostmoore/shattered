@@ -1,0 +1,13 @@
+{
+  "id": "chiave_maestra",
+  "name": "Chiave Maestra",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "any_lock"
+  },
+  "stackable": false,
+  "loot_weight": 2
+}

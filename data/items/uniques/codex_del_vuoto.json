@@ -1,0 +1,26 @@
+{
+  "id": "codex_del_vuoto",
+  "name": "Codex del Vuoto",
+  "gender": "m",
+  "icon": "B",
+  "item_category": "weapon",
+  "item_type": "libro_arcano",
+  "slot": "left_hand",
+  "tier": 6,
+  "min_level": 55,
+  "max_level": 60,
+  "scalable": true,
+  "scaling_mode": "partial",
+  "scale_factor": 0.9,
+  "scale": { "magic_bonus": "20 + floor(level * 0.55)", "mp_bonus": "80 + level * 2" },
+  "base_stats": {
+    "magic_bonus": 50,
+    "mp_bonus": 200
+  },
+  "requirements": {
+    "int": 50
+  },
+  "loot_weight": 1,
+  "lore": "Scritto prima dell'inizio. Ogni pagina e' una legge che ancora regge.",
+  "flavor": "Non aprirlo."
+}

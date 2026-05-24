@@ -1,0 +1,19 @@
+{
+  "id": "piuma_corvo",
+  "name": "Piuma di Corvo",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 8,
+  "base_stats": {
+    "mp_bonus": 5,
+    "magic_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

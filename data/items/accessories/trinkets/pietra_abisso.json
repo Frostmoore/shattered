@@ -1,0 +1,20 @@
+{
+  "id": "pietra_abisso",
+  "name": "Pietra dell'Abisso",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 3,
+  "min_level": 27,
+  "max_level": 40,
+  "base_stats": {
+    "defense_bonus": 4,
+    "magic_bonus": 5,
+    "attack_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

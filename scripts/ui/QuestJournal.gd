@@ -39,13 +39,13 @@ func _rebuild() -> void:
 	for child: Node in list.get_children():
 		child.queue_free()
 
-	_add_section(list, "IN CORSO", GameState.active_quests, Color(0.4, 0.85, 0.45), "active")
-	_add_section(list, "DA CONSEGNARE", GameState.ready_quests, Color(1.0, 0.6, 0.1), "ready")
-	_add_section(list, "COMPLETATE", GameState.completed_quests, Color(0.55, 0.55, 0.55), "completed")
+	_add_section(list, LocaleManager.t("UI_QUEST_SECTION_ACTIVE"), GameState.active_quests, Color(0.4, 0.85, 0.45), "active")
+	_add_section(list, LocaleManager.t("UI_QUEST_SECTION_READY"), GameState.ready_quests, Color(1.0, 0.6, 0.1), "ready")
+	_add_section(list, LocaleManager.t("UI_QUEST_SECTION_DONE"), GameState.completed_quests, Color(0.55, 0.55, 0.55), "completed")
 
 	if list.get_child_count() == 0:
 		var empty := Label.new()
-		empty.text = "Nessuna quest nel diario."
+		empty.text = LocaleManager.t("UI_QUEST_EMPTY")
 		empty.add_theme_color_override("font_color", Color(0.55, 0.55, 0.55))
 		empty.add_theme_font_size_override("font_size", 13)
 		list.add_child(empty)
@@ -90,7 +90,7 @@ func _add_quest_entry(list: VBoxContainer, quest_id: String, status: String) -> 
 
 	if is_ready:
 		var hint_lbl := Label.new()
-		hint_lbl.text = "  → Torna a consegnare la quest"
+		hint_lbl.text = "  " + LocaleManager.t("UI_QUEST_READY_HINT")
 		hint_lbl.add_theme_font_size_override("font_size", 11)
 		hint_lbl.add_theme_color_override("font_color", Color(1.0, 0.6, 0.1))
 		list.add_child(hint_lbl)
@@ -112,11 +112,11 @@ func _add_objective(list: VBoxContainer, quest_id: String, obj: Dictionary, forc
 
 	var text: String = "  • "
 	if type == "kill_enemy":
-		text += "Sconfiggi [%s]: %d/%d" % [target_id, mini(progress, required), required]
+		text += LocaleManager.t("UI_QUEST_OBJECTIVE_KILL", {"target": target_id, "current": mini(progress, required), "required": required})
 	else:
 		text += type
 	if done:
-		text += " ✓"
+		text += LocaleManager.t("UI_QUEST_OBJECTIVE_DONE")
 
 	var lbl := Label.new()
 	lbl.text = text

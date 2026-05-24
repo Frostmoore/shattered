@@ -1,0 +1,21 @@
+{
+  "id": "veste_arcimago",
+  "name": "Veste dell'Arcimago",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 50,
+  "base_stats": {
+    "magic_bonus": 25,
+    "defense_bonus": 7
+  },
+  "requirements": {
+    "int": 16
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

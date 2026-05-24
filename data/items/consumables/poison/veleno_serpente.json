@@ -1,0 +1,16 @@
+{
+  "id": "veleno_serpente",
+  "name": "Veleno del Serpente",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 10,
+    "poison_type": "medium",
+    "damage_per_turn": 5
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

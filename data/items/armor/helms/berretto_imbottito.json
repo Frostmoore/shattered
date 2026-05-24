@@ -1,0 +1,18 @@
+{
+  "id": "berretto_imbottito",
+  "name": "Berretto Imbottito",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 1,
+  "min_level": 2,
+  "max_level": 7,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

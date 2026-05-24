@@ -1,0 +1,21 @@
+{
+  "id": "sfera_mana",
+  "name": "Sfera di Mana",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 44,
+  "base_stats": {
+    "mp_bonus": 64,
+    "magic_bonus": 24
+  },
+  "requirements": {
+    "int": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,19 @@
+{
+  "id": "clessidra_rotta",
+  "name": "Clessidra Rotta",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 2,
+  "min_level": 11,
+  "max_level": 21,
+  "base_stats": {
+    "magic_bonus": 2,
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

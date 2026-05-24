@@ -1,0 +1,23 @@
+{
+  "id": "anello_saggio",
+  "name": "Anello del Saggio",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 55,
+  "base_stats": {
+    "defense_bonus": 4,
+    "magic_bonus": 8,
+    "mp_bonus": 45
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

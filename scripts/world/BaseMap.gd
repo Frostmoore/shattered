@@ -14,6 +14,7 @@ var _save_point_positions: Array[Vector2i] = []
 var _map_data: MapData = null            # kept for enemy respawn
 var _player: Player = null
 var _corpses: Array[Dictionary] = []     # {pos: Vector2i, color: Color}
+var _corpse_loot: Dictionary = {}        # Vector2i → Array of drop Dictionaries
 
 # ── Fog of War ────────────────────────────────────────────────────────────────
 # _visible_tiles: transient per-frame visibility (0 = not in FOV, 1 = in FOV)
@@ -180,8 +181,29 @@ func save_location_state() -> void:
 	LocationRegistry.set_state(map_id, state)
 
 
-func add_corpse(pos: Vector2i, color: Color) -> void:
+func add_corpse(pos: Vector2i, color: Color, loot_drops: Array = []) -> void:
 	_corpses.append({"pos": pos, "color": color})
+	if not loot_drops.is_empty():
+		_corpse_loot[pos] = loot_drops.duplicate(true)
+
+
+func has_corpse_at(pos: Vector2i) -> bool:
+	for c: Dictionary in _corpses:
+		if c.get("pos") == pos:
+			return true
+	return false
+
+
+func get_corpse_loot_at(pos: Vector2i) -> Array:
+	return _corpse_loot.get(pos, []) as Array
+
+
+func set_corpse_loot_at(pos: Vector2i, items: Array) -> void:
+	_corpse_loot[pos] = items
+
+
+func clear_corpse_loot_at(pos: Vector2i) -> void:
+	_corpse_loot.erase(pos)
 
 
 func _add_renderer() -> void:

@@ -1,0 +1,13 @@
+{
+  "id": "carne_zombie",
+  "name": "Carne di Zombie",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

@@ -1,0 +1,13 @@
+{
+  "id": "benda_pulita",
+  "name": "Benda Pulita",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 10
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

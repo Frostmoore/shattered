@@ -1,0 +1,20 @@
+{
+  "id": "cotta_templare",
+  "name": "Cotta del Templare",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 36,
+  "max_level": 46,
+  "base_stats": {
+    "defense_bonus": 28
+  },
+  "requirements": {
+    "str": 16
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

@@ -1,0 +1,14 @@
+{
+  "id": "miele_selvatico",
+  "name": "Miele Selvatico",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_mp": 5,
+    "restore_hp": 18
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

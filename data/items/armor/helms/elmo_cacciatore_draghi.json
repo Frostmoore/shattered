@@ -1,0 +1,18 @@
+{
+  "id": "elmo_cacciatore_draghi",
+  "name": "Elmo del Cacciatore di Draghi",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 5,
+  "min_level": 43,
+  "max_level": 54,
+  "base_stats": {
+    "defense_bonus": 19
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

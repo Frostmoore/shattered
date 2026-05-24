@@ -1,0 +1,14 @@
+{
+  "id": "runa_eco",
+  "name": "Runa dell'Eco",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "ability_mult": 2,
+    "rune_type": "echo"
+  },
+  "stackable": false,
+  "loot_weight": 8
+}

@@ -1,0 +1,20 @@
+{
+  "id": "corazza_invincibile",
+  "name": "Corazza dell'Invincibile",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 56,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 64
+  },
+  "requirements": {
+    "str": 34
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

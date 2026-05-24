@@ -1,0 +1,19 @@
+{
+  "id": "amuleto_mago",
+  "name": "Amuleto del Mago",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "mp_bonus": 30,
+    "magic_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

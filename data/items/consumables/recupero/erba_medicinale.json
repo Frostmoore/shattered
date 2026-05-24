@@ -1,0 +1,13 @@
+{
+  "id": "erba_medicinale",
+  "name": "Erba Medicinale",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 8
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

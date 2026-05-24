@@ -1,0 +1,21 @@
+{
+  "id": "veste_vuoto",
+  "name": "Veste del Vuoto",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 6,
+  "min_level": 54,
+  "max_level": 60,
+  "base_stats": {
+    "magic_bonus": 40,
+    "defense_bonus": 11
+  },
+  "requirements": {
+    "int": 24
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

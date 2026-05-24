@@ -1,0 +1,20 @@
+{
+  "id": "grimorio_pelle",
+  "name": "Grimorio di Pelle",
+  "gender": "m",
+  "icon": "B",
+  "item_category": "weapon",
+  "item_type": "libro_arcano",
+  "slot": "left_hand",
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 15,
+  "base_stats": {
+    "magic_bonus": 6
+  },
+  "requirements": {
+    "int": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

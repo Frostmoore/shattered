@@ -1,0 +1,16 @@
+{
+  "id": "estratto_erba_amara",
+  "name": "Estratto di Erba Amara",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 8,
+    "poison_type": "light",
+    "damage_per_turn": 3
+  },
+  "stackable": true,
+  "loot_weight": 13
+}

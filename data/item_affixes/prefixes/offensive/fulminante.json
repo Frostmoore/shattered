@@ -1,0 +1,37 @@
+{
+  "id": "fulminante",
+  "type": "prefix",
+  "name_m": "Fulminante",
+  "name_f": "Fulminante",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spada",
+    "ascia",
+    "mazza",
+    "pugnale",
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia",
+    "arco",
+    "balestra",
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone"
+  ],
+  "min_level": 6,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 14,
+  "bonuses": {
+    "lightning_damage": 3
+  }
+}

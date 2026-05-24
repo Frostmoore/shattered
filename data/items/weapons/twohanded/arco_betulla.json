@@ -1,0 +1,20 @@
+{
+  "id": "arco_betulla",
+  "name": "Arco di Betulla",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 7,
+  "max_level": 14,
+  "base_stats": {
+    "attack_bonus": 8
+  },
+  "requirements": {
+    "dex": 4
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

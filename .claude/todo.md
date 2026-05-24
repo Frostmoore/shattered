@@ -1,12 +1,11 @@
 # Lista di attività da completare in futuro
 
-## Prossima sessione — priorità alta
-- [ ] **Sistema oggetti + sistema loot** — da fare insieme, sono interdipendenti
-  - Il loot system dipende dai meta-dati degli oggetti (unicità, affissi, suffissi, tier, ecc.)
-  - L'item system deve prevedere fin da subito tutti i meta-dati necessari al loot
-  - Partire da `.claude/plan_item_system.md` e rifinirlo prima di implementare
-  - I `loot_profile` dei nemici (es. `humanoid_low`, `beast_medium`) dovranno collegarsi al loot system
-
 ## Todo generici
 - [ ] AI differenziata per controller (mantiene distanza), assassin (approccio dal retro), artillery (ranged)
 - [ ] Validazione TTK tier 3-6 con CombatSimulator dopo aver avviato il gioco
+- [ ] Sistema bisogni: fame, sete, sonno, stanchezza, malattia
+- [ ] Sistema di viaggio. Nell'overworld si devono consumare risorse come cibo e acqua
+- [ ] Tutte le classi devono avere un'abilità attiva e una passiva
+- [ ] Quando si cambia classe, si mantengono tutte le passive delle classi precedenti
+- [ ] Quando un pg muore definitivamente, tutte le quest devono avere un effetto tangibile nel mondo di gioco. Qualcosa come "La quest costa di più" o "Nel villaggio muore qualcuno" o "Il dungeon diventa più difficile perchè i nemici si sono organizzati"
+- [ ] Ricordare a Claude che ad ogni modifica degli oggetti si deve controllare che i validators siano coerenti

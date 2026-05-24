@@ -1,0 +1,14 @@
+{
+  "id": "runa_sacro",
+  "name": "Runa del Sacro",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "undead_damage": 1,
+    "rune_type": "holy"
+  },
+  "stackable": false,
+  "loot_weight": 9
+}

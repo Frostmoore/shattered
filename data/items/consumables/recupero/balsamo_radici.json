@@ -1,0 +1,13 @@
+{
+  "id": "balsamo_radici",
+  "name": "Balsamo delle Radici",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 20
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

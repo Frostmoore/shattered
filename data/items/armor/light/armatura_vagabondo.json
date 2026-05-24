@@ -1,0 +1,18 @@
+{
+  "id": "armatura_vagabondo",
+  "name": "Armatura del Vagabondo",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 4,
+  "min_level": 33,
+  "max_level": 40,
+  "base_stats": {
+    "defense_bonus": 17
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

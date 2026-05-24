@@ -1,0 +1,21 @@
+{
+  "id": "totem_serpente",
+  "name": "Totem del Serpente",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 30,
+  "base_stats": {
+    "hp_bonus": 34,
+    "magic_bonus": 15
+  },
+  "requirements": {
+    "int": 9
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

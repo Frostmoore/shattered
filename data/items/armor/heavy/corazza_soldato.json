@@ -1,0 +1,20 @@
+{
+  "id": "corazza_soldato",
+  "name": "Corazza del Soldato",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 2,
+  "min_level": 18,
+  "max_level": 27,
+  "base_stats": {
+    "defense_bonus": 21
+  },
+  "requirements": {
+    "str": 11
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

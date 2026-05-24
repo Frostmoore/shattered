@@ -1,0 +1,13 @@
+{
+	"id": "pesante",
+	"type": "prefix",
+	"name_m": "Pesante",
+	"name_f": "Pesante",
+	"affix_category": "defensive",
+	"allowed_item_types": ["armatura_leggera", "armatura_media", "armatura_pesante", "scudo"],
+	"min_level": 1,
+	"min_quality": "magico",
+	"allowed_tiers": ["magico", "raro", "epico"],
+	"weight": 22,
+	"bonuses": { "defense_bonus": 2 }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "banchetto_viaggio",
+  "name": "Banchetto da Viaggio",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_stamina": 30,
+    "restore_hp": 60
+  },
+  "stackable": true,
+  "loot_weight": 10
+}

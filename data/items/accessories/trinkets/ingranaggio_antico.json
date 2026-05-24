@@ -1,0 +1,19 @@
+{
+  "id": "ingranaggio_antico",
+  "name": "Ingranaggio Antico",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 3,
+  "min_level": 21,
+  "max_level": 34,
+  "base_stats": {
+    "attack_bonus": 4,
+    "defense_bonus": 5
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

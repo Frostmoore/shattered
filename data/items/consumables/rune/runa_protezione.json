@@ -1,0 +1,15 @@
+{
+  "id": "runa_protezione",
+  "name": "Runa della Protezione",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "runa",
+  "effect": {
+    "buff_def": 50,
+    "rune_type": "shield",
+    "duration": 20
+  },
+  "stackable": false,
+  "loot_weight": 9
+}

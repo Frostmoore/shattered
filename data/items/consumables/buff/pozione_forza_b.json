@@ -1,0 +1,14 @@
+{
+  "id": "pozione_forza_b",
+  "name": "Pozione della Forza",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 10,
+    "buff_atk": 20
+  },
+  "stackable": true,
+  "loot_weight": 18
+}

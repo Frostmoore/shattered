@@ -1,0 +1,13 @@
+{
+  "id": "acqua_fonte_sacra",
+  "name": "Acqua della Fonte Sacra",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_mp": 60
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

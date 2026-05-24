@@ -1,0 +1,21 @@
+{
+  "id": "abiti_illusionista",
+  "name": "Abiti dell'Illusionista",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 28,
+  "max_level": 40,
+  "base_stats": {
+    "magic_bonus": 18,
+    "defense_bonus": 5
+  },
+  "requirements": {
+    "int": 12
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

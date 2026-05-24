@@ -16,16 +16,16 @@ func setup(_params: Dictionary) -> void:
 
 func interact(_player: Node) -> void:
 	if _looted:
-		EventBus.notification_shown.emit(Notification.warning("Il forziere è vuoto."))
+		EventBus.notification_shown.emit(Notification.warning(LocaleManager.t("UI_CHEST_EMPTY_LOOTED")))
 		return
 	_looted = true
 	is_dead  = true  # save_location_state() uses this to mark uid as dead
 
-	var item_id: String = _roll_loot()
-	if item_id != "":
-		Inventory.add_item(item_id)
+	var drops: Array = _roll_loot()
+	if drops.is_empty():
+		EventBus.notification_shown.emit(Notification.warning(LocaleManager.t("UI_CHEST_EMPTY_NO_LOOT")))
 	else:
-		EventBus.notification_shown.emit(Notification.warning("Forziere vuoto!"))
+		EventBus.loot_screen_open.emit(drops, "Forziere")
 
 	# Update visual to show empty chest
 	var lbl: Label = get_node_or_null("Label") as Label
@@ -37,22 +37,21 @@ func interact(_player: Node) -> void:
 	EventBus.map_changed.emit(GameState.current_map_id)
 
 
-func _roll_loot() -> String:
-	var player_level: int = GameState.level
-	var eligible: Array = []
-	var total_weight: int = 0
-	for entry: Variant in GameBalance.CHEST_LOOT_TABLE:
-		var e: Dictionary = entry as Dictionary
-		if int(e["min_level"]) <= player_level:
-			eligible.append(e)
-			total_weight += int(e["weight"])
-	if total_weight == 0:
-		return ""
-	var roll: int = randi() % total_weight
-	var cumulative: int = 0
-	for e: Variant in eligible:
-		var entry: Dictionary = e as Dictionary
-		cumulative += int(entry["weight"])
-		if roll < cumulative:
-			return str(entry["item_id"])
-	return ""
+func _roll_loot() -> Array:
+	var map: BaseMap = get_parent() as BaseMap
+	var floor_num: int = 1
+	if map != null:
+		var parts: Array = str(map.get("map_id")).split("_")
+		for part: String in parts:
+			if part.is_valid_int():
+				floor_num = int(part)
+				break
+	var ctx: Dictionary = {
+		"source_type":   "chest",
+		"source_id":     "chest",
+		"chest_variant": "comune",
+		"player_class":  str(GameState.current_class),
+		"player_level":  GameState.level,
+		"floor":         floor_num,
+	}
+	return LootResolver.resolve(ctx)

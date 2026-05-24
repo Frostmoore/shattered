@@ -1,0 +1,16 @@
+{
+  "id": "polvere_paralizante",
+  "name": "Polvere Paralizante",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 6,
+    "poison_type": "paralyze",
+    "debuff_dex": 30
+  },
+  "stackable": true,
+  "loot_weight": 11
+}

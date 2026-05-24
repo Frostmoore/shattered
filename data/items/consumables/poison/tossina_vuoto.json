@@ -1,0 +1,15 @@
+{
+  "id": "tossina_vuoto",
+  "name": "Tossina del Vuoto",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "instant_damage": 50,
+    "poison_type": "void"
+  },
+  "stackable": true,
+  "loot_weight": 2
+}

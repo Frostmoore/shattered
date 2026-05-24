@@ -47,9 +47,9 @@ var completed_quests: Array = []
 var inventory:        Array = []
 
 var equipped: Dictionary = {
-	"helm": "", "armor": "", "left_hand": "", "right_hand": "",
-	"ring_1": "", "ring_2": "", "amulet": "", "boots": "",
-	"cloak": "", "accessory": ""
+	"head": "", "body": "", "left_hand": "", "right_hand": "",
+	"ring_1": "", "ring_2": "", "neck": "", "feet": "",
+	"cloak": "", "trinket": "", "hands": ""
 }
 
 var quick_slots: Array = ["", "", ""]

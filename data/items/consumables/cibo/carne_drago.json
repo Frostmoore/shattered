@@ -1,0 +1,15 @@
+{
+  "id": "carne_drago",
+  "name": "Carne di Drago",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Brucia ancora in gola. Potenziante.",
+  "effect": {
+    "restore_hp": 50,
+    "restore_stamina": 40
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

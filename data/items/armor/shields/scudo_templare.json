@@ -1,0 +1,20 @@
+{
+  "id": "scudo_templare",
+  "name": "Scudo del Templare",
+  "gender": "m",
+  "icon": "(",
+  "item_category": "armor",
+  "item_type": "scudo",
+  "slot": "left_hand",
+  "tier": 2,
+  "min_level": 11,
+  "max_level": 19,
+  "base_stats": {
+    "defense_bonus": 9
+  },
+  "requirements": {
+    "str": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

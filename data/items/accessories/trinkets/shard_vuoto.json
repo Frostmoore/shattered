@@ -1,0 +1,20 @@
+{
+  "id": "shard_vuoto",
+  "name": "Shard del Vuoto",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 55,
+  "base_stats": {
+    "magic_bonus": 10,
+    "attack_bonus": 6,
+    "mp_bonus": 50
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

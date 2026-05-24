@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "dio_guerra",
 	"name": "Dio della Guerra",
 	"desc": "Due attacchi. Sempre. Non c'è altra regola.",
@@ -12,5 +12,7 @@
 	"special_name": "Doppio Colpo",
 	"special_desc": "Ogni attacco fisico colpisce due volte (secondo colpo: 50% danno). Ogni kill riduce i cooldown di 1 turno.",
 	"unlock": { "type": "kills_boss", "value": 25, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "martial",
+	"allowed_item_types": ["spada", "ascia", "spadone", "ascia_bipenne", "martello_guerra", "armatura_media", "armatura_pesante", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

@@ -1,0 +1,16 @@
+{
+  "id": "veleno_cobra",
+  "name": "Veleno del Cobra",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "veleno",
+  "effect": {
+    "applies_on_hit": 1,
+    "duration": 12,
+    "poison_type": "potent",
+    "damage_per_turn": 12
+  },
+  "stackable": true,
+  "loot_weight": 9
+}

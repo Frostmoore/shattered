@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "illusionista",
 	"name": "Illusionista",
 	"desc": "La realtà è negoziabile. I nemici attaccano ciò che vuole lui.",
@@ -12,5 +12,7 @@
 	"special_name": "Sosia",
 	"special_desc": "Crea copia illusoria su tile adiacente. I nemici attaccano il sosia per DEX/4 turni. Costo: 12 MP.",
 	"unlock": { "type": "attacks_dodged_total", "value": 20, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "arcane",
+	"allowed_item_types": ["bacchetta", "sfera", "veste", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

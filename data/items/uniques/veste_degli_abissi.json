@@ -1,0 +1,27 @@
+{
+  "id": "veste_degli_abissi",
+  "name": "Veste degli Abissi",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 20,
+  "max_level": 60,
+  "scalable": true,
+  "scaling_mode": "partial",
+  "scale_factor": 0.7,
+  "scale": { "defense_bonus": "2 + floor(level * 0.12)", "magic_bonus": "4 + floor(level * 0.16)", "mp_bonus": "20 + floor(level * 0.8)" },
+  "base_stats": {
+    "defense_bonus": 8,
+    "magic_bonus": 12,
+    "mp_bonus": 50
+  },
+  "requirements": {
+    "int": 15
+  },
+  "loot_weight": 3,
+  "lore": "Tessuta con fili dell'ombra. Si muove da sola quando nessuno guarda.",
+  "flavor": "Il freddo e' il prezzo."
+}

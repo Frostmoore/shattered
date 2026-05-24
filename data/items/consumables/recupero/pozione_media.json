@@ -1,0 +1,13 @@
+{
+  "id": "pozione_media",
+  "name": "Pozione Media",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 40
+  },
+  "stackable": true,
+  "loot_weight": 22
+}

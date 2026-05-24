@@ -1,0 +1,14 @@
+{
+  "id": "unguento_pelle",
+  "name": "Unguento della Pelle",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_def": 15,
+    "duration": 12
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

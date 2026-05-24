@@ -1,0 +1,22 @@
+{
+  "id": "anello_mithril",
+  "name": "Anello di Mithril",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 4,
+  "min_level": 38,
+  "max_level": 51,
+  "base_stats": {
+    "attack_bonus": 6,
+    "magic_bonus": 4
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

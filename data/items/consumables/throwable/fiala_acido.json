@@ -1,0 +1,15 @@
+{
+  "id": "fiala_acido",
+  "name": "Fiala d'Acido",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "debuff_def": 10,
+    "damage": 8,
+    "throw_type": "acid"
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

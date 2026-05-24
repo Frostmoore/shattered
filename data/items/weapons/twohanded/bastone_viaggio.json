@@ -1,0 +1,21 @@
+{
+  "id": "bastone_viaggio",
+  "name": "Bastone da Viaggio",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 1,
+  "min_level": 3,
+  "max_level": 10,
+  "base_stats": {
+    "attack_bonus": 3,
+    "magic_bonus": 4
+  },
+  "requirements": {
+    "int": 1
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

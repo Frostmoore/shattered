@@ -1,0 +1,20 @@
+{
+  "id": "tomo_sapere",
+  "name": "Tomo del Sapere",
+  "gender": "m",
+  "icon": "B",
+  "item_category": "weapon",
+  "item_type": "libro_arcano",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 33,
+  "max_level": 44,
+  "base_stats": {
+    "magic_bonus": 27
+  },
+  "requirements": {
+    "int": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

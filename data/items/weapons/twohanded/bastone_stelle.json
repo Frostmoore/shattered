@@ -1,0 +1,21 @@
+{
+  "id": "bastone_stelle",
+  "name": "Bastone delle Stelle",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 6,
+  "min_level": 52,
+  "max_level": 58,
+  "base_stats": {
+    "attack_bonus": 29,
+    "magic_bonus": 47
+  },
+  "requirements": {
+    "int": 28
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

@@ -1,0 +1,21 @@
+{
+  "id": "bastone_saggio",
+  "name": "Bastone del Saggio",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bastone",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 22,
+  "max_level": 32,
+  "base_stats": {
+    "attack_bonus": 13,
+    "magic_bonus": 21
+  },
+  "requirements": {
+    "int": 12
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

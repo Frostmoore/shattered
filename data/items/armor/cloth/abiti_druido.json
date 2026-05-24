@@ -1,0 +1,21 @@
+{
+  "id": "abiti_druido",
+  "name": "Abiti del Druido",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 8,
+  "max_level": 14,
+  "base_stats": {
+    "magic_bonus": 5,
+    "defense_bonus": 2
+  },
+  "requirements": {
+    "int": 3
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

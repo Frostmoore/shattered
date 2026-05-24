@@ -1,0 +1,20 @@
+{
+  "id": "medaglione_vampiro",
+  "name": "Medaglione del Vampiro",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 5,
+  "min_level": 42,
+  "max_level": 56,
+  "base_stats": {
+    "hp_bonus": 50,
+    "magic_bonus": 6,
+    "attack_bonus": 7
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

@@ -1,0 +1,20 @@
+{
+  "id": "spadone_ferro",
+  "name": "Spadone di Ferro",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spadone",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 10,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 14
+  },
+  "requirements": {
+    "str": 6
+  },
+  "scalable": false,
+  "loot_weight": 25
+}

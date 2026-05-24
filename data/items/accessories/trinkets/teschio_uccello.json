@@ -1,0 +1,19 @@
+{
+  "id": "teschio_uccello",
+  "name": "Teschio di Uccello",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 2,
+  "min_level": 12,
+  "max_level": 22,
+  "base_stats": {
+    "attack_bonus": 3,
+    "magic_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

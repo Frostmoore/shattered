@@ -1,0 +1,20 @@
+{
+  "id": "spada_cavaliere",
+  "name": "Spada del Cavaliere",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "spada",
+  "slot": "right_hand",
+  "tier": 2,
+  "min_level": 18,
+  "max_level": 28,
+  "base_stats": {
+    "attack_bonus": 17
+  },
+  "requirements": {
+    "str": 7
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

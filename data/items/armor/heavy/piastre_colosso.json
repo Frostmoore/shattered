@@ -1,0 +1,20 @@
+{
+  "id": "piastre_colosso",
+  "name": "Piastre del Colosso",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_pesante",
+  "slot": "body",
+  "tier": 5,
+  "min_level": 43,
+  "max_level": 53,
+  "base_stats": {
+    "defense_bonus": 48
+  },
+  "requirements": {
+    "str": 26
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

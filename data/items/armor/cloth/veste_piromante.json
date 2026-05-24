@@ -1,0 +1,21 @@
+{
+  "id": "veste_piromante",
+  "name": "Veste del Piromante",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "veste",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 35,
+  "base_stats": {
+    "magic_bonus": 15,
+    "defense_bonus": 5
+  },
+  "requirements": {
+    "int": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

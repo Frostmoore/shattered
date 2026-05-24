@@ -1,0 +1,14 @@
+{
+  "id": "pozione_fulmine_b",
+  "name": "Pozione del Fulmine",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "resist_lightning": 1,
+    "duration": 20
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

@@ -1,0 +1,22 @@
+{
+  "id": "cuore_eletto",
+  "name": "Cuore dell'Eletto",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 6,
+  "min_level": 52,
+  "max_level": 60,
+  "base_stats": {
+    "hp_bonus": 80,
+    "defense_bonus": 9,
+    "magic_bonus": 11,
+    "attack_bonus": 10,
+    "mp_bonus": 60
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

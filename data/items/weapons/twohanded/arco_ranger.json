@@ -1,0 +1,20 @@
+{
+  "id": "arco_ranger",
+  "name": "Arco del Ranger",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "arco",
+  "slot": "both_hands",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 44,
+  "base_stats": {
+    "attack_bonus": 33
+  },
+  "requirements": {
+    "dex": 20
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

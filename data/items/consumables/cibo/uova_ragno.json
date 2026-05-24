@@ -1,0 +1,15 @@
+{
+  "id": "uova_ragno",
+  "name": "Uova di Ragno",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Gelatinose. Nutrienti in modo inquietante.",
+  "effect": {
+    "restore_hp": 10,
+    "restore_stamina": 6
+  },
+  "stackable": true,
+  "loot_weight": 15
+}

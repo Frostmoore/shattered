@@ -1,0 +1,18 @@
+{
+  "id": "abiti_logori",
+  "name": "Abiti Logori",
+  "gender": "m",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_leggera",
+  "slot": "body",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 4,
+  "base_stats": {
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 25
+}

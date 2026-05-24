@@ -3,6 +3,8 @@ class_name Player
 
 var _can_act: bool = true
 var _god_mode: bool = false
+var _loot_source_map: BaseMap = null
+var _loot_source_pos: Vector2i = Vector2i.ZERO
 
 # Hold-to-move state
 var _hold_dir: Vector2i = Vector2i.ZERO
@@ -181,6 +183,21 @@ func _try_interact() -> void:
 			entity_at.interact(self)
 			_action_done()
 			return
+	# Check for corpse loot at adjacent tiles
+	for d: Vector2i in dirs:
+		var adj: Vector2i = grid_position + d
+		if not map.has_corpse_at(adj):
+			continue
+		var loot: Array = map.get_corpse_loot_at(adj)
+		if loot.is_empty():
+			EventBus.notification_shown.emit(Notification.warning("Il cadavere non ha nulla."))
+		else:
+			_loot_source_map = map
+			_loot_source_pos = adj
+			EventBus.loot_screen_closed.connect(_on_corpse_loot_closed, CONNECT_ONE_SHOT)
+			EventBus.loot_screen_open.emit(loot, "Cadavere")
+		_action_done()
+		return
 
 
 func _use_save_point() -> void:
@@ -252,6 +269,15 @@ func flee_attempt() -> void:
 			return
 	EventBus.combat_log.emit("Sei circondato, impossibile fuggire!")
 	_action_done()
+
+
+func _on_corpse_loot_closed(remaining: Array) -> void:
+	if _loot_source_map != null and is_instance_valid(_loot_source_map):
+		if remaining.is_empty():
+			_loot_source_map.clear_corpse_loot_at(_loot_source_pos)
+		else:
+			_loot_source_map.set_corpse_loot_at(_loot_source_pos, remaining)
+	_loot_source_map = null
 
 
 func _on_dialogue_started(_id: String) -> void:

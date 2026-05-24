@@ -1,0 +1,13 @@
+{
+  "id": "pozione_biomante",
+  "name": "Pozione del Biomante",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 120
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

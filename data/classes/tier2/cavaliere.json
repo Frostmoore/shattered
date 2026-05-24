@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "cavaliere",
 	"name": "Cavaliere",
 	"desc": "Armatura pesante, disciplina totale. La carica è inarrestabile.",
@@ -12,5 +12,7 @@
 	"special_name": "Carica",
 	"special_desc": "Muovendosi in linea retta verso un nemico adiacente: danno ×2 + stordito 1 turno.",
 	"unlock": { "type": "equip_full_set", "value": 1, "trigger_scope": "run", "reward_scope": "global" },
-	"implementation": { "status": "planned" }
+	"implementation": { "status": "planned" },
+	"loot_archetype": "martial",
+	"allowed_item_types": ["spada", "lancia", "armatura_media", "armatura_pesante", "scudo", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

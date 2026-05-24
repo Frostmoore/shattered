@@ -1,0 +1,21 @@
+{
+  "id": "sfera_abisso",
+  "name": "Sfera dell'Abisso",
+  "gender": "f",
+  "icon": "o",
+  "item_category": "weapon",
+  "item_type": "sfera",
+  "slot": "left_hand",
+  "tier": 6,
+  "min_level": 50,
+  "max_level": 55,
+  "base_stats": {
+    "mp_bonus": 100,
+    "magic_bonus": 38
+  },
+  "requirements": {
+    "int": 24
+  },
+  "scalable": false,
+  "loot_weight": 10
+}

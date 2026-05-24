@@ -1,0 +1,20 @@
+{
+  "id": "ciondolo_stelle",
+  "name": "Ciondolo delle Stelle",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 5,
+  "min_level": 49,
+  "max_level": 59,
+  "base_stats": {
+    "magic_bonus": 10,
+    "attack_bonus": 6,
+    "mp_bonus": 70
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

@@ -1,0 +1,20 @@
+{
+  "id": "martello_sacro",
+  "name": "Martello Sacro",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "martello_guerra",
+  "slot": "both_hands",
+  "tier": 3,
+  "min_level": 28,
+  "max_level": 40,
+  "base_stats": {
+    "attack_bonus": 32
+  },
+  "requirements": {
+    "str": 18
+  },
+  "scalable": false,
+  "loot_weight": 15
+}

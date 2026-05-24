@@ -1,0 +1,13 @@
+{
+  "id": "elisir_vitale",
+  "name": "Elisir Vitale",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 55
+  },
+  "stackable": true,
+  "loot_weight": 17
+}

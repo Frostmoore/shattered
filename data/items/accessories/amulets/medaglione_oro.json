@@ -1,0 +1,19 @@
+{
+  "id": "medaglione_oro",
+  "name": "Medaglione d'Oro",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 2,
+  "min_level": 18,
+  "max_level": 27,
+  "base_stats": {
+    "attack_bonus": 3,
+    "defense_bonus": 3
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

@@ -1,0 +1,30 @@
+{
+  "id": "dell_arcano",
+  "type": "suffix",
+  "name_m": "dell'Arcano",
+  "name_f": "dell'Arcano",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "bacchetta",
+    "sfera",
+    "simbolo_sacro",
+    "totem",
+    "libro_arcano",
+    "bastone",
+    "anello",
+    "amuleto",
+    "accessorio"
+  ],
+  "min_level": 1,
+  "min_quality": "magico",
+  "allowed_tiers": [
+    "magico",
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 18,
+  "bonuses": {
+    "magic_bonus": 2
+  }
+}

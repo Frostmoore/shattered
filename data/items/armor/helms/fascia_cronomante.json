@@ -1,0 +1,18 @@
+{
+  "id": "fascia_cronomante",
+  "name": "Fascia del Cronomante",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "elmo",
+  "slot": "head",
+  "tier": 4,
+  "min_level": 33,
+  "max_level": 44,
+  "base_stats": {
+    "defense_bonus": 14
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 15
+}

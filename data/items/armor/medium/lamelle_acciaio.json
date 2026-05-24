@@ -1,0 +1,20 @@
+{
+  "id": "lamelle_acciaio",
+  "name": "Lamelle d'Acciaio",
+  "gender": "f",
+  "icon": "[",
+  "item_category": "armor",
+  "item_type": "armatura_media",
+  "slot": "body",
+  "tier": 3,
+  "min_level": 24,
+  "max_level": 33,
+  "base_stats": {
+    "defense_bonus": 19
+  },
+  "requirements": {
+    "str": 10
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

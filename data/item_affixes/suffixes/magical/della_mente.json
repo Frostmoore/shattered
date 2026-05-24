@@ -1,0 +1,25 @@
+{
+  "id": "della_mente",
+  "type": "suffix",
+  "name_m": "della Mente",
+  "name_f": "della Mente",
+  "affix_category": "magical",
+  "allowed_item_types": [
+    "anello",
+    "amuleto",
+    "accessorio",
+    "veste"
+  ],
+  "min_level": 12,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "magic_bonus": 2,
+    "int_bonus": 2
+  }
+}

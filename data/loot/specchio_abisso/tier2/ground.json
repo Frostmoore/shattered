@@ -1,0 +1,34 @@
+{
+  "rolls": 1,
+  "quality_bias": 0,
+  "level_bands": [
+    {
+      "level_min": 1,
+      "level_max": 999,
+      "pool": [
+        {
+          "item_id": "sfera_cristallo",
+          "weight": 25
+        },
+        {
+          "item_category": "accessory",
+          "weight": 22
+        },
+        {
+          "item_id": "pergamena_identificazione",
+          "weight": 18
+        },
+        {
+          "type": "gold",
+          "min": 8,
+          "max": 12,
+          "weight": 18
+        },
+        {
+          "nothing": true,
+          "weight": 35
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "pozione_sangue",
+  "name": "Pozione di Sangue",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "effect": {
+    "restore_hp": 25
+  },
+  "stackable": true,
+  "loot_weight": 22
+}

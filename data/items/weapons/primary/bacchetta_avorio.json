@@ -1,0 +1,21 @@
+{
+  "id": "bacchetta_avorio",
+  "name": "Bacchetta d'Avorio",
+  "gender": "f",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "bacchetta",
+  "slot": "right_hand",
+  "tier": 2,
+  "min_level": 11,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 3,
+    "magic_bonus": 9
+  },
+  "requirements": {
+    "int": 5
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

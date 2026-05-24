@@ -1,0 +1,14 @@
+{
+  "id": "fiala_morte",
+  "name": "Fiala della Morte",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "lancio",
+  "effect": {
+    "instant_kill_chance": 30,
+    "throw_type": "death"
+  },
+  "stackable": true,
+  "loot_weight": 5
+}

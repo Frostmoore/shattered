@@ -1,0 +1,13 @@
+{
+  "id": "tela_ragno",
+  "name": "Tela di Ragno",
+  "gender": "f",
+  "icon": "%",
+  "item_category": "consumable",
+  "item_subtype": "materiali",
+  "effect": {},
+  "stackable": true,
+  "droppable": true,
+  "sellable": true,
+  "loot_weight": 20
+}

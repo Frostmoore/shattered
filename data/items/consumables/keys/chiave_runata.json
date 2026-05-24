@@ -1,0 +1,13 @@
+{
+  "id": "chiave_runata",
+  "name": "Chiave Runata",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "magic_sealed_door"
+  },
+  "stackable": false,
+  "loot_weight": 6
+}

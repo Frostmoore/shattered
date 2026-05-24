@@ -1,0 +1,23 @@
+{
+  "id": "anello_destino",
+  "name": "Anello del Destino",
+  "gender": "m",
+  "icon": "o",
+  "item_category": "accessory",
+  "item_type": "anello",
+  "allowed_slots": [
+    "ring_1",
+    "ring_2"
+  ],
+  "tier": 6,
+  "min_level": 57,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 7,
+    "magic_bonus": 7,
+    "attack_bonus": 9
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

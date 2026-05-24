@@ -1,0 +1,14 @@
+{
+  "id": "pozione_velocita",
+  "name": "Pozione della Velocita",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "buff_dex": 3,
+    "duration": 8
+  },
+  "stackable": true,
+  "loot_weight": 16
+}

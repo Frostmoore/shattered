@@ -1,0 +1,19 @@
+{
+  "id": "frammento_anima",
+  "name": "Frammento d'Anima",
+  "gender": "m",
+  "icon": "*",
+  "item_category": "accessory",
+  "item_type": "accessorio",
+  "slot": "trinket",
+  "tier": 3,
+  "min_level": 23,
+  "max_level": 36,
+  "base_stats": {
+    "magic_bonus": 6,
+    "hp_bonus": 35
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 12
+}

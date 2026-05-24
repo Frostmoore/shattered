@@ -1,0 +1,29 @@
+{
+  "id": "letale",
+  "type": "prefix",
+  "name_m": "Letale",
+  "name_f": "Letale",
+  "affix_category": "offensive",
+  "allowed_item_types": [
+    "spada",
+    "ascia",
+    "mazza",
+    "pugnale",
+    "spadone",
+    "ascia_bipenne",
+    "martello_guerra",
+    "lancia"
+  ],
+  "min_level": 15,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 8,
+  "bonuses": {
+    "crit_bonus": 5,
+    "attack_bonus": 5
+  }
+}

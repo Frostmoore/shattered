@@ -1,0 +1,20 @@
+{
+  "id": "martello_guerra_2h",
+  "name": "Martello da Guerra",
+  "gender": "m",
+  "icon": "/",
+  "item_category": "weapon",
+  "item_type": "martello_guerra",
+  "slot": "both_hands",
+  "tier": 2,
+  "min_level": 14,
+  "max_level": 24,
+  "base_stats": {
+    "attack_bonus": 17
+  },
+  "requirements": {
+    "str": 8
+  },
+  "scalable": false,
+  "loot_weight": 20
+}

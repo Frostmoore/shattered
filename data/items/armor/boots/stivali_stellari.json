@@ -1,0 +1,18 @@
+{
+  "id": "stivali_stellari",
+  "name": "Stivali Stellari",
+  "gender": "m",
+  "icon": "u",
+  "item_category": "armor",
+  "item_type": "stivali",
+  "slot": "feet",
+  "tier": 6,
+  "min_level": 58,
+  "max_level": 60,
+  "base_stats": {
+    "defense_bonus": 20
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 10
+}

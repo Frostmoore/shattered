@@ -1,0 +1,14 @@
+{
+  "id": "razione_combattimento",
+  "name": "Razione da Combattimento",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "effect": {
+    "restore_stamina": 15,
+    "restore_hp": 20
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

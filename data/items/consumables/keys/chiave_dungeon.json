@@ -1,0 +1,13 @@
+{
+  "id": "chiave_dungeon",
+  "name": "Chiave del Dungeon",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "chiave",
+  "effect": {
+    "opens": "reinforced_door"
+  },
+  "stackable": false,
+  "loot_weight": 10
+}

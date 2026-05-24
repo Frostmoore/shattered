@@ -1,0 +1,14 @@
+{
+  "id": "distillato_forza",
+  "name": "Distillato di Forza",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "buff",
+  "effect": {
+    "duration": 8,
+    "buff_atk": 35
+  },
+  "stackable": true,
+  "loot_weight": 11
+}

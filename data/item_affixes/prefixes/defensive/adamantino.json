@@ -1,0 +1,21 @@
+{
+  "id": "adamantino",
+  "type": "prefix",
+  "name_m": "Adamantino",
+  "name_f": "Adamantina",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_pesante",
+    "scudo"
+  ],
+  "min_level": 25,
+  "min_quality": "epico",
+  "allowed_tiers": [
+    "epico",
+    "leggendario"
+  ],
+  "weight": 5,
+  "bonuses": {
+    "defense_bonus": 6
+  }
+}

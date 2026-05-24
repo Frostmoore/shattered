@@ -1,0 +1,22 @@
+{
+  "id": "amuleto_eletto",
+  "name": "Amuleto dell'Eletto",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 6,
+  "min_level": 57,
+  "max_level": 60,
+  "base_stats": {
+    "hp_bonus": 90,
+    "defense_bonus": 10,
+    "magic_bonus": 12,
+    "attack_bonus": 10,
+    "mp_bonus": 80
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 8
+}

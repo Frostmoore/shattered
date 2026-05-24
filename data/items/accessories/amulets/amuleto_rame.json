@@ -1,0 +1,19 @@
+{
+  "id": "amuleto_rame",
+  "name": "Amuleto di Rame",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 2,
+  "max_level": 8,
+  "base_stats": {
+    "attack_bonus": 1,
+    "defense_bonus": 1
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 14
+}

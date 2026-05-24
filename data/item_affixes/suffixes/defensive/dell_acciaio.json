@@ -1,0 +1,23 @@
+{
+  "id": "dell_acciaio",
+  "type": "suffix",
+  "name_m": "dell'Acciaio",
+  "name_f": "dell'Acciaio",
+  "affix_category": "defensive",
+  "allowed_item_types": [
+    "armatura_pesante",
+    "armatura_media",
+    "scudo"
+  ],
+  "min_level": 8,
+  "min_quality": "raro",
+  "allowed_tiers": [
+    "raro",
+    "epico",
+    "leggendario"
+  ],
+  "weight": 10,
+  "bonuses": {
+    "defense_bonus": 4
+  }
+}

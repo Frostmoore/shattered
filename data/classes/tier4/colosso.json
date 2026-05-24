@@ -1,4 +1,4 @@
-﻿{
+{
 	"id": "colosso",
 	"name": "Colosso",
 	"desc": "Non è veloce. Non è furbo. Ma è impossibile fermarlo.",
@@ -12,5 +12,7 @@
 	"special_name": "Resilienza",
 	"special_desc": "Immune a stordimento, rallentamento e paura. Rigenera VIT/2 HP ogni turno in combattimento.",
 	"unlock": { "type": "damage_absorbed_total", "value": 5000, "trigger_scope": "global", "reward_scope": "global" },
-	"implementation": { "status": "implemented" }
+	"implementation": { "status": "implemented" },
+	"loot_archetype": "martial",
+	"allowed_item_types": ["martello_guerra", "ascia_bipenne", "spadone", "armatura_pesante", "scudo", "elmo", "stivali", "bracciali", "anello", "amuleto", "accessorio"]
 }

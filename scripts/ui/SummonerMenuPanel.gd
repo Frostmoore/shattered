@@ -69,7 +69,7 @@ func _build_ui() -> void:
 	panel.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "Scegli Elementale  (ESC = Annulla)"
+	title.text = LocaleManager.t("UI_SUMMONER_CHOOSE_TITLE")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_size_override("font_size", 10)
 	title.add_theme_color_override("font_color", Color(0.55, 0.80, 1.0))
@@ -90,7 +90,7 @@ func _build_ui() -> void:
 	vbox.add_child(HSeparator.new())
 
 	var cancel_btn := Button.new()
-	cancel_btn.text = "Annulla"
+	cancel_btn.text = LocaleManager.t("UI_BTN_CANCEL")
 	cancel_btn.add_theme_font_size_override("font_size", 10)
 	cancel_btn.pressed.connect(_cancel)
 	vbox.add_child(cancel_btn)

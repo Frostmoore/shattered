@@ -1,0 +1,21 @@
+{
+  "id": "totem_terra",
+  "name": "Totem della Terra",
+  "gender": "m",
+  "icon": "T",
+  "item_category": "weapon",
+  "item_type": "totem",
+  "slot": "left_hand",
+  "tier": 4,
+  "min_level": 32,
+  "max_level": 42,
+  "base_stats": {
+    "hp_bonus": 54,
+    "magic_bonus": 24
+  },
+  "requirements": {
+    "int": 15
+  },
+  "scalable": false,
+  "loot_weight": 15
+}
