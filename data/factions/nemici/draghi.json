@@ -1,0 +1,11 @@
+{
+	"id": "draghi",
+	"name": "Draghi",
+	"type": "nemico",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"joinable": false,
+	"supporter_eligible": false,
+	"default_rep": -100
+}

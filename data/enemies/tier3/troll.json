@@ -6,6 +6,8 @@
 	"color": [0.40, 0.70, 0.30, 1.0],
 
 	"family": "beast",
+	"faction_id": "bestie",
+	"rep_on_kill": -2,
 	"role": "brute",
 	"tier": 3,
 	"tags": ["melee"],

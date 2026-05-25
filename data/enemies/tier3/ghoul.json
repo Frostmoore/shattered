@@ -6,6 +6,8 @@
 	"color": [0.55, 0.65, 0.40, 1.0],
 
 	"family": "undead",
+	"faction_id": "non_morti",
+	"rep_on_kill": -2,
 	"role": "soldier",
 	"tier": 3,
 	"tags": ["melee", "undead"],

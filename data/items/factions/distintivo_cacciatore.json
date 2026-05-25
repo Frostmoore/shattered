@@ -1,0 +1,18 @@
+{
+  "id": "distintivo_cacciatore",
+  "name": "Distintivo del Cacciatore",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "accessory",
+  "item_type": "trinket",
+  "slot": "trinket",
+  "tier": 0,
+  "min_level": 1,
+  "max_level": 99,
+  "base_stats": {},
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 0,
+  "faction_sign": true,
+  "faction_id": "cacciatori_rogna"
+}

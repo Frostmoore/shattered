@@ -3,16 +3,20 @@ class_name Door
 
 var is_open: bool = false
 var door_uid: String = ""
+# {faction_id, min_rep, min_rank} — all optional; empty = no restriction
+var faction_requirement: Dictionary = {}
 
 var _label: Label = null
 
 
 func setup(params: Dictionary) -> void:
 	door_uid = params.get("uid", "")
-	# Set state before _ready() so it can apply the correct visual
 	if bool(params.get("open", false)):
 		is_open     = true
 		is_blocking = false
+	var req_raw: Variant = params.get("faction_requirement", {})
+	if req_raw is Dictionary:
+		faction_requirement = (req_raw as Dictionary).duplicate()
 
 
 func _ready() -> void:
@@ -26,7 +30,28 @@ func _ready() -> void:
 
 
 func interact(_player: Node) -> void:
+	if not _check_faction_access():
+		var fid: String   = str(faction_requirement.get("faction_id", ""))
+		var fname: String = FactionDisplay.get_display_name(fid) if fid != "" else "Fazione"
+		EventBus.notification_shown.emit(Notification.faction_access_denied(fname))
+		return
 	open()
+
+
+func _check_faction_access() -> bool:
+	if faction_requirement.is_empty():
+		return true
+	var fid: String = str(faction_requirement.get("faction_id", ""))
+	if fid == "":
+		return true
+	var min_rep: int  = int(faction_requirement.get("min_rep",  0))
+	var min_rank: int = int(faction_requirement.get("min_rank", -1))
+	if min_rep > 0 and FactionReputation.get_rep(fid) < min_rep:
+		return false
+	# min_rank 0 = member required (any rank); get_rank returns -1 for non-members
+	if min_rank >= 0 and FactionMembership.get_rank(fid) < min_rank:
+		return false
+	return true
 
 
 func open() -> void:

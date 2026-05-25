@@ -57,6 +57,15 @@ var quick_slots: Array = ["", "", ""]
 var level: int = 1
 var xp:    int = 0
 
+var character_faction_rep:        Dictionary = {} # faction_id → int
+var character_faction_membership: Dictionary = {} # faction_id → {rank, join_date}
+var faction_passive_flags:        Dictionary = {} # derived from membership — recalculated on load
+var current_location_faction_id:  String     = "" # signoria of the current city/village; cleared on leave
+var current_city_id:              String     = "" # root city JSON id (stable across floors); "" outside cities
+var crime_state:                  Dictionary = {} # {city_id: int} levels: 0=none 1=active 2=arrested; NOT saved
+var criminal_record:              Array      = [] # [{city_id, city_name, turn}]; persisted in save
+var known_faction_members:        Dictionary = {} # {faction_id: {npc_id: npc_name}}
+
 
 func recalculate_effective_attributes() -> void:
 	for attr: String in base_attributes:
@@ -158,6 +167,27 @@ func modify_gold(amount: int) -> void:
 func heal_player(amount: int) -> void:
 	player_stats["hp"] = mini(int(player_stats["hp"]) + amount, int(player_stats["max_hp"]))
 	EventBus.player_stats_changed.emit()
+
+
+func get_crime_level(city_id: String) -> int:
+	return int(crime_state.get(city_id, 0))
+
+
+func set_crime_level(city_id: String, crime_level: int) -> void:
+	if crime_level <= 0:
+		crime_state.erase(city_id)
+	else:
+		crime_state[city_id] = crime_level
+
+
+func add_arrest_to_record(city_id: String, city_name: String) -> void:
+	criminal_record.append({"city_id": city_id, "city_name": city_name, "turn": run_milestones.get("turns", 0)})
+
+
+func record_known_member(faction_id: String, npc_id: String, npc_name: String) -> void:
+	if not known_faction_members.has(faction_id):
+		known_faction_members[faction_id] = {}
+	(known_faction_members[faction_id] as Dictionary)[npc_id] = npc_name
 
 
 func damage_player(amount: int) -> void:

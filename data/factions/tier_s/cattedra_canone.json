@@ -1,0 +1,11 @@
+{
+	"id": "cattedra_canone",
+	"name": "Cattedra del Canone",
+	"type": "civil",
+	"tier": "S",
+	"tree": "cattedra_canone",
+	"parent": null,
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

@@ -1,0 +1,17 @@
+{
+  "id": "amuleto_del_sangue",
+  "name": "Amuleto del Sangue",
+  "gender": "m",
+  "icon": "&",
+  "item_category": "accessory",
+  "item_type": "amuleto",
+  "slot": "neck",
+  "tier": 1,
+  "min_level": 1,
+  "base_stats": {},
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 0,
+  "quality_override": "unico",
+  "lore": "Chi lo indossa può rivolgere le proprie armi contro i civili. Il prezzo è noto a tutti."
+}

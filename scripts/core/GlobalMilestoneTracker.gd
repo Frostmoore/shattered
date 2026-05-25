@@ -95,7 +95,7 @@ func _on_enemy_died(enemy: Node) -> void:
 		return
 	increment("kills_total")
 	GameState.run_milestones["kills_total"] = int(GameState.run_milestones.get("kills_total", 0)) + 1
-	if bool(enemy.get("is_boss")):
+	if enemy.get("is_boss") == true:
 		increment("kills_boss")
 		GameState.run_milestones["kills_boss"] = int(GameState.run_milestones.get("kills_boss", 0)) + 1
 

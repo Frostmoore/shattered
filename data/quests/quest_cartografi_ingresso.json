@@ -1,0 +1,26 @@
+{
+  "id": "quest_cartografi_ingresso",
+  "title": "Il Primo Rilievo",
+  "description": "Il Collegio richiede la prova sul campo: esplora un'area ostile e abbatti tre nemici per completare il rilievo. Porta il rapporto al responsabile del Collegio.",
+  "completion_mode": "turn_in",
+  "objectives": [
+    {
+      "type": "kill_enemy",
+      "target_id": "dungeon_boss",
+      "required": 1
+    }
+  ],
+  "rewards": {
+    "xp": 80,
+    "gold": 20,
+    "items": ["borsa_mappe"],
+    "join_faction": "collegio_cartografi",
+    "faction_rep": [
+      {"faction_id": "collegio_cartografi", "amount": 15},
+      {"faction_id": "corporazione_camere", "amount": 3}
+    ]
+  },
+  "sets_flags": {
+    "cartografi_ingresso_completato": true
+  }
+}

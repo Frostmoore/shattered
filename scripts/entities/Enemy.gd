@@ -17,7 +17,7 @@ func setup(data: Dictionary) -> void:
 	xp_reward       = data.get("xp_reward", 0)
 	is_boss         = bool(data.get("boss", false))
 	detection_range = int(data.get("detection_range", 5))
-	faction         = "enemy"
+	faction = str(EnemyRegistry.get_enemy_data(enemy_data_id).get("faction_id", "enemy"))
 
 	_apply_runtime_stats(data)
 	affixes = data.get("affixes", []) as Array
@@ -240,6 +240,25 @@ func _manhattan(a: Vector2i, b: Vector2i) -> int:
 	return abs(a.x - b.x) + abs(a.y - b.y)
 
 
+func _apply_kill_rep() -> void:
+	var template: Dictionary = EnemyRegistry.get_enemy_data(enemy_data_id)
+
+	var direct_delta: int = int(template.get("rep_on_kill", 0))
+	if direct_delta != 0:
+		FactionReputation.add_rep(faction, direct_delta, "kill")
+
+	var raw_targets: Variant = template.get("rep_on_kill_targets", [])
+	if raw_targets is Array:
+		for entry: Variant in (raw_targets as Array):
+			if not entry is Dictionary:
+				continue
+			var e: Dictionary = entry as Dictionary
+			var target_id: String = str(e.get("faction_id", ""))
+			var amount: int       = int(e.get("amount", 0))
+			if target_id != "" and amount != 0:
+				FactionReputation.add_rep(target_id, amount, "kill_indirect")
+
+
 func die() -> void:
 	is_dead = true
 	TurnManager.unregister_enemy(self)
@@ -252,6 +271,7 @@ func die() -> void:
 	if is_boss:
 		QuestManager.on_enemy_killed("dungeon_boss")
 	LevelSystem.add_xp(xp_reward)
+	_apply_kill_rep()
 	queue_free()
 
 
@@ -278,4 +298,8 @@ func _generate_loot() -> Array:
 		"player_level": GameState.level,
 		"floor":        floor_num,
 	}
+	if bool(GameState.faction_passive_flags.get("rogna_improved_rewards", false)):
+		var enemy_tier: int = int(template.get("tier", 99))
+		if enemy_tier <= 2:
+			ctx["quality_bias_bonus"] = 1
 	return LootResolver.resolve(ctx)

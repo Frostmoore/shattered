@@ -5,6 +5,7 @@ signal resume_requested()
 signal inventory_requested()
 signal status_requested()
 signal quest_journal_requested()
+signal faction_screen_requested()
 signal options_requested()
 signal main_menu_requested()
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 	$Panel/VBox/InventoryButton.pressed.connect(func() -> void: inventory_requested.emit())
 	$Panel/VBox/StatusButton.pressed.connect(func() -> void: status_requested.emit())
 	$Panel/VBox/QuestJournalButton.pressed.connect(func() -> void: quest_journal_requested.emit())
+	$Panel/VBox/FactionScreenButton.pressed.connect(func() -> void: faction_screen_requested.emit())
 	$Panel/VBox/OptionsButton.pressed.connect(func() -> void: options_requested.emit())
 	$Panel/VBox/SaveButton.pressed.connect(_on_save)
 	$Panel/VBox/LoadButton.pressed.connect(_on_load)
@@ -34,6 +36,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if ke.keycode == KEY_J and ke.is_pressed() and not ke.is_echo():
 			get_viewport().set_input_as_handled()
 			quest_journal_requested.emit()
+		if ke.keycode == KEY_G and ke.is_pressed() and not ke.is_echo():
+			get_viewport().set_input_as_handled()
+			faction_screen_requested.emit()
 
 
 func open_pause() -> void:

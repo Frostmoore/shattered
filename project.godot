@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-LocaleManager="*res://scripts/core/LocaleManager.gd"
 GlobalMilestoneTracker="*res://scripts/core/GlobalMilestoneTracker.gd"
 ClassUnlockService="*res://scripts/classes/ClassUnlockService.gd"
 ClassRespecService="*res://scripts/classes/ClassRespecService.gd"
@@ -36,6 +35,7 @@ LocationRegistry="*res://scripts/world/LocationRegistry.gd"
 WorldSaveManager="*res://scripts/core/WorldSaveManager.gd"
 TurnManager="*res://scripts/core/TurnManager.gd"
 SaveManager="*res://scripts/core/SaveManager.gd"
+CrimeSystem="*res://scripts/core/CrimeSystem.gd"
 CombatManager="*res://scripts/combat/CombatManager.gd"
 ItemDB="*res://scripts/items/ItemDB.gd"
 ItemAffixDB="*res://scripts/items/ItemAffixDB.gd"
@@ -50,6 +50,15 @@ DialogueManager="*res://scripts/dialogue/DialogueManager.gd"
 QuestManager="*res://scripts/dialogue/QuestManager.gd"
 SettingsManager="*res://scripts/core/SettingsManager.gd"
 ScreenFade="*res://scripts/core/ScreenFade.gd"
+LocaleManager="*res://scripts/core/LocaleManager.gd"
+FactionRegistry="*res://scripts/core/FactionRegistry.gd"
+FactionReputation="*res://scripts/core/FactionReputation.gd"
+FactionMembership="*res://scripts/core/FactionMembership.gd"
+FactionDisplay="*res://scripts/core/FactionDisplay.gd"
+FactionEffects="*res://scripts/core/FactionEffects.gd"
+FactionEconomy="*res://scripts/core/FactionEconomy.gd"
+WorldState="*res://scripts/core/WorldState.gd"
+FactionActionsService="*res://scripts/core/FactionActionsService.gd"
 
 [display]
 

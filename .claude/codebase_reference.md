@@ -9,20 +9,29 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | Nome | File | Ruolo |
 |------|------|-------|
 | `LocaleManager` | `scripts/core/LocaleManager.gd` | i18n runtime: carica CSV da `locales/`; `t(key, params?)`, `t_or(key, fallback, params?)` |
-| `GameState` | `scripts/core/GameState.gd` | Stato globale del run (livello, stats, mappa corrente, inventario) |
-| `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa |
+| `GameState` | `scripts/core/GameState.gd` | Stato globale del run (livello, stats, mappa corrente, inventario, `character_faction_rep`, `character_faction_membership`, `faction_passive_flags`, `known_faction_members`) |
+| `WorldState` | `scripts/core/WorldState.gd` | Stato world-persistent fazioni (post station, safe houses, dungeon maps, servizi, village changes, `dungeon_archive`). Serializzato in `world.json` via `WorldSaveManager`. API completa: vedi sezione WorldState sotto. |
+| `FactionActionsService` | `scripts/core/FactionActionsService.gd` | Azioni fazione world-persistent: `try_deposit_map()`, `try_build_post_station()`, `try_open_ambulatorio()`, `try_reduce_bounty_tsn()` (chiama `CrimeSystem.clear_crime(current_city_id)`). Trigger: tasti F5/F6/F7 + NPC `faction_action_id`. |
+| `CrimeSystem` | `scripts/core/CrimeSystem.gd` | Autoload. Gestisce crimini nelle città. `register_crime(city_id)`, `arrest_player(city_id)`, `clear_crime(city_id)`, `is_crime_active(city_id)`, `has_witnesses(origin)`, `track_attacked_npc(npc)`, `get_criminal_record()`, `spawn_guards_debug(count)`, `apply_post_crime_rep_on_flee()`, `initialize_for_new_game()`. Costanti: `CRIME_FINE_PCT=0.25`, `CRIME_GUARD_COUNT=6`, `CRIME_GUARD_WAVE_TURNS=8`, `CRIME_GUARD_WAVE_SIZE=3`, `NPC_VIEW_RANGE=30`, `CRIME_NPC_REP_PENALTY=-50`, `CRIME_GUARD_MIN_HP=1`. |
+| `FactionRegistry` | `scripts/core/FactionRegistry.gd` | Scan ricorsivo `data/factions/`; `get_faction(id)`, `get_all_factions()`, `get_factions_by_type/tier/tree()`, `get_relation(from,to)`, `are_enemies(a,b)`, `get_faction_children(parent)`, `get_siblings(id)` |
+| `FactionReputation` | `scripts/core/FactionReputation.gd` | `get_rep(id)`, `set_rep(id,v)` (emette `faction_rep_changed`, `faction_state_changed`, `faction_supporter_gained/lost` + Notification al cambio soglia), `add_rep(id,delta,reason,propagate)` — gerarchica 10% (parent+figli diretti), laterale 30%×sign via matrice relazioni (soglia \|rel\|≥20), no cascade, delta<1 ignorato, log se `DEBUG_PROPAGATION`; `get_state_id(id)` → 6 stati |
+| `FactionMembership` | `scripts/core/FactionMembership.gd` | `join_faction(id)` (chiama `FactionEffects.apply_join_passive()`), `leave_faction(id)` (-20 rep, chiama `remove_join_passive()`), `get_rank(id)`, `advance_rank(id)` (richiama passive), `is_member(id)`, `is_supporter(id)` (derivato), `wears_recognition_sign(id)` (controlla `recognition_item_id`/slot equipaggiato), `reapply_all_passives()` (chiamata al load) |
+| `FactionDisplay` | `scripts/core/FactionDisplay.gd` | Helper i18n per fazioni: `get_display_name/desc/state/rank/passive_name/passive_desc/crime()` via `LocaleManager.t_or()` |
+| `FactionEffects` | `scripts/core/FactionEffects.gd` | `apply_join_passive(id)` / `remove_join_passive(id)` — dispatch per 7 fazioni; `get_xp_multiplier(context)` — bonus XP Corporazione; `get_gold_multiplier(context)` — +25% oro Corrieri; `get_attack_mult(defender)` — moltiplicatore ATK Cacciatori; `has_active_passive(id)` — legge `faction_passive_flags` |
+| `FactionEconomy` | `scripts/core/FactionEconomy.gd` | `get_price_multiplier(context)` — discount/rep/sign logic. `on_rest()` — deducte tasse periodiche per ogni fazione joined (chiamata da `Player._use_save_point()` prima del save). `collect_deposit_tax(base_reward)` — 20% sul reward deposito cartografi. `has_tax_restrictions(faction_id) -> bool` — true se `tax_debt >= 1`. Tasse per-fazione: camere 25g, rogna 10g, cartografi 20% deposito, ponti 15g (solo con stazioni), corrieri 10g, officine 10g, tavola 20g. |
+| `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa; `change_map()` aggiorna `GameState.current_location_faction_id` dalla signoria + `current_city_id`; applica flee penalty (`CrimeSystem.apply_post_crime_rep_on_flee()`) quando si esce da una città con crimine attivo; spawna guardie di pattuglia al rientro |
 | `LocationRegistry` | `scripts/world/LocationRegistry.gd` | Registro stati per-mappa (fog, morti, porte, cadaveri) |
-| `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load |
-| `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo |
+| `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load; serializza `faction_rep`, `faction_membership`, `known_faction_members` nel save personaggio |
+| `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo + `WorldState` in `world.json` |
 | `TurnManager` | `scripts/core/TurnManager.gd` | Gestione turni giocatore/nemici |
-| `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText |
+| `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText. Gate NPC attacks: richiede `amuleto_del_sangue` equipaggiato (slot neck); se manca → warning + return. Dopo ogni attacco guardia→player controlla arresto se HP ≤ CRIME_GUARD_MIN_HP. |
 | `DamagePipeline` | `scripts/combat/DamagePipeline.gd` | Catena di modificatori danno, chiama `take_damage()` |
-| `EnemyRegistry` | *(autoload)* | Lookup dati nemici da JSON; `get_enemy_data(id)`, `get_display_name(id)` |
+| `EnemyRegistry` | *(autoload)* | Lookup dati nemici da JSON; `get_enemy_data(id)`, `get_display_name(id)` — i JSON nemici hanno ora campo `faction_id` |
 | `AffixRegistry` | *(autoload)* | Lookup affissi nemici; `get_affix(id)`, `get_display_prefix(id)` |
 | `ClassRegistry` | `scripts/classes/ClassRegistry.gd` | Lookup dati classi da JSON; `get_class_data(id)`, `get_display_name/desc/special_name/special_desc(id)` |
 | `EventBus` | `scripts/core/EventBus.gd` | Tutti i signal globali |
-| `LevelSystem` | *(autoload)* | XP, level-up |
-| `QuestManager` | `scripts/dialogue/QuestManager.gd` | Quest attive/completate |
+| `LevelSystem` | *(autoload)* | XP, level-up; `add_xp(amount, context="")` — context `"quest"` applica moltiplicatore `FactionEffects.get_xp_multiplier()` |
+| `QuestManager` | `scripts/dialogue/QuestManager.gd` | Quest attive/completate; reward `join_faction: String` → chiamato PRIMA di xp/gold/items; oro con `FactionEffects.get_gold_multiplier("quest")`; xp con `LevelSystem.add_xp(n, "quest")`; quest senza objectives segna ready/complete subito |
 | `BalanceCombat` | `scripts/core/game_balance/BalanceCombat.gd` | Costanti di bilanciamento combattimento |
 | `GameBalance` | *(autoload)* | FOV radius, memory alpha, ecc. |
 | `ItemDB` | `scripts/items/ItemDB.gd` | Scan ricorsivo `data/items/`; `get_item(id)`, `get_by_type(t)`, `get_by_slot(s)`, `pick_random(cat, lv, min_quality)`, `get_display_name(id)`, `get_display_description(id)` |
@@ -55,13 +64,14 @@ LocaleManager.t_or(key: String, fallback: String, params: Dictionary = {}) -> St
 
 CSV caricati (in ordine):
 ```
-locales/strings_ui.csv         — UI, HUD, menu, notifiche generiche
-locales/strings_notifications.csv
+locales/strings_ui.csv         — UI, HUD, menu + UI_FACTIONS_* (FactionScreen) + UI_FACTION_* (action feedback)
+locales/strings_notifications.csv — notifiche generali + NOTIF_FACTION_* (stato/sostenitore/accesso) + NOTIF_TAX_* (tasse fazione)
 locales/strings_data.csv       — tooltip stat, slot display, quality labels
 locales/strings_dialogue.csv
 locales/strings_classes.csv    — nomi/descrizioni delle 60 classi
 locales/strings_items.csv      — nomi item base + affissi item (name_m/name_f)
 locales/strings_enemies.csv    — nomi nemici, role/family label, affissi nemici
+locales/strings_factions.csv   — nomi/desc fazioni (21 civili + 10 signorie + 8 nemici), stati rep, ranghi joinabili (0-5), passivi, tipi crimine
 ```
 
 Formato CSV: `keys,it` come header; `#` come prima colonna = commento, riga ignorata.  
@@ -83,6 +93,13 @@ Valori con virgole vanno fra doppi apici: `CLASS_CAVALIERE_DESC,"Armatura pesant
 | Item base — desc | `ITEM_<ID_UPPER>_DESC` | `ItemDB.get_display_description(id)` |
 | Affissi item (masch.) | `ITEM_AFFIX_<ID_UPPER>_M` | `ItemAffixDB.get_display_name(id, "m")` |
 | Affissi item (femm.) | `ITEM_AFFIX_<ID_UPPER>_F` | `ItemAffixDB.get_display_name(id, "f")` |
+| Fazioni — nome | `FACTION_<ID_UPPER>_NAME` | `FactionDisplay.get_display_name(id)` |
+| Fazioni — desc | `FACTION_<ID_UPPER>_DESC` | `FactionDisplay.get_display_desc(id)` |
+| Fazioni — stato rep | `FACTION_STATE_<STATE_UPPER>` | `FactionDisplay.get_display_state(id)` — stati: `ENEMY_SWORN` `HOSTILE` `NEUTRAL` `FRIENDLY` `ALLIED` `TRUSTED` |
+| Fazioni — rango | `FACTION_<ID_UPPER>_RANK_<n>` | `FactionDisplay.get_display_rank(id, n)` — n 0-indexed (0–5) |
+| Passivi joinabili — nome | `PASSIVE_<join_passive_UPPER>_NAME` | `FactionDisplay.get_display_passive_name(id)` |
+| Passivi joinabili — desc | `PASSIVE_<join_passive_UPPER>_DESC` | `FactionDisplay.get_display_passive_desc(id)` |
+| Tipi crimine | `CRIME_<TYPE_UPPER>` | `FactionDisplay.get_display_crime(type)` |
 
 `<ID_UPPER>` = `id.to_upper()` — gli underscore del campo `id` vengono preservati.  
 Esempio: `cacciatore_anime` → `CLASS_CACCIATORE_ANIME_NAME`.
@@ -185,20 +202,38 @@ map.clear_corpse_loot_at(pos)
 ## Stato del giocatore — `GameState`
 
 ```
-GameState.level                  # int, livello corrente
-GameState.xp                     # int
-GameState.current_map_id         # String, es. "dungeon_floor_1"
-GameState.player_position        # Vector2i
-GameState.player_stats           # {hp, max_hp, mp, max_mp, stamina, attack, defense, gold}
-GameState.base_attributes        # {str, dex, int, vit, wil} — crescono con level-up
-GameState.class_bonus            # {str,…} — bonus fisso classe corrente (sostituito, mai accumulato)
-GameState.effective_attributes   # base + class_bonus — usati dal gioco
-GameState.current_class          # String, es. "warrior"
-GameState.inventory              # Array di item dict
-GameState.equipped               # {head, body, left_hand, right_hand, ring_1, ring_2, neck, feet, cloak, trinket, hands}
-GameState.quick_slots            # Array[String] di 3 item_id (slot rapidi consumabili)
-GameState.world_flags            # {intro_completed, dungeon_boss_defeated, …}
-GameState.run_milestones         # {kills, deaths, save_points_used, …}
+GameState.level                       # int, livello corrente
+GameState.xp                          # int
+GameState.current_map_id              # String, es. "dungeon_floor_1"
+GameState.current_city_id             # String — root city ID stabile (es. "rivamola"); "" fuori da città; settato da WorldManager
+GameState.current_location_faction_id # String — signoria del villaggio/città corrente; "" in dungeon/overworld
+GameState.crime_state                 # {city_id: int} — livelli: 0=nessuno, 1=attivo, 2=arrestato; NON persiste nel save
+GameState.criminal_record             # Array [{city_id, city_name, turn}] — persiste nel save
+GameState.player_position             # Vector2i
+GameState.player_stats                # {hp, max_hp, mp, max_mp, stamina, attack, defense, gold}
+GameState.base_attributes             # {str, dex, int, vit, wil} — crescono con level-up
+GameState.class_bonus                 # {str,…} — bonus fisso classe corrente (sostituito, mai accumulato)
+GameState.effective_attributes        # base + class_bonus — usati dal gioco
+GameState.current_class               # String, es. "warrior"
+GameState.inventory                   # Array di item dict
+GameState.equipped                    # {head, body, left_hand, right_hand, ring_1, ring_2, neck, feet, cloak, trinket, hands}
+GameState.quick_slots                 # Array[String] di 3 item_id (slot rapidi consumabili)
+GameState.world_flags                 # {intro_completed, dungeon_boss_defeated, …}
+GameState.run_milestones              # {kills, deaths, save_points_used, …}
+GameState.character_faction_rep       # Dictionary faction_id → int; fallback lazy a default_rep JSON
+GameState.character_faction_membership # Dictionary faction_id → {rank: int, join_date: int, tax_debt: int}
+                                      # tax_debt: 0=corrente, 1=in ritardo (warn+blocco rank), 2+=moroso (espulso)
+GameState.faction_passive_flags       # Dictionary chiave → valore; DERIVATO, non persiste nel save
+                                      # Ricreato da FactionMembership.reapply_all_passives() al load
+                                      # Flag corporazione_camere: contract_access, dungeon_archive_access,
+                                      #   camere_xp_bonus_pct (int), elite_contract_access (rank 5+)
+GameState.known_faction_members       # {faction_id: {npc_id: display_name}} — NPC incontrati per fazione
+                                      # Popolato da NPC.interact() ad ogni interazione; persiste nel save
+                                      # Resettato da FactionMembership.initialize_for_new_game()
+GameState.record_known_member(faction_id, npc_id, name)  # helper che aggiorna known_faction_members
+# Per leggere/scrivere rep usare sempre FactionReputation.get_rep/set_rep/add_rep
+# Per membership usare sempre FactionMembership.is_member/join_faction/leave_faction
+# Per check segno di riconoscimento: FactionMembership.wears_recognition_sign(faction_id)
 ```
 
 ---
@@ -215,8 +250,14 @@ WorldManager.get_current_map() -> BaseMap
 Flusso `change_map`:
 1. `current_map.save_location_state()` → flush in LocationRegistry
 2. `current_map.queue_free()`
-3. `LocationRegistry.get_or_generate(location_id)` → genera se prima visita
-4. `scene.instantiate()` → `populate(data, state)` → `add_child`
+3. `_update_city_id(location_id, data)` → aggiorna `GameState.current_city_id`; se si lascia una città con crimine attivo chiama `CrimeSystem.apply_post_crime_rep_on_flee()`; se si rientra in una città con crimine già attivo spawna guardie di pattuglia
+4. `LocationRegistry.get_or_generate(location_id)` → genera se prima visita
+5. `scene.instantiate()` → `populate(data, state)` → `add_child`
+
+`current_city_id` logic:
+- `village`/`city` → `current_city_id = location_id`
+- `building` → usa `metadata.city_id` se presente; altrimenti mantiene il valore precedente
+- `dungeon`/`overworld` → `current_city_id = ""`
 
 ### BaseMap — `scripts/world/BaseMap.gd`
 
@@ -358,6 +399,15 @@ variante  = valore & 0xF
 }
 ```
 
+Campi opzionali a livello city (Fase 8):
+```jsonc
+{
+  "signoria": "signoria_almerici",          // ID signoria governante; setta GameState.current_location_faction_id
+  "corporazioni_presenti": ["arte_ferri", "mano_campi"]  // fazioni attive in questo insediamento
+}
+```
+Entrambi letti da `CityGenerator._from_json()` → `MapData.metadata["signoria"]` e `MapData.metadata["corporazioni_presenti"]`.
+
 Formato legacy (piatto `tiles`/`entities` senza `floors`) supportato in lettura da `CityGenerator`.
 
 ### Multi-piano nel builder
@@ -381,6 +431,8 @@ CityGenerator.generate({"id": "city_id", "floor": 0}) -> MapData
 - `exit` o `transition` → `data.add_transition(...)`
 - `event_trigger` → ignorato (solo editor)
 - Tutto il resto → `data.add_entity(kind, uid, pos, params)`
+- `signoria` → `data.metadata["signoria"]` — ID signoria (stringa) o assente
+- `corporazioni_presenti` → `data.metadata["corporazioni_presenti"]` — Array di faction_id
 
 Registrato in `LocationRegistry` come tipo `"city"`.
 
@@ -424,13 +476,16 @@ SaveManager.load_game(world_name, char_name)
 ### Gerarchia
 
 ```
-Entity (scripts/entities/Entity.gd)       ← Node2D, classe base
-  ├── Enemy  (scripts/entities/Enemy.gd)
-  ├── Player (scripts/entities/Player.gd)
-  ├── Ally   (scripts/entities/Ally.gd)
-  ├── NPC    (scripts/entities/NPC.gd)
-  ├── Door   (scripts/entities/Door.gd)
-  └── Chest  (scripts/entities/Chest.gd)
+Entity (scripts/entities/Entity.gd)           ← Node2D, classe base
+  ├── Enemy       (scripts/entities/Enemy.gd)
+  ├── Player      (scripts/entities/Player.gd)
+  ├── Ally        (scripts/entities/Ally.gd)
+  ├── NPC         (scripts/entities/NPC.gd)
+  ├── Guard       (scripts/entities/Guard.gd)   # estende Enemy; is_guard=true; die() senza XP/loot/rep
+  ├── Door        (scripts/entities/Door.gd)
+  ├── Chest       (scripts/entities/Chest.gd)
+  ├── PostStation (scripts/entities/PostStation.gd)   # ⚑ giallo, cura HP, iniettata da WorldState
+  └── Ambulatorio (scripts/entities/Ambulatorio.gd)   # + rosso, cura HP, iniettata da WorldState
 ```
 
 ### Entity — campi rilevanti
@@ -448,6 +503,38 @@ take_damage(amount)      # chiama die() se hp <= 0
 die()                    # imposta is_dead=true, queue_free()
 _setup_visual(char, col) # crea Label figlio con il carattere ASCII
 ```
+
+### NPC — campi extra
+
+```gdscript
+npc_id: String
+primary_faction_id: String    # da "faction_id" in entity params; fallback a GameState.current_location_faction_id se vuoto
+secondary_faction_ids: Array[String]
+linked_quest_id: String
+black_market: bool            # richiede tsn_black_market passive flag per interagire
+safe_house: bool              # registra WorldState.register_safe_house() al primo incontro
+faction_action_id: String     # "deposit_map" | "build_post_station" | "open_ambulatorio" | "reduce_bounty"
+is_guard_npc: bool            # NPC con ruolo guardia (city builder: is_guard)
+gender: String                # "" | "m" | "f"
+is_child: bool
+```
+
+`interact()` applica filtro sociale su `primary_faction_id`: stato `enemy_sworn` → emette `Notification.faction_access_denied()` e blocca il dialogo. Stato `hostile` consente il dialogo (variazioni tono future).
+
+Se `faction_action_id != ""` → chiama `FactionActionsService` via `get_node_or_null("/root/FactionActionsService")` e torna (non procede col dialogo).
+
+### Door — campi extra
+
+```gdscript
+door_uid: String
+is_open: bool
+faction_requirement: Dictionary   # {faction_id: String, min_rep: int, min_rank: int}
+                                   # min_rep = 0 → nessun check rep; min_rank = -1 → nessun check rango
+                                   # min_rank = 0 → qualsiasi membro (get_rank() >= 0)
+```
+
+`interact()` chiama `_check_faction_access()`: se fallisce emette `Notification.faction_access_denied(fname)`.  
+Impostato nel CityBuilder tramite i campi `faction_req_fid`, `req_min_rep` (0–100), `req_min_rank` (-1 a 5).
 
 ### Enemy — campi extra
 
@@ -589,7 +676,8 @@ Eseguire `CombatSimulator.run_validation()` dal pulsante TTK Sim nel DebugScreen
 30 nemici totali, organizzati in `data/enemies/tier1/` … `data/enemies/tier6/` (5 nemici per tier).  
 `EnemyRegistry` scansiona ricorsivamente tutte le sottocartelle.  
 Il campo `name` nel JSON è il fallback grezzo; a display usare sempre `EnemyRegistry.get_display_name(id)` (chiave `ENEMY_<ID_UPPER>_NAME`).  
-Calibrazione TTK verificata con `CombatSimulator.run_validation()`.
+Calibrazione TTK verificata con `CombatSimulator.run_validation()`.  
+**`rep_on_kill` è popolato su tutti e 30 i nemici** (Fase 16): fuorilegge/non_morti/bestie −2, demoni/dragon_whelp/archlich −3, ancient_dragon −5, aberrazioni/costrutti −1.
 
 ---
 
@@ -623,7 +711,168 @@ save_point_used
 damage_dealt(amount, source) / damage_taken(amount)
 combat_log(text: String)
 notification_shown(notif: Notification)
+
+# Fazioni (Fase 2–4)
+faction_rep_changed(faction_id: String, old_val: int, new_val: int)
+faction_state_changed(faction_id: String, old_state: String, new_state: String)
+faction_supporter_gained(faction_id: String)   # rep attraversa +50 salendo
+faction_supporter_lost(faction_id: String)     # rep attraversa +50 scendendo
+faction_joined(faction_id: String)
+faction_left(faction_id: String)
+faction_world_action_completed(action: String, details: Dictionary)  # emesso da FactionActionsService
+tax_collected(faction_id, amount) / tax_warning(faction_id) / tax_expelled(faction_id)
+toggle_faction_screen()   # apre/chiude FactionScreen; emesso da PauseMenu.faction_screen_requested o tasto G
 ```
+
+### Notification — tipi disponibili
+
+```gdscript
+Notification.faction_state(msg)           # giallo — cambio stato rep
+Notification.faction_supporter_gained(msg)
+Notification.faction_supporter_lost(msg)
+Notification.faction_access_denied(fname) # rosso Color(0.9, 0.3, 0.25) — accesso negato
+Notification.faction_action(msg)          # ciano Color(0.4, 0.85, 0.95) — azione faction world (F11+)
+Notification.faction_rep_delta(name, delta) # verde/rosso — Δrep ≥5 senza cambio stato; durata 2s
+Notification.warning(msg)                 # arancio — warning generico
+```
+
+### `data/factions/relations.json` — matrice laterale (Fase 16 completata)
+
+Matrice **non simmetrica** faction_id → {faction_id → int}. Valori assenti = 0. Le relazioni Signorie (10 blocchi) e quelle civili principali (Milizia, Tavola, Fuorilegge) sono state completate nella Fase 16 con:
+- Fazioni nemiche ↔ fazioni civili: `bestie`, `non_morti`, `demoni`, `cattedra_canone` (relazioni teologiche)
+- Cross-corporazioni: `corrieri_sigillo ↔ compagnia_ponti`, `corporazione_camere ↔ milizia/banco`
+- Fazioni bestie: `compagnia_bestie ↔ cacciatori_rogna`
+- Natura: `mano_campi → natura`
+
+Soglia propagazione laterale: `|rel_val| >= 20` (costante `LATERAL_THRESHOLD` in `FactionReputation.gd`).
+
+### Schema JSON nemici — campi fazione
+
+```jsonc
+{
+  "family": "humanoid",           // family biologica (non cambia)
+  "faction_id": "fuorilegge",     // fazione nel sistema rep (può differire dalla family)
+  "rep_on_kill": -2,              // delta diretto su faction_id al kill (default: 0); tutti e 30 i nemici popolati
+  "rep_on_kill_targets": [        // effetti indiretti su altre fazioni al kill
+    { "faction_id": "milizia_campane", "amount": 1 }
+  ]
+}
+```
+
+### Schema JSON quest — reward fazione
+
+```jsonc
+{
+  "rewards": {
+    "xp": 100,
+    "join_faction": "corporazione_camere",  // chiama FactionMembership.join_faction()
+    "faction_rep": [
+      { "faction_id": "corporazione_camere", "amount": 10 }
+    ]
+  }
+}
+```
+
+Quest senza objectives: se `"objectives": []` con `completion_mode: "turn_in"`, viene segnata ready subito al `start_quest()` (così richiede un secondo dialogo NPC per completarla).
+
+### Schema JSON fazione joinabile — segno di riconoscimento
+
+```jsonc
+{
+  "recognition_item_id": "patente_condotta",  // item_id da `data/items/factions/`
+  "recognition_slot": "neck"                  // slot di GameState.equipped da controllare
+}
+```
+
+Item segno (`data/items/factions/`): `loot_weight: 0` (non droppabile), `faction_sign: true`, `faction_id: <fazione>`. Item neutro senza `base_stats`.
+
+`FactionMembership.wears_recognition_sign(id)` → `true` se membro E item corretto equipaggiato; se `recognition_item_id` è null → sempre `true`.
+
+### Pattern passiva scalabile per rango (modello: `bestiari_della_rogna`)
+
+`FactionEffects._apply_<passive>(rank)` è chiamata sia al join che ad ogni `advance_rank()`. Imposta sempre tutti i flag del rango corrente cancellando quelli dei ranghi superiori non ancora raggiunti. Questo garantisce che `GameState.faction_passive_flags` sia sempre consistente senza bisogno di confrontare il rank precedente.
+
+**Convenzione flag** per fazione `<id>`:
+- `<id>_flag_base: bool` — attivo dal rank 0
+- `<id>_dmg_bonus_pct: int` — percentuale bonus danni
+- `<id>_dmg_max_tier: int` — tier massimo nemico su cui si applica il bonus
+- `<id>_improved_rewards: bool` — migliora qualità loot (via `quality_bias_bonus: 1` nel ctx LootResolver)
+- `<id>_advanced_id: bool` — flag per identificazione avanzata (hook visivo futuro)
+
+**Hook DamagePipeline** (`DamagePipeline.gd`): `FactionEffects.get_attack_mult(defender)` è chiamato prima del calcolo danno quando `player_attacks`. Legge `enemy_data_id` dal defender (via `Object.get()`), verifica il tier dal registro e restituisce il moltiplicatore.
+
+**Hook LootResolver** (`LootResolver.gd`): il contesto può contenere `quality_bias_bonus: int`; viene sommato al `quality_bias` dei parametri della loot table. Impostato da `Enemy._generate_loot()` quando `rogna_improved_rewards` è attivo e il nemico è tier ≤ 2.
+
+### WorldState — API world-persistent (`scripts/core/WorldState.gd`)
+
+```gdscript
+# 11.1 — Mappe dungeon depositate (collegio_cartografi)
+WorldState.register_dungeon_map(map_id: String, floor_n: int)  # salva in registered_dungeon_maps
+WorldState.has_registered_map(map_id: String) -> bool
+WorldState.get_registered_map(map_id: String) -> Dictionary    # {floor_n, ...}
+# Effetto: in BaseMap.populate(), se has_registered_map(map_id) → _seen_tiles.fill(1) (FOV bypass)
+
+# 11.2 — Stazioni di posta (compagnia_ponti)
+const POST_STATION_MIN_DIST: int = 30
+WorldState.add_post_station(map_id: String, pos: Vector2i) -> bool  # false se troppo vicino
+WorldState.get_post_stations_for_map(map_id: String) -> Array       # Array di {pos: {x,y}}
+WorldState.has_post_station_near(map_id: String, pos: Vector2i, radius: int) -> bool
+
+# 11.3 — Servizi convenzionati (congregazione_officine)
+WorldState.open_service(location_id: String, service_type: String, data: Dictionary) -> bool
+WorldState.has_service(location_id: String, service_type: String) -> bool
+WorldState.get_service(location_id: String, service_type: String) -> Dictionary
+
+# 11.4 — Safe house (tavola_senza_nome)
+WorldState.register_safe_house(map_id: String, pos: Vector2i)  # emette Notification.faction_action()
+WorldState.get_safe_houses_for_map(map_id: String) -> Array
+WorldState.is_safe_house_location(map_id: String) -> bool
+```
+
+Tutto serializzato in `world.json` da `WorldSaveManager`. Le entity WorldState-derived (stazioni, ambulatori) vengono iniettate in `BaseMap._inject_world_persistent_entities()` chiamata al termine di `populate()`.
+
+### FactionActionsService — azioni faction world (`scripts/core/FactionActionsService.gd`)
+
+```gdscript
+const MAP_DEPOSIT_GOLD_PER_FLOOR: int = 50
+const POST_STATION_BUILD_COST:    int = 100
+const AMBULATORIO_OPEN_COST:      int = 200
+
+FactionActionsService.try_deposit_map() -> bool       # check carto_map_sellable; solo dungeon; reward oro
+FactionActionsService.try_build_post_station() -> bool # check ponti_speed_bonus; 100g; distanza 30 tiles
+FactionActionsService.try_open_ambulatorio() -> bool   # check officine_advanced_care; 200g; city/village
+FactionActionsService.try_reduce_bounty_tsn() -> bool  # STUB — Fase 12
+```
+
+Trigger doppio: `Main._unhandled_input()` (F5/F6/F7) + `NPC.interact()` via `faction_action_id`.  
+Acceduto via `get_node_or_null("/root/FactionActionsService")` per evitare errori LSP prima dell'indicizzazione.
+
+### Fazioni joinabili — riepilogo implementate
+
+| Fazione | Passive | Segno | Slot | Flag chiave | Hook deferred |
+|---------|---------|-------|------|-------------|---------------|
+| `corporazione_camere` | `patente_di_condotta` | `patente_condotta` | `neck` | `contract_access`, `camere_xp_bonus_pct` | UI archivio (Fase 15), tasse (Fase 12) |
+| `cacciatori_rogna` | `bestiari_della_rogna` | `distintivo_cacciatore` | `trinket` | `rogna_dmg_bonus_pct`, `rogna_improved_rewards` | quirk infestation (Fase 10) |
+| `collegio_cartografi` | `senso_cartografico` | `borsa_mappe` | `cloak` | `carto_fov_bonus`, `carto_map_purchase` | FOV hook, mappa world-persistent (Fase 10) |
+| `compagnia_ponti` | `diritto_di_strada` | `spilla_strade` | `neck` | `ponti_speed_bonus`, `ponti_toll_discount` | overworld speed, stazioni posta (Fase 10) |
+| `corrieri_sigillo` | `portatore_di_sigillo` | `anello_corrieri` | `ring_1` | `corrieri_quest_gold_bonus` | carovane, mount (Fase 10) |
+| `congregazione_officine` | `arte_della_guarigione` | `fascia_officine` | `neck` | `officine_potion_discount`, `officine_hp_regen_bonus` | sconto NPC (Fase 12), regen hook |
+| `tavola_senza_nome` | `rete_oscura` | `token_oscuro` | `trinket` | `tsn_black_market`, `tsn_bounty_reduction` | crime system (Fase 11) |
+
+Item segni: tutti in `data/items/factions/`, `loot_weight: 0`, `faction_sign: true`. `token_oscuro` ha anche `faction_sign_hidden: true`.
+
+---
+
+### FactionScreen — `scripts/ui/FactionScreen.gd`
+
+Pure-code `CanvasLayer` (layer=8), nessuna TSCN (stesso pattern di ClassPickerPanel/ClassRespecScreen).
+
+- **Apertura**: `EventBus.toggle_faction_screen.emit()` oppure `PauseMenu.faction_screen_requested` → `Main._open_faction_screen()` → `FactionScreen.open()`; tasto G in Main._unhandled_input o in PauseMenu._unhandled_input
+- **Tab**: Civili (`"civil"`) / Signorie (`"signoria"`) / Nemici (`"nemico"` + `"natura"` unificati)
+- **Lista sinistra** (260 px, scrollabile): riga per fazione con nome, badge M/S se membro/supporter, stato colorato, barra ProgressBar rep -100…+100
+- **Pannello dettaglio destra**: nome bold + stato + rep numerico, descrizione JSON, rango + passiva corrente (se membro), debito tasse (se presente), lista "Membri conosciuti" da `GameState.known_faction_members[fid]`
+- **Chiusura**: G o Esc in `_unhandled_input`; `_go_to_main_menu()` forza `visible = false`
+- **Colori stato** (costante `STATE_COLORS`): enemy_sworn=rosso scuro, hostile=arancio scuro, neutral=grigio, friendly=verde, allied=azzurro, trusted=oro
 
 ---
 
@@ -631,16 +880,27 @@ notification_shown(notif: Notification)
 
 **DebugScreen** (`scripts/debug/DebugScreen.gd`) — accessibile in-game (tasto È).
 
-Sezioni:
-- **TTK Sim** → `CombatSimulator.run_validation()` — stampa TTK per tutti i nemici
-- **LootDB** — mostra item/affissi/cache caricati; si aggiorna ogni 0.5s
-- **LootTools** — strumenti test loot:
-  - *Simula nemico/chest/ground* — risolve una loot table e stampa i drop nell'Output
-  - *Drop spada_corta* / *Drop unico* — genera un'istanza item e la identifica, stampa risultato
-  - *Apri LootScreen* — apre la schermata loot con 6 item di test (incluso unico + oro)
-  - *Test identificazione* — verifica che lo stesso `affix_seed` produca sempre gli stessi affissi
-  - *Invalida cache loot* — svuota `LootTableDB._cache` per ricaricare i file JSON da disco
-- **DevClassSwitch** — cambia classe al volo
+Sezioni statiche (aggiornate ogni 0.5s da timer):
+- **Sistema / ClassRegistry / GameState / ClassPicker / DamagePipeline / ClassRuntime / AbilityUseTracker / ClassSpecial / StatusEffects / Targeting / AllyManager / DruidForm / Milestones / Respec / LootDB / FactionDB**
+
+Sezioni interattive (costruite una volta in `_build_*`, display aggiornato da `_refresh()`):
+- **TTK Sim** → `CombatSimulator.run_validation()`
+- **LootTools** — simula drop nemico/chest/ground, genera istanze, apre LootScreen, testa idempotenza identify, invalida cache
+- **DevClassSwitch** — griglia per tier con bottoni per ogni classe (colore per tier, grigio = planned)
+- **Validatori JSON** — esegue `validate_items/affixes/loot_tables/classes.gd` e mostra risultato inline
+- **FactionTools** *(Fase 16)* — blocco collassabile viola:
+  - *Rep table* (`_faction_rep_rtl`) — tutte le fazioni con rep numerica + colore per stato (`STATE_HEX`) + badge `M[rank]`/`S`
+  - *Rep editor* — `OptionButton` (sorted) + delta ±10/±25/±50 + `CheckButton` propagazione + "Reset All Rep"
+  - *Membership* — `_faction_member_rtl` ◆/★/○ per le 7 joinabili + bottoni Join/Leave/+Rank
+
+**Costanti DebugScreen rilevanti:**
+```gdscript
+const STATE_HEX := { "enemy_sworn": "#d92525", "hostile": "#d97325", "neutral": "#aaaaaa",
+                     "friendly": "#66d877", "allied": "#4db3ff", "trusted": "#e5cc33" }
+const JOINABLE_FACTIONS: Array[String] = [
+    "corporazione_camere", "cacciatori_rogna", "collegio_cartografi",
+    "compagnia_ponti", "corrieri_sigillo", "congregazione_officine", "tavola_senza_nome" ]
+```
 
 **CombatSimulator** (`scripts/tools/CombatSimulator.gd`)  
 Testa ogni nemico a `zone_min_level` contro i 4 profili classe.  
@@ -656,6 +916,41 @@ Eseguire in Godot: apri il file → **File > Run Script**. Output nel pannello O
 | `validate_affixes.gd` | `data/item_affixes/` | id unici, type prefix/suffix, allowed_item_types validi e non vuoti, allowed_tiers validi, bonuses non vuoto, weight > 0 |
 | `validate_loot_tables.gd` | `data/loot/` | chest ha 5 varianti, level_bands senza gap, ultima a 999, item_id esistono, nothing weight ≤ 10 per chest |
 | `validate_classes.gd` | `data/classes/` | noob ha noob_adaptability, non-noob hanno allowed_item_types non vuoto con tipi validi, loot_archetype → cartella esistente |
+
+---
+
+## Sistema Crimini — CrimeSystem
+
+### Flusso crimine
+1. Player attacca NPC → `CombatManager` controlla `amuleto_del_sangue` (slot neck via `Equipment.is_equipped()`)
+2. Se equipaggiato: `CrimeSystem.track_attacked_npc(npc)` + check testimoni via `has_witnesses(player_pos)`
+3. Se testimoni: `register_crime(city_id)` → rep -20 milizia, spawn 6 guardie, emette `crime_committed`
+4. Guardie attaccano normalmente; se HP player ≤ 1 → `arrest_player(city_id)` → multa 25%, record, rep -10
+5. Ondate: ogni 8 turni con crimine attivo → +3 guardie (via `EventBus.player_turn_started`)
+6. Fuga dalla città (→overworld/dungeon) → `apply_post_crime_rep_on_flee()` → -50 rep a tutte le fazioni nel raggio 30 o attaccate
+7. Rientro in città con crimine attivo → spawn nuova pattuglia
+
+### Guard (`scripts/entities/Guard.gd`)
+- `extends Enemy`, `is_guard: bool = true`
+- `setup_guard(player_level)` → stats guerriero scalate
+- `die()` → niente XP/loot/rep; solo `TurnManager.unregister_enemy + queue_free`
+
+### Amuleto del Sangue
+- File: `data/items/accessories/amulets/amuleto_del_sangue.json`
+- Slot: `neck`, `loot_weight: 0` (non droppabile casualmente)
+- Necessario per attaccare NPC; assenza → warning + blocco
+
+### EventBus signals (crime)
+```gdscript
+EventBus.crime_committed(city_id: String)
+EventBus.player_arrested(city_id: String, fine_amount: int)
+EventBus.crime_cleared(city_id: String)
+```
+
+### Identificazione entità (duck typing)
+- NPC: `node.get("npc_id") != null`
+- Enemy (incluse guardie): `node.get("enemy_data_id") != null`
+- Guard specifica: `node.get("is_guard") == true`
 
 ---
 

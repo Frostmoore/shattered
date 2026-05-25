@@ -27,6 +27,13 @@ static func _from_json(d: Dictionary, floor_idx: int = 0) -> MapData:
 	data.type = str(d.get("type", "village"))
 	data.metadata["name"] = str(d.get("name", ""))
 
+	var signoria_raw: Variant = d.get("signoria", "")
+	if signoria_raw is String:
+		data.metadata["signoria"] = str(signoria_raw)
+	var corp_raw: Variant = d.get("corporazioni_presenti", [])
+	if corp_raw is Array:
+		data.metadata["corporazioni_presenti"] = (corp_raw as Array).duplicate()
+
 	# Resolve floor source — new format has a "floors" array; legacy is flat.
 	var floor_d: Dictionary = d
 	var floors_raw: Variant = d.get("floors", null)

@@ -345,28 +345,36 @@ const CAT_DEFS: Array = [
 ]
 
 # ── city data ──────────────────────────────────────────────────────────────────
-var _cid:      String = "nuova_citta"
-var _cname:    String = "Nuova Città"
-var _ctype:    String = "village"
-var _width:    int    = 40
-var _height:   int    = 30
-var _tiles:    Array  = []   # [y][x] → cat*16 + variant
-var _entities: Array  = []   # [{kind, x, y, uid, params}]
+var _cid:           String = "nuova_citta"
+var _cname:         String = "Nuova Città"
+var _ctype:         String = "village"
+var _csignoria:     String = ""
+var _ccorporazioni: Array  = []
+var _width:         int    = 40
+var _height:        int    = 30
+var _tiles:         Array  = []   # [y][x] → cat*16 + variant
+var _entities:      Array  = []   # [{kind, x, y, uid, params}]
 
 # ── ui refs ────────────────────────────────────────────────────────────────────
-var _id_edit:    LineEdit
-var _name_edit:  LineEdit
-var _type_opt:   OptionButton
-var _w_spin:     SpinBox
-var _h_spin:     SpinBox
-var _canvas:     Control
-var _props_box:  VBoxContainer
-var _status_lbl: Label
-var _cat_btns:   Array[Button] = []
-var _var_btns:   Array[Button] = []
-var _var_grid:   GridContainer
-var _erase_btn:  Button
-var _load_menu:  PopupMenu
+var _id_edit:       LineEdit
+var _name_edit:     LineEdit
+var _type_opt:      OptionButton
+var _w_spin:        SpinBox
+var _h_spin:        SpinBox
+var _canvas:        Control
+var _props_box:     VBoxContainer
+var _status_lbl:    Label
+var _cat_btns:      Array[Button] = []
+var _var_btns:      Array[Button] = []
+var _var_grid:      GridContainer
+var _erase_btn:     Button
+var _load_menu:        PopupMenu
+var _signoria_opt:     OptionButton
+var _signoria_ids:     Array = []   # parallel to OptionButton items; [0] = ""
+var _signoria_names:   Array = []   # parallel to OptionButton items; [0] = "— Nessuna —"
+var _corp_summary_lbl: Label
+var _corp_menu:        PopupMenu
+var _corp_all:         Array = []   # [{id, name}] corporations available for selection
 
 # ── editor state ───────────────────────────────────────────────────────────────
 var _active_cat: int      = CAT_FLOOR
@@ -375,6 +383,19 @@ var _is_erasing: bool     = false
 var _painting:   bool     = false
 var _hover:      Vector2i = Vector2i(-1, -1)
 var _sel:        int      = -1
+var _ctx_menu:   PopupMenu
+var _ctx_cell:   Vector2i = Vector2i(-1, -1)
+
+# ── editor data lists (populated from JSON files) ─────────────────────────────
+var _all_factions:  Array = []   # [{id, name}] every faction file recursively
+var _all_dialogues: Array = []   # [{id, name}] from data/dialogue/
+var _all_quests:    Array = []   # [{id, name}] from data/quests/
+var _all_items:     Array = []   # [{id, name}] from data/items/ recursively
+
+# ── shared multiselect popup ───────────────────────────────────────────────────
+var _prop_select_popup: PopupMenu
+var _prop_select_opts:  Array = []
+var _prop_select_cb:    Callable
 
 # ── multi-floor state ──────────────────────────────────────────────────────────
 var _floors:           Array    = []   # [{label, width, height, tiles, entities}]
@@ -388,6 +409,7 @@ var _floor_name_edit:  LineEdit
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_load_faction_lists()
 	_build_ui()
 	_new_city()
 	get_window().size_changed.connect(_on_window_resized)
@@ -458,6 +480,41 @@ func _build_ui() -> void:
 	_status_lbl.add_theme_font_size_override("font_size", 11)
 	_status_lbl.add_theme_color_override("font_color", Color(0.6, 0.9, 0.6))
 	hdr.add_child(_status_lbl)
+
+	# Faction row (signoria + corporazioni)
+	var faction_row := HBoxContainer.new()
+	faction_row.add_theme_constant_override("separation", 4)
+	root.add_child(faction_row)
+
+	_lbl(faction_row, "Signoria:")
+	_signoria_opt = OptionButton.new()
+	_signoria_opt.add_theme_font_size_override("font_size", 11)
+	for i: int in _signoria_ids.size():
+		_signoria_opt.add_item(_signoria_names[i])
+	_signoria_opt.item_selected.connect(func(idx: int) -> void:
+		_csignoria = _signoria_ids[idx] if idx < _signoria_ids.size() else "")
+	faction_row.add_child(_signoria_opt)
+
+	_lbl(faction_row, "  Corporazioni:")
+	_corp_summary_lbl = Label.new()
+	_corp_summary_lbl.custom_minimum_size.x = 90
+	_corp_summary_lbl.add_theme_font_size_override("font_size", 11)
+	_corp_summary_lbl.text = "0 selezionate"
+	faction_row.add_child(_corp_summary_lbl)
+
+	var corp_btn := Button.new()
+	corp_btn.text = "Modifica…"
+	corp_btn.add_theme_font_size_override("font_size", 11)
+	corp_btn.pressed.connect(_open_corp_menu.bind(corp_btn))
+	faction_row.add_child(corp_btn)
+
+	_corp_menu = PopupMenu.new()
+	_corp_menu.hide_on_checkable_item_selection = false
+	for i: int in _corp_all.size():
+		var corp: Dictionary = _corp_all[i]
+		_corp_menu.add_check_item(str(corp.get("name", "")), i)
+	_corp_menu.id_pressed.connect(_on_corp_menu_pressed)
+	add_child(_corp_menu)
 
 	root.add_child(HSeparator.new())
 
@@ -598,11 +655,13 @@ func _build_ui() -> void:
 
 	# ── Properties panel ─────────────────────────────────────────────────────
 	var props_outer := PanelContainer.new()
-	props_outer.custom_minimum_size.x = 205
+	props_outer.custom_minimum_size.x = 245
+	props_outer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(props_outer)
 
 	var props_vbox := VBoxContainer.new()
 	props_vbox.add_theme_constant_override("separation", 3)
+	props_vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	props_outer.add_child(props_vbox)
 
 	var ptitle := Label.new()
@@ -611,13 +670,28 @@ func _build_ui() -> void:
 	props_vbox.add_child(ptitle)
 	props_vbox.add_child(HSeparator.new())
 
+	var props_scroll := ScrollContainer.new()
+	props_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	props_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	props_vbox.add_child(props_scroll)
+
 	_props_box = VBoxContainer.new()
 	_props_box.add_theme_constant_override("separation", 2)
-	props_vbox.add_child(_props_box)
+	_props_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	props_scroll.add_child(_props_box)
 
 	_load_menu = PopupMenu.new()
 	_load_menu.id_pressed.connect(_on_load_item)
 	add_child(_load_menu)
+
+	_ctx_menu = PopupMenu.new()
+	_ctx_menu.id_pressed.connect(_on_ctx_menu_pressed)
+	add_child(_ctx_menu)
+
+	_prop_select_popup = PopupMenu.new()
+	_prop_select_popup.hide_on_checkable_item_selection = false
+	_prop_select_popup.id_pressed.connect(_on_prop_select_pressed)
+	add_child(_prop_select_popup)
 
 	_select_cat(CAT_FLOOR)
 
@@ -714,11 +788,171 @@ func _current_entity_kind() -> String:
 	return "npc"
 
 
+# ── faction list helpers ───────────────────────────────────────────────────────
+
+func _load_faction_lists() -> void:
+	_signoria_ids   = [""]
+	_signoria_names = ["— Nessuna —"]
+	_corp_all       = []
+
+	var sig_entries: Array = []
+	var dir: DirAccess = DirAccess.open("res://data/factions/signorie/")
+	if dir != null:
+		dir.list_dir_begin()
+		var fname: String = dir.get_next()
+		while fname != "":
+			if fname.ends_with(".json"):
+				var f: FileAccess = FileAccess.open("res://data/factions/signorie/" + fname, FileAccess.READ)
+				if f:
+					var parsed: Variant = JSON.parse_string(f.get_as_text())
+					f.close()
+					if parsed is Dictionary:
+						var d: Dictionary = parsed as Dictionary
+						sig_entries.append({"id": str(d.get("id", "")), "name": str(d.get("name", ""))})
+			fname = dir.get_next()
+		dir.list_dir_end()
+	sig_entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("name", "")) < str(b.get("name", "")))
+	for e: Dictionary in sig_entries:
+		_signoria_ids.append(str(e.get("id", "")))
+		_signoria_names.append(str(e.get("name", "")))
+
+	for tier: String in ["tier_s", "tier_a", "tier_b", "tier_c"]:
+		var dir2: DirAccess = DirAccess.open("res://data/factions/" + tier + "/")
+		if dir2 == null:
+			continue
+		dir2.list_dir_begin()
+		var fname2: String = dir2.get_next()
+		while fname2 != "":
+			if fname2.ends_with(".json"):
+				var f2: FileAccess = FileAccess.open("res://data/factions/" + tier + "/" + fname2, FileAccess.READ)
+				if f2:
+					var parsed2: Variant = JSON.parse_string(f2.get_as_text())
+					f2.close()
+					if parsed2 is Dictionary:
+						var d2: Dictionary = parsed2 as Dictionary
+						_corp_all.append({"id": str(d2.get("id", "")), "name": str(d2.get("name", ""))})
+			fname2 = dir2.get_next()
+		dir2.list_dir_end()
+	_corp_all.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("name", "")) < str(b.get("name", "")))
+
+	# ── All factions (for entity props dropdowns) ──────────────────────────────
+	_all_factions = []
+	_scan_json_id_name_recursive("res://data/factions/", _all_factions)
+	_all_factions.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("name", "")) < str(b.get("name", "")))
+
+	# ── Dialogues ──────────────────────────────────────────────────────────────
+	_all_dialogues = []
+	var dial_dir: DirAccess = DirAccess.open("res://data/dialogue/")
+	if dial_dir != null:
+		dial_dir.list_dir_begin()
+		var dfname: String = dial_dir.get_next()
+		while dfname != "":
+			if dfname.ends_with(".json"):
+				var df: FileAccess = FileAccess.open("res://data/dialogue/" + dfname, FileAccess.READ)
+				if df:
+					var dp: Variant = JSON.parse_string(df.get_as_text())
+					df.close()
+					if dp is Dictionary:
+						var dd: Dictionary = dp as Dictionary
+						if dd.has("id"):
+							_all_dialogues.append({"id": str(dd["id"]), "name": str(dd.get("title", dd["id"]))})
+			dfname = dial_dir.get_next()
+		dial_dir.list_dir_end()
+	_all_dialogues.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("id", "")) < str(b.get("id", "")))
+
+	# ── Quests ─────────────────────────────────────────────────────────────────
+	_all_quests = []
+	var quest_dir: DirAccess = DirAccess.open("res://data/quests/")
+	if quest_dir != null:
+		quest_dir.list_dir_begin()
+		var qfname: String = quest_dir.get_next()
+		while qfname != "":
+			if qfname.ends_with(".json"):
+				var qf: FileAccess = FileAccess.open("res://data/quests/" + qfname, FileAccess.READ)
+				if qf:
+					var qp: Variant = JSON.parse_string(qf.get_as_text())
+					qf.close()
+					if qp is Dictionary:
+						var qd: Dictionary = qp as Dictionary
+						if qd.has("id"):
+							_all_quests.append({"id": str(qd["id"]), "name": str(qd.get("title", qd["id"]))})
+			qfname = quest_dir.get_next()
+		quest_dir.list_dir_end()
+	_all_quests.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("name", "")) < str(b.get("name", "")))
+
+	# ── Items ──────────────────────────────────────────────────────────────────
+	_all_items = []
+	_scan_json_id_name_recursive("res://data/items/", _all_items)
+	_all_items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("name", "")) < str(b.get("name", "")))
+
+
+func _scan_json_id_name_recursive(dir_path: String, out: Array) -> void:
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var fname: String = dir.get_next()
+	while fname != "":
+		if dir.current_is_dir() and not fname.begins_with("."):
+			_scan_json_id_name_recursive(dir_path.path_join(fname), out)
+		elif fname.ends_with(".json"):
+			var f: FileAccess = FileAccess.open(dir_path.path_join(fname), FileAccess.READ)
+			if f:
+				var p: Variant = JSON.parse_string(f.get_as_text())
+				f.close()
+				if p is Dictionary:
+					var d: Dictionary = p as Dictionary
+					if d.has("id"):
+						out.append({"id": str(d["id"]), "name": str(d.get("name", d["id"]))})
+		fname = dir.get_next()
+	dir.list_dir_end()
+
+
+func _open_corp_menu(btn: Button) -> void:
+	if _corp_menu == null:
+		return
+	for i: int in _corp_all.size():
+		var corp_id: String = str(_corp_all[i].get("id", ""))
+		_corp_menu.set_item_checked(_corp_menu.get_item_index(i), _ccorporazioni.has(corp_id))
+	var screen_pos: Vector2 = btn.get_screen_position()
+	_corp_menu.popup(Rect2i(Vector2i(int(screen_pos.x), int(screen_pos.y) + int(btn.size.y)), Vector2i(220, 0)))
+
+
+func _on_corp_menu_pressed(id: int) -> void:
+	if id < 0 or id >= _corp_all.size():
+		return
+	var item_idx: int = _corp_menu.get_item_index(id)
+	var corp_id: String = str(_corp_all[id].get("id", ""))
+	var was_checked: bool = _corp_menu.is_item_checked(item_idx)
+	_corp_menu.set_item_checked(item_idx, not was_checked)
+	if not was_checked:
+		if not _ccorporazioni.has(corp_id):
+			_ccorporazioni.append(corp_id)
+	else:
+		_ccorporazioni.erase(corp_id)
+	_update_corp_summary()
+
+
+func _update_corp_summary() -> void:
+	if _corp_summary_lbl == null:
+		return
+	var n: int = _ccorporazioni.size()
+	_corp_summary_lbl.text = "%d selezionate" % n if n != 1 else "1 selezionata"
+
+
 # ── city operations ────────────────────────────────────────────────────────────
 
 func _new_city() -> void:
 	_width  = int(_w_spin.value) if _w_spin else 40
 	_height = int(_h_spin.value) if _h_spin else 30
+	_csignoria = ""
+	_ccorporazioni = []
 	_entities.clear()
 	_sel = -1
 	_init_tiles()
@@ -728,6 +962,8 @@ func _new_city() -> void:
 	_canvas.queue_redraw()
 	_rebuild_props()
 	_update_floor_ui()
+	if _signoria_opt: _signoria_opt.select(0)
+	_update_corp_summary()
 	_set_status("Nuova città creata.")
 
 
@@ -783,12 +1019,17 @@ func _save_city() -> void:
 		"id": _cid, "name": _cname, "type": _ctype,
 		"floors": _floors.duplicate(true),
 	}
+	if _csignoria != "":
+		data["signoria"] = _csignoria
+	if not _ccorporazioni.is_empty():
+		data["corporazioni_presenti"] = _ccorporazioni.duplicate()
 	var f: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if f == null:
 		_set_status("ERRORE salvataggio.")
 		return
 	f.store_string(JSON.stringify(data, "\t"))
 	f.close()
+	_write_locale_keys()
 	_set_status("Salvato: %s.json (%d piani)" % [_cid, _floors.size()])
 
 
@@ -832,6 +1073,9 @@ func _load_file(path: String) -> void:
 	_cid   = str(d.get("id",   "new_city"))
 	_cname = str(d.get("name", "Città"))
 	_ctype = str(d.get("type", "village"))
+	_csignoria = str(d.get("signoria", ""))
+	var raw_corp_load: Variant = d.get("corporazioni_presenti", [])
+	_ccorporazioni = (raw_corp_load as Array).duplicate() if raw_corp_load is Array else []
 
 	var floors_raw: Variant = d.get("floors", null)
 	if floors_raw is Array and (floors_raw as Array).size() > 0:
@@ -859,6 +1103,10 @@ func _load_file(path: String) -> void:
 			if _type_opt.get_item_text(i) == _ctype:
 				_type_opt.select(i)
 				break
+	if _signoria_opt:
+		var sig_idx: int = _signoria_ids.find(_csignoria)
+		_signoria_opt.select(maxi(0, sig_idx))
+	_update_corp_summary()
 	if _w_spin: _w_spin.value = _width
 	if _h_spin: _h_spin.value = _height
 	_sync_canvas_size()
@@ -950,7 +1198,7 @@ func _on_canvas_input(event: InputEvent) -> void:
 			else:
 				_painting = false
 		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
-			_try_select(cell)
+			_show_ctx_menu(cell)
 	elif event is InputEventMouseMotion:
 		var mm := event as InputEventMouseMotion
 		_hover = _cell(mm.position)
@@ -988,8 +1236,15 @@ func _place_entity(kind: String, cell: Vector2i) -> void:
 func _default_params(kind: String, cell: Vector2i) -> Dictionary:
 	match kind:
 		"npc":
-			return {"id": "npc_%d_%d" % [cell.x, cell.y], "name": "NPC",
-					"dialogue_id": "", "linked_quest_id": ""}
+			return {
+				"id": "npc_%d_%d" % [cell.x, cell.y], "name": "NPC",
+				"faction_id": "", "secondary_faction_ids": [],
+				"dialogue_id": "", "dialogue_id_quest_active": "", "dialogue_id_quest_done": "",
+				"idle_dialogue_ids": [], "linked_quest_id": "",
+				"conditional_dialogues": [],
+				"vendor": false, "inventory": [], "love_interest": false,
+				"is_guard": false, "gender": "", "is_child": false,
+			}
 		"save_point":
 			return {"label": "Fontana"}
 		"transition":
@@ -1047,6 +1302,28 @@ func _entity_at(cell: Vector2i) -> bool:
 	return false
 
 
+func _show_ctx_menu(cell: Vector2i) -> void:
+	if not _entity_at(cell):
+		_try_select(cell)
+		return
+	_ctx_cell = cell
+	_ctx_menu.clear()
+	_ctx_menu.add_item("Modifica proprietà", 0)
+	_ctx_menu.add_separator()
+	_ctx_menu.add_item("Elimina entità", 1)
+	var mpos := DisplayServer.mouse_get_position()
+	_ctx_menu.popup(Rect2i(mpos, Vector2i(0, 0)))
+
+
+func _on_ctx_menu_pressed(id: int) -> void:
+	match id:
+		0:
+			_try_select(_ctx_cell)
+		1:
+			_erase_entity_at(_ctx_cell)
+			_canvas.queue_redraw()
+
+
 # ── properties panel ───────────────────────────────────────────────────────────
 
 func _rebuild_props() -> void:
@@ -1071,13 +1348,48 @@ func _rebuild_props() -> void:
 
 	match kind:
 		"npc":
-			_prop_field("ID",           str(params.get("id",           "")), func(v: String) -> void: params["id"] = v)
-			_prop_field("Nome",         str(params.get("name",         "")), func(v: String) -> void: params["name"] = v)
-			_prop_field("dialogue_id",  str(params.get("dialogue_id",  "")), func(v: String) -> void: params["dialogue_id"] = v)
-			_prop_field("quest_active", str(params.get("dialogue_id_quest_active", "")), func(v: String) -> void: params["dialogue_id_quest_active"] = v)
-			_prop_field("quest_done",   str(params.get("dialogue_id_quest_done",   "")), func(v: String) -> void: params["dialogue_id_quest_done"] = v)
-			_prop_field("linked_quest", str(params.get("linked_quest_id", "")), func(v: String) -> void: params["linked_quest_id"] = v)
-			_prop_field("idle (csv)",   _array_to_csv(params.get("idle_dialogue_ids", [])), func(v: String) -> void: params["idle_dialogue_ids"] = _csv_to_array(v))
+			_prop_field("ID",   str(params.get("id",   "")), func(v: String) -> void: params["id"] = v)
+			_prop_field("Nome", str(params.get("name", "")), func(v: String) -> void: params["name"] = v)
+			_prop_dropdown("Fazione", str(params.get("faction_id", "")), _all_factions,
+					func(v: String) -> void: params["faction_id"] = v)
+			var sec_ids: Array = []
+			var raw_sec: Variant = params.get("secondary_faction_ids", [])
+			if raw_sec is Array:
+				for s: Variant in (raw_sec as Array): sec_ids.append(str(s))
+			_prop_multiselect("Faz. sec.", sec_ids, _all_factions,
+					func(v: Array) -> void: params["secondary_faction_ids"] = v)
+			_props_box.add_child(HSeparator.new())
+			_prop_lbl("— Tipo NPC —")
+			_prop_bool("vendor", bool(params.get("vendor", false)), func(v: bool) -> void:
+				params["vendor"] = v
+				call_deferred("_rebuild_props"))
+			if bool(params.get("vendor", false)):
+				_prop_lbl("Inventario vendor:")
+				_build_vendor_inventory_editor(params)
+			_prop_bool("love_interest", bool(params.get("love_interest", false)), func(v: bool) -> void: params["love_interest"] = v)
+			_prop_bool("is_guard", bool(params.get("is_guard", false)), func(v: bool) -> void: params["is_guard"] = v)
+			_prop_bool("is_child", bool(params.get("is_child", false)), func(v: bool) -> void: params["is_child"] = v)
+			_prop_dropdown("gender", str(params.get("gender", "")),
+					[{"id": "m", "name": "M"}, {"id": "f", "name": "F"}],
+					func(v: String) -> void: params["gender"] = v)
+			_props_box.add_child(HSeparator.new())
+			_prop_lbl("— Dialogo —")
+			_prop_dropdown("dialogue_id",  str(params.get("dialogue_id",  "")), _all_dialogues,
+					func(v: String) -> void: params["dialogue_id"] = v)
+			_prop_dropdown("quest_active", str(params.get("dialogue_id_quest_active", "")), _all_dialogues,
+					func(v: String) -> void: params["dialogue_id_quest_active"] = v)
+			_prop_dropdown("quest_done",   str(params.get("dialogue_id_quest_done",   "")), _all_dialogues,
+					func(v: String) -> void: params["dialogue_id_quest_done"] = v)
+			_prop_dropdown("linked_quest", str(params.get("linked_quest_id", "")), _all_quests,
+					func(v: String) -> void: params["linked_quest_id"] = v)
+			var idle_ids: Array = []
+			var raw_idle: Variant = params.get("idle_dialogue_ids", [])
+			if raw_idle is Array:
+				for s: Variant in (raw_idle as Array): idle_ids.append(str(s))
+			_prop_multiselect("idle dial.", idle_ids, _all_dialogues,
+					func(v: Array) -> void: params["idle_dialogue_ids"] = v)
+			_prop_lbl("Dial. condizionali:")
+			_build_cond_dialogues_editor(params)
 		"save_point":
 			_prop_field("Label", str(params.get("label", "Fontana")), func(v: String) -> void: params["label"] = v)
 		"transition":
@@ -1086,13 +1398,32 @@ func _rebuild_props() -> void:
 			_prop_spin("target_x", int(params.get("target_x", 0)), func(v: float) -> void: params["target_x"] = int(v))
 			_prop_spin("target_y", int(params.get("target_y", 0)), func(v: float) -> void: params["target_y"] = int(v))
 		"port":
-			_prop_field("ID",          str(params.get("id",   "")), func(v: String) -> void: params["id"] = v)
-			_prop_field("Nome",        str(params.get("name", "")), func(v: String) -> void: params["name"] = v)
-			_prop_field("dialogue_id", str(params.get("dialogue_id", "")), func(v: String) -> void: params["dialogue_id"] = v)
+			_prop_field("ID",   str(params.get("id",   "")), func(v: String) -> void: params["id"] = v)
+			_prop_field("Nome", str(params.get("name", "")), func(v: String) -> void: params["name"] = v)
+			_prop_dropdown("dialogue_id", str(params.get("dialogue_id", "")), _all_dialogues,
+					func(v: String) -> void: params["dialogue_id"] = v)
 		"door":
 			_prop_field("ID",     str(params.get("id",     "")),    func(v: String) -> void: params["id"] = v)
 			_prop_bool("Bloccata", bool(params.get("locked", false)), func(v: bool) -> void: params["locked"] = v)
 			_prop_field("key_id", str(params.get("key_id", "")),    func(v: String) -> void: params["key_id"] = v)
+			_prop_lbl("— Requisito fazione —")
+			var req: Dictionary = params.get("faction_requirement", {}) as Dictionary
+			_prop_dropdown("req_faction", str(req.get("faction_id", "")), _all_factions,
+					func(v: String) -> void:
+						if v == "":
+							params.erase("faction_requirement")
+						else:
+							var r: Dictionary = params.get("faction_requirement", {})
+							r["faction_id"] = v
+							params["faction_requirement"] = r)
+			_prop_spin_range("req_min_rep",  int(req.get("min_rep",  0)), 0, 100, func(v: float) -> void:
+				var r: Dictionary = params.get("faction_requirement", {})
+				r["min_rep"] = int(v)
+				params["faction_requirement"] = r)
+			_prop_spin_range("req_min_rank", int(req.get("min_rank", -1)), -1, 5, func(v: float) -> void:
+				var r: Dictionary = params.get("faction_requirement", {})
+				r["min_rank"] = int(v)
+				params["faction_requirement"] = r)
 		"plant":
 			_prop_field("ID",         str(params.get("id",         "")),     func(v: String) -> void: params["id"] = v)
 			_prop_field("plant_type", str(params.get("plant_type", "tree")), func(v: String) -> void: params["plant_type"] = v)
@@ -1153,6 +1484,10 @@ func _prop_field(label: String, value: String, on_change: Callable) -> void:
 
 
 func _prop_spin(label: String, value: int, on_change: Callable) -> void:
+	_prop_spin_range(label, value, 0, 9999, on_change)
+
+
+func _prop_spin_range(label: String, value: int, min_val: int, max_val: int, on_change: Callable) -> void:
 	var row := HBoxContainer.new()
 	var l := Label.new()
 	l.text = label + ":"
@@ -1160,8 +1495,8 @@ func _prop_spin(label: String, value: int, on_change: Callable) -> void:
 	l.custom_minimum_size.x = 78
 	row.add_child(l)
 	var spin := SpinBox.new()
-	spin.min_value = 0
-	spin.max_value = 9999
+	spin.min_value = min_val
+	spin.max_value = max_val
 	spin.value     = value
 	spin.add_theme_font_size_override("font_size", 10)
 	spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1183,6 +1518,214 @@ func _prop_bool(label: String, value: bool, on_change: Callable) -> void:
 	chk.toggled.connect(on_change)
 	row.add_child(chk)
 	_props_box.add_child(row)
+
+
+# ── dropdown / multiselect widgets ────────────────────────────────────────────
+
+func _prop_dropdown(label: String, value: String, opts: Array, on_change: Callable) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 2)
+	var l := Label.new()
+	l.text = label + ":"
+	l.add_theme_font_size_override("font_size", 10)
+	l.custom_minimum_size.x = 78
+	row.add_child(l)
+	var opt_btn := OptionButton.new()
+	opt_btn.add_theme_font_size_override("font_size", 9)
+	opt_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	opt_btn.add_item("— Nessuno —", 0)
+	var sel: int = 0
+	for i: int in opts.size():
+		var opt: Dictionary = opts[i] as Dictionary
+		opt_btn.add_item(str(opt.get("name", opt.get("id", ""))), i + 1)
+		if str(opt.get("id", "")) == value:
+			sel = i + 1
+	opt_btn.select(sel)
+	opt_btn.item_selected.connect(func(idx: int) -> void:
+		if idx == 0:
+			on_change.call("")
+		else:
+			var ri: int = idx - 1
+			on_change.call(str((opts[ri] as Dictionary).get("id", "")) if ri < opts.size() else ""))
+	row.add_child(opt_btn)
+	_props_box.add_child(row)
+
+
+func _prop_multiselect(label: String, current: Array, opts: Array, on_change: Callable) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 2)
+	var l := Label.new()
+	l.text = label + ":"
+	l.add_theme_font_size_override("font_size", 10)
+	l.custom_minimum_size.x = 78
+	row.add_child(l)
+	var sum_lbl := Label.new()
+	sum_lbl.add_theme_font_size_override("font_size", 10)
+	sum_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var nc: int = current.size()
+	sum_lbl.text = "%d sel." % nc if nc != 1 else "1 sel."
+	row.add_child(sum_lbl)
+	var btn := Button.new()
+	btn.text = "…"
+	btn.custom_minimum_size = Vector2(26, 20)
+	btn.add_theme_font_size_override("font_size", 10)
+	btn.pressed.connect(func() -> void:
+		_prop_select_opts = opts
+		_prop_select_cb = func(new_arr: Array) -> void:
+			on_change.call(new_arr)
+			var n: int = new_arr.size()
+			sum_lbl.text = "%d sel." % n if n != 1 else "1 sel."
+		_prop_select_popup.clear()
+		for i: int in opts.size():
+			var opt: Dictionary = opts[i] as Dictionary
+			var oid: String = str(opt.get("id", ""))
+			var oname: String = str(opt.get("name", oid))
+			_prop_select_popup.add_check_item(oname, i)
+			_prop_select_popup.set_item_checked(i, current.has(oid))
+		var mpos := DisplayServer.mouse_get_position()
+		_prop_select_popup.popup(Rect2i(mpos, Vector2i(230, 0))))
+	row.add_child(btn)
+	_props_box.add_child(row)
+
+
+func _on_prop_select_pressed(item_id: int) -> void:
+	if item_id < 0 or item_id >= _prop_select_opts.size():
+		return
+	var was: bool = _prop_select_popup.is_item_checked(item_id)
+	_prop_select_popup.set_item_checked(item_id, not was)
+	var new_arr: Array = []
+	for i: int in _prop_select_opts.size():
+		if _prop_select_popup.is_item_checked(i):
+			new_arr.append(str((_prop_select_opts[i] as Dictionary).get("id", "")))
+	if _prop_select_cb.is_valid():
+		_prop_select_cb.call(new_arr)
+
+
+# ── array-of-dict editors ─────────────────────────────────────────────────────
+
+func _build_cond_dialogues_editor(params: Dictionary) -> void:
+	if not params.has("conditional_dialogues"):
+		params["conditional_dialogues"] = []
+	var arr: Array = params["conditional_dialogues"] as Array
+	for i: int in arr.size():
+		var entry: Dictionary = arr[i] as Dictionary
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 2)
+		var idx: int = i
+		var cond_e := LineEdit.new()
+		cond_e.placeholder_text = "condizione"
+		cond_e.text = str(entry.get("condition", ""))
+		cond_e.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cond_e.add_theme_font_size_override("font_size", 9)
+		cond_e.text_changed.connect(func(v: String) -> void:
+			(params["conditional_dialogues"] as Array)[idx]["condition"] = v)
+		row.add_child(cond_e)
+		# dialogue_id as compact OptionButton
+		var dial_opt := OptionButton.new()
+		dial_opt.add_theme_font_size_override("font_size", 9)
+		dial_opt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		dial_opt.add_item("—", 0)
+		var cur_dial: String = str(entry.get("dialogue_id", ""))
+		var dsel: int = 0
+		for di: int in _all_dialogues.size():
+			var dd: Dictionary = _all_dialogues[di] as Dictionary
+			dial_opt.add_item(str(dd.get("id", "")), di + 1)
+			if str(dd.get("id", "")) == cur_dial:
+				dsel = di + 1
+		dial_opt.select(dsel)
+		dial_opt.item_selected.connect(func(v: int) -> void:
+			var rid: int = v - 1
+			var did: String = str((_all_dialogues[rid] as Dictionary).get("id", "")) if rid >= 0 and rid < _all_dialogues.size() else ""
+			(params["conditional_dialogues"] as Array)[idx]["dialogue_id"] = did)
+		row.add_child(dial_opt)
+		var del := Button.new()
+		del.text = "✕"
+		del.custom_minimum_size = Vector2(20, 20)
+		del.add_theme_font_size_override("font_size", 9)
+		del.pressed.connect(func() -> void:
+			(params["conditional_dialogues"] as Array).remove_at(idx)
+			call_deferred("_rebuild_props"))
+		row.add_child(del)
+		_props_box.add_child(row)
+	var add_btn := Button.new()
+	add_btn.text = "+ Dialogo condizionale"
+	add_btn.add_theme_font_size_override("font_size", 9)
+	add_btn.pressed.connect(func() -> void:
+		(params["conditional_dialogues"] as Array).append({"condition": "", "dialogue_id": ""})
+		call_deferred("_rebuild_props"))
+	_props_box.add_child(add_btn)
+
+
+func _build_vendor_inventory_editor(params: Dictionary) -> void:
+	if not params.has("inventory"):
+		params["inventory"] = []
+	var inv: Array = params["inventory"] as Array
+	# Summary + multiselect button
+	var hdr := HBoxContainer.new()
+	hdr.add_theme_constant_override("separation", 2)
+	var sum_lbl := Label.new()
+	sum_lbl.add_theme_font_size_override("font_size", 10)
+	sum_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sum_lbl.text = "%d item" % inv.size() if inv.size() != 1 else "1 item"
+	hdr.add_child(sum_lbl)
+	var sel_btn := Button.new()
+	sel_btn.text = "Seleziona…"
+	sel_btn.add_theme_font_size_override("font_size", 9)
+	sel_btn.pressed.connect(func() -> void:
+		var cur_ids: Array = []
+		for e: Variant in (params["inventory"] as Array):
+			cur_ids.append(str((e as Dictionary).get("item_id", "")))
+		_prop_select_opts = _all_items
+		_prop_select_cb = func(new_ids: Array) -> void:
+			var old_inv: Array = (params["inventory"] as Array).duplicate()
+			var new_inv: Array = []
+			for nid: Variant in new_ids:
+				var kept_qty: int = 1
+				for oe: Variant in old_inv:
+					if str((oe as Dictionary).get("item_id", "")) == str(nid):
+						kept_qty = int((oe as Dictionary).get("qty", 1))
+						break
+				new_inv.append({"item_id": str(nid), "qty": kept_qty})
+			params["inventory"] = new_inv
+			call_deferred("_rebuild_props")
+		_prop_select_popup.clear()
+		for i: int in _all_items.size():
+			var item: Dictionary = _all_items[i] as Dictionary
+			var iid: String = str(item.get("id", ""))
+			_prop_select_popup.add_check_item(str(item.get("name", iid)), i)
+			_prop_select_popup.set_item_checked(i, cur_ids.has(iid))
+		var mpos := DisplayServer.mouse_get_position()
+		_prop_select_popup.popup(Rect2i(mpos, Vector2i(230, 0))))
+	hdr.add_child(sel_btn)
+	_props_box.add_child(hdr)
+	# Per-item qty rows
+	for i: int in inv.size():
+		var entry: Dictionary = inv[i] as Dictionary
+		var iid: String = str(entry.get("item_id", ""))
+		var iname: String = iid
+		for item: Variant in _all_items:
+			if str((item as Dictionary).get("id", "")) == iid:
+				iname = str((item as Dictionary).get("name", iid))
+				break
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 2)
+		var name_lbl := Label.new()
+		name_lbl.text = iname
+		name_lbl.add_theme_font_size_override("font_size", 9)
+		name_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		name_lbl.clip_text = true
+		row.add_child(name_lbl)
+		var qty_s := SpinBox.new()
+		qty_s.min_value = 1
+		qty_s.max_value = 999
+		qty_s.value = int(entry.get("qty", 1))
+		qty_s.custom_minimum_size.x = 55
+		qty_s.add_theme_font_size_override("font_size", 9)
+		var idx: int = i
+		qty_s.value_changed.connect(func(v: float) -> void:
+			(params["inventory"] as Array)[idx]["qty"] = int(v))
+		row.add_child(qty_s)
+		_props_box.add_child(row)
 
 
 # ── misc helpers ───────────────────────────────────────────────────────────────
@@ -1321,3 +1864,61 @@ func _update_floor_ui() -> void:
 		_updating_floor_ui = true
 		_floor_name_edit.text = lbl
 		_updating_floor_ui = false
+
+
+# ── locale key writing ────────────────────────────────────────────────────────
+
+func _write_locale_keys() -> void:
+	var path: String = "res://locales/strings_cities.csv"
+	# Read existing keys so we don't overwrite manually edited translations.
+	var existing: Dictionary = {}
+	var f_r: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if f_r != null:
+		var header: PackedStringArray = f_r.get_csv_line()
+		while not f_r.eof_reached():
+			var row: PackedStringArray = f_r.get_csv_line()
+			if row.size() > 0 and row[0].strip_edges() != "":
+				existing[row[0].strip_edges()] = row
+		f_r.close()
+
+	# Collect new keys from all floors.
+	var new_keys: Dictionary = {}
+	for fl_v: Variant in _floors:
+		var fl: Dictionary = fl_v as Dictionary
+		var ents: Array = fl.get("entities", []) as Array
+		for ent_v: Variant in ents:
+			var ent: Dictionary = ent_v as Dictionary
+			var p: Dictionary = ent.get("params", {}) as Dictionary
+			var kind: String = str(ent.get("kind", ""))
+			if kind == "npc":
+				var npc_id: String = str(p.get("id", "")).to_upper()
+				var npc_name: String = str(p.get("name", "NPC"))
+				if npc_id != "":
+					new_keys["NPC_" + npc_id + "_NAME"] = npc_name
+			elif kind == "port":
+				var port_id: String = str(p.get("id", "")).to_upper()
+				var port_name: String = str(p.get("name", "Porto"))
+				if port_id != "":
+					new_keys["PORT_" + port_id + "_NAME"] = port_name
+
+	if new_keys.is_empty():
+		return
+
+	var f_w: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	if f_w == null:
+		push_warning("CityBuilder: cannot write " + path)
+		return
+	f_w.store_csv_line(PackedStringArray(["key", "it"]))
+	# Write existing rows, updating names for keys we re-collected.
+	for key: String in existing:
+		if new_keys.has(key):
+			f_w.store_csv_line(PackedStringArray([key, str(new_keys[key])]))
+			new_keys.erase(key)
+		else:
+			var old_row: PackedStringArray = existing[key] as PackedStringArray
+			if old_row.size() >= 2:
+				f_w.store_csv_line(PackedStringArray([old_row[0], old_row[1]]))
+	# Append any brand-new keys.
+	for key: String in new_keys:
+		f_w.store_csv_line(PackedStringArray([key, str(new_keys[key])]))
+	f_w.close()

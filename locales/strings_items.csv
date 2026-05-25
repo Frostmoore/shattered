@@ -1,5 +1,4 @@
 keys,it
-# ── Item names and descriptions ─────────────────────────────────────────────
 ITEM_AMULETO_ABISSO_NAME,Amuleto dell'Abisso
 ITEM_AMULETO_CACCIATORE_NAME,Amuleto del Cacciatore
 ITEM_AMULETO_CAVALIERE_NAME,Amuleto del Cavaliere
@@ -715,7 +714,6 @@ ITEM_SPADA_BASTARDA_NAME,Spada Bastarda
 ITEM_SPADONE_FERRO_NAME,Spadone di Ferro
 ITEM_SPADONE_GUERRIERO_NAME,Spadone del Guerriero
 ITEM_SPADONE_RUNATO_NAME,Spadone Runato
-# ── Item affix names ──────────────────────────────────────────────────────────
 ITEM_AFFIX_ABISSALE_M,Abissale
 ITEM_AFFIX_ABISSALE_F,Abissale
 ITEM_AFFIX_ADAMANTINO_M,Adamantino

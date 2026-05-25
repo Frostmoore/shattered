@@ -6,6 +6,8 @@
 	"color": [0.28, 0.88, 0.28, 1.0],
 
 	"family": "humanoid",
+	"faction_id": "fuorilegge",
+	"rep_on_kill": -2,
 	"role": "skirmisher",
 	"tier": 1,
 	"tags": ["melee"],

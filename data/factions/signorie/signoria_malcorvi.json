@@ -1,0 +1,14 @@
+{
+	"id": "signoria_malcorvi",
+	"name": "Signoria dei Malcorvi",
+	"type": "signoria",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"bloc": "rocche_frontiera",
+	"bloc_role": "leader",
+	"bloc_patron": null,
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

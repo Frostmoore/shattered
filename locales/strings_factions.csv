@@ -1,0 +1,149 @@
+keys,it
+FACTION_CATTEDRA_CANONE_NAME,Cattedra del Canone
+FACTION_CORPORAZIONE_CAMERE_NAME,Corporazione delle Camere di Condotta
+FACTION_CORPORAZIONE_SPEZIERIE_NAME,Corporazione delle Spezierie e delle Bilance
+FACTION_COLLEGIO_MAESTRI_NAME,Collegio dei Maestri Canonici
+FACTION_ORDINE_SIGILLATORI_NAME,Ordine dei Sigillatori
+FACTION_MILIZIA_CAMPANE_NAME,Milizia delle Campane
+FACTION_BANCO_TRE_MONETE_NAME,Banco delle Tre Monete
+FACTION_ARTE_FERRI_NAME,Arte dei Ferri e delle Braci
+FACTION_COLLEGIO_CARTOGRAFI_NAME,Collegio dei Cartografi
+FACTION_COMPAGNIA_PONTI_NAME,Compagnia dei Ponti e delle Strade
+FACTION_COMPAGNIA_BESTIE_NAME,Compagnia delle Bestie da Sella
+FACTION_ARTE_TAVOLIERI_NAME,Arte dei Tavolieri
+FACTION_FRATELLANZA_MANTELLO_NAME,Fratellanza del Mantello Grigio
+FACTION_CONGREGAZIONE_OFFICINE_NAME,Congregazione delle Officine
+FACTION_CONFRATERNITA_STRADA_NAME,Confraternita della Buona Strada
+FACTION_SORELLE_SALE_NAME,Sorelle del Sale
+FACTION_BECCHINI_CANONE_NAME,Becchini del Canone
+FACTION_MANO_CAMPI_NAME,Mano dei Campi
+FACTION_CACCIATORI_ROGNA_NAME,Cacciatori di Rogna
+FACTION_CORRIERI_SIGILLO_NAME,Compagnia dei Corrieri di Sigillo
+FACTION_TAVOLA_SENZA_NOME_NAME,Tavola Senza Nome
+FACTION_CATTEDRA_CANONE_DESC,La massima autorità dottrinale del Canone. Arbitrisce le dispute tra gilde e interpreta la legge.
+FACTION_CORPORAZIONE_CAMERE_DESC,Associazione obbligatoria per chi esercita commercio o professione nel territorio del Canone.
+FACTION_CORPORAZIONE_SPEZIERIE_DESC,Controlla il commercio di spezie ed erbe medicinali nei mercati cittadini.
+FACTION_COLLEGIO_MAESTRI_DESC,Forma e certifica i maestri artigiani. Custode dei saperi tecnici della tradizione.
+FACTION_ORDINE_SIGILLATORI_DESC,Autentica documenti e contratti. Il loro sigillo vale come prova legale nel Canone.
+FACTION_MILIZIA_CAMPANE_DESC,"Forza d'ordine cittadina. Mantiene la pace, esegue arresti e gestisce le taglie sui criminali."
+FACTION_BANCO_TRE_MONETE_DESC,"La più grande istituzione finanziaria del Canone. Gestisce prestiti, cambio valuta e depositi."
+FACTION_ARTE_FERRI_DESC,"Corporazione di fabbri e armaioli. Produce armi, armature e strumenti forgiati al fuoco."
+FACTION_COLLEGIO_CARTOGRAFI_DESC,Mappa e certifica i dungeon esplorabili. Acquista mappe di luoghi sconosciuti.
+FACTION_COMPAGNIA_PONTI_DESC,Costruisce e mantiene strade e ponti. Garantisce la mobilità nel territorio del Canone.
+FACTION_COMPAGNIA_BESTIE_DESC,Alleva e noleggia bestie da soma e da sella. Indispensabile per i viaggi a lunga distanza.
+FACTION_ARTE_TAVOLIERI_DESC,Gestisce taverne e locande. Controlla il commercio di giochi e scommesse nelle città.
+FACTION_FRATELLANZA_MANTELLO_DESC,Rete di esploratori e guide. Conoscono sentieri nascosti e passaggi oltre i confini ufficiali.
+FACTION_CONGREGAZIONE_OFFICINE_DESC,Alchimisti e cerusici. Mantengono ambulatori nelle città e curano i feriti di guerra.
+FACTION_CONFRATERNITA_STRADA_DESC,Associazione di pellegrini e viandanti. Gestisce rifugi e ospizi lungo le rotte principali.
+FACTION_SORELLE_SALE_DESC,Custodi delle saline e del commercio del sale. Il sale è moneta antica — loro lo sanno bene.
+FACTION_BECCHINI_CANONE_DESC,Seppelliscono i morti e gestiscono i cimiteri. Conoscono i segreti che i vivi preferiscono tacere.
+FACTION_MANO_CAMPI_DESC,Rappresenta i lavoratori dei campi. Difende i contadini dalle angherie di nobili e mercanti.
+FACTION_CACCIATORI_ROGNA_DESC,Specialisti nell'eliminazione di infestazioni. Pagati per ogni minaccia eliminata nelle profondità.
+FACTION_CORRIERI_SIGILLO_DESC,"Trasportano messaggi e merci preziose per il Canone. Veloci, discreti e affidabili."
+FACTION_TAVOLA_SENZA_NOME_DESC,Non esiste ufficialmente. Gestisce informazioni e segreti che nessuno vuole ammettere di conoscere.
+FACTION_SIGNORIA_ALMERICI_NAME,Signoria degli Almerici
+FACTION_SIGNORIA_BELLANDI_NAME,Signoria dei Bellandi
+FACTION_SIGNORIA_CASTREVANI_NAME,Signoria dei Castrevani
+FACTION_SIGNORIA_DORALDI_NAME,Signoria dei Doraldi
+FACTION_SIGNORIA_GUIDALOTTI_NAME,Signoria dei Guidalotti
+FACTION_SIGNORIA_MALCORVI_NAME,Signoria dei Malcorvi
+FACTION_SIGNORIA_MONTELUPI_NAME,Signoria dei Montelupi
+FACTION_SIGNORIA_RANUCCI_NAME,Signoria dei Ranucci
+FACTION_SIGNORIA_VALDAMERI_NAME,Signoria dei Valdameri
+FACTION_SIGNORIA_VALTIERI_NAME,Signoria dei Valtieri
+FACTION_SIGNORIA_ALMERICI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_BELLANDI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_CASTREVANI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_DORALDI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_GUIDALOTTI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_MALCORVI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_MONTELUPI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_RANUCCI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_VALDAMERI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_SIGNORIA_VALTIERI_DESC,Casata nobiliare del Canone. Controlla territori e influenza politica nella propria sfera.
+FACTION_NON_MORTI_NAME,Non Morti
+FACTION_DEMONI_NAME,Demoni
+FACTION_BESTIE_NAME,Bestie
+FACTION_DRAGHI_NAME,Draghi
+FACTION_FUORILEGGE_NAME,Fuorilegge
+FACTION_ABERRAZIONI_NAME,Aberrazioni
+FACTION_COSTRUTTI_NAME,Costrutti
+FACTION_NATURA_NAME,Natura
+FACTION_NON_MORTI_DESC,Creature revenanti che animano le oscure profondità dei dungeon.
+FACTION_DEMONI_DESC,Entità di pura malevolenza provenienti dagli abissi. Combattono qualunque cosa incontrano.
+FACTION_BESTIE_DESC,Creature selvagge e predatori. Aggrediscono per istinto non per odio.
+FACTION_DRAGHI_DESC,Signori alati del cielo e della roccia. Antichi e crudeli — tollerano raramente intrusi.
+FACTION_FUORILEGGE_DESC,Banditi e rinnegati che operano ai margini della legge e della civiltà.
+FACTION_ABERRAZIONI_DESC,Forme di vita distorte da energie caotiche. La loro sola presenza corrode la realtà.
+FACTION_COSTRUTTI_DESC,Macchine da guerra animate da meccanismi e magie dimenticate. Non conoscono tregua.
+FACTION_NATURA_DESC,La forza primordiale della natura. Né buona né malvagia — semplicemente selvaggia.
+FACTION_STATE_ENEMY_SWORN,Nemico Giurato
+FACTION_STATE_HOSTILE,Ostile
+FACTION_STATE_NEUTRAL,Neutrale
+FACTION_STATE_FRIENDLY,Amico
+FACTION_STATE_ALLIED,Alleato
+FACTION_STATE_TRUSTED,Fidato
+CRIME_ASSAULT,Aggressione
+CRIME_MURDER,Omicidio
+CRIME_THEFT,Furto
+CRIME_TRESPASSING,Violazione di Proprietà
+CRIME_ILLEGAL_MAGIC,Magia Illegale
+CRIME_INTIMIDATION,Intimidazione
+CRIME_SMUGGLING,Contrabbando
+CRIME_BRIBERY,Corruzione
+FACTION_CORPORAZIONE_CAMERE_RANK_0,Iscritto
+FACTION_CORPORAZIONE_CAMERE_RANK_1,Patentato
+FACTION_CORPORAZIONE_CAMERE_RANK_2,Condottiero
+FACTION_CORPORAZIONE_CAMERE_RANK_3,Condottiero Anziano
+FACTION_CORPORAZIONE_CAMERE_RANK_4,Referente di Condotta
+FACTION_CORPORAZIONE_CAMERE_RANK_5,Gran Condottiero
+FACTION_CACCIATORI_ROGNA_RANK_0,Apprendista Cacciatore
+FACTION_CACCIATORI_ROGNA_RANK_1,Cacciatore
+FACTION_CACCIATORI_ROGNA_RANK_2,Cacciatore Esperto
+FACTION_CACCIATORI_ROGNA_RANK_3,Cacciatore Veterano
+FACTION_CACCIATORI_ROGNA_RANK_4,Maestro Cacciatore
+FACTION_CACCIATORI_ROGNA_RANK_5,Gran Cacciatore
+FACTION_COLLEGIO_CARTOGRAFI_RANK_0,Apprendista Cartografo
+FACTION_COLLEGIO_CARTOGRAFI_RANK_1,Cartografo
+FACTION_COLLEGIO_CARTOGRAFI_RANK_2,Cartografo Esperto
+FACTION_COLLEGIO_CARTOGRAFI_RANK_3,Maestro Cartografo
+FACTION_COLLEGIO_CARTOGRAFI_RANK_4,Primo Cartografo
+FACTION_COLLEGIO_CARTOGRAFI_RANK_5,Gran Cartografo
+FACTION_COMPAGNIA_PONTI_RANK_0,Associato
+FACTION_COMPAGNIA_PONTI_RANK_1,Guardiano di Strada
+FACTION_COMPAGNIA_PONTI_RANK_2,Guardiano Esperto
+FACTION_COMPAGNIA_PONTI_RANK_3,Ispettore Stradale
+FACTION_COMPAGNIA_PONTI_RANK_4,Ingegnere dei Ponti
+FACTION_COMPAGNIA_PONTI_RANK_5,Gran Maestro delle Strade
+FACTION_CORRIERI_SIGILLO_RANK_0,Staffetta
+FACTION_CORRIERI_SIGILLO_RANK_1,Corriere
+FACTION_CORRIERI_SIGILLO_RANK_2,Corriere Esperto
+FACTION_CORRIERI_SIGILLO_RANK_3,Primo Corriere
+FACTION_CORRIERI_SIGILLO_RANK_4,Corriere d'Élite
+FACTION_CORRIERI_SIGILLO_RANK_5,Gran Corriere di Sigillo
+FACTION_CONGREGAZIONE_OFFICINE_RANK_0,Assistente
+FACTION_CONGREGAZIONE_OFFICINE_RANK_1,Praticante
+FACTION_CONGREGAZIONE_OFFICINE_RANK_2,Officinale
+FACTION_CONGREGAZIONE_OFFICINE_RANK_3,Officinale Esperto
+FACTION_CONGREGAZIONE_OFFICINE_RANK_4,Maestro Officinale
+FACTION_CONGREGAZIONE_OFFICINE_RANK_5,Gran Maestro delle Officine
+FACTION_TAVOLA_SENZA_NOME_RANK_0,Contatto
+FACTION_TAVOLA_SENZA_NOME_RANK_1,Agente
+FACTION_TAVOLA_SENZA_NOME_RANK_2,Ombra
+FACTION_TAVOLA_SENZA_NOME_RANK_3,Ombra Esperta
+FACTION_TAVOLA_SENZA_NOME_RANK_4,Maestro dell'Ombra
+FACTION_TAVOLA_SENZA_NOME_RANK_5,Capotavola
+PASSIVE_PATENTE_DI_CONDOTTA_NAME,Patente di Condotta
+PASSIVE_PATENTE_DI_CONDOTTA_DESC,Accesso ai mercati regolamentati del Canone. Riduce i costi di transazione con mercanti affiliati.
+PASSIVE_BESTIARI_DELLA_ROGNA_NAME,Bestiari della Rogna
+PASSIVE_BESTIARI_DELLA_ROGNA_DESC,Conoscenza delle creature infestate. Bonus al combattimento contro mostri classificati come Rogna.
+PASSIVE_SENSO_CARTOGRAFICO_NAME,Senso Cartografico
+PASSIVE_SENSO_CARTOGRAFICO_DESC,Riconoscimento automatico delle aree già mappate. I dungeon registrati rivelano la loro struttura.
+PASSIVE_DIRITTO_DI_STRADA_NAME,Diritto di Strada
+PASSIVE_DIRITTO_DI_STRADA_DESC,Utilizzo gratuito delle stazioni di posta. Bonus alla velocità di movimento sulle strade del Canone.
+PASSIVE_PORTATORE_DI_SIGILLO_NAME,Portatore di Sigillo
+PASSIVE_PORTATORE_DI_SIGILLO_DESC,Il sigillo apre porte e facilita i passaggi. Bonus alla reputazione con le fazioni alleate ai Corrieri.
+PASSIVE_ARTE_DELLA_GUARIGIONE_NAME,Arte della Guarigione
+PASSIVE_ARTE_DELLA_GUARIGIONE_DESC,Conoscenze mediche avanzate. Gli ambulatori della Congregazione offrono cure a prezzo ridotto.
+PASSIVE_RETE_OSCURA_NAME,Rete Oscura
+PASSIVE_RETE_OSCURA_DESC,"Accesso alla rete informativa della Tavola. Prezzi ridotti al mercato nero e accesso a contratti segreti."

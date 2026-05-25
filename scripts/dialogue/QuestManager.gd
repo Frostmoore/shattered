@@ -44,6 +44,13 @@ func start_quest(quest_id: String) -> void:
 	EventBus.quest_started.emit(quest_id)
 	var q: Dictionary = _quests.get(quest_id, {})
 	EventBus.notification_shown.emit(Notification.quest_started(q.get("title", quest_id)))
+	var raw_obj_check: Variant = q.get("objectives", [])
+	if (raw_obj_check is Array) and (raw_obj_check as Array).is_empty():
+		var mode_check: String = q.get("completion_mode", "auto")
+		if mode_check == "turn_in":
+			_mark_ready(quest_id)
+		else:
+			_complete_quest(quest_id)
 
 
 func get_quest_data(quest_id: String) -> Dictionary:
@@ -113,14 +120,33 @@ func _complete_quest(quest_id: String) -> void:
 
 	var quest: Dictionary = _quests.get(quest_id, {})
 	var rewards: Dictionary = quest.get("rewards", {})
+
+	# join first so faction passives are active when XP/gold bonuses are calculated
+	var join_id: Variant = rewards.get("join_faction")
+	if join_id is String and str(join_id) != "":
+		FactionMembership.join_faction(str(join_id))
+
 	if rewards.has("xp"):
-		LevelSystem.add_xp(int(rewards["xp"]))
-	if rewards.has("gold"):
-		GameState.modify_gold(int(rewards["gold"]))
+		LevelSystem.add_xp(int(rewards["xp"]), "quest")
+	if rewards.has("gold") and int(rewards.get("gold", 0)) > 0:
+		var base_gold: int  = int(rewards["gold"])
+		var gmult: float    = FactionEffects.get_gold_multiplier("quest")
+		GameState.modify_gold(roundi(float(base_gold) * gmult) if gmult != 1.0 else base_gold)
 	var raw_items: Variant = rewards.get("items", [])
 	if raw_items is Array:
 		for item_id: Variant in (raw_items as Array):
 			Inventory.add_item(str(item_id))
+
+	var raw_rep: Variant = rewards.get("faction_rep", [])
+	if raw_rep is Array:
+		for entry: Variant in (raw_rep as Array):
+			if not entry is Dictionary:
+				continue
+			var e: Dictionary = entry as Dictionary
+			var fid: String   = str(e.get("faction_id", ""))
+			var amt: int      = int(e.get("amount", 0))
+			if fid != "" and amt != 0:
+				FactionReputation.add_rep(fid, amt, "quest_reward")
 
 	var flags: Dictionary = quest.get("sets_flags", {})
 	for flag: Variant in flags:

@@ -1,0 +1,29 @@
+{
+	"id": "cacciatori_rogna",
+	"name": "Cacciatori di Rogna",
+	"type": "civil",
+	"tier": "C",
+	"tree": "corporazione_camere",
+	"parent": "corporazione_camere",
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "bestiari_della_rogna",
+	"ranks": [
+		{"rank": 0, "name": "Apprendista Cacciatore"},
+		{"rank": 1, "name": "Cacciatore"},
+		{"rank": 2, "name": "Cacciatore Esperto"},
+		{"rank": 3, "name": "Cacciatore Veterano"},
+		{"rank": 4, "name": "Maestro Cacciatore"},
+		{"rank": 5, "name": "Gran Cacciatore"}
+	],
+	"recognition_item_id": "distintivo_cacciatore",
+	"recognition_slot": "trinket",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 10 },
+	"quirk": {
+		"id": "infestation_jobs",
+		"status": "planned",
+		"depends_on": "npc_ai_system",
+		"implementation_phase": "future"
+	}
+}

@@ -38,6 +38,13 @@ func execute(ctx: Object) -> void:
 					ctx.set("target_multiplier",
 						float(ctx.get("target_multiplier")) * float(edata["dmg_taken_mult"]))
 
+	# Faction passive: cacciatori_rogna attack bonus vs low-tier enemies
+	if player_attacks and ctx.defender != null:
+		var faction_mult: float = FactionEffects.get_attack_mult(ctx.defender)
+		if faction_mult != 1.0:
+			ctx.set("attack_multiplier",
+				float(ctx.get("attack_multiplier")) * faction_mult)
+
 	if bool(ctx.get("instant_kill")):
 		ctx.set("final_damage", ctx.defender.max_hp)
 	else:
@@ -64,6 +71,13 @@ func execute(ctx: Object) -> void:
 		runtime.on_before_damage_apply(ctx)
 	if bool(ctx.get("cancelled")):
 		return
+
+	# ── Step 2.75: guardia — il colpo finale non può uccidere il player ──────
+	if ctx.attacker != null and ctx.attacker.get("is_guard") == true \
+			and ctx.defender.faction == "player":
+		var cur_hp: int = int(GameState.player_stats.get("hp", 1))
+		ctx.set("final_damage",
+			min(int(ctx.get("final_damage")), max(0, cur_hp - CrimeSystem.CRIME_GUARD_MIN_HP)))
 
 	# ── Step 3: applica danno ─────────────────────────────────────────────────
 	ctx.defender.take_damage(int(ctx.get("final_damage")))

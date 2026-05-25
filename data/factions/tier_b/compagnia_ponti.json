@@ -1,0 +1,30 @@
+{
+	"id": "compagnia_ponti",
+	"name": "Compagnia dei Ponti e delle Strade",
+	"type": "civil",
+	"tier": "B",
+	"tree": "corporazione_spezierie",
+	"parent": "corporazione_spezierie",
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "diritto_di_strada",
+	"ranks": [
+		{"rank": 0, "name": "Associato"},
+		{"rank": 1, "name": "Guardiano di Strada"},
+		{"rank": 2, "name": "Guardiano Esperto"},
+		{"rank": 3, "name": "Ispettore Stradale"},
+		{"rank": 4, "name": "Ingegnere dei Ponti"},
+		{"rank": 5, "name": "Gran Maestro delle Strade"}
+	],
+	"recognition_item_id": "spilla_strade",
+	"recognition_slot": "neck",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 15, "condition": "has_post_station" },
+	"quirk": {
+		"id": "post_stations",
+		"status": "implemented",
+		"implemented": ["build_post_station", "world_persistent_inject", "hp_restore_on_interact"],
+		"pending": ["npc_ai_usage", "overworld_speed_hook", "toll_discount_hook", "shortcuts"],
+		"implementation_phase": "phase_11"
+	}
+}

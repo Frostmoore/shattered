@@ -6,6 +6,8 @@
 	"color": [0.60, 0.40, 0.25, 1.0],
 
 	"family": "beast",
+	"faction_id": "bestie",
+	"rep_on_kill": -2,
 	"role": "glass_cannon",
 	"tier": 4,
 	"tags": ["melee"],

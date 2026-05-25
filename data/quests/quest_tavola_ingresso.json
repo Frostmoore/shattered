@@ -1,0 +1,25 @@
+{
+  "id": "quest_tavola_ingresso",
+  "title": "Il Lavoro Senza Nome",
+  "description": "Elimina tre fuorilegge che interferiscono con un'operazione non documentata. Non fare domande. Porta la prova a chi ti ha contattato.",
+  "completion_mode": "turn_in",
+  "objectives": [
+    {
+      "type": "kill_enemy",
+      "target_id": "fuorilegge",
+      "required": 3
+    }
+  ],
+  "rewards": {
+    "xp": 90,
+    "gold": 50,
+    "items": ["token_oscuro"],
+    "join_faction": "tavola_senza_nome",
+    "faction_rep": [
+      {"faction_id": "tavola_senza_nome", "amount": 20}
+    ]
+  },
+  "sets_flags": {
+    "tavola_ingresso_completato": true
+  }
+}

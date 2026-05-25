@@ -1,5 +1,4 @@
 keys,it
-# ── Enemy names ───────────────────────────────────────────────────────────────
 ENEMY_ANCIENT_DRAGON_NAME,Drago Antico
 ENEMY_ARCHLICH_NAME,Arcilich
 ENEMY_BANDIT_NAME,Bandito
@@ -30,7 +29,6 @@ ENEMY_VOID_STALKER_NAME,Predatore del Vuoto
 ENEMY_WEREWOLF_NAME,Lupo Mannaro
 ENEMY_WITCH_NAME,Strega
 ENEMY_ZOMBIE_NAME,Zombie
-# ── Enemy roles ───────────────────────────────────────────────────────────────
 ENEMY_ROLE_ASSASSIN,Assassino
 ENEMY_ROLE_BRUTE,Bruto
 ENEMY_ROLE_CONTROLLER,Controllore
@@ -39,7 +37,6 @@ ENEMY_ROLE_SKIRMISHER,Schermagliatore
 ENEMY_ROLE_SOLDIER,Soldato
 ENEMY_ROLE_SWARM,Sciame
 ENEMY_ROLE_TANK,Tank
-# ── Enemy affix prefixes (nemici) ─────────────────────────────────────────────
 ENEMY_AFFIX_ARMORED_PREFIX,Corazzato
 ENEMY_AFFIX_BERSERKER_PREFIX,Berserker
 ENEMY_AFFIX_ENRAGED_PREFIX,Infuriato

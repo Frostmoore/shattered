@@ -140,7 +140,13 @@ func _try_move(dir: Vector2i) -> void:
 			CombatManager.attack(self, entity_at)
 			_action_done()
 			return
-		# Blocking entity (closed door, NPC, etc.) — use interact key to open/use
+		if entity_at.get("npc_id") != null:
+			var has_amuleto: bool = Equipment.is_equipped("amuleto_del_sangue")
+			CombatManager.attack(self, entity_at)
+			if has_amuleto:
+				_action_done()
+			return
+		# Blocking entity (closed door, etc.) — use interact key to open/use
 		if entity_at.is_blocking:
 			return
 
@@ -217,6 +223,7 @@ func _use_save_point() -> void:
 			GameState.player_stats["mp"]      = int(GameState.player_stats["max_mp"])
 			GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 			EventBus.player_stats_changed.emit()
+			FactionEconomy.on_rest()
 			SaveManager.save_game(),
 		func() -> void:
 			EventBus.save_point_used.emit()

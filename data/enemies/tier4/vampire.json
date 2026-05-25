@@ -6,6 +6,8 @@
 	"color": [0.78, 0.05, 0.15, 1.0],
 
 	"family": "undead",
+	"faction_id": "non_morti",
+	"rep_on_kill": -2,
 	"role": "assassin",
 	"tier": 4,
 	"tags": ["melee", "undead"],

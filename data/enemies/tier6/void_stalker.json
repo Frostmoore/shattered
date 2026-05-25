@@ -6,6 +6,8 @@
 	"color": [0.18, 0.00, 0.56, 1.0],
 
 	"family": "aberration",
+	"faction_id": "aberrazioni",
+	"rep_on_kill": -1,
 	"role": "assassin",
 	"tier": 6,
 	"tags": ["melee"],

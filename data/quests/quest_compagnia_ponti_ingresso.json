@@ -1,0 +1,20 @@
+{
+  "id": "quest_compagnia_ponti_ingresso",
+  "title": "Associazione alla Compagnia",
+  "description": "Registrati presso l'ufficio locale della Compagnia dei Ponti e delle Strade per ottenere i diritti di viaggio agevolato.",
+  "completion_mode": "turn_in",
+  "objectives": [],
+  "rewards": {
+    "xp": 40,
+    "gold": 0,
+    "items": ["spilla_strade"],
+    "join_faction": "compagnia_ponti",
+    "faction_rep": [
+      {"faction_id": "compagnia_ponti", "amount": 10},
+      {"faction_id": "corporazione_spezierie", "amount": 3}
+    ]
+  },
+  "sets_flags": {
+    "compagnia_ponti_ingresso_completato": true
+  }
+}

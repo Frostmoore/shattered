@@ -3,8 +3,19 @@ extends Node
 const CTX_SCRIPT:   String = "res://scripts/combat/DamageContext.gd"
 const FLOAT_SCRIPT: String = "res://scripts/ui/FloatingText.gd"
 
+var _float_spawn_count: int = 0
+
 
 func attack(attacker: Entity, defender: Entity) -> void:
+	# Gate: player attacking an NPC requires Amuleto del Sangue
+	if attacker.faction == "player" and defender.get("npc_id") != null:
+		if not _can_attack_npc():
+			EventBus.notification_shown.emit(Notification.warning(
+				LocaleManager.t_or("WARN_NEED_AMULETO", "Serve l'Amuleto del Sangue per attaccare un civile.")))
+			return
+		CrimeSystem.track_attacked_npc(defender)
+		_check_and_register_crime()
+
 	var hit := _calc_hit(attacker, defender)
 	if randf() > hit["chance"]:
 		if hit["is_dodge"]:
@@ -26,10 +37,14 @@ func attack(attacker: Entity, defender: Entity) -> void:
 		pipeline.execute(ctx)
 	else:
 		var dmg: int = maxi(1, attacker.attack - defender.defense)
+		if attacker.get("is_guard") == true and defender.faction == "player":
+			var cur_hp: int = int(GameState.player_stats.get("hp", 1))
+			dmg = max(0, min(dmg, cur_hp - CrimeSystem.CRIME_GUARD_MIN_HP))
 		defender.take_damage(dmg)
 		EventBus.combat_log.emit("%s colpisce %s per %d danni!" % [
 			attacker.display_name, defender.display_name, dmg])
 		_spawn_float(str(dmg), defender.position, _damage_color(defender), _damage_dir(defender))
+		_check_guard_arrest(attacker, defender)
 		return
 
 	if bool(ctx.get("cancelled")):
@@ -44,6 +59,7 @@ func attack(attacker: Entity, defender: Entity) -> void:
 			EventBus.damage_dealt.emit(final_dmg, "player")
 		if defender.faction == "player":
 			EventBus.damage_taken.emit(final_dmg)
+		_check_guard_arrest(attacker, defender)
 
 
 func _calc_hit(attacker: Entity, defender: Entity) -> Dictionary:
@@ -89,6 +105,44 @@ func _spawn_float(text: String, world_pos: Vector2, color: Color, dir_x: float =
 	if scene == null:
 		return
 	var ft: Node2D = load(FLOAT_SCRIPT).new()
-	ft.position = world_pos
+	ft.position = world_pos + Vector2(0.0, -float(_float_spawn_count) * 12.0)
 	scene.add_child(ft)
 	ft.setup(text, color, dir_x)
+	_float_spawn_count += 1
+	if _float_spawn_count == 1:
+		call_deferred("_reset_float_spawn_count")
+
+
+func _reset_float_spawn_count() -> void:
+	_float_spawn_count = 0
+
+
+func _can_attack_npc() -> bool:
+	var equip: Node = get_node_or_null("/root/Equipment")
+	if equip:
+		return bool(equip.call("is_equipped", "amuleto_del_sangue"))
+	for slot_val: Variant in GameState.equipped.values():
+		if str(slot_val) == "amuleto_del_sangue":
+			return true
+	return false
+
+
+func _check_and_register_crime() -> void:
+	var city_id: String = GameState.current_city_id
+	if city_id == "" or CrimeSystem.is_crime_active(city_id):
+		return
+	if CrimeSystem.has_witnesses(GameState.player_position):
+		CrimeSystem.register_crime(city_id)
+
+
+func _check_guard_arrest(attacker: Entity, defender: Entity) -> void:
+	if attacker.get("is_guard") != true or defender.faction != "player":
+		return
+	var hp: int = int(GameState.player_stats.get("hp", 0))
+	if hp > CrimeSystem.CRIME_GUARD_MIN_HP:
+		return
+	GameState.player_stats["hp"] = CrimeSystem.CRIME_GUARD_MIN_HP
+	EventBus.player_stats_changed.emit()
+	var city_id: String = GameState.current_city_id
+	if city_id != "" and CrimeSystem.is_crime_active(city_id):
+		CrimeSystem.arrest_player(city_id)

@@ -1,0 +1,24 @@
+{
+	"id": "corporazione_camere",
+	"name": "Corporazione delle Camere di Condotta",
+	"type": "civil",
+	"tier": "A",
+	"tree": "corporazione_camere",
+	"parent": null,
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "patente_di_condotta",
+	"ranks": [
+		{"rank": 0, "name": "Iscritto"},
+		{"rank": 1, "name": "Patentato"},
+		{"rank": 2, "name": "Condottiero"},
+		{"rank": 3, "name": "Condottiero Anziano"},
+		{"rank": 4, "name": "Referente di Condotta"},
+		{"rank": 5, "name": "Gran Condottiero"}
+	],
+	"recognition_item_id": "patente_condotta",
+	"recognition_slot": "neck",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 25 },
+	"quirk": null
+}

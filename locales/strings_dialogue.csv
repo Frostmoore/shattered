@@ -1,22 +1,8 @@
 keys,it
-# Dialogue strings.
-# Ogni linea di dialogo ha la propria chiave nel formato:
-#   DIALOGUE_{NPC_ID}_{LINEA}
-#
-# Le chiavi vengono referenziate dai file JSON in data/dialogues/
-# tramite il campo "text_key" invece del campo "text" inline.
-#
-# Esempio (data/dialogues/villager_01.json):
-#   { "id": "villager_intro", "speaker": "Villico", "text_key": "DIALOGUE_VILLAGER_01_INTRO" }
-#
-# Aggiungere le chiavi qui man mano che si scrivono i dialoghi.
-# ─────────────────────────────────────────────────────────────────────────────
-# ── System / generic dialogue strings ────────────────────────────────────────
 DIALOGUE_SPEAKER_UNKNOWN,???
 DIALOGUE_NO_TEXT,[...]
 DIALOGUE_CONTINUE_HINT,[E / Spazio per continuare]
 DIALOGUE_CHOICE_HINT,[↑↓ per scegliere  E per confermare]
-# ── Generic NPC idle lines ────────────────────────────────────────────────────
 DIALOGUE_IDLE_GENERIC_01,Non ho nulla da dirti.
 DIALOGUE_IDLE_GENERIC_02,Buona fortuna, avventuriero.
 DIALOGUE_IDLE_GENERIC_03,Stai attento là fuori.

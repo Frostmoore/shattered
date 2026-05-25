@@ -1,0 +1,14 @@
+{
+	"id": "signoria_ranucci",
+	"name": "Signoria dei Ranucci",
+	"type": "signoria",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"bloc": "canonico_agrario",
+	"bloc_role": "client",
+	"bloc_patron": "signoria_almerici",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

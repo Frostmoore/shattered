@@ -6,6 +6,8 @@
 	"color": [0.92, 0.14, 0.05, 1.0],
 
 	"family": "demon",
+	"faction_id": "demoni",
+	"rep_on_kill": -3,
 	"role": "brute",
 	"tier": 5,
 	"tags": ["melee", "flying"],

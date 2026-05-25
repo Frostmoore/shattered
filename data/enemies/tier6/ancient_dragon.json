@@ -6,6 +6,8 @@
 	"color": [0.92, 0.36, 0.00, 1.0],
 
 	"family": "dragon",
+	"faction_id": "draghi",
+	"rep_on_kill": -5,
 	"role": "brute",
 	"tier": 6,
 	"tags": ["melee", "flying", "large"],

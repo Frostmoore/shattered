@@ -1,0 +1,29 @@
+{
+	"id": "tavola_senza_nome",
+	"name": "Tavola Senza Nome",
+	"type": "civil",
+	"tier": "C",
+	"tree": null,
+	"parent": null,
+	"joinable": true,
+	"supporter_eligible": false,
+	"default_rep": 0,
+	"join_passive": "rete_oscura",
+	"ranks": [
+		{"rank": 0, "name": "Contatto"},
+		{"rank": 1, "name": "Agente"},
+		{"rank": 2, "name": "Ombra"},
+		{"rank": 3, "name": "Ombra Esperta"},
+		{"rank": 4, "name": "Maestro dell'Ombra"},
+		{"rank": 5, "name": "Capotavola"}
+	],
+	"recognition_item_id": "token_oscuro",
+	"recognition_slot": "trinket",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 20 },
+	"quirk": {
+		"id": "crime_mechanics",
+		"status": "planned",
+		"depends_on": "plan_crime_system",
+		"implementation_phase": "phase_12"
+	}
+}

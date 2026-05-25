@@ -33,7 +33,10 @@ func change_map(location_id: String, spawn_position: Vector2i) -> void:
 	GameState.player_position = spawn_position
 
 	var data: MapData       = LocationRegistry.get_or_generate(location_id)
+	GameState.current_location_faction_id = str(data.metadata.get("signoria", ""))
 	var state: LocationState = LocationRegistry.get_state(location_id)
+
+	_update_city_id(location_id, data)
 
 	var scene_path: String = TYPE_SCENES.get(data.type, "")
 	if scene_path == "":
@@ -47,6 +50,32 @@ func change_map(location_id: String, spawn_position: Vector2i) -> void:
 	_map_container.add_child(_current_map_node)
 
 	EventBus.map_changed.emit(location_id)
+
+
+func _update_city_id(location_id: String, data: MapData) -> void:
+	match data.type:
+		"village", "city":
+			var prev_city: String = GameState.current_city_id
+			if prev_city != "" and prev_city != location_id:
+				_on_leave_city(prev_city)
+			GameState.current_city_id = location_id
+			if CrimeSystem.is_crime_active(location_id):
+				CrimeSystem.spawn_guards_debug(CrimeSystem.CRIME_GUARD_COUNT)
+		"building":
+			var meta_city: String = str(data.metadata.get("city_id", ""))
+			if meta_city != "":
+				GameState.current_city_id = meta_city
+			# Otherwise keep existing city_id (building is inside current city)
+		"dungeon", "overworld", _:
+			var prev_city: String = GameState.current_city_id
+			if prev_city != "":
+				_on_leave_city(prev_city)
+			GameState.current_city_id = ""
+
+
+func _on_leave_city(city_id: String) -> void:
+	if CrimeSystem.is_crime_active(city_id):
+		CrimeSystem.apply_post_crime_rep_on_flee()
 
 
 func discard_current_map() -> void:

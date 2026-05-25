@@ -1,0 +1,11 @@
+{
+	"id": "milizia_campane",
+	"name": "Milizia delle Campane",
+	"type": "civil",
+	"tier": "B",
+	"tree": "cattedra_canone",
+	"parent": "cattedra_canone",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

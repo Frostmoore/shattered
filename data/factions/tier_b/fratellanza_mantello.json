@@ -1,0 +1,11 @@
+{
+	"id": "fratellanza_mantello",
+	"name": "Fratellanza del Mantello Grigio",
+	"type": "civil",
+	"tier": "B",
+	"tree": "corporazione_camere",
+	"parent": "corporazione_camere",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

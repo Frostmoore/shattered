@@ -1,0 +1,26 @@
+{
+  "id": "quest_cacciatori_ingresso",
+  "title": "Prima Infestazione",
+  "description": "I Cacciatori di Rogna chiedono la prova: elimina cinque bestie nell'area e porta il referto al responsabile locale.",
+  "completion_mode": "turn_in",
+  "objectives": [
+    {
+      "type": "kill_enemy",
+      "target_id": "bestia",
+      "required": 5
+    }
+  ],
+  "rewards": {
+    "xp": 100,
+    "gold": 25,
+    "items": ["distintivo_cacciatore"],
+    "join_faction": "cacciatori_rogna",
+    "faction_rep": [
+      {"faction_id": "cacciatori_rogna", "amount": 15},
+      {"faction_id": "corporazione_camere", "amount": 5}
+    ]
+  },
+  "sets_flags": {
+    "cacciatori_ingresso_completato": true
+  }
+}

@@ -1,0 +1,11 @@
+{
+	"id": "collegio_maestri",
+	"name": "Collegio dei Maestri Canonici",
+	"type": "civil",
+	"tier": "A",
+	"tree": "cattedra_canone",
+	"parent": "cattedra_canone",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

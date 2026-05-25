@@ -15,8 +15,9 @@ extends Node
 var _game_started: bool = false
 var _options_from_main_menu: bool = false
 
-var _class_picker: Node   = null
-var _respec_screen: Node  = null
+var _class_picker:    Node = null
+var _respec_screen:   Node = null
+var _faction_screen:  Node = null
 var _pending_world: String = ""
 var _pending_char: String  = ""
 var _pending_pd: bool      = false
@@ -27,6 +28,7 @@ func _ready() -> void:
 	hud.visible = false
 	_setup_class_picker()
 	_setup_respec_screen()
+	_setup_faction_screen()
 	_setup_targeting_overlay()
 	_setup_enemy_tooltip()
 	_connect_menus()
@@ -51,6 +53,17 @@ func _on_respec_confirmed(class_id: String) -> void:
 	var svc: Node = get_node_or_null("/root/ClassRespecService")
 	if svc:
 		svc.call("respec", class_id)
+
+
+func _setup_faction_screen() -> void:
+	_faction_screen = load("res://scripts/ui/FactionScreen.gd").new()
+	add_child(_faction_screen)
+	pause_menu.faction_screen_requested.connect(_open_faction_screen)
+
+
+func _open_faction_screen() -> void:
+	pause_menu.hide_panel()
+	_faction_screen.open()
 
 
 func _setup_targeting_overlay() -> void:
@@ -124,6 +137,26 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				_open_quest_journal()
 			get_viewport().set_input_as_handled()
+		if ke.keycode == KEY_G and ke.is_pressed() and not ke.is_echo():
+			if _faction_screen and _faction_screen.visible:
+				_faction_screen.close()
+			else:
+				_open_faction_screen()
+			get_viewport().set_input_as_handled()
+		# Faction world actions — F5/F6/F7 (also triggerable via NPC dialogue)
+		if ke.is_pressed() and not ke.is_echo():
+			var fas: Node = get_node_or_null("/root/FactionActionsService")
+			if fas != null:
+				match ke.keycode:
+					KEY_F5:
+						fas.call("try_deposit_map")
+						get_viewport().set_input_as_handled()
+					KEY_F6:
+						fas.call("try_build_post_station")
+						get_viewport().set_input_as_handled()
+					KEY_F7:
+						fas.call("try_open_ambulatorio")
+						get_viewport().set_input_as_handled()
 
 
 func _show_new_game_panel() -> void:
@@ -229,6 +262,8 @@ func _go_to_main_menu() -> void:
 	_game_started = false
 	pause_menu.visible = false
 	quest_journal.visible = false
+	if _faction_screen:
+		_faction_screen.visible = false
 	game_over.hide_panel()
 	hud.visible = false
 	combat_bar.visible = false
@@ -308,6 +343,9 @@ func _reset_game_state(world_name: String, char_name: String, permadeath: bool =
 		"cloak": "", "trinket": "", "hands": ""
 	}
 	GameState.quick_slots      = ["", "", ""]
+	FactionReputation.initialize_for_new_game()
+	FactionMembership.initialize_for_new_game()
+	CrimeSystem.initialize_for_new_game()
 	Inventory.add_item("rusty_sword",    1, false)
 	Inventory.add_item("leather_armor",  1, false)
 	Inventory.add_item("leather_helm",   1, false)

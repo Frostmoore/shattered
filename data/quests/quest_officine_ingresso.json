@@ -1,0 +1,20 @@
+{
+  "id": "quest_officine_ingresso",
+  "title": "Giuramento dell'Officinale",
+  "description": "Assisti un Maestro Officinale durante una seduta e presta giuramento. La Congregazione ti riconoscerà come membro associato.",
+  "completion_mode": "turn_in",
+  "objectives": [],
+  "rewards": {
+    "xp": 50,
+    "gold": 0,
+    "items": ["fascia_officine"],
+    "join_faction": "congregazione_officine",
+    "faction_rep": [
+      {"faction_id": "congregazione_officine", "amount": 15},
+      {"faction_id": "cattedra_canone", "amount": 3}
+    ]
+  },
+  "sets_flags": {
+    "officine_ingresso_completato": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+	"id": "collegio_cartografi",
+	"name": "Collegio dei Cartografi",
+	"type": "civil",
+	"tier": "B",
+	"tree": "corporazione_camere",
+	"parent": "corporazione_camere",
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "senso_cartografico",
+	"ranks": [
+		{"rank": 0, "name": "Apprendista Cartografo"},
+		{"rank": 1, "name": "Cartografo"},
+		{"rank": 2, "name": "Cartografo Esperto"},
+		{"rank": 3, "name": "Maestro Cartografo"},
+		{"rank": 4, "name": "Primo Cartografo"},
+		{"rank": 5, "name": "Gran Cartografo"}
+	],
+	"recognition_item_id": "borsa_mappe",
+	"recognition_slot": "cloak",
+	"tax_system": { "status": "implemented", "type": "per_action", "rate": 0.20, "trigger": "map_deposit" },
+	"quirk": {
+		"id": "map_system",
+		"status": "partial",
+		"implemented": ["map_deposit_world_persistent", "fov_bypass_registered_maps"],
+		"pending": ["fov_bonus_hook", "map_purchase_npc", "map_types_personal_purchased"],
+		"depends_on": "visibility_system",
+		"implementation_phase": "future"
+	}
+}

@@ -1,0 +1,18 @@
+{
+  "id": "trofeo_bestia",
+  "name": "Trofeo di Bestia",
+  "gender": "m",
+  "icon": "%",
+  "item_category": "accessory",
+  "item_type": "trinket",
+  "slot": "trinket",
+  "tier": 1,
+  "min_level": 1,
+  "max_level": 20,
+  "base_stats": {
+    "attack_bonus": 2
+  },
+  "requirements": {},
+  "scalable": false,
+  "loot_weight": 0
+}

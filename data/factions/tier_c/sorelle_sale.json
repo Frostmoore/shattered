@@ -1,0 +1,11 @@
+{
+	"id": "sorelle_sale",
+	"name": "Sorelle del Sale",
+	"type": "civil",
+	"tier": "C",
+	"tree": "cattedra_canone",
+	"parent": "congregazione_officine",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

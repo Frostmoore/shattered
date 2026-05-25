@@ -23,16 +23,49 @@ class_name StatusScreen
 
 var _class_label:   Label
 var _special_label: Label
+var _crime_status_label: Label
+var _crime_record_label: Label
 
 
 func _ready() -> void:
 	visible = false
 	_setup_bar_colors()
 	_setup_class_section()
+	_setup_crime_section()
 	EventBus.toggle_status_screen.connect(_on_toggle)
 	EventBus.player_stats_changed.connect(_on_stats_changed)
 	EventBus.equipment_changed.connect(_on_stats_changed)
 	EventBus.player_leveled_up.connect(_on_stats_changed)
+	EventBus.player_arrested.connect(_on_stats_changed)
+	EventBus.crime_committed.connect(_on_stats_changed)
+	EventBus.crime_cleared.connect(_on_stats_changed)
+
+
+func _setup_crime_section() -> void:
+	var vbox: VBoxContainer = $Panel/Margin/VBox
+
+	var header := Label.new()
+	header.text = "STATO LEGALE"
+	header.add_theme_font_size_override("font_size", 11)
+	header.modulate = Color(0.7, 0.7, 0.7)
+	vbox.add_child(header)
+
+	_crime_status_label = Label.new()
+	_crime_status_label.add_theme_font_size_override("font_size", 11)
+	vbox.add_child(_crime_status_label)
+
+	_crime_record_label = Label.new()
+	_crime_record_label.add_theme_font_size_override("font_size", 9)
+	_crime_record_label.add_theme_color_override("font_color", Color(0.65, 0.65, 0.65))
+	_crime_record_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	vbox.add_child(_crime_record_label)
+
+	var close_hint: Node = vbox.get_node_or_null("CloseHint")
+	if close_hint:
+		var idx: int = close_hint.get_index()
+		vbox.move_child(header, idx)
+		vbox.move_child(_crime_status_label, idx + 1)
+		vbox.move_child(_crime_record_label, idx + 2)
 
 
 func _setup_class_section() -> void:
@@ -133,6 +166,33 @@ func _refresh() -> void:
 		_xp_val.text = LocaleManager.t("UI_STATUS_MAX_LEVEL")
 	else:
 		_xp_val.text = LocaleManager.t("UI_STATUS_XP", {"current": GameState.xp, "max": xp_next})
+
+	_refresh_crime_section()
+
+
+func _refresh_crime_section() -> void:
+	if _crime_status_label == null:
+		return
+	var city_id: String = GameState.current_city_id
+	var is_wanted: bool = city_id != "" and CrimeSystem.is_crime_active(city_id)
+	if is_wanted:
+		_crime_status_label.text = LocaleManager.t_or("UI_STATUS_WANTED", "Ricercato in questa città")
+		_crime_status_label.add_theme_color_override("font_color", Color(0.9, 0.3, 0.25))
+	else:
+		_crime_status_label.text = LocaleManager.t_or("UI_STATUS_CLEAN", "Nessun mandato attivo")
+		_crime_status_label.add_theme_color_override("font_color", Color(0.45, 0.85, 0.45))
+
+	var record: Array = CrimeSystem.get_criminal_record()
+	if record.is_empty():
+		_crime_record_label.text = LocaleManager.t_or("UI_STATUS_CLEAN_RECORD", "Fedina penale: pulita")
+	else:
+		var lines: Array[String] = [LocaleManager.t_or("UI_STATUS_ARREST_HEADER", "Arresti precedenti:")]
+		for entry: Variant in record:
+			var e: Dictionary = entry as Dictionary
+			lines.append("  • " + LocaleManager.t_or("UI_STATUS_ARREST_ENTRY",
+				str(e.get("city_name", e.get("city_id", "?"))),
+				{"city": str(e.get("city_name", e.get("city_id", "?")))}))
+		_crime_record_label.text = "\n".join(lines)
 
 
 func _build_tooltip(breakdown: Array, stat_name: String) -> String:

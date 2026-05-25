@@ -94,6 +94,13 @@ func populate(data: MapData, state: LocationState) -> void:
 		else:
 			_spawn_entity(def, uid, open_door_uids)
 
+	# FOV bypass: if this dungeon floor has been deposited by a Cartografi member,
+	# reveal the entire floor for all future characters (world-persistent).
+	if WorldState.has_registered_map(map_id):
+		_seen_tiles.fill(1)
+
+	_inject_world_persistent_entities()
+
 
 func _spawn_entity(def: Dictionary, uid: String, open_door_uids: Array[String] = []) -> void:
 	var kind: String       = def.get("kind", "")
@@ -129,8 +136,50 @@ func _spawn_entity(def: Dictionary, uid: String, open_door_uids: Array[String] =
 			chest.setup(params)
 			_add_entity(chest, pos, uid)
 
+		"post_station":
+			var ps: Node = (load("res://scripts/entities/PostStation.gd") as GDScript).new()
+			ps.call("setup", params)
+			_add_entity(ps, pos, uid)
+
+		"ambulatorio":
+			var amb: Node = (load("res://scripts/entities/Ambulatorio.gd") as GDScript).new()
+			amb.call("setup", params)
+			_add_entity(amb, pos, uid)
+
 		_:
 			push_error("BaseMap: unknown entity kind: " + kind)
+
+
+func _inject_world_persistent_entities() -> void:
+	# Post stations placed by Compagnia Ponti members
+	for s_v: Variant in WorldState.get_post_stations_for_map(map_id):
+		var s: Dictionary = s_v as Dictionary
+		var uid: String   = str(s.get("uid", "pstation_%d_%d" % [int(s.get("x", 0)), int(s.get("y", 0))]))
+		if _is_uid_spawned(uid):
+			continue
+		_spawn_entity({
+			"kind":   "post_station",
+			"pos":    {"x": int(s.get("x", 0)), "y": int(s.get("y", 0))},
+			"params": {"uid": uid},
+		}, uid)
+
+	# Ambulatorio opened by Congregazione Officine members
+	if WorldState.has_service(map_id, "ambulatorio"):
+		var uid: String   = "ambulatorio_" + map_id
+		if not _is_uid_spawned(uid):
+			var svc: Dictionary = WorldState.get_service(map_id, "ambulatorio")
+			_spawn_entity({
+				"kind":   "ambulatorio",
+				"pos":    {"x": int(svc.get("x", 5)), "y": int(svc.get("y", 5))},
+				"params": {"uid": uid},
+			}, uid)
+
+
+func _is_uid_spawned(uid: String) -> bool:
+	for v: Variant in _entity_uids.values():
+		if str(v) == uid:
+			return true
+	return false
 
 
 # Save current location state to registry (called by WorldManager before freeing).
@@ -424,6 +473,12 @@ func _is_opaque(pos: Vector2i) -> bool:
 		if e != null and e.get("is_open") != null and not bool(e.get("is_open")):
 			return true
 	return false
+
+
+## Public LOS check for external systems (e.g. CrimeSystem witness detection).
+## Closed doors block LOS; open doors do not.
+func has_line_of_sight(from: Vector2i, to: Vector2i) -> bool:
+	return _has_line_of_sight(from, to)
 
 
 ## Returns 1 if tile is currently in FOV, 0 otherwise.

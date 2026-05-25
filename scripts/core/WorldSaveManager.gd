@@ -123,7 +123,8 @@ func save_world(world_name: String) -> void:
 				"danger_rating": GameState.danger_rating,
 				"budget_curve":  GameState.budget_curve,
 			},
-			"locations": LocationRegistry.serialize_definitions(),
+			"locations":   LocationRegistry.serialize_definitions(),
+			"world_state": WorldState.serialize(),
 		}
 		file.store_string(JSON.stringify(world_data, "\t"))
 		file.close()
@@ -161,6 +162,13 @@ func load_world(world_name: String) -> bool:
 
 	GameState.world_name = world_name
 	LocationRegistry.deserialize_definitions(locations as Dictionary)
+
+	var raw_ws: Variant = world_data.get("world_state", {})
+	if raw_ws is Dictionary:
+		WorldState.deserialize(raw_ws as Dictionary)
+	else:
+		WorldState.reset()
+
 	print("World loaded from ", path)
 	return true
 

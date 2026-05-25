@@ -6,6 +6,8 @@
 	"color": [0.45, 0.30, 0.55, 1.0],
 
 	"family": "beast",
+	"faction_id": "bestie",
+	"rep_on_kill": -2,
 	"role": "skirmisher",
 	"tier": 1,
 	"tags": ["melee"],

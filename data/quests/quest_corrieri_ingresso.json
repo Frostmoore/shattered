@@ -1,0 +1,20 @@
+{
+  "id": "quest_corrieri_ingresso",
+  "title": "La Prima Staffetta",
+  "description": "Supera il test di ammissione dei Corrieri: consegna il dispaccio di prova all'ufficio di smistamento e ricevi il tuo anello di sigillo.",
+  "completion_mode": "turn_in",
+  "objectives": [],
+  "rewards": {
+    "xp": 60,
+    "gold": 15,
+    "items": ["anello_corrieri"],
+    "join_faction": "corrieri_sigillo",
+    "faction_rep": [
+      {"faction_id": "corrieri_sigillo", "amount": 15},
+      {"faction_id": "ordine_sigillatori", "amount": 3}
+    ]
+  },
+  "sets_flags": {
+    "corrieri_ingresso_completato": true
+  }
+}

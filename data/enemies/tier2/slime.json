@@ -6,6 +6,8 @@
 	"color": [0.30, 0.85, 0.40, 1.0],
 
 	"family": "aberration",
+	"faction_id": "aberrazioni",
+	"rep_on_kill": -1,
 	"role": "tank",
 	"tier": 2,
 	"tags": ["melee", "slow"],

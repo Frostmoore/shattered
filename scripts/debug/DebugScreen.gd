@@ -24,11 +24,30 @@ const VALIDATOR_PATHS := {
 	"Classi":       "res://scripts/tools/validators/validate_classes.gd",
 }
 
+const STATE_HEX := {
+	"enemy_sworn": "#d92525",
+	"hostile":     "#d97325",
+	"neutral":     "#aaaaaa",
+	"friendly":    "#66d877",
+	"allied":      "#4db3ff",
+	"trusted":     "#e5cc33",
+}
+
+const JOINABLE_FACTIONS: Array[String] = [
+	"corporazione_camere", "cacciatori_rogna", "collegio_cartografi",
+	"compagnia_ponti", "corrieri_sigillo", "congregazione_officine", "tavola_senza_nome",
+]
+
 var _sections: Dictionary = {}
 var _vbox:     VBoxContainer
 var _timer:    Timer
 var _switcher_current_lbl: Label   # aggiornata da _refresh()
 var _val_result_lbl: RichTextLabel
+
+var _faction_rep_rtl:      RichTextLabel = null
+var _faction_member_rtl:   RichTextLabel = null
+var _faction_rep_opt:      OptionButton  = null
+var _faction_propagate_cb: CheckButton   = null
 
 
 func _ready() -> void:
@@ -55,9 +74,13 @@ func _ready() -> void:
 	_add_section("milestones",       "Milestones")
 	_add_section("respec",           "Respec")
 	_add_section("loot_db",          "LootDB")
+	_add_section("faction_db",       "FactionDB")
+	_add_section("crime",            "CrimeSystem")
 	_build_class_switcher()
 	_build_loot_tools()
 	_build_validation_tools()
+	_build_faction_tools()
+	_build_crime_tools()
 	_refresh()
 
 
@@ -182,7 +205,11 @@ func _refresh() -> void:
 	_update_milestones()
 	_update_respec()
 	_update_loot_db()
+	_update_faction_db()
+	_update_faction_rep_table()
+	_update_faction_member_table()
 	_update_switcher()
+	_update_crime()
 
 
 func _update_sistema() -> void:
@@ -1084,3 +1111,382 @@ func _show_val_results(results: Array) -> void:
 			summary_col, grand_err, grand_warn
 		]
 	_val_result_lbl.text = out.strip_edges()
+
+
+# ── FactionDB ─────────────────────────────────────────────────────────────────
+
+func _update_faction_db() -> void:
+	var s: DebugSection = get_section("faction_db")
+	if not s:
+		return
+	var reg: Node = get_node_or_null("/root/FactionRegistry")
+	if not reg:
+		s.update(["FactionRegistry: non caricato"])
+		return
+	var all: Array = reg.call("get_all_factions")
+	var counts: Dictionary = {}
+	for data: Dictionary in all:
+		var t: String = str(data.get("type", "?"))
+		counts[t] = int(counts.get(t, 0)) + 1
+	var lines: Array[String] = ["Totale fazioni: %d" % all.size()]
+	var sorted_types: Array = counts.keys()
+	sorted_types.sort()
+	for t: String in sorted_types:
+		lines.append("  %-12s %d" % [t + ":", int(counts[t])])
+	s.update(lines)
+
+
+func _build_faction_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ FactionTools"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(0.75, 0.55, 1.0))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "FactionTools"
+	)
+
+	# ── Rep table ────────────────────────────────────────────────────────────
+	var rep_lbl := Label.new()
+	rep_lbl.text = "Rep attuale:"
+	rep_lbl.add_theme_font_size_override("font_size", 10)
+	body.add_child(rep_lbl)
+
+	_faction_rep_rtl = RichTextLabel.new()
+	_faction_rep_rtl.bbcode_enabled = true
+	_faction_rep_rtl.fit_content   = true
+	_faction_rep_rtl.scroll_active = false
+	_faction_rep_rtl.add_theme_font_size_override("normal_font_size", 10)
+	body.add_child(_faction_rep_rtl)
+
+	body.add_child(HSeparator.new())
+
+	# ── Rep editor ───────────────────────────────────────────────────────────
+	var editor_lbl := Label.new()
+	editor_lbl.text = "Editor reputazione:"
+	editor_lbl.add_theme_font_size_override("font_size", 10)
+	body.add_child(editor_lbl)
+
+	var reg: Node = get_node_or_null("/root/FactionRegistry")
+	_faction_rep_opt = OptionButton.new()
+	_faction_rep_opt.focus_mode = Control.FOCUS_NONE
+	_faction_rep_opt.add_theme_font_size_override("font_size", 10)
+	if reg:
+		var all: Array = reg.call("get_all_factions")
+		all.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			return str(a.get("id", "")) < str(b.get("id", ""))
+		)
+		for data: Dictionary in all:
+			_faction_rep_opt.add_item(str(data.get("id", "")))
+	body.add_child(_faction_rep_opt)
+
+	var delta_row := HBoxContainer.new()
+	delta_row.add_theme_constant_override("separation", 4)
+	body.add_child(delta_row)
+
+	for d: int in [-50, -25, -10, 10, 25, 50]:
+		var btn := Button.new()
+		btn.text = "%+d" % d
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.add_theme_font_size_override("font_size", 10)
+		var bg: Color = Color(0.55, 0.18, 0.18) if d < 0 else Color(0.18, 0.45, 0.18)
+		var st := StyleBoxFlat.new()
+		st.bg_color = bg
+		st.set_corner_radius_all(3)
+		st.content_margin_left = 5.0; st.content_margin_right  = 5.0
+		st.content_margin_top  = 2.0; st.content_margin_bottom = 2.0
+		btn.add_theme_stylebox_override("normal", st)
+		btn.pressed.connect(_do_rep_delta.bind(d))
+		delta_row.add_child(btn)
+
+	var prop_row := HBoxContainer.new()
+	prop_row.add_theme_constant_override("separation", 6)
+	body.add_child(prop_row)
+
+	_faction_propagate_cb = CheckButton.new()
+	_faction_propagate_cb.text = "Propagazione"
+	_faction_propagate_cb.button_pressed = true
+	_faction_propagate_cb.focus_mode = Control.FOCUS_NONE
+	_faction_propagate_cb.add_theme_font_size_override("font_size", 10)
+	prop_row.add_child(_faction_propagate_cb)
+
+	var reset_btn := Button.new()
+	reset_btn.text = "Reset All Rep"
+	reset_btn.focus_mode = Control.FOCUS_NONE
+	reset_btn.add_theme_font_size_override("font_size", 10)
+	var rst := StyleBoxFlat.new()
+	rst.bg_color = Color(0.55, 0.20, 0.10)
+	rst.set_corner_radius_all(3)
+	rst.content_margin_left = 6.0; rst.content_margin_right  = 6.0
+	rst.content_margin_top  = 2.0; rst.content_margin_bottom = 2.0
+	reset_btn.add_theme_stylebox_override("normal", rst)
+	reset_btn.pressed.connect(_do_reset_all_rep)
+	prop_row.add_child(reset_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Membership panel ──────────────────────────────────────────────────────
+	var memb_lbl := Label.new()
+	memb_lbl.text = "Membership:"
+	memb_lbl.add_theme_font_size_override("font_size", 10)
+	body.add_child(memb_lbl)
+
+	_faction_member_rtl = RichTextLabel.new()
+	_faction_member_rtl.bbcode_enabled = true
+	_faction_member_rtl.fit_content   = true
+	_faction_member_rtl.scroll_active = false
+	_faction_member_rtl.add_theme_font_size_override("normal_font_size", 10)
+	body.add_child(_faction_member_rtl)
+
+	for fid: String in JOINABLE_FACTIONS:
+		var frow := HBoxContainer.new()
+		frow.add_theme_constant_override("separation", 4)
+		body.add_child(frow)
+
+		var flbl := Label.new()
+		flbl.text = fid
+		flbl.add_theme_font_size_override("font_size", 9)
+		flbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		frow.add_child(flbl)
+
+		var join_btn := Button.new()
+		join_btn.text = "Join"
+		join_btn.focus_mode = Control.FOCUS_NONE
+		join_btn.add_theme_font_size_override("font_size", 9)
+		join_btn.pressed.connect(_do_faction_join.bind(fid))
+		frow.add_child(join_btn)
+
+		var leave_btn := Button.new()
+		leave_btn.text = "Leave"
+		leave_btn.focus_mode = Control.FOCUS_NONE
+		leave_btn.add_theme_font_size_override("font_size", 9)
+		leave_btn.pressed.connect(_do_faction_leave.bind(fid))
+		frow.add_child(leave_btn)
+
+		var adv_btn := Button.new()
+		adv_btn.text = "+Rank"
+		adv_btn.focus_mode = Control.FOCUS_NONE
+		adv_btn.add_theme_font_size_override("font_size", 9)
+		adv_btn.pressed.connect(_do_faction_advance.bind(fid))
+		frow.add_child(adv_btn)
+
+
+func _update_faction_rep_table() -> void:
+	if not is_instance_valid(_faction_rep_rtl):
+		return
+	var reg: Node = get_node_or_null("/root/FactionRegistry")
+	if not reg:
+		_faction_rep_rtl.text = "[color=#666666]FactionRegistry non caricato[/color]"
+		return
+	var all: Array = reg.call("get_all_factions")
+	all.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return str(a.get("id", "")) < str(b.get("id", ""))
+	)
+	var out: String = ""
+	for data: Dictionary in all:
+		var fid: String  = str(data.get("id", ""))
+		var rep: int     = FactionReputation.get_rep(fid)
+		var state: String = FactionReputation.get_state_id(fid)
+		var col: String  = str(STATE_HEX.get(state, "#aaaaaa"))
+		var badges: String = ""
+		if FactionMembership.is_member(fid):
+			badges = " [color=#ffcc00]M[r%d][/color]" % FactionMembership.get_rank(fid)
+		elif FactionMembership.is_supporter(fid):
+			badges = " [color=#88aaff]S[/color]"
+		out += "[color=%s]%-30s %4d[/color]%s\n" % [col, fid, rep, badges]
+	_faction_rep_rtl.text = out.strip_edges()
+
+
+func _update_faction_member_table() -> void:
+	if not is_instance_valid(_faction_member_rtl):
+		return
+	var out: String = ""
+	for fid: String in JOINABLE_FACTIONS:
+		if FactionMembership.is_member(fid):
+			out += "[color=#ffcc00]◆ %s  rango %d[/color]\n" % [fid, FactionMembership.get_rank(fid)]
+		elif FactionMembership.is_supporter(fid):
+			out += "[color=#88aaff]★ %s[/color]\n" % fid
+		else:
+			out += "[color=#555555]○ %s[/color]\n" % fid
+	_faction_member_rtl.text = out.strip_edges()
+
+
+func _do_rep_delta(d: int) -> void:
+	if not is_instance_valid(_faction_rep_opt):
+		return
+	var fid: String = _faction_rep_opt.get_item_text(_faction_rep_opt.selected)
+	if fid == "":
+		return
+	var propagate: bool = is_instance_valid(_faction_propagate_cb) and _faction_propagate_cb.button_pressed
+	FactionReputation.add_rep(fid, d, "debug", propagate)
+	_refresh()
+
+
+func _do_reset_all_rep() -> void:
+	FactionReputation.initialize_for_new_game()
+	_refresh()
+
+
+func _do_faction_join(fid: String) -> void:
+	FactionMembership.join_faction(fid)
+	_refresh()
+
+
+func _do_faction_leave(fid: String) -> void:
+	FactionMembership.leave_faction(fid)
+	_refresh()
+
+
+func _do_faction_advance(fid: String) -> void:
+	FactionMembership.advance_rank(fid)
+	_refresh()
+
+
+# ── CrimeSystem ───────────────────────────────────────────────────────────────
+
+func _update_crime() -> void:
+	var s: DebugSection = get_section("crime")
+	if not s:
+		return
+	var city_id: String  = GameState.current_city_id
+	var active: bool     = city_id != "" and CrimeSystem.is_crime_active(city_id)
+	var record: Array    = CrimeSystem.get_criminal_record()
+	var lines: Array[String] = [
+		"current_city_id:  %s"  % (city_id if city_id != "" else "(nessuna)"),
+		"crime_attivo:     %s"  % ("SÌ" if active else "no"),
+		"witness_cached:   %s"  % str(CrimeSystem._witness_check_result),
+		"guard_wave_timer: %d"  % CrimeSystem._guard_wave_timer,
+		"record arresti:   %d"  % record.size(),
+	]
+	for entry: Variant in record:
+		var e: Dictionary = entry as Dictionary
+		lines.append("  • %s (turno %d)" % [str(e.get("city_name", e.get("city_id", "?"))), int(e.get("turn", 0))])
+	s.update(lines)
+
+
+func _build_crime_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ CrimeTools"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(0.9, 0.3, 0.25))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "CrimeTools"
+	)
+
+	var row1 := HBoxContainer.new()
+	row1.add_theme_constant_override("separation", 6)
+	body.add_child(row1)
+
+	var btn_crime := Button.new()
+	btn_crime.text = "Registra crimine"
+	btn_crime.add_theme_font_size_override("font_size", 10)
+	btn_crime.pressed.connect(func() -> void:
+		var cid: String = GameState.current_city_id
+		if cid != "":
+			CrimeSystem.register_crime(cid)
+			_refresh()
+	)
+	row1.add_child(btn_crime)
+
+	var btn_arrest := Button.new()
+	btn_arrest.text = "Arresta"
+	btn_arrest.add_theme_font_size_override("font_size", 10)
+	btn_arrest.pressed.connect(func() -> void:
+		var cid: String = GameState.current_city_id
+		if cid != "":
+			CrimeSystem.arrest_player(cid)
+			_refresh()
+	)
+	row1.add_child(btn_arrest)
+
+	var btn_clear := Button.new()
+	btn_clear.text = "Cancella crimine"
+	btn_clear.add_theme_font_size_override("font_size", 10)
+	btn_clear.pressed.connect(func() -> void:
+		var cid: String = GameState.current_city_id
+		if cid != "":
+			CrimeSystem.clear_crime(cid)
+			_refresh()
+	)
+	row1.add_child(btn_clear)
+
+	var row2 := HBoxContainer.new()
+	row2.add_theme_constant_override("separation", 6)
+	body.add_child(row2)
+
+	for count: int in [1, 3, 6]:
+		var btn := Button.new()
+		btn.text = "Spawn %d guardie" % count
+		btn.add_theme_font_size_override("font_size", 10)
+		btn.pressed.connect(func() -> void:
+			CrimeSystem.spawn_guards_debug(count)
+			_refresh()
+		)
+		row2.add_child(btn)
+
+	var btn_record := Button.new()
+	btn_record.text = "Pulisci fedina"
+	btn_record.add_theme_font_size_override("font_size", 10)
+	btn_record.pressed.connect(func() -> void:
+		GameState.criminal_record.clear()
+		_refresh()
+	)
+	row2.add_child(btn_record)
+
+	var row3 := HBoxContainer.new()
+	row3.add_theme_constant_override("separation", 6)
+	body.add_child(row3)
+
+	var btn_witness := Button.new()
+	btn_witness.text = "Check testimoni"
+	btn_witness.add_theme_font_size_override("font_size", 10)
+	btn_witness.pressed.connect(func() -> void:
+		CrimeSystem.has_witnesses(GameState.player_position)
+		_refresh()
+	)
+	row3.add_child(btn_witness)
+
+	var btn_amuleto := Button.new()
+	btn_amuleto.add_theme_font_size_override("font_size", 10)
+	btn_amuleto.pressed.connect(func() -> void:
+		if Equipment.is_equipped("amuleto_del_sangue"):
+			Equipment.unequip("neck")
+		else:
+			GameState.equipped["neck"] = "amuleto_del_sangue"
+			EventBus.equipment_changed.emit()
+		_update_amuleto_btn(btn_amuleto)
+		_refresh()
+	)
+	_update_amuleto_btn(btn_amuleto)
+	row3.add_child(btn_amuleto)
+
+
+func _update_amuleto_btn(btn: Button) -> void:
+	btn.text = "Rimuovi amuleto" if Equipment.is_equipped("amuleto_del_sangue") else "Equip amuleto"

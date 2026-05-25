@@ -6,6 +6,8 @@
 	"color": [0.55, 0.55, 0.62, 1.0],
 
 	"family": "construct",
+	"faction_id": "costrutti",
+	"rep_on_kill": -1,
 	"role": "tank",
 	"tier": 4,
 	"tags": ["melee", "flying"],

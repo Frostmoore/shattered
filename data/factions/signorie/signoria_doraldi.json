@@ -1,0 +1,14 @@
+{
+	"id": "signoria_doraldi",
+	"name": "Signoria dei Doraldi",
+	"type": "signoria",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"bloc": "banchi_strade",
+	"bloc_role": "client",
+	"bloc_patron": "signoria_valtieri",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

@@ -6,6 +6,8 @@
 	"color": [0.45, 0.60, 0.40, 1.0],
 
 	"family": "undead",
+	"faction_id": "non_morti",
+	"rep_on_kill": -2,
 	"role": "tank",
 	"tier": 2,
 	"tags": ["melee", "slow"],

@@ -1,0 +1,11 @@
+{
+	"id": "mano_campi",
+	"name": "Mano dei Campi",
+	"type": "civil",
+	"tier": "C",
+	"tree": "corporazione_spezierie",
+	"parent": "corporazione_spezierie",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

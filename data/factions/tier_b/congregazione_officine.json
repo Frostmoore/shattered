@@ -1,0 +1,30 @@
+{
+	"id": "congregazione_officine",
+	"name": "Congregazione delle Officine",
+	"type": "civil",
+	"tier": "B",
+	"tree": "cattedra_canone",
+	"parent": "cattedra_canone",
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "arte_della_guarigione",
+	"ranks": [
+		{"rank": 0, "name": "Assistente"},
+		{"rank": 1, "name": "Praticante"},
+		{"rank": 2, "name": "Officinale"},
+		{"rank": 3, "name": "Officinale Esperto"},
+		{"rank": 4, "name": "Maestro Officinale"},
+		{"rank": 5, "name": "Gran Maestro delle Officine"}
+	],
+	"recognition_item_id": "fascia_officine",
+	"recognition_slot": "neck",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 10 },
+	"quirk": {
+		"id": "medical_center",
+		"status": "implemented",
+		"implemented": ["open_ambulatorio", "world_persistent_inject", "hp_restore_on_interact"],
+		"pending": ["npc_ai_usage", "potion_discount_npc_hook", "hp_regen_hook", "profits_management"],
+		"implementation_phase": "phase_11"
+	}
+}

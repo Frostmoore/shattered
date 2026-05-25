@@ -1,0 +1,19 @@
+{
+  "id": "quest_corporazione_registrazione",
+  "title": "Registrazione alla Corporazione",
+  "description": "Parla con il registratore della Corporazione delle Camere per ottenere la tua patente di condotta.",
+  "completion_mode": "turn_in",
+  "objectives": [],
+  "rewards": {
+    "xp": 50,
+    "gold": 0,
+    "items": ["patente_condotta"],
+    "join_faction": "corporazione_camere",
+    "faction_rep": [
+      {"faction_id": "corporazione_camere", "amount": 10}
+    ]
+  },
+  "sets_flags": {
+    "corporazione_registered": true
+  }
+}

@@ -1,0 +1,11 @@
+{
+	"id": "banco_tre_monete",
+	"name": "Banco delle Tre Monete",
+	"type": "civil",
+	"tier": "B",
+	"tree": "corporazione_spezierie",
+	"parent": "corporazione_spezierie",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

@@ -52,7 +52,11 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"quick_slots":      GameState.quick_slots.duplicate(true),
 		"permadeath":         GameState.permadeath,
 		"permanent_allies":   GameState.permanent_allies.duplicate(true),
-		"location_states":    LocationRegistry.serialize_states()
+		"location_states":    LocationRegistry.serialize_states(),
+		"faction_rep":            GameState.character_faction_rep.duplicate(),
+		"faction_membership":     GameState.character_faction_membership.duplicate(true),
+		"criminal_record":        GameState.criminal_record.duplicate(true),
+		"known_faction_members":  GameState.known_faction_members.duplicate(true),
 	}
 	var path: String = get_char_path(world_name, char_name)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
@@ -204,6 +208,24 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 	var raw_states: Variant = data.get("location_states", {})
 	if raw_states is Dictionary:
 		LocationRegistry.deserialize_states(raw_states as Dictionary)
+
+	var raw_rep: Variant = data.get("faction_rep", {})
+	if raw_rep is Dictionary:
+		for key: String in (raw_rep as Dictionary):
+			GameState.character_faction_rep[key] = int((raw_rep as Dictionary)[key])
+
+	var raw_membership: Variant = data.get("faction_membership", {})
+	if raw_membership is Dictionary:
+		GameState.character_faction_membership = (raw_membership as Dictionary).duplicate(true)
+	FactionMembership.reapply_all_passives()
+
+	var raw_record: Variant = data.get("criminal_record", [])
+	if raw_record is Array:
+		GameState.criminal_record = (raw_record as Array).duplicate(true)
+
+	var raw_known: Variant = data.get("known_faction_members", {})
+	if raw_known is Dictionary:
+		GameState.known_faction_members = (raw_known as Dictionary).duplicate(true)
 
 	EventBus.equipment_changed.emit()
 	EventBus.quick_slots_changed.emit()

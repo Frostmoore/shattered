@@ -1,0 +1,109 @@
+{
+	"milizia_campane": {
+		"tavola_senza_nome": -80,
+		"fuorilegge":        -100,
+		"corporazione_camere": 40
+	},
+	"cacciatori_rogna": {
+		"mano_campi":       30,
+		"compagnia_bestie": -20
+	},
+	"tavola_senza_nome": {
+		"milizia_campane": -80,
+		"fuorilegge":       30
+	},
+	"fuorilegge": {
+		"milizia_campane":   -100,
+		"tavola_senza_nome":  20
+	},
+	"bestie": {
+		"cacciatori_rogna":  -30,
+		"compagnia_bestie":   40
+	},
+	"non_morti": {
+		"cattedra_canone":  -80,
+		"becchini_canone":   30
+	},
+	"demoni": {
+		"cattedra_canone": -80
+	},
+	"cattedra_canone": {
+		"demoni":    -100,
+		"non_morti":  -80
+	},
+	"corrieri_sigillo": {
+		"compagnia_ponti": 40
+	},
+	"compagnia_ponti": {
+		"corrieri_sigillo": 35
+	},
+	"corporazione_camere": {
+		"milizia_campane":  30,
+		"banco_tre_monete": 25
+	},
+	"banco_tre_monete": {
+		"corporazione_camere": 30
+	},
+	"compagnia_bestie": {
+		"cacciatori_rogna": -25
+	},
+	"mano_campi": {
+		"natura": 30
+	},
+	"signoria_almerici": {
+		"signoria_valtieri":   -20,
+		"signoria_malcorvi":   -30,
+		"signoria_guidalotti": -20,
+		"signoria_bellandi":    50,
+		"signoria_ranucci":     50
+	},
+	"signoria_valtieri": {
+		"signoria_almerici":   -20,
+		"signoria_malcorvi":    20,
+		"signoria_guidalotti":  30,
+		"signoria_doraldi":     50,
+		"signoria_valdameri":   50
+	},
+	"signoria_malcorvi": {
+		"signoria_almerici":   -30,
+		"signoria_valtieri":    20,
+		"signoria_guidalotti":  10,
+		"signoria_castrevani":  50,
+		"signoria_montelupi":   50
+	},
+	"signoria_bellandi": {
+		"signoria_almerici":  50,
+		"signoria_ranucci":   30,
+		"signoria_valdameri": -30
+	},
+	"signoria_ranucci": {
+		"signoria_almerici": 50,
+		"signoria_bellandi": 30,
+		"signoria_montelupi": -20
+	},
+	"signoria_doraldi": {
+		"signoria_valtieri":   50,
+		"signoria_valdameri":  30,
+		"signoria_castrevani": -40
+	},
+	"signoria_valdameri": {
+		"signoria_valtieri":  50,
+		"signoria_doraldi":   30,
+		"signoria_bellandi": -30
+	},
+	"signoria_castrevani": {
+		"signoria_malcorvi":  50,
+		"signoria_montelupi": 30,
+		"signoria_doraldi":  -40
+	},
+	"signoria_montelupi": {
+		"signoria_malcorvi":   50,
+		"signoria_castrevani": 30,
+		"signoria_ranucci":   -20
+	},
+	"signoria_guidalotti": {
+		"signoria_almerici": -20,
+		"signoria_valtieri":  30,
+		"signoria_malcorvi":  10
+	}
+}

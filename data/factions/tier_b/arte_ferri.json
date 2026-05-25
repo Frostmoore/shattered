@@ -1,0 +1,11 @@
+{
+	"id": "arte_ferri",
+	"name": "Arte dei Ferri e delle Braci",
+	"type": "civil",
+	"tier": "B",
+	"tree": "corporazione_spezierie",
+	"parent": "corporazione_spezierie",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

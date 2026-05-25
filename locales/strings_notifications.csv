@@ -1,23 +1,17 @@
 keys,it
-# ── Item notifications ────────────────────────────────────────────────────────
 NOTIF_ITEM_COLLECTED_SINGLE,Raccolto: {name}
 NOTIF_ITEM_COLLECTED_MULTI,{name} x{qty}
 NOTIF_GOLD_GAINED,+{amount} oro
 NOTIF_ITEM_IDENTIFIED,Identificato: {name}
-# ── Quest notifications ───────────────────────────────────────────────────────
 NOTIF_QUEST_STARTED,Nuova quest: {title}
 NOTIF_QUEST_READY,Torna a consegnare: {title}
 NOTIF_QUEST_COMPLETED,Quest completata: {title}
-# ── Level up notifications ────────────────────────────────────────────────────
 NOTIF_LEVEL_UP_TITLE,Livello {level}!
 NOTIF_LEVEL_UP_RESTORE,HP · MP · Stamina ripristinati
 NOTIF_ATTR_GAIN,{attr} +{amount}
-# ── Class notifications ───────────────────────────────────────────────────────
 NOTIF_CLASS_UNLOCKED,Classe sbloccata: {name}!
 NOTIF_CLASS_CHANGED,Classe cambiata: {name}!
-# ── Save point notification ───────────────────────────────────────────────────
 NOTIF_SAVE_POINT,Partita salvata — HP ripristinati
-# ── Combat notifications ──────────────────────────────────────────────────────
 NOTIF_ENEMY_KILLED,{name} sconfitto
 NOTIF_PLAYER_DIED,Sei morto.
 NOTIF_ESCAPED,Sei fuggito!
@@ -25,6 +19,18 @@ NOTIF_CANT_FLEE,Non riesci a fuggire!
 NOTIF_DOOR_LOCKED,La porta è chiusa a chiave.
 NOTIF_DOOR_UNLOCKED,Porta aperta.
 NOTIF_NO_KEY,Non hai la chiave giusta.
-# ── Transition / exploration ──────────────────────────────────────────────────
 NOTIF_ENTERING_LOCATION,Entri in: {name}
 NOTIF_EXITING_DUNGEON,Risali in superficie.
+NOTIF_FACTION_STATE,{faction}: {state}
+NOTIF_FACTION_SUPPORTER_GAINED,Sostenitore di {faction}
+NOTIF_FACTION_SUPPORTER_LOST,Non più sostenitore di {faction}
+NOTIF_FACTION_ACCESS_DENIED,Accesso negato: {faction}
+NOTIF_FACTION_REP_DELTA,{faction}: {delta} rep
+NOTIF_TAX_PAID_TOTAL,Tasse di gilda: -{amount} monete.
+NOTIF_TAX_WARNING,{faction}: tassa non pagata! Oro insufficiente — espulsione al prossimo ritardo.
+NOTIF_TAX_EXPELLED,{faction}: espulso per mancato pagamento delle tasse.
+NOTIF_TAX_CARTOGRAFI,Cartografi: -{amount} monete (certificazione mappa).
+NOTIF_TAX_RANK_BLOCKED,Paga le tasse arretrate prima di avanzare di rango.
+NOTIF_CRIME_COMMITTED,Crimine commesso! Le guardie ti cercano.
+NOTIF_CRIME_ARRESTED,Arrestato. Multa: {fine}g.
+NOTIF_CRIME_CLEARED,Il mandato è stato cancellato.

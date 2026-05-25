@@ -6,6 +6,8 @@
 	"color": [0.50, 0.78, 0.96, 1.0],
 
 	"family": "undead",
+	"faction_id": "non_morti",
+	"rep_on_kill": -2,
 	"role": "controller",
 	"tier": 5,
 	"tags": ["magic", "undead"],

@@ -36,7 +36,7 @@ func resolve(ctx: Dictionary) -> Array:
 	else:
 		params = table
 
-	var quality_bias: int = int(params.get("quality_bias", 0))
+	var quality_bias: int = int(params.get("quality_bias", 0)) + int(ctx.get("quality_bias_bonus", 0))
 	var band: Dictionary  = _pick_band(table.get("level_bands", []), player_lv)
 	if band.is_empty():
 		return []

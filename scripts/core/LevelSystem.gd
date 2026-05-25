@@ -3,11 +3,13 @@ extends Node
 const MAX_LEVEL: int = 100
 
 
-func add_xp(amount: int) -> void:
+func add_xp(amount: int, context: String = "") -> void:
 	if amount <= 0 or GameState.level >= MAX_LEVEL:
 		return
-	GameState.xp += amount
-	EventBus.xp_gained.emit(amount)
+	var mult: float = FactionEffects.get_xp_multiplier(context)
+	var final_amount: int = roundi(float(amount) * mult) if mult != 1.0 else amount
+	GameState.xp += final_amount
+	EventBus.xp_gained.emit(final_amount)
 	_check_level_up()
 
 

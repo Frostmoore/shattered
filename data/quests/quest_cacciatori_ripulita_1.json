@@ -1,0 +1,24 @@
+{
+  "id": "quest_cacciatori_ripulita_1",
+  "title": "Ripulita: Tana delle Bestie",
+  "description": "Una tana di bestie minaccia i villaggi locali. Elimina gli esemplari segnalati e riporta il referto.",
+  "completion_mode": "turn_in",
+  "objectives": [
+    {
+      "type": "kill_enemy",
+      "target_id": "bestia",
+      "required": 8
+    }
+  ],
+  "rewards": {
+    "xp": 80,
+    "gold": 40,
+    "items": ["trofeo_bestia"],
+    "faction_rep": [
+      {"faction_id": "cacciatori_rogna", "amount": 10}
+    ]
+  },
+  "sets_flags": {
+    "cacciatori_ripulita_1_completata": true
+  }
+}

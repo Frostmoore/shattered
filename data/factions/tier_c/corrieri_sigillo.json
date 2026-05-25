@@ -1,0 +1,29 @@
+{
+	"id": "corrieri_sigillo",
+	"name": "Compagnia dei Corrieri di Sigillo",
+	"type": "civil",
+	"tier": "C",
+	"tree": "cattedra_canone",
+	"parent": "ordine_sigillatori",
+	"joinable": true,
+	"supporter_eligible": true,
+	"default_rep": 0,
+	"join_passive": "portatore_di_sigillo",
+	"ranks": [
+		{"rank": 0, "name": "Staffetta"},
+		{"rank": 1, "name": "Corriere"},
+		{"rank": 2, "name": "Corriere Esperto"},
+		{"rank": 3, "name": "Primo Corriere"},
+		{"rank": 4, "name": "Corriere d'Élite"},
+		{"rank": 5, "name": "Gran Corriere di Sigillo"}
+	],
+	"recognition_item_id": "anello_corrieri",
+	"recognition_slot": "ring_1",
+	"tax_system": { "status": "implemented", "type": "periodic_save_point", "amount": 10 },
+	"quirk": {
+		"id": "caravans",
+		"status": "planned",
+		"depends_on": "caravan_system",
+		"implementation_phase": "future"
+	}
+}

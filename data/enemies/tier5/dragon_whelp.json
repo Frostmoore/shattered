@@ -6,6 +6,8 @@
 	"color": [0.92, 0.46, 0.06, 1.0],
 
 	"family": "dragon",
+	"faction_id": "draghi",
+	"rep_on_kill": -3,
 	"role": "glass_cannon",
 	"tier": 5,
 	"tags": ["melee", "flying"],

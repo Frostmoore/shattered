@@ -6,6 +6,8 @@
 	"color": [0.72, 0.00, 0.28, 1.0],
 
 	"family": "demon",
+	"faction_id": "demoni",
+	"rep_on_kill": -3,
 	"role": "soldier",
 	"tier": 6,
 	"tags": ["melee"],

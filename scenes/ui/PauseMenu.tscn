@@ -55,6 +55,10 @@ alignment = 1
 text = "Diario quest  [J]"
 alignment = 1
 
+[node name="FactionScreenButton" type="Button" parent="Panel/VBox"]
+text = "Fazioni  [G]"
+alignment = 1
+
 [node name="OptionsButton" type="Button" parent="Panel/VBox"]
 text = "Opzioni"
 alignment = 1

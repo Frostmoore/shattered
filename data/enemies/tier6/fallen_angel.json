@@ -6,6 +6,8 @@
 	"color": [1.00, 0.76, 0.20, 1.0],
 
 	"family": "demon",
+	"faction_id": "demoni",
+	"rep_on_kill": -3,
 	"role": "glass_cannon",
 	"tier": 6,
 	"tags": ["melee", "flying"],

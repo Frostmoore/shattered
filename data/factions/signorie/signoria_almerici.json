@@ -1,0 +1,14 @@
+{
+	"id": "signoria_almerici",
+	"name": "Signoria degli Almerici",
+	"type": "signoria",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"bloc": "canonico_agrario",
+	"bloc_role": "leader",
+	"bloc_patron": null,
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

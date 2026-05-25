@@ -1,0 +1,11 @@
+{
+	"id": "becchini_canone",
+	"name": "Becchini del Canone",
+	"type": "civil",
+	"tier": "C",
+	"tree": "cattedra_canone",
+	"parent": "milizia_campane",
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

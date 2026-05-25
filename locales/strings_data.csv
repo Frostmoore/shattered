@@ -1,5 +1,4 @@
 keys,it
-# ── Attribute names ───────────────────────────────────────────────────────────
 ATTR_STR,FOR
 ATTR_DEX,DES
 ATTR_INT,INT
@@ -10,7 +9,6 @@ ATTR_DEX_FULL,Destrezza
 ATTR_INT_FULL,Intelligenza
 ATTR_VIT_FULL,Vitalità
 ATTR_WIL_FULL,Volontà
-# ── Equipment slot names ──────────────────────────────────────────────────────
 SLOT_HEAD,Testa
 SLOT_BODY,Corpo
 SLOT_LEFT_HAND,Mano sinistra
@@ -22,21 +20,18 @@ SLOT_FEET,Piedi
 SLOT_CLOAK,Mantello
 SLOT_TRINKET,Amuleto
 SLOT_HANDS,Mani
-# ── Item categories ───────────────────────────────────────────────────────────
 ITEM_CAT_WEAPON,Arma
 ITEM_CAT_ARMOR,Armatura
 ITEM_CAT_ACCESSORY,Accessorio
 ITEM_CAT_CONSUMABLE,Consumabile
 ITEM_CAT_KEY_ITEM,Oggetto chiave
 ITEM_CAT_SUMMON,Evocazione
-# ── Item quality names ────────────────────────────────────────────────────────
 QUALITY_COMUNE,Comune
 QUALITY_MAGICO,Magico
 QUALITY_RARO,Raro
 QUALITY_EPICO,Epico
 QUALITY_LEGGENDARIO,Leggendario
 QUALITY_UNICO,Unico
-# ── Item tooltip labels ───────────────────────────────────────────────────────
 ITEM_TIP_UNIDENTIFIED,??? {type} {quality}
 ITEM_TIP_TYPE,Tipo: {type}
 ITEM_TIP_SLOT,Slot: {slot}
@@ -44,7 +39,6 @@ ITEM_TIP_TIER,Tier {tier}
 ITEM_TIP_ATTACK_BONUS,Attacco: +{value}
 ITEM_TIP_DEFENSE_BONUS,Difesa: +{value}
 ITEM_TIP_NOT_IDENTIFIED,Non identificato
-# ── Enemy families ────────────────────────────────────────────────────────────
 ENEMY_FAMILY_HUMANOID,Umanoide
 ENEMY_FAMILY_BEAST,Bestia
 ENEMY_FAMILY_UNDEAD,Non-morto
@@ -52,14 +46,12 @@ ENEMY_FAMILY_CONSTRUCT,Costrutto
 ENEMY_FAMILY_DRAGON,Drago
 ENEMY_FAMILY_DEMON,Demone
 ENEMY_FAMILY_ABERRATION,Aberrazione
-# ── Map / Location types ──────────────────────────────────────────────────────
 MAP_TYPE_VILLAGE,Villaggio
 MAP_TYPE_CITY,Città
 MAP_TYPE_BUILDING,Edificio
 MAP_TYPE_DUNGEON,Dungeon
 MAP_TYPE_RUIN,Rovine
 MAP_TYPE_OVERWORLD,Sovrammondo
-# ── Quest phases ─────────────────────────────────────────────────────────────
 QUEST_STATUS_ACTIVE,In corso
 QUEST_STATUS_READY,Da consegnare
 QUEST_STATUS_DONE,Completata
@@ -67,10 +59,8 @@ QUEST_OBJECTIVE_KILL,Sconfiggi {target}
 QUEST_OBJECTIVE_COLLECT,Raccogli {item}
 QUEST_OBJECTIVE_REACH,Raggiungi {location}
 QUEST_OBJECTIVE_TALK,Parla con {npc}
-# ── Gold ─────────────────────────────────────────────────────────────────────
 CURRENCY_GOLD,oro
 CURRENCY_GOLD_AMOUNT,{amount} oro
-# ── Item tooltip stat labels ──────────────────────────────────────────────────
 STAT_ATTACK_BONUS,Attacco
 STAT_DEFENSE_BONUS,Difesa
 STAT_HP_BONUS,HP
@@ -78,7 +68,6 @@ STAT_MP_BONUS,MP
 STAT_STAMINA_BONUS,Stamina
 STAT_SPEED_BONUS,Velocità
 STAT_CRIT_BONUS,Critico
-# ── Item tooltip section headers ──────────────────────────────────────────────
 TOOLTIP_SECTION_STATS,Statistiche:
 TOOLTIP_SECTION_BASE,Base:
 TOOLTIP_SECTION_TOTAL,Totale:
@@ -91,13 +80,11 @@ TOOLTIP_QUANTITY,Quantità: {n}
 TOOLTIP_VS_EQUIPPED,vs equipaggiato:
 TOOLTIP_EMPTY_SLOT,(vuoto)
 TOOLTIP_GOLD_NAME,Oro
-# ── Item type display labels ───────────────────────────────────────────────────
 ITEM_TYPE_EQUIPMENT,Equipaggiamento
 ITEM_TYPE_CONSUMABLE,Consumabile
 ITEM_TYPE_KEY_ITEM,Oggetto chiave
 ITEM_TYPE_CLASS_LICENSE,Licenza di classe
 ITEM_TYPE_GENERIC,Oggetto
-# ── Legacy tooltip stat lines ──────────────────────────────────────────────────
 TOOLTIP_ATTACK_PLUS,Attacco: +{value}
 TOOLTIP_ATTACK_MINUS,Attacco: {value}
 TOOLTIP_DEFENSE_PLUS,Difesa: +{value}

@@ -17,6 +17,8 @@ const CSV_FILES: Array[String] = [
 	"strings_classes",
 	"strings_items",
 	"strings_enemies",
+	"strings_factions",
+	"strings_cities",
 ]
 
 var _locale: String = DEFAULT_LOCALE

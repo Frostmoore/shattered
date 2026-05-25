@@ -1,0 +1,14 @@
+{
+	"id": "signoria_guidalotti",
+	"name": "Signoria dei Guidalotti",
+	"type": "signoria",
+	"tier": null,
+	"tree": null,
+	"parent": null,
+	"bloc": null,
+	"bloc_role": "independent",
+	"bloc_patron": null,
+	"joinable": false,
+	"supporter_eligible": true,
+	"default_rep": 0
+}

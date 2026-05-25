@@ -1,22 +1,18 @@
 keys,it
-# ── Class picker / respec UI ──────────────────────────────────────────────────
 CLASS_PICKER_TITLE,Scegli la tua Classe
 CLASS_PICKER_CONFIRM,Inizia Avventura →
 CLASS_RESPEC_TITLE,Cambia Classe
 CLASS_RESPEC_SUBTITLE,La Licenza di Classe verrà consumata alla conferma
 CLASS_RESPEC_CONFIRM,Cambia Classe →
-# ── Tooltip section labels ────────────────────────────────────────────────────
 CLASS_TOOLTIP_ATTR_MAIN,Principale: {attrs}
 CLASS_TOOLTIP_GROWTH,Crescita/lv: {values}
 CLASS_TOOLTIP_UNLOCK,Sblocco: {condition}
 CLASS_TOOLTIP_TIER,{name}  •  Tier {tier}
-# ── Ability types ─────────────────────────────────────────────────────────────
 CLASS_STYPE_PASSIVE,Passiva
 CLASS_STYPE_ACTIVE_KEY,Attiva Q
 CLASS_STYPE_ACTIVE_TARGET,Attiva: mira
 CLASS_STYPE_PASSIVE_AND_ACTIVE,Passiva + Q
 CLASS_STYPE_ACTIVE_TOGGLE,Toggle Q
-# ── Unlock conditions ─────────────────────────────────────────────────────────
 CLASS_UNLOCK_ALWAYS,Sempre disponibile
 CLASS_UNLOCK_LEVEL,Raggiungi livello {value}
 CLASS_UNLOCK_KILLS_TOTAL,Uccidi {value} nemici (totale)
@@ -59,7 +55,6 @@ CLASS_UNLOCK_SAVE_POINTS,Usa {value} punti di salvataggio
 CLASS_UNLOCK_ENEMIES_SEEN_DIE,Osserva morire {value} nemici
 CLASS_UNLOCK_ALL_CLASSES,Completa il gioco con tutte le altre classi
 CLASS_UNLOCK_ALL_CLASSES_59,Completa il gioco con tutte le altre 59 classi
-# ── Class data strings ────────────────────────────────────────────────────────
 CLASS_ALCHIMISTA_NAME,Alchimista
 CLASS_ALCHIMISTA_DESC,Trasforma oggetti ordinari in strumenti straordinari.
 CLASS_ALCHIMISTA_SPECIAL_NAME,Mistura
