@@ -20,6 +20,7 @@ func _ready() -> void:
 	EventBus.map_changed.connect(_on_redraw_needed)
 	EventBus.enemy_died.connect(_on_redraw_needed)
 	EventBus.turn_ended.connect(_on_redraw_needed)
+	EventBus.day_slot_changed.connect(_on_redraw_needed)
 
 
 func _on_redraw_needed(_arg: Variant = null) -> void:
@@ -34,8 +35,19 @@ func _draw() -> void:
 	var theme: Dictionary = _get_theme(map.map_type)
 	draw_rect(Rect2(0, 0, map.map_width * CELL, map.map_height * CELL), theme["bg"])
 
-	# Dungeon-type maps use fog of war; overworld and village are always fully lit
-	var use_fov: bool = (map.map_type == "dungeon")
+	# Night overlay mode: village/city with active lights.
+	# Tiles are drawn at full color; a per-tile black gradient overlay is applied on top.
+	# Player and each light source cast a circular gradient (0.0 at center → 0.5 at edge).
+	var night_overlay_mode: bool = map._lights_active and map.map_type in ["village", "city"]
+
+	# Dungeon: traditional binary FOV dim.
+	var use_fov: bool = map.map_type == "dungeon"
+
+	var tile_overlay: Dictionary = {}   # Vector2i → float (only populated in night_overlay_mode)
+	if night_overlay_mode:
+		_fill_overlay(map, tile_overlay, GameState.player_position, GameBalance.FOV_RADIUS)
+		for ls: Dictionary in map._light_sources:
+			_fill_overlay(map, tile_overlay, ls["pos"] as Vector2i, int(ls["radius"]))
 
 	for y: int in range(map.map_height):
 		for x: int in range(map.map_width):
@@ -43,10 +55,10 @@ func _draw() -> void:
 			var visible: int = map.is_tile_visible(pos)
 			var seen: int    = map.is_tile_seen(pos)
 
-			if use_fov and seen == 0:
+			if (use_fov or night_overlay_mode) and seen == 0:
 				continue  # never seen — leave as background (dark)
 
-			var dim: bool = use_fov and visible == 0  # seen but not currently visible
+			var dim: bool = use_fov and visible == 0  # dungeon: seen but not in FOV
 
 			var ch: String
 			var col: Color
@@ -66,7 +78,6 @@ func _draw() -> void:
 						ch  = "<"
 						col = Color(0.42, 0.95, 0.42, 1)
 					else:
-						# Legacy / non-dungeon transitions
 						match str(t.get("target_type", "")):
 							"village":
 								ch  = "V"
@@ -97,15 +108,49 @@ func _draw() -> void:
 				col
 			)
 
-	# Draw corpses above floor, below living entities
-	_draw_corpses(map, use_fov)
+			if night_overlay_mode:
+				var ov: float = tile_overlay.get(pos, 0.5) as float
+				if ov > 0.0:
+					draw_rect(Rect2(x * CELL, y * CELL, CELL, CELL), Color(0.0, 0.0, 0.0, ov))
 
-	# Draw entities on top — only if visible (when FOV is active)
-	if use_fov:
-		_draw_entities(map)
+	# Corpses
+	_draw_corpses(map, use_fov, tile_overlay if night_overlay_mode else {})
+
+	# Entities
+	_draw_entities(map, tile_overlay if night_overlay_mode else {})
+
+	# Light source glyphs always on top (full brightness, never overlaid)
+	if map._lights_active:
+		for ls: Dictionary in map._light_sources:
+			var lp: Vector2i = ls["pos"] as Vector2i
+			if map.is_tile_seen(lp) == 0:
+				continue
+			var lc: Color = ls.get("color", Color(1.0, 0.82, 0.20)) as Color
+			draw_string(_font,
+				Vector2(lp.x * CELL, lp.y * CELL + BASELINE_Y),
+				"*", HORIZONTAL_ALIGNMENT_CENTER, CELL, FONT_SIZE, lc)
 
 
-func _draw_corpses(map: BaseMap, use_fov: bool) -> void:
+# Fills overlay[pos] = min(current, gradient_alpha) for all tiles in radius with LOS from origin.
+func _fill_overlay(map: BaseMap, overlay: Dictionary, origin: Vector2i, radius: int) -> void:
+	overlay[origin] = 0.0
+	for dy: int in range(-radius, radius + 1):
+		for dx: int in range(-radius, radius + 1):
+			if dx * dx + dy * dy > radius * radius:
+				continue
+			var tp := Vector2i(origin.x + dx, origin.y + dy)
+			if tp.x < 0 or tp.y < 0 or tp.x >= map.map_width or tp.y >= map.map_height:
+				continue
+			if not map.has_line_of_sight(origin, tp):
+				continue
+			var dist: float = Vector2(float(dx), float(dy)).length()
+			var alpha: float = 0.5 * (dist / float(radius))
+			if not overlay.has(tp) or (overlay[tp] as float) > alpha:
+				overlay[tp] = alpha
+
+
+func _draw_corpses(map: BaseMap, use_fov: bool, tile_overlay: Dictionary) -> void:
+	var night_overlay_mode: bool = not tile_overlay.is_empty()
 	for corpse: Dictionary in map._corpses:
 		var pos: Vector2i = corpse["pos"] as Vector2i
 		var col: Color    = corpse["color"] as Color
@@ -115,6 +160,11 @@ func _draw_corpses(map: BaseMap, use_fov: bool) -> void:
 			if map.is_tile_visible(pos) == 0:
 				col = col * GameBalance.FOV_MEMORY_ALPHA
 				col.a = 1.0
+		elif night_overlay_mode:
+			if map.is_tile_seen(pos) == 0:
+				continue
+			var ov: float = tile_overlay.get(pos, 0.5) as float
+			col = col.darkened(ov * 0.8)
 		draw_string(
 			_font,
 			Vector2(pos.x * CELL, pos.y * CELL + BASELINE_Y),
@@ -125,17 +175,34 @@ func _draw_corpses(map: BaseMap, use_fov: bool) -> void:
 		)
 
 
-func _draw_entities(map: BaseMap) -> void:
-	# Entity nodes render themselves via their own Label children.
-	# We only need to hide/show them based on FOV.
+func _draw_entities(map: BaseMap, tile_overlay: Dictionary) -> void:
+	var night_overlay_mode: bool = not tile_overlay.is_empty()
 	for child: Node in map.get_children():
-		if child is Entity and not (child is Player):
-			var entity: Entity = child as Entity
-			if entity.is_dead:
+		if not (child is Entity) or child is Player:
+			continue
+		var entity: Entity = child as Entity
+		if entity.is_dead:
+			entity.visible = false
+			entity.modulate = Color.WHITE
+			continue
+
+		if night_overlay_mode:
+			if map.is_tile_seen(entity.grid_position) == 0:
 				entity.visible = false
+				entity.modulate = Color.WHITE
 				continue
+			var ov: float = tile_overlay.get(entity.grid_position, 0.5) as float
+			if entity is NPC or entity is Enemy or entity is Ally:
+				entity.visible = ov < 0.5
+				entity.modulate = Color.WHITE
+			else:
+				entity.visible = true
+				entity.modulate = Color.WHITE.darkened(ov * 0.8)
+		else:
+			# Dungeon / daytime: show only if tile is currently visible in FOV
 			var visible_tile: int = map.is_tile_visible(entity.grid_position)
 			entity.visible = visible_tile > 0
+			entity.modulate = Color.WHITE
 
 
 func _get_theme(map_type: String) -> Dictionary:

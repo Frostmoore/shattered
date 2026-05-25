@@ -313,7 +313,15 @@ const ENT_DEFS: Array = [
 	{"kind": "door",       "c": "+", "col": Color(0.65, 0.45, 0.20), "label": "Porta"},
 	{"kind": "plant",      "c": "♣", "col": Color(0.25, 0.65, 0.20), "label": "Pianta"},
 	{"kind": "well",       "c": "o", "col": Color(0.40, 0.65, 0.85), "label": "Pozzo"},
-	{"kind": "item",       "c": "?", "col": Color(0.85, 0.75, 0.30), "label": "Oggetto"},
+	{"kind": "item",         "c": "?", "col": Color(0.85, 0.75, 0.30), "label": "Oggetto"},
+	{"kind": "light_source", "c": "*", "col": Color(1.00, 0.72, 0.10), "label": "Torcia",        "default_radius": 2},
+	{"kind": "light_source", "c": "*", "col": Color(1.00, 0.90, 0.60), "label": "Lanterna",      "default_radius": 3},
+	{"kind": "light_source", "c": "*", "col": Color(0.95, 0.85, 0.50), "label": "Candela",       "default_radius": 1},
+	{"kind": "light_source", "c": "*", "col": Color(1.00, 0.52, 0.10), "label": "Braciere",      "default_radius": 4},
+	{"kind": "light_source", "c": "*", "col": Color(1.00, 0.95, 0.90), "label": "Fiamma Bianca", "default_radius": 3},
+	{"kind": "light_source", "c": "*", "col": Color(0.38, 0.68, 1.00), "label": "Luce Magica",   "default_radius": 3},
+	{"kind": "light_source", "c": "*", "col": Color(0.28, 1.00, 0.48), "label": "Luce Verde",    "default_radius": 3},
+	{"kind": "light_source", "c": "*", "col": Color(0.75, 0.28, 1.00), "label": "Luce Viola",    "default_radius": 3},
 ]
 
 const MARKER_DEFS: Array = [
@@ -322,7 +330,8 @@ const MARKER_DEFS: Array = [
 	{"kind": "exit",          "c": "X", "col": Color(0.20, 0.90, 0.90), "label": "Uscita"},
 ]
 
-const EDITOR_ONLY_KINDS: Array = ["spawn_point", "event_trigger", "exit"]
+const EDITOR_ONLY_KINDS: Array  = ["spawn_point", "event_trigger", "exit"]
+const NIGHT_HIDDEN_KINDS: Array = ["npc", "enemy", "guard"]
 
 const CAT_DEFS: Array = [
 	{"id": CAT_FLOOR,     "label": "Pavimento"},
@@ -354,6 +363,7 @@ var _width:         int    = 40
 var _height:        int    = 30
 var _tiles:         Array  = []   # [y][x] → cat*16 + variant
 var _entities:      Array  = []   # [{kind, x, y, uid, params}]
+var _lights_preview: bool  = false
 
 # ── ui refs ────────────────────────────────────────────────────────────────────
 var _id_edit:       LineEdit
@@ -367,7 +377,8 @@ var _status_lbl:    Label
 var _cat_btns:      Array[Button] = []
 var _var_btns:      Array[Button] = []
 var _var_grid:      GridContainer
-var _erase_btn:     Button
+var _erase_btn:          Button
+var _lights_preview_btn: Button
 var _load_menu:        PopupMenu
 var _signoria_opt:     OptionButton
 var _signoria_ids:     Array = []   # parallel to OptionButton items; [0] = ""
@@ -640,6 +651,14 @@ func _build_ui() -> void:
 	_erase_btn.pressed.connect(_toggle_erase)
 	pal_vbox.add_child(_erase_btn)
 
+	_lights_preview_btn = Button.new()
+	_lights_preview_btn.text = "🕯 Luci notte"
+	_lights_preview_btn.toggle_mode = true
+	_lights_preview_btn.add_theme_font_size_override("font_size", 11)
+	_lights_preview_btn.add_theme_color_override("font_color", Color(1.0, 0.80, 0.30))
+	_lights_preview_btn.pressed.connect(_toggle_lights_preview)
+	pal_vbox.add_child(_lights_preview_btn)
+
 	# ── Canvas ───────────────────────────────────────────────────────────────
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -721,6 +740,11 @@ func _toggle_erase() -> void:
 			btn.button_pressed = false
 		for btn: Button in _var_btns:
 			btn.button_pressed = false
+
+
+func _toggle_lights_preview() -> void:
+	_lights_preview = _lights_preview_btn.button_pressed
+	_canvas.queue_redraw()
 
 
 func _update_cat_btns() -> void:
@@ -1125,7 +1149,31 @@ func _draw_canvas() -> void:
 
 	_canvas.draw_rect(Rect2(Vector2.ZERO, Vector2(_width * CELL, _height * CELL)), THEME_BG)
 
-	# Tiles
+	# Pre-compute per-tile night overlay alpha (0.0 = fully lit, 0.5 = fully dark).
+	# Tiles within a light's radius get a gradient fading from 0.0 at the source to 0.5 at the edge.
+	var tile_overlay: Dictionary = {}   # Vector2i → float
+	if _lights_preview:
+		for e: Variant in _entities:
+			var ed: Dictionary = e as Dictionary
+			if str(ed.get("kind", "")) != "light_source":
+				continue
+			var lx: int = int(ed.get("x", 0))
+			var ly: int = int(ed.get("y", 0))
+			var params: Dictionary = ed.get("params", {}) as Dictionary
+			var rad: int = int(params.get("radius", 3))
+			var origin := Vector2i(lx, ly)
+			tile_overlay[origin] = 0.0
+			for dy: int in range(-rad, rad + 1):
+				for dx: int in range(-rad, rad + 1):
+					if dx * dx + dy * dy <= rad * rad:
+						var tp := Vector2i(lx + dx, ly + dy)
+						if _in_bounds(tp) and _preview_has_los(origin, tp):
+							var dist: float = Vector2(float(dx), float(dy)).length()
+							var alpha: float = 0.5 * (dist / float(rad))
+							if not tile_overlay.has(tp) or (tile_overlay[tp] as float) > alpha:
+								tile_overlay[tp] = alpha
+
+	# Tiles (always drawn at full color; overlay applied on top)
 	for y: int in _height:
 		if y >= _tiles.size():
 			break
@@ -1133,16 +1181,21 @@ func _draw_canvas() -> void:
 		for x: int in _width:
 			if x >= row.size():
 				break
-			var v: int     = int(row[x])
-			var cat: int   = v / 16
-			var vi: int    = v % 16
+			var v: int       = int(row[x])
+			var cat: int     = v / 16
+			var vi: int      = v % 16
 			var cat_data: Dictionary = (TILE_CATS.get(cat, TILE_CATS[CAT_FLOOR])) as Dictionary
-			var vars: Array = cat_data["vars"] as Array
+			var vars: Array  = cat_data["vars"] as Array
 			var td: Dictionary = vars[clampi(vi, 0, vars.size() - 1)] as Dictionary
 			_canvas.draw_string(font,
 					Vector2(x * CELL, y * CELL + BASELINE_Y),
 					str(td["c"]), HORIZONTAL_ALIGNMENT_CENTER, CELL, FONT_SIZE,
 					td["col"] as Color)
+			if _lights_preview:
+				var ov: float = tile_overlay.get(Vector2i(x, y), 0.5) as float
+				if ov > 0.0:
+					_canvas.draw_rect(Rect2(x * CELL, y * CELL, CELL, CELL),
+							Color(0.0, 0.0, 0.0, ov))
 
 	# Grid lines
 	var gc := Color(0.20, 0.18, 0.15, 0.12)
@@ -1160,6 +1213,22 @@ func _draw_canvas() -> void:
 		var ed: Dictionary = _ent_def_for_kind(kind)
 		var ch: String     = str(ed.get("c", "?"))
 		var ec: Color      = ed.get("col", Color.WHITE) as Color
+
+		if _lights_preview:
+			var ep  := Vector2i(ex, ey)
+			var ov: float = tile_overlay.get(ep, 0.5) as float
+			if kind == "light_source":
+				var params: Dictionary = e.get("params", {}) as Dictionary
+				var carr: Array = params.get("color", [1.0, 0.72, 0.10]) as Array
+				ec = Color(float(carr[0]), float(carr[1]), float(carr[2]))
+			elif NIGHT_HIDDEN_KINDS.has(kind) and ov >= 0.5:
+				if i == _sel:
+					_canvas.draw_rect(Rect2(ex * CELL, ey * CELL, CELL, CELL),
+							Color(1.0, 0.85, 0.1), false, 2)
+				continue  # invisible in darkness
+			else:
+				ec = ec.darkened(ov * 0.8)
+
 		if EDITOR_ONLY_KINDS.has(kind):
 			_canvas.draw_rect(Rect2(ex * CELL, ey * CELL, CELL - 1, CELL - 1), ec.darkened(0.65))
 		_canvas.draw_string(font,
@@ -1173,6 +1242,37 @@ func _draw_canvas() -> void:
 	if _hover.x >= 0 and _in_bounds(_hover):
 		_canvas.draw_rect(Rect2(_hover.x * CELL, _hover.y * CELL, CELL, CELL),
 				Color(1, 1, 1, 0.28), false, 1)
+
+
+func _preview_tile_blocked(pos: Vector2i) -> bool:
+	if not _in_bounds(pos):
+		return true
+	var v: int = int((_tiles[pos.y] as Array)[pos.x])
+	return BLOCKED_CATS.has(v / 16)
+
+
+func _preview_has_los(from: Vector2i, to: Vector2i) -> bool:
+	var x0: int = from.x;  var y0: int = from.y
+	var x1: int = to.x;    var y1: int = to.y
+	var dx: int = absi(x1 - x0)
+	var dy: int = absi(y1 - y0)
+	var sx: int = 1 if x0 < x1 else -1
+	var sy: int = 1 if y0 < y1 else -1
+	var err: int = dx - dy
+	while true:
+		if x0 == x1 and y0 == y1:
+			break
+		var e2: int = 2 * err
+		if e2 > -dy:
+			err -= dy
+			x0 += sx
+		if e2 < dx:
+			err += dx
+			y0 += sy
+		# Check intermediate tile (not origin, but target is allowed to be a wall)
+		if (x0 != to.x or y0 != to.y) and _preview_tile_blocked(Vector2i(x0, y0)):
+			return false
+	return true
 
 
 func _ent_def_for_kind(kind: String) -> Dictionary:
@@ -1226,8 +1326,13 @@ func _apply_tool(cell: Vector2i) -> void:
 
 func _place_entity(kind: String, cell: Vector2i) -> void:
 	var uid: String = "%s_%d_%d" % [kind, cell.x, cell.y]
-	_entities.append({"kind": kind, "x": cell.x, "y": cell.y, "uid": uid,
-			"params": _default_params(kind, cell)})
+	var params: Dictionary = _default_params(kind, cell)
+	if kind == "light_source" and _active_cat == CAT_ENTITY and _active_var < ENT_DEFS.size():
+		var def: Dictionary = ENT_DEFS[_active_var] as Dictionary
+		var lc: Color = def["col"] as Color
+		params["color"] = [lc.r, lc.g, lc.b]
+		params["radius"] = int(def.get("default_radius", 3))
+	_entities.append({"kind": kind, "x": cell.x, "y": cell.y, "uid": uid, "params": params})
 	_sel = _entities.size() - 1
 	_canvas.queue_redraw()
 	_rebuild_props()
@@ -1261,6 +1366,8 @@ func _default_params(kind: String, cell: Vector2i) -> Dictionary:
 			return {"id": "well_%d_%d" % [cell.x, cell.y], "label": "Pozzo"}
 		"item":
 			return {"item_id": "", "qty": 1}
+		"light_source":
+			return {"radius": 3}
 		"spawn_point":
 			return {}
 		"event_trigger":
@@ -1443,6 +1550,9 @@ func _rebuild_props() -> void:
 			_prop_field("target_map", str(params.get("target_map", "overworld")), func(v: String) -> void: params["target_map"] = v)
 			_prop_spin("target_x",    int(params.get("target_x", 0)), func(v: float) -> void: params["target_x"] = int(v))
 			_prop_spin("target_y",    int(params.get("target_y", 0)), func(v: float) -> void: params["target_y"] = int(v))
+		"light_source":
+			_prop_spin_range("Raggio", int(params.get("radius", 3)), 1, 10,
+					func(v: float) -> void: params["radius"] = int(v))
 
 	_props_box.add_child(HSeparator.new())
 	var del_btn := Button.new()

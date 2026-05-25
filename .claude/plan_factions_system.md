@@ -1151,32 +1151,39 @@ già avere `quirk.status` e `tax_system.status` impostati a `"planned"` dove non
 
 ---
 
-### FASE 12 — Crime system completo
+### FASE 12 — Crime system completo ✅ (semplificato rispetto al design originale)
 
-*(Dipende da piano separato `plan_crime_system.md` da creare)*
+*(Piano separato: `plan_crime_system.md` — implementato come `CrimeSystem` autoload, non `CrimeRegistry`)*
 
-#### 12.1 Crimini e testimoni
-- [ ] Definire enum `CrimeType` (assault, murder, theft, trespassing, illegal_magic, ecc.)
-- [ ] Definire struttura "witnessed crime" (tipo, chi ha visto, dove, quando)
-- [ ] Implementare `CrimeRegistry` (autoload)
-- [ ] Implementare `CrimeRegistry.register_crime(type, actor, victim, witnesses, location)`
-- [ ] Implementare hook in `CombatManager` per assault testimoniato
-- [ ] Implementare furto, minaccia, omicidio, accesso abusivo
+> **Nota architetturale**: il design originale prevedeva `CrimeRegistry` con `CrimeType` enum e crimini strutturati. L'implementazione effettiva è più semplice e pragmatica: un unico tipo di crimine (assault su NPC testimoniato), gestito da `CrimeSystem` direttamente. I crimini complessi (furto, omicidio, trespassing) restano futuri.
 
-#### 12.2 Taglie e risposta Milizia
-- [ ] Implementare `bounty` su `GameState` (flag + livello taglia)
-- [ ] Implementare risposta `milizia_campane` a crime registrato (avviso → arresto/multa)
-- [ ] Implementare possibilità di pagare multa, scontare pena, fuggire
+#### 12.1 Crimini e testimoni ✅ (semplificato)
+- [x] Crimini: solo assault su NPC con amuleto equipaggiato (nessun enum `CrimeType` — non necessario per ora)
+- [x] Testimoni: `CrimeSystem.has_witnesses(origin)` — controlla NPC con LOS nel raggio 30
+- [x] `CrimeSystem` autoload: `register_crime()`, `arrest_player()`, `clear_crime()`, `is_crime_active()`
+- [x] Hook `CombatManager`: attaccare NPC → `track_attacked_npc()` + `has_witnesses()` → `register_crime()`
+- [ ] Furto, minaccia, omicidio, accesso abusivo — deferred (dipendono da NPC interaction system)
 
-#### 12.3 Collegare `tavola_senza_nome`
-- [ ] Collegare funzionalità crime system alle meccaniche Tavola (omicidio, furto, minaccia)
-- [ ] Collegare riduzione taglia attraverso Tavola
-- [ ] Collegare safe house al crime system
+#### 12.2 Taglie e risposta Milizia ✅
+- [x] `GameState.crime_state` {city_id: int} — 0=nessuno, 1=attivo, 2=arrestato (non persiste nel save)
+- [x] `GameState.criminal_record` Array — storico arresti (persiste nel save)
+- [x] Risposta milizia: 6 guardie al crimine, ondate di +3 ogni 8 turni via `player_turn_started`
+- [x] Arresto: HP player ≤ 1 → multa 25% oro → `GameState.criminal_record` → rep -10 milizia
+- [x] Fuga dalla città: `apply_post_crime_rep_on_flee()` → -50 rep milizia + fazioni NPC attaccate
+- [x] `ArrestScreen` (layer 101) — fade-in/out con info arresto; keypress per continuare
+- [ ] Pagare multa esplicitamente, scontare pena — deferred
 
-#### 12.4 Hook crimini predisposti (stub già in Fase 2/3, da implementare qui)
-- [ ] Sostituire stub `CrimeRegistry` con implementazione reale
-- [ ] Collegare `CRIME_*` keys al `FactionDisplay.get_display_crime()`
-- [ ] Aggiornare `.claude/codebase_reference.md` — aggiungere `CrimeRegistry` alla tabella autoload; documentare `CrimeType` enum e la struttura "witnessed crime"; documentare `bounty` in `GameState`
+#### 12.3 Collegare `tavola_senza_nome` ✅ (parziale)
+- [x] `FactionActionsService.try_reduce_bounty_tsn()` — richiede `tsn_bounty_reduction` passive + 200g → `clear_crime(city_id)`
+- [x] Safe house come rifugio: entrare in edificio TSN safe house con `tsn_black_market` e crimine attivo → `clear_crime()` + notifica
+- [ ] Furto/minaccia tramite Tavola — deferred (dipende da NPC interaction system)
+
+#### 12.4 Hook crimini ✅
+- [x] `CrimeSystem` sostituisce `CrimeRegistry` stub (approccio diverso, stessa funzione)
+- [x] `FactionDisplay.get_display_crime()` + chiavi `CRIME_*` in `strings_factions.csv`
+- [x] `NOTIF_CRIME_COMMITTED`, `NOTIF_CRIME_ARRESTED`, `NOTIF_CRIME_CLEARED`, `NOTIF_CRIME_SAFE_HOUSE`, `NOTIF_CRIME_WITNESSED` in `strings_notifications.csv`
+- [x] DebugScreen: sezione crime con stato attivo, record, bottoni spawn guardie / witness test / clear / arrest
+- [x] Aggiornato `codebase_reference.md`
 
 ---
 
@@ -1360,26 +1367,14 @@ Organizzato per area tematica, con la dipendenza esterna che lo sblocca (dove pr
 
 ---
 
-### 1. Crime system (Fase 12 — intera fase non iniziata)
+### 1. Crime system (Fase 12 — ✅ implementata, vedi sezione sopra)
 
-*Dipende da `plan_crime_system.md` ancora da creare.*
-
-- [ ] Definire enum `CrimeType`: `assault`, `murder`, `theft`, `trespassing`, `illegal_magic`, `bribery`, ecc.
-- [ ] Definire struttura "witnessed crime": tipo, attore, vittima, testimoni, luogo, turno
-- [ ] Implementare `CrimeRegistry` (autoload): `register_crime()`, query storico crimini attivi
-- [ ] Hook in `CombatManager`: attaccare NPC neutrale = `assault` (solo se testimoniato)
-- [ ] Implementare furto, minaccia, omicidio come meccaniche distinte (non dialogo standard)
-- [ ] Implementare accesso abusivo (`trespassing`) per aree protette senza requisito soddisfatto
-- [ ] `GameState.active_bounty: int` → sostituire placeholder con struttura piena (livello taglia, crimini associati)
-- [ ] Risposta `milizia_campane` a crime registrato: avviso → inseguimento → arresto/multa → fuga possibile
-- [ ] Pagare multa (perde oro), scontare pena (perde turni), fuggire (perde rep)
-- [ ] Collegare `tavola_senza_nome` al crime system: omicidio/furto/minaccia sbloccati da `tsn_black_market`
-- [ ] `FactionActionsService.try_reduce_bounty_tsn()` — stub → implementazione reale
-- [ ] Collegare safe house al crime system: rifugio da inseguimento Milizia
-- [ ] `FactionDisplay.get_display_crime()` collegato a chiavi `CRIME_*` reali
-- [ ] `UI_FACTION_CRIME_WITNESSED` in `strings_notifications.csv`
-- [ ] DebugScreen: sezione crime/taglia (visualizzazione bounty + lista crimini + inject crime + bottoni paga/clear)
-- [ ] Aggiornare codebase_reference: `CrimeRegistry`, `CrimeType`, struttura "witnessed crime", `bounty` pieno in GameState
+**Implementato** — vedi Fase 12. Cosa resta (deferred, dipende da altri sistemi):
+- [ ] Furto, minaccia, omicidio come meccaniche distinte — dipende da NPC interaction system
+- [ ] Accesso abusivo (`trespassing`) — dipende da door/area access system
+- [ ] Pagare multa esplicitamente, scontare pena in turni — opzionale (arrest automatico funziona)
+- [ ] `milizia_campane` rep+ per crimini riportati dagli NPC — dipende da NPC AI reporting
+- [ ] Venditori mercato nero TSN — dipende da NPC shop system
 
 ---
 

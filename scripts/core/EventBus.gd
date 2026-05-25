@@ -51,3 +51,9 @@ signal toggle_faction_screen()
 signal crime_committed(city_id: String)
 signal player_arrested(city_id: String, fine_amount: int)
 signal crime_cleared(city_id: String)
+
+# Time system
+signal time_advanced(minutes: int)
+signal day_changed(day_count: int)
+signal day_slot_changed(slot: String)
+signal world_ticked(ticks: int, tick_size: int)

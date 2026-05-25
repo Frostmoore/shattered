@@ -65,7 +65,7 @@ LocaleManager.t_or(key: String, fallback: String, params: Dictionary = {}) -> St
 CSV caricati (in ordine):
 ```
 locales/strings_ui.csv         — UI, HUD, menu + UI_FACTIONS_* (FactionScreen) + UI_FACTION_* (action feedback)
-locales/strings_notifications.csv — notifiche generali + NOTIF_FACTION_* (stato/sostenitore/accesso) + NOTIF_TAX_* (tasse fazione)
+locales/strings_notifications.csv — notifiche generali + NOTIF_FACTION_* (stato/sostenitore/accesso) + NOTIF_TAX_* (tasse fazione) + NOTIF_CRIME_* (crimine, arresto, safe house)
 locales/strings_data.csv       — tooltip stat, slot display, quality labels
 locales/strings_dialogue.csv
 locales/strings_classes.csv    — nomi/descrizioni delle 60 classi
@@ -250,7 +250,7 @@ WorldManager.get_current_map() -> BaseMap
 Flusso `change_map`:
 1. `current_map.save_location_state()` → flush in LocationRegistry
 2. `current_map.queue_free()`
-3. `_update_city_id(location_id, data)` → aggiorna `GameState.current_city_id`; se si lascia una città con crimine attivo chiama `CrimeSystem.apply_post_crime_rep_on_flee()`; se si rientra in una città con crimine già attivo spawna guardie di pattuglia
+3. `_update_city_id(location_id, data)` → aggiorna `GameState.current_city_id`; se si lascia una città con crimine attivo chiama `CrimeSystem.apply_post_crime_rep_on_flee()`; se si rientra in una città con crimine già attivo spawna guardie di pattuglia; se si entra in un edificio che è safe house TSN con crimine attivo e `tsn_black_market` passive → `CrimeSystem.clear_crime()`
 4. `LocationRegistry.get_or_generate(location_id)` → genera se prima visita
 5. `scene.instantiate()` → `populate(data, state)` → `add_child`
 
@@ -273,6 +273,10 @@ _save_point_positions: Array[Vector2i]
 _visible_tiles: PackedByteArray   # FOV corrente (0/1)
 _seen_tiles: PackedByteArray      # memoria fog-of-war (0/1)
 
+# Sorgenti di luce (sistema notte)
+_light_sources: Array[Dictionary]  # [{pos: Vector2i, radius: int, color: Color}]
+_lights_active: bool               # true durante sera/notte (settato da _on_day_slot_changed)
+
 # Metodi chiave
 populate(data: MapData, state: LocationState)   # chiamato da WorldManager prima di add_child
 save_location_state()                           # flush → LocationRegistry (chiamato prima di cambiare mappa o salvare)
@@ -282,7 +286,14 @@ is_tile_visible(pos: Vector2i) -> int           # 1 = in FOV
 is_tile_seen(pos: Vector2i) -> int              # 1 = mai visto
 add_corpse(pos: Vector2i, color: Color)
 respawn_non_boss_enemies()                      # chiamato da save point; svuota anche _corpses
+has_line_of_sight(from: Vector2i, to: Vector2i) -> bool  # pubblico; usato da CrimeSystem e MapRenderer
+toggle_lights()                                 # debug — inverte _lights_active e ricomputa FOV
 ```
+
+`_light_sources` viene popolato in `_spawn_entity()` per ogni entità `kind == "light_source"` letta dal JSON.  
+`_on_day_slot_changed(slot)` (connesso a `EventBus.day_slot_changed`) imposta `_lights_active = slot in ["sera","notte"]` e ricomputa il FOV.
+
+Il FOV in `_compute_fov()` usa `_cast_fov_from(origin, radius)` (Bresenham + `_is_opaque()`) sia per il player che per ogni luce attiva. `_is_opaque()` controlla `_blocked_tiles` e porte chiuse (`GameBalance.FOV_DOORS_BLOCK_SIGHT`).
 
 ### MapData — struttura dati mappa (`scripts/world/MapData.gd`)
 
@@ -371,6 +382,31 @@ variante  = valore & 0xF
 | `plant` | `♣` verde | pianta, params: blocks_movement |
 | `well` | `o` azzurro | pozzo |
 | `item` | `?` oro | oggetto sul suolo |
+| `light_source` | `*` (colore variante) | sorgente di luce notturna; 8 varianti colore; NON spawna un nodo Entity — viene registrata in `BaseMap._light_sources` |
+
+**8 varianti `light_source`** (stesso `kind`, colore e raggio diversi):
+
+| Label | Colore | Raggio default |
+|-------|--------|----------------|
+| Torcia | `(1.00, 0.72, 0.10)` | 2 |
+| Lanterna | `(1.00, 0.90, 0.60)` | 3 |
+| Candela | `(0.95, 0.85, 0.50)` | 1 |
+| Braciere | `(1.00, 0.52, 0.10)` | 4 |
+| Fiamma Bianca | `(1.00, 0.95, 0.90)` | 3 |
+| Luce Magica | `(0.38, 0.68, 1.00)` | 3 |
+| Luce Verde | `(0.28, 1.00, 0.48)` | 3 |
+| Luce Viola | `(0.75, 0.28, 1.00)` | 3 |
+
+Le sorgenti di luce sono visibili solo di notte (`sera`/`notte`) — di giorno il glyph `*` non viene renderizzato.  
+Il colore e il raggio vengono iniettati nei `params` al momento del piazzamento (`CityBuilderPanel._place_entity()`):
+```jsonc
+{ "kind": "light_source", "params": { "color": [r, g, b], "radius": 3 } }
+```
+
+**Preview notturna nel City Builder**: pulsante "🕯 Luci notte" nel pannello palette.  
+Attiva un overlay nero per tile con gradiente (0.0 al centro luce → 0.5 fuori raggio).  
+Usa LOS Bresenham (`_preview_has_los()`) che rispetta `BLOCKED_CATS` (muri, staccionate, buche).  
+`NPC`, `enemy`, `guard` (`NIGHT_HIDDEN_KINDS`) diventano invisibili se overlay ≥ 0.5.
 
 ### Marker editor-only (`CAT_MARKER`) — invisibili in gioco
 
@@ -684,16 +720,45 @@ Calibrazione TTK verificata con `CombatSimulator.run_validation()`.
 ## Rendering — `scripts/world/MapRenderer.gd`
 
 - `z_index = -5` — disegna sotto i nodi Label delle entità (z=0)
-- Trigger redraw: `enemy_died`, `player_moved`, `map_changed`, `turn_ended`
-- FOV attivo per `dungeon` e `overworld`; village sempre illuminato
-- Overworld: raggio variabile (base 15, modificato da bioma e classe), fog of war per-personaggio via `explored_tiles` bitmask in GameState (non in LocationState)
-- `FOV_MEMORY_ALPHA`: moltiplicatore colore per tile viste ma fuori FOV
+- Trigger redraw: `enemy_died`, `player_moved`, `map_changed`, `turn_ended`, `day_slot_changed`
+- `FOV_MEMORY_ALPHA`: moltiplicatore colore per tile viste ma fuori FOV (solo modalità dungeon)
 
-Ordine di rendering in `_draw()`:
+### Modalità rendering
+
+| Contesto | Modalità | Comportamento |
+|----------|----------|---------------|
+| `dungeon` | **FOV binario** | Tile mai viste = skip; tile viste fuori FOV = `FOV_MEMORY_ALPHA`; entità visibili solo se tile in FOV |
+| `village`/`city` di giorno | **Tutto visibile** | Tile tutte al colore pieno; entità sempre visibili |
+| `village`/`city` di notte (`_lights_active`) | **Night overlay** | Tile al colore pieno + overlay nero per tile; entità mobili nascoste in zone buie |
+
+### Night overlay mode (village/city con `_lights_active = true`)
+
+`_fill_overlay(map, overlay, origin, radius)` calcola per ogni tile raggiungibile via LOS da `origin`:  
+`alpha = 0.5 * (distanza / radius)` → 0.0 al centro luce, 0.5 al bordo.  
+Sorgenti: player (`GameBalance.FOV_RADIUS`) + ogni `_light_source` della mappa.  
+Tile senza LOS da nessuna sorgente: overlay = 0.5 (massimo scuro).  
+Più sorgenti sovrapposti: si prende il minimo alpha (unione degli aloni).
+
+Il `has_line_of_sight()` di BaseMap viene chiamato per ogni tile in ogni raggio → stesso algoritmo usato dal FOV di gioco, muri e porte bloccano la luce.
+
+### Entità in night overlay mode
+
+| Tipo | Comportamento |
+|------|---------------|
+| `NPC`, `Enemy` (incluse Guard), `Ally` | `visible = false` se overlay ≥ 0.5 (oscurità totale) |
+| `Door`, `Chest`, `PostStation`, `Ambulatorio` | Sempre visibili; `modulate` scurito proporzionalmente all'overlay |
+| Sorgenti luce (`*`) | Disegnate in `_draw()` sul layer superiore, sempre al colore pieno |
+
+`modulate` viene resettato a `Color.WHITE` al cambio modalità per evitare stale values.
+
+### Ordine di rendering in `_draw()`
+
 1. Background rect
-2. Tile floor/wall (con dim per memoria FOV)
-3. `_draw_corpses()` — carattere `_` con `color.darkened(0.5)` dell'enemy
-4. `_draw_entities()` — mostra/nasconde Label delle entità vive in base a FOV
+2. Tile floor/wall (colore pieno)
+3. Per-tile overlay rect `Color(0,0,0, alpha)` (solo night overlay mode)
+4. `_draw_corpses()` — `_` con colore dimmed da overlay o FOV_MEMORY_ALPHA
+5. `_draw_entities()` — visibilità e modulate per ogni entità
+6. Glyph `*` sorgenti di luce (sopra tutto, mai overlaid)
 
 ---
 
@@ -711,6 +776,14 @@ save_point_used
 damage_dealt(amount, source) / damage_taken(amount)
 combat_log(text: String)
 notification_shown(notif: Notification)
+
+# Time System (segnali presenti — TimeManager non ancora implementato)
+time_advanced(minutes: int)          # emesso da TimeManager.advance() ad ogni avanzamento
+day_changed(day_count: int)          # emesso quando total_minutes supera un multiplo di 1440
+day_slot_changed(slot: String)       # emesso al cambio slot interno ("alba","mattina","pomeriggio","sera","notte")
+                                     # ↳ BaseMap._on_day_slot_changed() → aggiorna _lights_active + ricomputa FOV
+                                     # ↳ MapRenderer._on_redraw_needed() → queue_redraw()
+world_ticked(ticks: int, tick_size: int)  # emesso per avanzamenti ≥ 30 min; usato da WorldActor (futuro)
 
 # Fazioni (Fase 2–4)
 faction_rep_changed(faction_id: String, old_val: int, new_val: int)
@@ -734,6 +807,10 @@ Notification.faction_access_denied(fname) # rosso Color(0.9, 0.3, 0.25) — acce
 Notification.faction_action(msg)          # ciano Color(0.4, 0.85, 0.95) — azione faction world (F11+)
 Notification.faction_rep_delta(name, delta) # verde/rosso — Δrep ≥5 senza cambio stato; durata 2s
 Notification.warning(msg)                 # arancio — warning generico
+Notification.crime_committed()            # rosso — crimine commesso
+Notification.player_arrested(fine)        # rosso — arrestato, mostra multa
+Notification.crime_cleared()             # ciano — mandato cancellato
+Notification.crime_safe_house()          # ciano — rifugio sicuro, mandato cancellato
 ```
 
 ### `data/factions/relations.json` — matrice laterale (Fase 16 completata)
@@ -841,7 +918,7 @@ const AMBULATORIO_OPEN_COST:      int = 200
 FactionActionsService.try_deposit_map() -> bool       # check carto_map_sellable; solo dungeon; reward oro
 FactionActionsService.try_build_post_station() -> bool # check ponti_speed_bonus; 100g; distanza 30 tiles
 FactionActionsService.try_open_ambulatorio() -> bool   # check officine_advanced_care; 200g; city/village
-FactionActionsService.try_reduce_bounty_tsn() -> bool  # STUB — Fase 12
+FactionActionsService.try_reduce_bounty_tsn() -> bool  # check tsn_bounty_reduction + 200g → CrimeSystem.clear_crime(city_id)
 ```
 
 Trigger doppio: `Main._unhandled_input()` (F5/F6/F7) + `NPC.interact()` via `faction_action_id`.  

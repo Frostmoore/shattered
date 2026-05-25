@@ -170,6 +170,14 @@ static func crime_cleared() -> Notification:
 	return n
 
 
+static func crime_safe_house() -> Notification:
+	var n := Notification.new()
+	n.text     = LocaleManager.t_or("NOTIF_CRIME_SAFE_HOUSE", "Rifugio sicuro — il mandato è stato cancellato.")
+	n.color    = Color(0.4, 0.85, 0.95)
+	n.duration = 4.0
+	return n
+
+
 static func faction_rep_delta(faction_name: String, delta: int) -> Notification:
 	var n    := Notification.new()
 	var delta_prefix := "+" if delta > 0 else ""

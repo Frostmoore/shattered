@@ -35,7 +35,6 @@ LocationRegistry="*res://scripts/world/LocationRegistry.gd"
 WorldSaveManager="*res://scripts/core/WorldSaveManager.gd"
 TurnManager="*res://scripts/core/TurnManager.gd"
 SaveManager="*res://scripts/core/SaveManager.gd"
-CrimeSystem="*res://scripts/core/CrimeSystem.gd"
 CombatManager="*res://scripts/combat/CombatManager.gd"
 ItemDB="*res://scripts/items/ItemDB.gd"
 ItemAffixDB="*res://scripts/items/ItemAffixDB.gd"
@@ -59,6 +58,7 @@ FactionEffects="*res://scripts/core/FactionEffects.gd"
 FactionEconomy="*res://scripts/core/FactionEconomy.gd"
 WorldState="*res://scripts/core/WorldState.gd"
 FactionActionsService="*res://scripts/core/FactionActionsService.gd"
+CrimeSystem="*res://scripts/core/CrimeSystem.gd"
 
 [display]
 

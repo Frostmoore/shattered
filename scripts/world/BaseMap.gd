@@ -16,6 +16,10 @@ var _player: Player = null
 var _corpses: Array[Dictionary] = []     # {pos: Vector2i, color: Color}
 var _corpse_loot: Dictionary = {}        # Vector2i → Array of drop Dictionaries
 
+# ── Light sources ─────────────────────────────────────────────────────────────
+var _light_sources: Array[Dictionary] = []  # [{pos: Vector2i, radius: int}]
+var _lights_active: bool = false             # true during sera/notte
+
 # ── Fog of War ────────────────────────────────────────────────────────────────
 # _visible_tiles: transient per-frame visibility (0 = not in FOV, 1 = in FOV)
 # _seen_tiles:    persistent memory (0 = never seen, 1 = seen before)
@@ -29,6 +33,7 @@ func _ready() -> void:
 	_spawn_player()
 	_setup_turn_manager()
 	EventBus.player_moved.connect(_on_player_moved)
+	EventBus.day_slot_changed.connect(_on_day_slot_changed)
 	_on_player_moved(GameState.player_position)
 
 
@@ -145,6 +150,14 @@ func _spawn_entity(def: Dictionary, uid: String, open_door_uids: Array[String] =
 			var amb: Node = (load("res://scripts/entities/Ambulatorio.gd") as GDScript).new()
 			amb.call("setup", params)
 			_add_entity(amb, pos, uid)
+
+		"light_source":
+			var raw_col: Array = params.get("color", [1.0, 0.82, 0.20]) as Array
+			var lc: Color = Color(float(raw_col[0]), float(raw_col[1]), float(raw_col[2]))
+			_light_sources.append({"pos": pos, "radius": int(params.get("radius", 3)), "color": lc})
+
+		"save_point", "plant", "well", "port", "item", "spawn_point", "event_trigger", "exit":
+			pass  # handled elsewhere or editor-only
 
 		_:
 			push_error("BaseMap: unknown entity kind: " + kind)
@@ -419,12 +432,38 @@ func _add_entity(entity: Node, pos: Vector2i, uid: String = "") -> void:
 func _on_player_moved(_pos: Vector2i) -> void:
 	if map_width == 0 or map_height == 0:
 		return
-	_compute_fov(GameState.player_position, GameBalance.FOV_RADIUS)
+	_compute_fov(GameState.player_position, _get_player_fov_radius())
+
+
+func toggle_lights() -> void:
+	_lights_active = not _lights_active
+	_compute_fov(GameState.player_position, _get_player_fov_radius())
+	var renderer: Node = get_node_or_null("MapRenderer")
+	if renderer:
+		renderer.queue_redraw()
+
+
+func _on_day_slot_changed(slot: String) -> void:
+	_lights_active = slot == "sera" or slot == "notte"
+	_compute_fov(GameState.player_position, _get_player_fov_radius())
+
+
+func _get_player_fov_radius() -> int:
+	var tm: Node = get_node_or_null("/root/TimeManager")
+	if tm != null:
+		return roundi(GameBalance.FOV_RADIUS * tm.call("get_vision_modifier", map_type))
+	return GameBalance.FOV_RADIUS
 
 
 func _compute_fov(origin: Vector2i, radius: int) -> void:
 	_visible_tiles.fill(0)
-	# Mark tiles in a circular area visible if there is an unobstructed line from origin
+	_cast_fov_from(origin, radius)
+	if _lights_active:
+		for ls: Dictionary in _light_sources:
+			_cast_fov_from(ls["pos"] as Vector2i, int(ls["radius"]))
+
+
+func _cast_fov_from(origin: Vector2i, radius: int) -> void:
 	for dy: int in range(-radius, radius + 1):
 		for dx: int in range(-radius, radius + 1):
 			if dx * dx + dy * dy > radius * radius:

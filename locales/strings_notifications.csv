@@ -34,3 +34,5 @@ NOTIF_TAX_RANK_BLOCKED,Paga le tasse arretrate prima di avanzare di rango.
 NOTIF_CRIME_COMMITTED,Crimine commesso! Le guardie ti cercano.
 NOTIF_CRIME_ARRESTED,Arrestato. Multa: {fine}g.
 NOTIF_CRIME_CLEARED,Il mandato è stato cancellato.
+NOTIF_CRIME_SAFE_HOUSE,Rifugio sicuro — il mandato è stato cancellato.
+NOTIF_CRIME_WITNESSED,Crimine testimoniato!

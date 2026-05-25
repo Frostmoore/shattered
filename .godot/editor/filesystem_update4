@@ -63,3 +63,4 @@ res://locales/strings_factions.it.translation
 res://locales/strings_classes.it.translation
 res://locales/strings_items.it.translation
 res://scripts/core/GlobalMilestoneTracker.gd
+res://scripts/world/MapRenderer.gd

@@ -65,7 +65,13 @@ func _update_city_id(location_id: String, data: MapData) -> void:
 			var meta_city: String = str(data.metadata.get("city_id", ""))
 			if meta_city != "":
 				GameState.current_city_id = meta_city
-			# Otherwise keep existing city_id (building is inside current city)
+			# Safe house refuge: entering a TSN safe house clears active crime
+			if WorldState.is_safe_house_location(location_id):
+				var city_id: String = GameState.current_city_id
+				if city_id != "" and CrimeSystem.is_crime_active(city_id) \
+						and GameState.faction_passive_flags.get("tsn_black_market") == true:
+					CrimeSystem.clear_crime(city_id)
+					EventBus.notification_shown.emit(Notification.crime_safe_house())
 		"dungeon", "overworld", _:
 			var prev_city: String = GameState.current_city_id
 			if prev_city != "":
