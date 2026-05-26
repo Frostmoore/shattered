@@ -2,6 +2,12 @@
 
 ---
 
+## Note visive / polish
+
+- **HUD V2 — restyling grafico**: l'HUD funziona ma è brutto. Rifare l'aspetto quando si inizia a integrare assets grafici (font, icone, sfondo).
+
+---
+
 ## Ordine implementazione sistemi
 
 L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo se i predecessori sono completi.
@@ -96,7 +102,7 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [ ] **Camping system** — il player deve poter accamparsi sull'overworld/dungeon per recuperare risorse e far passare il tempo (dipende da Time System e Needs System)
 
 - [x] ~~Sviluppare un crime system e ricontrollare implementazione plan_factions_system~~ ✅ fatto
-- [ ] Implementare schermata di configurazione NPC nel CityBuilder (nome, dialoghi, reputazione, fazioni con ruolo primary/secondary, love interest, dialoghi condizionali per rep/fazione/quest)
+- [x] Implementare schermata di configurazione NPC nel CityBuilder (nome, dialoghi, reputazione, fazioni con ruolo primary/secondary, love interest, dialoghi condizionali per rep/fazione/quest)
 - [ ] AI differenziata per controller (mantiene distanza), assassin (approccio dal retro), artillery (ranged)
 - [ ] Validazione TTK tier 3-6 con CombatSimulator dopo aver avviato il gioco
 - [x] Sistema bisogni: fame, sete, sonno, stanchezza, malattia ✅ completo
@@ -112,3 +118,4 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [ ] Bisogna creare anche un file game_engine_reference in cui ci siano i dettagli di tutti i sistemi e di tutte le meccaniche del gioco, ma non approfondito e "da programmatore" come il codebase_reference
 - [ ] Sistemare hud che è na merda così
 - [ ] Creare handcrafted_maps_reference.md
+- [ ] Controllare drop prestazioni minimappa

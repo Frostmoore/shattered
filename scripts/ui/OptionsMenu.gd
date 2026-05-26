@@ -9,6 +9,8 @@ var _orig_master_volume: float   = 1.0
 var _orig_zoom_level: float      = 2.0
 var _orig_language: String       = "it"
 
+var _hud_panel: Control = null
+
 @onready var window_size_option: OptionButton = $Panel/VBox/WindowSizeOption
 @onready var fullscreen_check: CheckButton    = $Panel/VBox/FullscreenCheck
 @onready var volume_slider: HSlider           = $Panel/VBox/VolumeSlider
@@ -26,6 +28,12 @@ func _ready() -> void:
 	language_option.item_selected.connect(_on_language_selected)
 	$Panel/VBox/ApplyButton.pressed.connect(_on_apply)
 	$Panel/VBox/BackButton.pressed.connect(_on_back)
+
+	var hud_btn := Button.new()
+	hud_btn.text = "Opzioni HUD"
+	hud_btn.pressed.connect(_on_hud_options_pressed)
+	$Panel/VBox.add_child(hud_btn)
+	$Panel/VBox.move_child(hud_btn, $Panel/VBox.get_child_count() - 3)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -103,3 +111,12 @@ func _on_back() -> void:
 	SettingsManager.language          = _orig_language
 	SettingsManager.apply_all()
 	back_requested.emit()
+
+
+func _on_hud_options_pressed() -> void:
+	if _hud_panel == null:
+		var packed: PackedScene = load("res://scenes/ui/HUDOptionsPanel.tscn")
+		_hud_panel = packed.instantiate() as Control
+		add_child(_hud_panel)
+	_hud_panel.call("refresh")
+	_hud_panel.show()

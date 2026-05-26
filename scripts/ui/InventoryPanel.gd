@@ -10,6 +10,8 @@ class_name InventoryPanel
 @onready var slot1_btn: Button         = $Panel/VBox/ContentHBox/BagSection/SlotRow/Slot1Btn
 @onready var slot2_btn: Button         = $Panel/VBox/ContentHBox/BagSection/SlotRow/Slot2Btn
 @onready var slot3_btn: Button         = $Panel/VBox/ContentHBox/BagSection/SlotRow/Slot3Btn
+@onready var slot4_btn: Button         = $Panel/VBox/ContentHBox/BagSection/SlotRow/Slot4Btn
+@onready var slot5_btn: Button         = $Panel/VBox/ContentHBox/BagSection/SlotRow/Slot5Btn
 @onready var tooltip: PanelContainer   = $Tooltip
 @onready var tooltip_lbl: RichTextLabel = $Tooltip/TooltipLabel
 
@@ -86,8 +88,8 @@ func _ready() -> void:
 	tooltip.visible = false
 	$Panel/VBox/TitleRow/CloseButton.pressed.connect(_close)
 	action_btn.pressed.connect(_on_action_pressed)
-	_slot_assign_btns = [slot1_btn, slot2_btn, slot3_btn]
-	for i: int in 3:
+	_slot_assign_btns = [slot1_btn, slot2_btn, slot3_btn, slot4_btn, slot5_btn]
+	for i: int in 5:
 		var idx := i
 		_slot_assign_btns[i].pressed.connect(func() -> void: _assign_slot(idx))
 	_build_paper_doll()
@@ -311,7 +313,7 @@ func _update_action_area() -> void:
 
 
 func _refresh_slot_btns() -> void:
-	for i: int in 3:
+	for i: int in 5:
 		var assigned: bool = str(GameState.quick_slots[i]) == _selected_item
 		_slot_assign_btns[i].text = "[%d]✓" % (i + 1) if assigned else "[%d]" % (i + 1)
 

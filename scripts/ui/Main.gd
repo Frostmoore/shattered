@@ -1,13 +1,12 @@
 extends Node
 
 @onready var map_container: Node                   = $MapContainer
-@onready var hud: CanvasLayer                      = $HUD
+@onready var _hud_v2: HUDV2                        = $HUDV2
 @onready var inventory_panel: InventoryPanel       = $InventoryPanel
 @onready var game_over: GameOver                   = $GameOver
 @onready var main_menu: MainMenu                   = $MainMenu
 @onready var pause_menu: PauseMenu                 = $PauseMenu
 @onready var options_menu: OptionsMenu             = $OptionsMenu
-@onready var combat_bar: CombatBar                 = $CombatBar
 @onready var quest_journal: QuestJournal           = $QuestJournal
 @onready var new_game_panel: NewGamePanel          = $NewGamePanel
 @onready var world_select_screen: WorldSelectScreen = $WorldSelectScreen
@@ -27,7 +26,7 @@ var _pending_pd: bool      = false
 
 func _ready() -> void:
 	WorldManager.init(map_container)
-	hud.visible = false
+	_hud_v2.visible = false
 	_setup_class_picker()
 	_setup_respec_screen()
 	_setup_faction_screen()
@@ -185,8 +184,8 @@ func _connect_menus() -> void:
 	options_menu.back_requested.connect(_hide_options)
 	game_over.restart_requested.connect(_on_restart)
 	game_over.main_menu_requested.connect(_go_to_main_menu)
-	combat_bar.use_item_requested.connect(_show_inventory_from_combat)
-	combat_bar.open_menu_requested.connect(_open_pause_from_bar)
+	_hud_v2.use_item_requested.connect(_show_inventory_from_combat)
+	_hud_v2.open_menu_requested.connect(_open_pause_from_bar)
 	new_game_panel.class_selection_requested.connect(_on_class_selection_requested)
 	EventBus.player_died.connect(_on_player_died)
 	new_game_panel.cancelled.connect(_show_main_menu_from_panel)
@@ -293,8 +292,7 @@ func _load_game(world_name: String, char_name: String) -> void:
 
 
 func _launch_game(map_id: String, pos: Vector2i) -> void:
-	hud.visible = true
-	combat_bar.visible = true
+	_hud_v2.visible = true
 	_game_started = true
 	WorldManager.change_map(map_id, pos)
 
@@ -350,8 +348,7 @@ func _go_to_main_menu() -> void:
 	if _faction_screen:
 		_faction_screen.visible = false
 	game_over.hide_panel()
-	hud.visible = false
-	combat_bar.visible = false
+	_hud_v2.visible = false
 	main_menu.show_menu()
 
 
@@ -428,7 +425,8 @@ func _reset_game_state(world_name: String, char_name: String, permadeath: bool =
 		"ring_1": "", "ring_2": "", "neck": "", "feet": "",
 		"cloak": "", "trinket": "", "hands": ""
 	}
-	GameState.quick_slots      = ["", "", ""]
+	GameState.quick_slots      = ["", "", "", "", ""]
+	GameState.explored_tiles   = {}
 	GameState.food            = 100.0
 	GameState.water           = 100.0
 	GameState.exhaustion      = 0.0

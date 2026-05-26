@@ -24,7 +24,8 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `NeedsManager` | `scripts/core/NeedsManager.gd` | Bisogni sopravvivenza (FASE 1-5). `tick(minutes, ctx)` — avanzamento bisogni, segmentato in passi ≤60 min. `consume(changes)` — modifiche istantanee. `rest(type)` — "save_point" (exh −30), "inn" (exh=0 temp=0), "camp" (exh −50 temp=0); chiama `_check_rest_cures(type)`. `add_disease(id)` / `cure_disease(id)` / `cure_all_diseases()` / `cure_diseases_matching_item(item_id)` (controlla cure_triggers item_use+item_tag) / `rebuild_modifiers()`. Cure automatiche: `_check_time_cure_triggers` (accumula `_cure_time_acc`), `_check_need_cure_triggers` (need_above), `_check_rest_cures` (rest_type), `_check_natural_recovery` (riduce stage_index, accumula `_nat_recovery_acc`). |
 | `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa; `change_map()` aggiorna `GameState.current_location_faction_id` dalla signoria + `current_city_id`; applica flee penalty (`CrimeSystem.apply_post_crime_rep_on_flee()`) quando si esce da una città con crimine attivo; spawna guardie di pattuglia al rientro |
 | `LocationRegistry` | `scripts/world/LocationRegistry.gd` | Registro stati per-mappa (fog, morti, porte, cadaveri) |
-| `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load; serializza `faction_rep`, `faction_membership`, `known_faction_members` nel save personaggio |
+| `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load; serializza `faction_rep`, `faction_membership`, `known_faction_members`, `quick_slots` (5 elem), `explored_tiles` nel save personaggio |
+| `SettingsManager` | `scripts/core/SettingsManager.gd` | Impostazioni persiste in `user://settings.json`. Campi: `window_mode`, `window_size_index`, `master_volume`, `zoom_level`, `language` + campi HUD: `hud_ui_mode` ("info"\|"style"), `hud_show_status/quest/minimap/worldinfo/needs: bool`, `hud_minimap_pos_x/y: float`. API: `save_settings()`, `load_settings()`, `apply_all()` |
 | `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo + `WorldState` in `world.json`. Traccia `character_timestamps` (dict `char_name → total_minutes`) nel meta per la continuità temporale multi-personaggio. |
 | `TurnManager` | `scripts/core/TurnManager.gd` | Gestione turni giocatore/nemici |
 | `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText. Gate NPC attacks: richiede `amuleto_del_sangue` equipaggiato. Dopo colpo non-cancelled su player da nemico: `_check_disease_on_hit(attacker)` — legge `disease_on_hit` + `disease_on_hit_chance` (default 0.30) dal JSON nemico tramite `EnemyRegistry`, chiama `NeedsManager.add_disease()` se randf() < chance. |
@@ -34,7 +35,7 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `ClassRegistry` | `scripts/classes/ClassRegistry.gd` | Lookup dati classi da JSON; `get_class_data(id)`, `get_display_name/desc/special_name/special_desc(id)` |
 | `EventBus` | `scripts/core/EventBus.gd` | Tutti i signal globali |
 | `LevelSystem` | *(autoload)* | XP, level-up; `add_xp(amount, context="")` — context `"quest"` applica moltiplicatore `FactionEffects.get_xp_multiplier()` |
-| `QuestManager` | `scripts/dialogue/QuestManager.gd` | Quest attive/completate; reward `join_faction: String` → chiamato PRIMA di xp/gold/items; oro con `FactionEffects.get_gold_multiplier("quest")`; xp con `LevelSystem.add_xp(n, "quest")`; quest senza objectives segna ready/complete subito |
+| `QuestManager` | `scripts/dialogue/QuestManager.gd` | Quest attive/completate. `get_active_quest_title()->String`, `get_active_quest_objective()->String` (prima quest attiva, primo obiettivo non completato; formato "Uccidi X (n/tot)" per `kill_enemy`). Reward: `join_faction` → PRIMA di xp/gold/items; oro con `FactionEffects.get_gold_multiplier("quest")` |
 | `BalanceCombat` | `scripts/core/game_balance/BalanceCombat.gd` | Costanti di bilanciamento combattimento |
 | `GameBalance` | *(autoload)* | FOV radius, memory alpha, ecc. |
 | `ItemDB` | `scripts/items/ItemDB.gd` | Scan ricorsivo `data/items/`; `get_item(id)`, `get_by_type(t)`, `get_by_slot(s)`, `pick_random(cat, lv, min_quality)`, `get_display_name(id)`, `get_display_description(id)` |
@@ -251,7 +252,8 @@ GameState.effective_attributes        # base + class_bonus — usati dal gioco
 GameState.current_class               # String, es. "warrior"
 GameState.inventory                   # Array di item dict
 GameState.equipped                    # {head, body, left_hand, right_hand, ring_1, ring_2, neck, feet, cloak, trinket, hands}
-GameState.quick_slots                 # Array[String] di 3 item_id (slot rapidi consumabili)
+GameState.quick_slots                 # Array[String] di 5 item_id (slot rapidi consumabili); pad a "" su save vecchi a 3
+GameState.explored_tiles              # Dictionary "x,y"→true; tile esplorate nell'overworld; usato da MinimapPanel
 GameState.world_flags                 # {intro_completed, dungeon_boss_defeated, …}
 GameState.run_milestones              # {kills, deaths, save_points_used, …}
 GameState.character_faction_rep       # Dictionary faction_id → int; fallback lazy a default_rep JSON
@@ -307,7 +309,30 @@ defense = GameState.player_stats["defense"] + Equipment.get_defense_bonus()
 
 ---
 
-## HUD — `scenes/ui/HUD.tscn` / `scripts/ui/HUD.gd`
+## HUD v2 (in costruzione — branch `test`)
+
+Script infrastruttura già creati:
+
+| File | Ruolo |
+|------|-------|
+| `scripts/ui/hud/HUDState.gd` | Buffer log 40 messaggi. `class LogEntry {text,category,timestamp}`. `push(text,cat)`, `get_latest()`, `static get_color(cat)->Color`. Enum `LogCategory {COMBAT,EXPLORATION,LOOT,QUEST,DIALOGUE,SYSTEM}` |
+| `scripts/ui/hud/HUDSettings.gd` | Wrapper su campi HUD di SettingsManager. Getter: `get_ui_mode/is_info_mode/show_status/show_quest/show_minimap/show_worldinfo/show_needs/get_minimap_pos`. Setter: `set_ui_mode`, `toggle_*`, `save_minimap_pos`. `_toggle(field)` usa `SettingsManager.set/get()` |
+| `scripts/ui/hud/components/ResourceBar.gd` | `PanelContainer`. `@export bar_color: Color`, `@export critical_threshold: float=0.25`. `set_value(cur,max)`: tween 0.25s EASE_OUT + pulse critico se ratio≤threshold. `apply_ui_mode("info"\|"style")`: info=label sempre visibile, style=label solo hover. `_fill_style: StyleBoxFlat` riusato nel `_process` per pulse — zero allocazioni per frame. Scene: `scenes/ui/hud/components/ResourceBar.tscn` |
+| `scripts/ui/hud/components/PlayerStatusPanel.gd` | `PanelContainer` full-width, offset_top=16, h=26px. Costruisce UI in codice: HBox con nome·classe Lv+xp bar (3px gold) + 3×ResourceBar HP/MP/ST + 4 Label needs F/A/E/T°. `refresh()`: aggiorna tutto da GameState + LevelSystem.get_xp_progress() + ClassRegistry.get_display_name(). `refresh_needs()`: colora F/A (verde≥60/giallo≥30/rosso<30), E (verde<30/giallo<70/rosso≥70), T° (blu≤−10/ciano≤−2/grigio/giallo≤10/rosso>10). `apply_ui_mode()`: propaga ai 3 ResourceBar. `set_needs_visible(v: bool)`: mostra/nasconde `_needs_box`. Scene: `scenes/ui/hud/components/PlayerStatusPanel.tscn` |
+| `scripts/ui/hud/components/WorldInfoPanel.gd` | `PanelContainer` full-width h=16px (anchor_bottom=16). Costruisce HBox: ZoneLabel (EXPAND_FILL, grigio, 11px) + TimeLabel (align RIGHT, oro tenue, 11px). `refresh_zone(map_id)`: legge `LocationRegistry.get_or_generate(id).metadata["name"]`, fallback `LocaleManager.t_or("ZONE_"+id.to_upper(), id)`. `refresh_time()`: `TimeManager.format_time()`. Scene: `scenes/ui/hud/components/WorldInfoPanel.tscn` |
+| `scripts/ui/hud/components/QuickSlotBar.gd` | `HBoxContainer`. 5 Button creati in codice (EXPAND_FILL, h=16px, Roboto-Medium 11px, stile antracite+bordo oro). `refresh()`: aggiorna testo `[i:item_id]` da `GameState.quick_slots`. `_on_slot_pressed(idx)`: chiama `Inventory.use_item()` se slot non vuoto. `_unhandled_input`: `quick_slot_1`..`quick_slot_5`. Scene: `scenes/ui/hud/components/QuickSlotBar.tscn` |
+| `scripts/ui/hud/components/ActionBar.gd` | `HBoxContainer`. Segnali: `use_item_requested`, `open_menu_requested`. 4 bottoni costruiti in codice (VBox icon Roboto-Bold 14px + key Roboto-Reg 9px): Wait(R), Flee(F, nascosto fuori combat), Inv(I), Menu(Esc). `set_combat_mode(bool)`: toggle `_in_combat` + visibilità FleeBtn. Wait-hold timer in `_process` (THRESHOLD=0.4s): tap→`_on_quick_wait()` (TimeManager.advance+TurnManager.on_player_action_done), hold→`_open_wait_screen()`. `_on_flee_pressed()`: solo in combat → `map.get_player().flee_attempt()`. `_unhandled_input`: `action_wait` (pressed/released), `action_flee` (solo combat). Scene: `scenes/ui/hud/components/ActionBar.tscn` |
+| `scripts/ui/hud/components/MessageLog.gd` | `Control` (size_flags EXPAND_FILL). Costruisce in codice: PassiveLabel (RichTextLabel bbcode 12px, FULL_RECT) + ExpandPanel (Panel, anchor_bottom=0 offset_bottom=0 → si espande verso l'alto con tween su `offset_top` da 0 a -120, clip_contents). `show_entry(entry, color)`: bbcode push_color+reset fade_timer=5s. `update_entries(entries)`: aggiorna copia locale. `open_expanded(entries)`: slide-up 0.15s, riempie ExpandRTL con tutti i log colorati per categoria. `close_expanded()`: slide-down 0.15s. `_process`: fade alpha negli ultimi 0.5s. Click su riga passiva → `open_expanded`; click su ExpandPanel → `close_expanded`. Log: solo `combat_log` in EventBus; altri log pushati da HUDV2. Scene: `scenes/ui/hud/components/MessageLog.tscn` |
+| `scripts/ui/hud/components/QuestTracker.gd` | `Control`, `custom_minimum_size=(200,0)`, sfondo trasparente (nessun panel style). Costruisce VBox(sep=2): TitleLabel (Roboto-Bold 12px, oro `#d9bf4d`) + ObjLabel (Roboto-Reg 11px, grigio) + ExpandBtn (flat, StyleBoxEmpty). `signal expand_requested()`. `refresh()`: legge `QuestManager.get_active_quest_title/objective()`, se vuoto → `visible=false`. Scene: `scenes/ui/hud/components/QuestTracker.tscn` (position=(4,46)) |
+| `scripts/ui/hud/components/MinimapPanel.gd` | `Panel`, `custom_minimum_size=(166,185)`. Costruisce VBox: HeaderLabel (Roboto-Reg 10px, oro, clip) + TextureRect 160×160. `signal position_changed(pos)`. `Image` 160×160 FORMAT_RGBA8 + `ImageTexture` aggiornata in `refresh_image()`. `refresh_image()`: fill C_EMPTY(nero); per ogni px/py → tile = player_pos + (px-80, py-80); se `explored_tiles.has("tx,ty")` → C_EXPLORED; centro = C_PLAYER; `_texture.update(_image)`. `refresh_header()`: zone_name + " · " + `TimeManager.format_time()`. `mark_explored(tile)`: scrive `GameState.explored_tiles`. Drag con clamp viewport + `position_changed.emit()`. Dots location: deferred. Scene: `scenes/ui/hud/components/MinimapPanel.tscn` |
+| `scripts/ui/hud/HUDV2.gd` | `CanvasLayer` layer=2. Segnali: `use_item_requested`, `open_menu_requested`. Istanzia tutti i componenti via `load(path).instantiate()` in `_build_components()` — nessun @onready. `_build_bottom_strip()`: PanelContainer anchor bottom full-width h=38px (VBox: Row1 h=19 MessageLog+ActionBar, Row2 h=19 QuickSlotBar). `_init_minimap_position()`: sentinel (-4,-4) → calcola bottom-right da viewport size. `_apply_settings_visibility()`: aggiorna visible di tutti i pannelli da HUDSettings; chiama `_status.set_needs_visible()` e `apply_ui_mode()`. `_wire_eventbus()`: wiring centralizzato di tutti i segnali EventBus (inclusi combat_started/ended → ActionBar.set_combat_mode). `_push_log(text, cat)`: push HUDState + update MessageLog. `_is_minimap_map(id)`: legge `MapData.metadata.get("minimap_enabled", false)`. Scene: `scenes/ui/hud/HUDV2.tscn` (con figli HUDState + HUDSettings) |
+| `scripts/ui/HUDOptionsPanel.gd` | `Control` full-rect, visible=false. Costruisce pannello centrato (210px min-width): OptionButton modalità UI (Info/Style) + 5 CheckBox (status/quest/minimap/worldinfo/needs). Legge/scrive `SettingsManager` direttamente — nessuna dipendenza da HUDSettings. `refresh()`: usa `_block_signals=true` per evitare loop. `_on_bool_toggled(field, value)`: `SettingsManager.set(field,v)` + `save_settings()` + `EventBus.settings_changed.emit()`. Scene: `scenes/ui/HUDOptionsPanel.tscn` |
+
+**OptionsMenu** (`scripts/ui/OptionsMenu.gd`): aggiunto pulsante "Opzioni HUD" (lazy-instantiate HUDOptionsPanel.tscn) e `_hud_panel: Control` come campo (tipizzato `Control` per evitare dipendenza forward sul tipo).
+
+---
+
+## HUD (legacy — ELIMINATO in F9) — `scenes/ui/HUD.tscn` / `scripts/ui/HUD.gd`
 
 `CanvasLayer` sempre visibile durante il gioco. Aggiornato via `EventBus`.
 
@@ -734,19 +759,16 @@ func _get_move_cost_overworld() -> int:
 - Interazione NPC / loot cadavere: `Action.INTERACT`
 - Fuga (tutte le branch): `Action.MOVE`
 
-### CombatBar — integrazione Time System
+### ActionBar — integrazione Time System (HUD v2)
 
-Wait gestito interamente in `CombatBar._process()` (rimosso da `_unhandled_input`):
+Wait gestito in `ActionBar._process()` (threshold 0.4s):
 - **Tap R** (< 0.4s): `_on_quick_wait()` → `TimeManager.advance(get_action_cost(map_type, 4))` + `TurnManager.on_player_action_done()`
-- **Hold R in esplorazione** (≥ 0.4s): `_wait_screen_open = true` + `_wait_screen.open()`; alla chiusura `wait_completed` → `_on_wait_screen_closed()` resetta il flag
-- **Hold R in combattimento** (≥ 0.4s): quick wait normale (come tap)
-- Guard: se `TurnManager.is_active and not is_player_turn` → reset timer, return
-- Testo pulsante: `[R] Aspetta` (CSV aggiornato)
-- `_wait_screen` recuperato in `_ready()` via `get_node_or_null("/root/Main/WaitScreen")`
+- **Hold R** (≥ 0.4s): `_open_wait_screen()` → `get_node_or_null("/root/Main/WaitScreen").show()`
+- `set_combat_mode(bool)`: toggle `_in_combat` + visibilità pulsante Flee (F)
 
 ### WaitScreen — `scenes/ui/WaitScreen.tscn` / `scripts/ui/WaitScreen.gd`
 
-`CanvasLayer` layer=10 (sopra HUD). UI costruita a codice in `_ready()`. Aperta da `CombatBar` su hold R in esplorazione.
+`CanvasLayer` layer=10 (sopra HUD). UI costruita a codice in `_ready()`. Aperta da `ActionBar` su hold R in esplorazione.
 
 ```gdscript
 signal wait_completed           # emesso alla chiusura (sia conferma che annulla)

@@ -116,6 +116,14 @@ theme_override_font_sizes/font_size = 12
 text = "[3]"
 theme_override_font_sizes/font_size = 12
 
+[node name="Slot4Btn" type="Button" parent="Panel/VBox/ContentHBox/BagSection/SlotRow"]
+text = "[4]"
+theme_override_font_sizes/font_size = 12
+
+[node name="Slot5Btn" type="Button" parent="Panel/VBox/ContentHBox/BagSection/SlotRow"]
+text = "[5]"
+theme_override_font_sizes/font_size = 12
+
 [node name="Tooltip" type="PanelContainer" parent="."]
 visible = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_2")

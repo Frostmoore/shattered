@@ -50,6 +50,7 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"world_flags":      GameState.world_flags.duplicate(),
 		"equipped":         GameState.equipped.duplicate(),
 		"quick_slots":      GameState.quick_slots.duplicate(true),
+		"explored_tiles":   GameState.explored_tiles.duplicate(),
 		"permadeath":         GameState.permadeath,
 		"permanent_allies":   GameState.permanent_allies.duplicate(true),
 		"location_states":    LocationRegistry.serialize_states(),
@@ -208,8 +209,14 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 	var raw_qs: Variant = data.get("quick_slots", [])
 	if raw_qs is Array:
 		var qs: Array = raw_qs as Array
+		GameState.quick_slots = ["", "", "", "", ""]
 		for i: int in mini(qs.size(), GameState.quick_slots.size()):
 			GameState.quick_slots[i] = str(qs[i])
+
+	GameState.explored_tiles = {}
+	var raw_et: Variant = data.get("explored_tiles", {})
+	if raw_et is Dictionary:
+		GameState.explored_tiles = (raw_et as Dictionary).duplicate()
 
 	var raw_states: Variant = data.get("location_states", {})
 	if raw_states is Dictionary:

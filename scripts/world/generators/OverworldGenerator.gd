@@ -31,4 +31,7 @@ static func generate(params: Dictionary) -> MapData:
 		Vector2i(target_x, target_y)
 	)
 
+	if params.get("minimap_enabled", false):
+		data.metadata["minimap_enabled"] = true
+
 	return data

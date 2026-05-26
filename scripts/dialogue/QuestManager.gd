@@ -161,3 +161,29 @@ func get_active_quest_title() -> String:
 		return ""
 	var q: Dictionary = _quests.get(str(GameState.active_quests[0]), {})
 	return q.get("title", "")
+
+
+func get_active_quest_objective() -> String:
+	if GameState.active_quests.is_empty():
+		return ""
+	var quest_id: String  = str(GameState.active_quests[0])
+	var quest: Dictionary = _quests.get(quest_id, {})
+	var raw_obj: Variant  = quest.get("objectives", [])
+	if not raw_obj is Array or (raw_obj as Array).is_empty():
+		return ""
+	for obj: Variant in (raw_obj as Array):
+		if not obj is Dictionary:
+			continue
+		var o: Dictionary = obj as Dictionary
+		match str(o.get("type", "")):
+			"kill_enemy":
+				var target_id: String = str(o.get("target_id", ""))
+				var required:  int    = int(o.get("required", 1))
+				var progress:  int    = get_progress(quest_id, target_id)
+				if progress < required:
+					var display: String = LocaleManager.t_or(
+						"ENEMY_" + target_id.to_upper(), target_id)
+					return "Uccidi %s (%d/%d)" % [display, progress, required]
+			_:
+				return str(o.get("type", "—"))
+	return ""

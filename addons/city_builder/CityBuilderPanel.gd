@@ -354,11 +354,12 @@ const CAT_DEFS: Array = [
 ]
 
 # ── city data ──────────────────────────────────────────────────────────────────
-var _cid:           String = "nuova_citta"
-var _cname:         String = "Nuova Città"
-var _ctype:         String = "village"
-var _csignoria:     String = ""
-var _ccorporazioni: Array  = []
+var _cid:               String = "nuova_citta"
+var _cname:             String = "Nuova Città"
+var _ctype:             String = "village"
+var _csignoria:         String = ""
+var _ccorporazioni:     Array  = []
+var _cminimap_enabled:  bool   = false
 var _width:         int    = 40
 var _height:        int    = 30
 var _tiles:         Array  = []   # [y][x] → cat*16 + variant
@@ -383,8 +384,9 @@ var _load_menu:        PopupMenu
 var _signoria_opt:     OptionButton
 var _signoria_ids:     Array = []   # parallel to OptionButton items; [0] = ""
 var _signoria_names:   Array = []   # parallel to OptionButton items; [0] = "— Nessuna —"
-var _corp_summary_lbl: Label
-var _corp_menu:        PopupMenu
+var _corp_summary_lbl:   Label
+var _corp_menu:          PopupMenu
+var _minimap_check:      CheckBox
 var _corp_all:         Array = []   # [{id, name}] corporations available for selection
 
 # ── editor state ───────────────────────────────────────────────────────────────
@@ -518,6 +520,12 @@ func _build_ui() -> void:
 	corp_btn.add_theme_font_size_override("font_size", 11)
 	corp_btn.pressed.connect(_open_corp_menu.bind(corp_btn))
 	faction_row.add_child(corp_btn)
+
+	_minimap_check = CheckBox.new()
+	_minimap_check.text = "Minimap"
+	_minimap_check.add_theme_font_size_override("font_size", 11)
+	_minimap_check.toggled.connect(func(v: bool) -> void: _cminimap_enabled = v)
+	faction_row.add_child(_minimap_check)
 
 	_corp_menu = PopupMenu.new()
 	_corp_menu.hide_on_checkable_item_selection = false
@@ -973,10 +981,12 @@ func _update_corp_summary() -> void:
 # ── city operations ────────────────────────────────────────────────────────────
 
 func _new_city() -> void:
-	_width  = int(_w_spin.value) if _w_spin else 40
-	_height = int(_h_spin.value) if _h_spin else 30
-	_csignoria = ""
-	_ccorporazioni = []
+	_width             = int(_w_spin.value) if _w_spin else 40
+	_height            = int(_h_spin.value) if _h_spin else 30
+	_csignoria         = ""
+	_ccorporazioni     = []
+	_cminimap_enabled  = false
+	if _minimap_check: _minimap_check.set_pressed_no_signal(false)
 	_entities.clear()
 	_sel = -1
 	_init_tiles()
@@ -1047,6 +1057,8 @@ func _save_city() -> void:
 		data["signoria"] = _csignoria
 	if not _ccorporazioni.is_empty():
 		data["corporazioni_presenti"] = _ccorporazioni.duplicate()
+	if _cminimap_enabled:
+		data["minimap_enabled"] = true
 	var f: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if f == null:
 		_set_status("ERRORE salvataggio.")
@@ -1094,10 +1106,11 @@ func _load_file(path: String) -> void:
 		_set_status("JSON non valido.")
 		return
 	var d: Dictionary = parsed as Dictionary
-	_cid   = str(d.get("id",   "new_city"))
-	_cname = str(d.get("name", "Città"))
-	_ctype = str(d.get("type", "village"))
-	_csignoria = str(d.get("signoria", ""))
+	_cid               = str(d.get("id",   "new_city"))
+	_cname             = str(d.get("name", "Città"))
+	_ctype             = str(d.get("type", "village"))
+	_csignoria         = str(d.get("signoria", ""))
+	_cminimap_enabled  = bool(d.get("minimap_enabled", false))
 	var raw_corp_load: Variant = d.get("corporazioni_presenti", [])
 	_ccorporazioni = (raw_corp_load as Array).duplicate() if raw_corp_load is Array else []
 
@@ -1130,6 +1143,8 @@ func _load_file(path: String) -> void:
 	if _signoria_opt:
 		var sig_idx: int = _signoria_ids.find(_csignoria)
 		_signoria_opt.select(maxi(0, sig_idx))
+	if _minimap_check:
+		_minimap_check.set_pressed_no_signal(_cminimap_enabled)
 	_update_corp_summary()
 	if _w_spin: _w_spin.value = _width
 	if _h_spin: _h_spin.value = _height

@@ -56,6 +56,7 @@ func generate_new_world(world_name: String, world_seed: int = -1) -> void:
 		"dungeon_target_pos_y":  floor1_entrance.y,
 		"overworld_dungeon_tile_x": overworld_dungeon_tile.x,
 		"overworld_dungeon_tile_y": overworld_dungeon_tile.y,
+		"minimap_enabled":        true,
 	})
 	LocationRegistry.register("village_01", "village", {
 		"transition_overworld": "overworld"

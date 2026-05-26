@@ -191,3 +191,8 @@ TIME_MONTH_11,Cineroggia
 TIME_MONTH_12,Notteprima
 TIME_FORMAT_DATE,{day} {month} {year} C
 TIME_FORMAT_FULL,{date} — {phase}
+# HUD v2 — ActionBar tooltips
+UI_HUD_ACTION_WAIT,Aspetta un turno (R) / tieni premuto per aspettare più turni
+UI_HUD_ACTION_FLEE,Tenta la fuga (F)
+UI_HUD_ACTION_INVENTORY,Apri inventario (I)
+UI_HUD_ACTION_MENU,Menu principale (Esc)

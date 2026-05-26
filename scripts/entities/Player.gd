@@ -137,11 +137,12 @@ func _try_move(dir: Vector2i) -> void:
 	var target: Vector2i = grid_position + dir
 	var map: BaseMap = WorldManager.get_current_map() as BaseMap
 	if map == null:
+		print("[Player] _try_move: map is null!")
 		return
 
 	var entity_at: Node = map.get_entity_at(target)
 	if entity_at != null:
-		if entity_at.faction == "enemy":
+		if entity_at is Enemy:
 			_last_action = Action.ATTACK
 			CombatManager.attack(self, entity_at)
 			_action_done()

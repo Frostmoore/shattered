@@ -52,7 +52,9 @@ var equipped: Dictionary = {
 	"cloak": "", "trinket": "", "hands": ""
 }
 
-var quick_slots: Array = ["", "", ""]
+var quick_slots: Array = ["", "", "", "", ""]
+
+var explored_tiles: Dictionary = {}   # "x,y" → true; usato da MinimapPanel
 
 var level: int = 1
 var xp:    int = 0

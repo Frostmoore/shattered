@@ -146,6 +146,7 @@ quest_failed(quest_id: String)
 
 ### Immediato (senza dipendenze esterne)
 
+- [ ] `QuestManager.get_active_quest_objective() -> String` — restituisce il testo dell'obiettivo corrente della prima quest attiva; stringa vuota se nessuna quest attiva o nessun obiettivo. Richiesto da `QuestTracker` in HUD v2.
 - [ ] `QuestManager`: aggiungere `check_fetch_objective(quest_id, obj_idx)`
 - [ ] `QuestManager.complete_quest()`: gestione `chain_next`
 - [ ] `GameState.failed_quests: Array[String]`

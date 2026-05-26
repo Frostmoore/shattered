@@ -487,3 +487,14 @@ swamp:           villaggio 1%, dungeon 3%, rovina 2%
 - [ ] Garantire area iniziale: almeno 1 dungeon e 1 location entro 30 tile dallo spawn
 - [ ] Test con 5 seed diversi
 - [ ] Simboli ASCII e colori definitivi verificati in-game
+
+---
+
+## Note HUD v2 — MinimapPanel (aggiunto in F7)
+
+- **ID overworld**: `overworld` costante usata da WorldSaveManager, WorldManager
+- **minimap_enabled**: flag MapData.metadata["minimap_enabled"] = true impostato da OverworldGenerator quando i params includono minimap_enabled:true
+- **Fonte del flag**: WorldSaveManager.generate_new_world() passa minimap_enabled:true nei params di registrazione overworld
+- **Mondi precedenti**: flag assente -> metadata.get("minimap_enabled", false) = false -> minimap nascosta; nessuna regressione
+- **Explored tiles**: GameState.explored_tiles (x,y->true) aggiornato da MinimapPanel.mark_explored(); persistito da SaveManager (F0)
+
