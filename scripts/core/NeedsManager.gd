@@ -316,7 +316,9 @@ func _check_natural_recovery(minutes: float) -> void:
 		if float(_nat_recovery_acc[did]) >= needed:
 			_nat_recovery_acc[did] = 0.0
 			entry["stage_index"] = stage_idx - 1
-			EventBus.disease_progressed.emit(did, str(def.get("name", did)), "recovery")
+			var stages_arr: Array = def.get("stages", []) as Array
+			var new_label: String = str((stages_arr[stage_idx - 1] as Dictionary).get("label", str(stage_idx - 1)))
+			EventBus.disease_regressed.emit(did, str(def.get("name", did)), new_label)
 
 
 func _eval_recovery_condition(recovery: Dictionary) -> bool:

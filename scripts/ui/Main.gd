@@ -82,6 +82,7 @@ func _connect_needs_signals() -> void:
 	EventBus.need_depleted.connect(_on_need_state_changed.bind("depleted"))
 	EventBus.disease_acquired.connect(_on_disease_acquired_log)
 	EventBus.disease_progressed.connect(_on_disease_progressed_log)
+	EventBus.disease_regressed.connect(_on_disease_regressed_log)
 	EventBus.disease_cured.connect(_on_disease_cured_log)
 	EventBus.meal_hint.connect(_on_meal_hint)
 	EventBus.player_collapsed.connect(_on_player_collapsed)
@@ -100,6 +101,11 @@ func _on_disease_acquired_log(_disease_id: String, display_name: String) -> void
 
 func _on_disease_progressed_log(_disease_id: String, display_name: String, stage_label: String) -> void:
 	EventBus.combat_log.emit(LocaleManager.t("NOTIF_DISEASE_PROGRESSED",
+		{"name": display_name, "stage": stage_label}))
+
+
+func _on_disease_regressed_log(_disease_id: String, display_name: String, stage_label: String) -> void:
+	EventBus.combat_log.emit(LocaleManager.t("NOTIF_DISEASE_REGRESSED",
 		{"name": display_name, "stage": stage_label}))
 
 

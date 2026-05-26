@@ -38,6 +38,8 @@ func _ready() -> void:
 		func(_id: String) -> void: _refresh_diseases())
 	EventBus.disease_progressed.connect(
 		func(_id: String, _n: String, _s: String) -> void: _refresh_diseases())
+	EventBus.disease_regressed.connect(
+		func(_id: String, _n: String, _s: String) -> void: _refresh_diseases())
 	_time_label.text = TimeManager.format_time()
 	_refresh()
 	_refresh_needs()

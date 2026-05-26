@@ -67,3 +67,6 @@ res://scripts/world/MapRenderer.gd
 res://scripts/ui/WaitScreen.gd
 res://scripts/core/TimeManager.gd
 res://scripts/ui/QuickFoodMenu.gd
+res://scripts/core/DiseaseRegistry.gd
+res://scripts/core/NeedsManager.gd
+res://scripts/debug/DebugSection.gd

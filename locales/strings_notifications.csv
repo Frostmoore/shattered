@@ -50,6 +50,7 @@ NOTIF_NEEDS_EXHAUSTION_DEPLETED,Sei collassato dalla stanchezza!
 NOTIF_DISEASE_ACQUIRED,Hai contratto: {name}
 NOTIF_DISEASE_PROGRESSED,"{name} è peggiorata: {stage}"
 NOTIF_DISEASE_CURED,Guarito da: {name}
+NOTIF_DISEASE_REGRESSED,"{name} sta migliorando: {stage}"
 NOTIF_MEAL_PRANZO,È ora di pranzo.
 NOTIF_MEAL_CENA,È ora di cena.
 NOTIF_PLAYER_COLLAPSED,Sei collassato dalla stanchezza.

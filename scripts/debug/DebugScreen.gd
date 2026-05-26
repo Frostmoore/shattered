@@ -5,16 +5,16 @@ const BG_COLOR         := Color(0.0, 0.0, 0.0, 0.75)
 const PANEL_COLOR      := Color(0.06, 0.06, 0.10, 0.97)
 const BORDER_COLOR     := Color(0.25, 0.35, 0.55, 1.0)
 const MARGIN           := 15
-const KEY_EGRAVE       := 232  # 'è' — non esiste come costante in Godot 4.4
+const KEY_EGRAVE       := 232  # 'è'
 
 const TIER_COLORS: Array[Color] = [
-	Color(0.35, 0.30, 0.22),   # Tier 0 — marrone (noob)
-	Color(0.38, 0.38, 0.38),   # Tier 1 — grigio
-	Color(0.16, 0.50, 0.26),   # Tier 2 — verde
-	Color(0.13, 0.30, 0.60),   # Tier 3 — blu
-	Color(0.40, 0.16, 0.56),   # Tier 4 — viola
-	Color(0.70, 0.26, 0.10),   # Tier 5 — arancione
-	Color(0.62, 0.52, 0.06),   # Tier 6 — oro
+	Color(0.35, 0.30, 0.22),
+	Color(0.38, 0.38, 0.38),
+	Color(0.16, 0.50, 0.26),
+	Color(0.13, 0.30, 0.60),
+	Color(0.40, 0.16, 0.56),
+	Color(0.70, 0.26, 0.10),
+	Color(0.62, 0.52, 0.06),
 ]
 
 const VALIDATOR_PATHS := {
@@ -38,16 +38,42 @@ const JOINABLE_FACTIONS: Array[String] = [
 	"compagnia_ponti", "corrieri_sigillo", "congregazione_officine", "tavola_senza_nome",
 ]
 
-var _sections: Dictionary = {}
-var _vbox:     VBoxContainer
-var _timer:    Timer
-var _switcher_current_lbl: Label   # aggiornata da _refresh()
-var _val_result_lbl: RichTextLabel
+const TILE_DEFS: Array[Dictionary] = [
+	{"id": "player",        "title": "PLAYER",        "color": Color(0.08, 0.20, 0.45)},
+	{"id": "combattimento", "title": "COMBATTIMENTO",  "color": Color(0.42, 0.08, 0.10)},
+	{"id": "tempo",         "title": "TEMPO",          "color": Color(0.08, 0.25, 0.38)},
+	{"id": "classi",        "title": "CLASSI",         "color": Color(0.38, 0.28, 0.04)},
+	{"id": "fazioni",       "title": "FAZIONI",        "color": Color(0.26, 0.08, 0.42)},
+	{"id": "crimini",       "title": "CRIMINI",        "color": Color(0.46, 0.16, 0.04)},
+	{"id": "loot",          "title": "LOOT / ITEM",    "color": Color(0.08, 0.28, 0.14)},
+	{"id": "bisogni",       "title": "BISOGNI",        "color": Color(0.38, 0.18, 0.04)},
+]
 
+# ── Stato UI ─────────────────────────────────────────────────────────────────
+
+var _sections: Dictionary = {}
+var _timer:    Timer
+
+var _switcher_current_lbl: Label
+var _val_result_lbl:       RichTextLabel
 var _faction_rep_rtl:      RichTextLabel = null
 var _faction_member_rtl:   RichTextLabel = null
 var _faction_rep_opt:      OptionButton  = null
 var _faction_propagate_cb: CheckButton   = null
+
+# Tile navigation
+var _active_tile:       String     = ""
+var _tile_btns:         Dictionary = {}
+var _tile_bodies:       Dictionary = {}   # VBoxContainer per tile (tool panels)
+var _sections_grids:    Dictionary = {}   # GridContainer 2-col per tile (DebugSection)
+var _content_host:      PanelContainer
+var _content_title_lbl: Label
+
+# Status bar
+var _sb_sistema: RichTextLabel
+var _sb_player:  RichTextLabel
+var _sb_tempo:   RichTextLabel
+var _sb_bisogni: RichTextLabel
 
 
 func _ready() -> void:
@@ -59,34 +85,56 @@ func _ready() -> void:
 	visible = false
 	_build_ui()
 	_setup_timer()
-	_add_section("sistema",       "Sistema")
-	_add_section("class_db",      "ClassRegistry")
-	_add_section("game_state",    "GameState")
-	_add_section("class_picker",  "ClassPicker")
-	_add_section("damage_pipe",   "DamagePipeline")
-	_add_section("class_runtime", "ClassRuntime")
-	_add_section("ability_tracker",  "AbilityUseTracker")
-	_add_section("class_special",    "ClassSpecial")
-	_add_section("status_effects",   "StatusEffects")
-	_add_section("targeting",        "Targeting")
-	_add_section("ally_manager",     "AllyManager")
-	_add_section("druid_form",       "DruidForm")
-	_add_section("milestones",       "Milestones")
-	_add_section("respec",           "Respec")
-	_add_section("loot_db",          "LootDB")
-	_add_section("faction_db",       "FactionDB")
-	_add_section("crime",            "CrimeSystem")
-	_add_section("time_system",      "Time System")
-	_add_section("needs",            "Needs System")
-	_build_class_switcher()
-	_build_loot_tools()
-	_build_validation_tools()
-	_build_faction_tools()
-	_build_crime_tools()
-	_build_time_tools()
-	_build_needs_tools()
+
+	# ── PLAYER ──────────────────────────────────────────────────────────────
+	var p_sg: Node = _sections_grids["player"]
+	_add_section("game_state",      "GameState",         p_sg)
+	_add_section("class_runtime",   "ClassRuntime",      p_sg)
+	_add_section("class_special",   "ClassSpecial",      p_sg)
+	_add_section("ability_tracker", "AbilityUseTracker", p_sg)
+	_add_section("class_picker",    "ClassPicker",       p_sg)
+	_add_section("milestones",      "Milestones",        p_sg)
+	_add_section("respec",          "Respec",            p_sg)
+
+	# ── COMBATTIMENTO ────────────────────────────────────────────────────────
+	var c_sg: Node = _sections_grids["combattimento"]
+	_add_section("damage_pipe",    "DamagePipeline", c_sg)
+	_add_section("status_effects", "StatusEffects",  c_sg)
+	_add_section("targeting",      "Targeting",      c_sg)
+	_add_section("ally_manager",   "AllyManager",    c_sg)
+	_add_section("druid_form",     "DruidForm",      c_sg)
+
+	# ── TEMPO ────────────────────────────────────────────────────────────────
+	var t_sg: Node = _sections_grids["tempo"]
+	_add_section("sistema",     "Sistema",     t_sg)
+	_add_section("time_system", "Time System", t_sg)
+	_build_time_tools(_tile_bodies["tempo"])
+
+	# ── CLASSI ───────────────────────────────────────────────────────────────
+	_add_section("class_db", "ClassRegistry", _sections_grids["classi"])
+	_build_class_switcher(_tile_bodies["classi"])
+
+	# ── FAZIONI ──────────────────────────────────────────────────────────────
+	_add_section("faction_db", "FactionDB", _sections_grids["fazioni"])
+	_build_faction_tools(_tile_bodies["fazioni"])
+
+	# ── CRIMINI ──────────────────────────────────────────────────────────────
+	_add_section("crime", "CrimeSystem", _sections_grids["crimini"])
+	_build_crime_tools(_tile_bodies["crimini"])
+
+	# ── LOOT / ITEM ──────────────────────────────────────────────────────────
+	_add_section("loot_db", "LootDB", _sections_grids["loot"])
+	_build_loot_tools(_tile_bodies["loot"])
+	_build_validation_tools(_tile_bodies["loot"])
+
+	# ── BISOGNI ──────────────────────────────────────────────────────────────
+	_add_section("needs", "Needs System", _sections_grids["bisogni"])
+	_build_needs_tools(_tile_bodies["bisogni"])
+
 	_refresh()
 
+
+# ── Costruzione UI ───────────────────────────────────────────────────────────
 
 func _build_ui() -> void:
 	var overlay := ColorRect.new()
@@ -95,16 +143,16 @@ func _build_ui() -> void:
 	add_child(overlay)
 
 	var panel := PanelContainer.new()
-	var style := StyleBoxFlat.new()
-	style.bg_color = PANEL_COLOR
-	style.border_color = BORDER_COLOR
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(3)
-	style.content_margin_left   = 8.0
-	style.content_margin_right  = 8.0
-	style.content_margin_top    = 6.0
-	style.content_margin_bottom = 6.0
-	panel.add_theme_stylebox_override("panel", style)
+	var pstyle := StyleBoxFlat.new()
+	pstyle.bg_color = PANEL_COLOR
+	pstyle.border_color = BORDER_COLOR
+	pstyle.set_border_width_all(1)
+	pstyle.set_corner_radius_all(3)
+	pstyle.content_margin_left   = 10.0
+	pstyle.content_margin_right  = 10.0
+	pstyle.content_margin_top    = 8.0
+	pstyle.content_margin_bottom = 8.0
+	panel.add_theme_stylebox_override("panel", pstyle)
 	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	panel.offset_left   = MARGIN
 	panel.offset_right  = -MARGIN
@@ -113,17 +161,38 @@ func _build_ui() -> void:
 	add_child(panel)
 
 	var outer := VBoxContainer.new()
-	outer.add_theme_constant_override("separation", 4)
+	outer.add_theme_constant_override("separation", 5)
 	panel.add_child(outer)
 
+	# Titolo
+	var title_row := HBoxContainer.new()
+	outer.add_child(title_row)
 	var title_lbl := Label.new()
-	title_lbl.text = "  DEBUG  —  premi È per chiudere"
+	title_lbl.text = "  DEBUG"
 	title_lbl.add_theme_color_override("font_color", Color(0.45, 0.70, 1.0))
-	title_lbl.add_theme_font_size_override("font_size", 11)
-	outer.add_child(title_lbl)
+	title_lbl.add_theme_font_size_override("font_size", 12)
+	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_row.add_child(title_lbl)
+	var hint_lbl := Label.new()
+	hint_lbl.text = "È per chiudere"
+	hint_lbl.add_theme_color_override("font_color", Color(0.35, 0.35, 0.35))
+	hint_lbl.add_theme_font_size_override("font_size", 10)
+	title_row.add_child(hint_lbl)
 
 	outer.add_child(HSeparator.new())
 
+	# Status bar
+	var sb := HBoxContainer.new()
+	sb.add_theme_constant_override("separation", 6)
+	outer.add_child(sb)
+	_sb_sistema = _make_status_panel(sb, Color(0.06, 0.08, 0.18))
+	_sb_player  = _make_status_panel(sb, Color(0.06, 0.16, 0.06))
+	_sb_tempo   = _make_status_panel(sb, Color(0.10, 0.06, 0.20))
+	_sb_bisogni = _make_status_panel(sb, Color(0.20, 0.10, 0.04))
+
+	outer.add_child(HSeparator.new())
+
+	# Azioni rapide
 	var controls := HBoxContainer.new()
 	controls.add_theme_constant_override("separation", 6)
 	outer.add_child(controls)
@@ -142,16 +211,179 @@ func _build_ui() -> void:
 
 	outer.add_child(HSeparator.new())
 
+	# Area principale scrollabile
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	outer.add_child(scroll)
 
-	_vbox = VBoxContainer.new()
-	_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_vbox.add_theme_constant_override("separation", 2)
-	scroll.add_child(_vbox)
+	var scroll_vbox := VBoxContainer.new()
+	scroll_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll_vbox.add_theme_constant_override("separation", 8)
+	scroll.add_child(scroll_vbox)
 
+	# Griglia tile 4×2
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 6)
+	grid.add_theme_constant_override("v_separation", 6)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll_vbox.add_child(grid)
+
+	for tile: Dictionary in TILE_DEFS:
+		_build_tile(grid, tile)
+
+	# Content host (accordion)
+	_content_host = PanelContainer.new()
+	_content_host.visible = false
+	_content_host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var ch_style := StyleBoxFlat.new()
+	ch_style.bg_color = Color(0.04, 0.04, 0.08)
+	ch_style.border_color = BORDER_COLOR
+	ch_style.set_border_width_all(1)
+	ch_style.set_corner_radius_all(4)
+	ch_style.content_margin_left   = 10.0
+	ch_style.content_margin_right  = 10.0
+	ch_style.content_margin_top    = 8.0
+	ch_style.content_margin_bottom = 8.0
+	_content_host.add_theme_stylebox_override("panel", ch_style)
+	scroll_vbox.add_child(_content_host)
+
+	var host_vbox := VBoxContainer.new()
+	host_vbox.add_theme_constant_override("separation", 5)
+	_content_host.add_child(host_vbox)
+
+	_content_title_lbl = Label.new()
+	_content_title_lbl.add_theme_color_override("font_color", Color(0.80, 0.80, 1.0))
+	_content_title_lbl.add_theme_font_size_override("font_size", 11)
+	host_vbox.add_child(_content_title_lbl)
+
+	host_vbox.add_child(HSeparator.new())
+
+	var content_scroll := ScrollContainer.new()
+	content_scroll.custom_minimum_size = Vector2(0, 380)
+	content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	host_vbox.add_child(content_scroll)
+
+	var content_vbox := VBoxContainer.new()
+	content_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content_vbox.add_theme_constant_override("separation", 3)
+	content_scroll.add_child(content_vbox)
+
+	for tile: Dictionary in TILE_DEFS:
+		var body := VBoxContainer.new()
+		body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		body.add_theme_constant_override("separation", 4)
+		body.visible = false
+		content_vbox.add_child(body)
+		_tile_bodies[str(tile["id"])] = body
+
+		var sg := GridContainer.new()
+		sg.columns = 2
+		sg.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		sg.add_theme_constant_override("h_separation", 10)
+		sg.add_theme_constant_override("v_separation", 2)
+		body.add_child(sg)
+		_sections_grids[str(tile["id"])] = sg
+
+
+func _build_tile(parent: GridContainer, tile: Dictionary) -> void:
+	var tid:   String = str(tile["id"])
+	var title: String = str(tile["title"])
+	var col:   Color  = tile["color"] as Color
+
+	var btn := Button.new()
+	btn.custom_minimum_size = Vector2(0, 58)
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.focus_mode = Control.FOCUS_NONE
+	btn.text = title
+	btn.add_theme_font_size_override("font_size", 10)
+	btn.add_theme_color_override("font_color", Color.WHITE)
+	btn.add_theme_stylebox_override("normal",  _tile_style(col, false))
+	btn.add_theme_stylebox_override("hover",   _tile_style(col.lightened(0.18), false))
+	btn.add_theme_stylebox_override("pressed", _tile_style(col.darkened(0.15), false))
+	btn.pressed.connect(_toggle_tile.bind(tid))
+	parent.add_child(btn)
+	_tile_btns[tid] = btn
+
+
+func _tile_style(col: Color, active: bool) -> StyleBoxFlat:
+	var s := StyleBoxFlat.new()
+	s.bg_color = col
+	if active:
+		s.border_color = Color(0.60, 0.70, 1.0)
+		s.set_border_width_all(2)
+	s.set_corner_radius_all(5)
+	s.content_margin_left   = 8.0
+	s.content_margin_right  = 8.0
+	s.content_margin_top    = 6.0
+	s.content_margin_bottom = 6.0
+	return s
+
+
+func _toggle_tile(id: String) -> void:
+	if _active_tile == id:
+		_active_tile = ""
+		_content_host.visible = false
+		_update_tile_visuals()
+		return
+	_active_tile = id
+	for tid: String in _tile_bodies.keys():
+		(_tile_bodies[tid] as VBoxContainer).visible = (tid == id)
+	for tile: Dictionary in TILE_DEFS:
+		if str(tile["id"]) == id:
+			_content_title_lbl.text = "  %s" % str(tile["title"])
+			break
+	_content_host.visible = true
+	_update_tile_visuals()
+
+
+func _update_tile_visuals() -> void:
+	for tile: Dictionary in TILE_DEFS:
+		var tid: String = str(tile["id"])
+		if not _tile_btns.has(tid):
+			continue
+		var btn: Button = _tile_btns[tid] as Button
+		var col: Color  = tile["color"] as Color
+		var active: bool = (_active_tile == tid)
+		btn.add_theme_stylebox_override("normal",
+			_tile_style(col.lightened(0.15) if active else col, active))
+
+
+func _set_tile_subtitle(id: String, status: String) -> void:
+	if not _tile_btns.has(id):
+		return
+	var title: String = ""
+	for t: Dictionary in TILE_DEFS:
+		if str(t["id"]) == id:
+			title = str(t["title"])
+			break
+	(_tile_btns[id] as Button).text = title + "\n" + status
+
+
+func _make_status_panel(parent: HBoxContainer, bg: Color) -> RichTextLabel:
+	var p := PanelContainer.new()
+	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var s := StyleBoxFlat.new()
+	s.bg_color = bg
+	s.set_corner_radius_all(4)
+	s.content_margin_left   = 8.0
+	s.content_margin_right  = 8.0
+	s.content_margin_top    = 5.0
+	s.content_margin_bottom = 5.0
+	p.add_theme_stylebox_override("panel", s)
+	parent.add_child(p)
+	var rtl := RichTextLabel.new()
+	rtl.bbcode_enabled = true
+	rtl.fit_content    = true
+	rtl.scroll_active  = false
+	rtl.add_theme_font_size_override("normal_font_size", 10)
+	p.add_child(rtl)
+	return rtl
+
+
+# ── Timer e input ─────────────────────────────────────────────────────────────
 
 func _setup_timer() -> void:
 	_timer = Timer.new()
@@ -173,12 +405,13 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
-# ── sezioni ──────────────────────────────────────────────────────────────────
+# ── Sezioni ───────────────────────────────────────────────────────────────────
 
-func _add_section(key: String, title: String) -> DebugSection:
+func _add_section(key: String, title: String, parent: Node) -> DebugSection:
 	var section := DebugSection.new()
 	section.setup(title)
-	_vbox.add_child(section)
+	section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(section)
 	_sections[key] = section
 	return section
 
@@ -191,9 +424,11 @@ func has_section(key: String) -> bool:
 	return _sections.has(key)
 
 
-# ── refresh ───────────────────────────────────────────────────────────────────
+# ── Refresh ───────────────────────────────────────────────────────────────────
 
-func _refresh() -> void:
+func _refresh(_arg: Variant = null) -> void:
+	_update_status_bar()
+	_update_tile_statuses()
 	_update_sistema()
 	_update_class_registry()
 	_update_game_state()
@@ -218,10 +453,126 @@ func _refresh() -> void:
 	_update_needs()
 
 
+# ── Status bar ────────────────────────────────────────────────────────────────
+
+func _update_status_bar() -> void:
+	if is_instance_valid(_sb_sistema):
+		var vi: Dictionary = Engine.get_version_info()
+		var vp: Vector2    = get_viewport().get_visible_rect().size
+		_sb_sistema.text = (
+			"[b]SISTEMA[/b]\n[color=#888888]FPS: %d  |  %dx%d  |  Godot %s[/color]" % [
+				Engine.get_frames_per_second(),
+				int(vp.x), int(vp.y),
+				vi.get("string", "4.x"),
+			]
+		)
+
+	if is_instance_valid(_sb_player):
+		var ps: Dictionary = GameState.player_stats
+		_sb_player.text = (
+			"[b]PLAYER[/b]\n[color=#888888]%s  Lv%d  |  HP:[color=#cc4444]%d/%d[/color]  MP:[color=#4488cc]%d/%d[/color][/color]" % [
+				str(GameState.current_class), GameState.level,
+				int(ps.get("hp", 0)), int(ps.get("max_hp", 1)),
+				int(ps.get("mp", 0)), int(ps.get("max_mp", 1)),
+			]
+		)
+
+	if is_instance_valid(_sb_tempo):
+		var tm: Node = get_node_or_null("/root/TimeManager")
+		var t_str: String = tm.call("format_time")    if tm else "--:--"
+		var d_str: String = "Gg%d" % tm.call("get_absolute_day") if tm else "—"
+		_sb_tempo.text = (
+			"[b]TEMPO[/b]\n[color=#888888]%s  %s  |  min: %d[/color]" % [
+				t_str, d_str, GameState.total_minutes
+			]
+		)
+
+	if is_instance_valid(_sb_bisogni):
+		_sb_bisogni.text = (
+			"[b]BISOGNI[/b]\n[color=%s]F:%.0f[/color]  [color=%s]A:%.0f[/color]  [color=%s]E:%.0f[/color]  [color=#888888]|  %d mal.[/color]" % [
+				_cn_f(GameState.food),       GameState.food,
+				_cn_w(GameState.water),      GameState.water,
+				_cn_e(GameState.exhaustion), GameState.exhaustion,
+				GameState.active_diseases.size(),
+			]
+		)
+
+
+func _update_tile_statuses() -> void:
+	var ps: Dictionary = GameState.player_stats
+	_set_tile_subtitle("player",
+		"Lv%d %s  HP:%d/%d" % [
+			GameState.level, str(GameState.current_class),
+			int(ps.get("hp", 0)), int(ps.get("max_hp", 1)),
+		])
+
+	var sem: Node = get_node_or_null("/root/StatusEffectManager")
+	var eff_count: int = (sem.get("_effects") as Dictionary).size() if sem else 0
+	var am: Node = get_node_or_null("/root/AllyManager")
+	var ally_count: int = am.call("get_allies").size() if am else 0
+	_set_tile_subtitle("combattimento", "Effetti: %d  Alleati: %d" % [eff_count, ally_count])
+
+	var tm: Node = get_node_or_null("/root/TimeManager")
+	_set_tile_subtitle("tempo",
+		"%s  Gg%d" % [
+			tm.call("format_time") if tm else "--:--",
+			tm.call("get_absolute_day") if tm else 0,
+		])
+
+	var reg: Node = get_node_or_null("/root/ClassRegistry")
+	var impl_n: int = reg.call("get_implemented").size() if reg else 0
+	_set_tile_subtitle("classi", "Impl: %d  Attiva: %s" % [impl_n, str(GameState.current_class)])
+
+	var freg: Node = get_node_or_null("/root/FactionRegistry")
+	var total_f: int = freg.call("get_all_factions").size() if freg else 0
+	var memb_n: int = 0
+	for fid: String in JOINABLE_FACTIONS:
+		if FactionMembership.is_member(fid): memb_n += 1
+	_set_tile_subtitle("fazioni", "%d fazioni  Membro: %d" % [total_f, memb_n])
+
+	var city_id: String = GameState.current_city_id
+	var crime_on: bool  = city_id != "" and CrimeSystem.is_crime_active(city_id)
+	var rec_n: int = CrimeSystem.get_criminal_record().size()
+	_set_tile_subtitle("crimini",
+		"%s  Fedina: %d" % [("RICERCATO" if crime_on else "pulito"), rec_n])
+
+	var idb: Node = get_node_or_null("/root/ItemDB")
+	var item_n: int = (idb.get("_items") as Dictionary).size() if idb else 0
+	var iadb: Node = get_node_or_null("/root/ItemAffixDB")
+	var affix_n: int = (iadb.get("_affixes") as Dictionary).size() if iadb else 0
+	_set_tile_subtitle("loot", "Item: %d  Affissi: %d" % [item_n, affix_n])
+
+	_set_tile_subtitle("bisogni",
+		"F:%.0f  A:%.0f  E:%.0f  Mal:%d" % [
+			GameState.food, GameState.water,
+			GameState.exhaustion, GameState.active_diseases.size(),
+		])
+
+
+func _cn_f(v: float) -> String:
+	if v <= 0.0:  return "#ff3333"
+	if v <= 24.0: return "#ff7777"
+	if v <= 49.0: return "#ffaa44"
+	return "#66bb66"
+
+func _cn_w(v: float) -> String:
+	if v <= 0.0:  return "#ff3333"
+	if v <= 24.0: return "#ff7777"
+	if v <= 49.0: return "#ffaa44"
+	return "#66aadd"
+
+func _cn_e(v: float) -> String:
+	if v >= 100.0: return "#ff3333"
+	if v >= 76.0:  return "#ff7777"
+	if v >= 31.0:  return "#ffaa44"
+	return "#66bb66"
+
+
+# ── Sezioni informative ───────────────────────────────────────────────────────
+
 func _update_sistema() -> void:
 	var s: DebugSection = get_section("sistema")
-	if not s:
-		return
+	if not s: return
 	var vi: Dictionary = Engine.get_version_info()
 	var vp: Vector2    = get_viewport().get_visible_rect().size
 	var tm: Node = get_node_or_null("/root/TimeManager")
@@ -244,8 +595,7 @@ func _update_sistema() -> void:
 
 func _update_class_registry() -> void:
 	var s: DebugSection = get_section("class_db")
-	if not s:
-		return
+	if not s: return
 	var reg: Node = get_node_or_null("/root/ClassRegistry")
 	if not reg:
 		s.update(["ClassRegistry: non caricato"])
@@ -261,11 +611,9 @@ func _update_class_registry() -> void:
 
 func _update_class_picker() -> void:
 	var s: DebugSection = get_section("class_picker")
-	if not s:
-		return
+	if not s: return
 	var picker: Node = get_node_or_null("/root/Main/_class_picker")
 	if not picker:
-		# cerca come figlio di Main
 		var main: Node = get_node_or_null("/root/Main")
 		if main:
 			for child: Node in main.get_children():
@@ -277,19 +625,17 @@ func _update_class_picker() -> void:
 		return
 	var gs: Node = get_node_or_null("/root/GameState")
 	var current: String = ""
-	if gs:
-		current = str(gs.get("current_class"))
+	if gs: current = str(gs.get("current_class"))
 	s.update([
-		"Visibile: %s"         % str(picker.visible),
-		"Classe attuale: %s"   % current,
+		"Visibile: %s"          % str(picker.visible),
+		"Classe attuale: %s"    % current,
 		"Classi in griglia: %d" % picker.call("_get_card_count"),
 	])
 
 
 func _update_game_state() -> void:
 	var s: DebugSection = get_section("game_state")
-	if not s:
-		return
+	if not s: return
 	var gs: Node = get_node_or_null("/root/GameState")
 	if not gs:
 		s.update(["GameState: non caricato"])
@@ -298,8 +644,8 @@ func _update_game_state() -> void:
 	var cb: Dictionary = gs.get("class_bonus")
 	var ea: Dictionary = gs.get("effective_attributes")
 	var lines: Array[String] = [
-		"Classe:  %s"   % str(gs.get("current_class")),
-		"Livello: %d"   % int(gs.get("level")),
+		"Classe:  %s"  % str(gs.get("current_class")),
+		"Livello: %d"  % int(gs.get("level")),
 		"",
 		"attr  | base | bonus | eff",
 		"------+------+-------+----",
@@ -322,8 +668,7 @@ func _update_game_state() -> void:
 
 func _update_damage_pipeline() -> void:
 	var s: DebugSection = get_section("damage_pipe")
-	if not s:
-		return
+	if not s: return
 	var pipe: Node = get_node_or_null("/root/DamagePipeline")
 	if not pipe:
 		s.update(["DamagePipeline: non caricato"])
@@ -333,8 +678,7 @@ func _update_damage_pipeline() -> void:
 
 func _update_class_runtime() -> void:
 	var s: DebugSection = get_section("class_runtime")
-	if not s:
-		return
+	if not s: return
 	var rt: Node = get_node_or_null("/root/ClassRuntime")
 	if not rt:
 		s.update(["ClassRuntime: non caricato"])
@@ -343,8 +687,8 @@ func _update_class_runtime() -> void:
 	var active_id: String    = str(rt.call("get_active_special_id"))
 	var has_special: bool    = rt.get("_active_special") != null
 	s.update([
-		"Classe attiva: %s"      % active_id,
-		"Special caricata: %s"   % ("sì" if has_special else "no (planned)"),
+		"Classe attiva: %s"     % active_id,
+		"Special caricata: %s"  % ("sì" if has_special else "no (planned)"),
 		"",
 		"Hook invocazioni:",
 		"  before_attack:  %d"  % int(counters.get("before_attack",  0)),
@@ -357,8 +701,7 @@ func _update_class_runtime() -> void:
 
 func _update_ability_tracker() -> void:
 	var s: DebugSection = get_section("ability_tracker")
-	if not s:
-		return
+	if not s: return
 	var rt: Node = get_node_or_null("/root/ClassRuntime")
 	if not rt:
 		s.update(["ClassRuntime: non caricato"])
@@ -368,17 +711,16 @@ func _update_ability_tracker() -> void:
 		s.update(["Tracker: non attivo (classe senza limite)"])
 		return
 	s.update([
-		"Descrizione: %s"       % str(tracker.call("describe")),
-		"Può usare:   %s"       % ("sì" if bool(tracker.call("can_use")) else "NO"),
-		"Usi rimasti: %d"       % int(tracker.call("get_uses_remaining")),
-		"Cooldown:    %dt"      % int(tracker.call("get_cooldown_remaining")),
+		"Descrizione: %s"  % str(tracker.call("describe")),
+		"Può usare:   %s"  % ("sì" if bool(tracker.call("can_use")) else "NO"),
+		"Usi rimasti: %d"  % int(tracker.call("get_uses_remaining")),
+		"Cooldown:    %dt" % int(tracker.call("get_cooldown_remaining")),
 	])
 
 
 func _update_class_special() -> void:
 	var s: DebugSection = get_section("class_special")
-	if not s:
-		return
+	if not s: return
 	var rt: Node = get_node_or_null("/root/ClassRuntime")
 	if not rt:
 		s.update(["ClassRuntime: non caricato"])
@@ -401,7 +743,6 @@ func _update_class_special() -> void:
 		var miss: float = 1.0 - float(hp) / float(maxf(1.0, float(max_hp)))
 		lines.append("HP: %d/%d (%.0f%% mancanti)" % [hp, max_hp, miss * 100.0])
 		lines.append("")
-		# Stato interno specifico per classe
 		match script_name:
 			"WarriorFury":
 				lines.append("Furia: %s" % ("ATTIVA" if miss > 0.70 else "inattiva (HP > 30%)"))
@@ -429,8 +770,8 @@ func _update_class_special() -> void:
 			"CorsairDirtyHit":
 				lines.append("Stun chance: %.0f%%" % (0.35 * 100.0))
 			"BerserkerFrenzy":
-				var tm: Node = get_node_or_null("/root/TurnManager")
-				var in_combat: bool = tm != null and bool(tm.get("is_active"))
+				var tm_node: Node = get_node_or_null("/root/TurnManager")
+				var in_combat: bool = tm_node != null and bool(tm_node.get("is_active"))
 				lines.append("In combattimento: %s" % ("sì → ATK ×1.4" if in_combat else "no"))
 				lines.append("Oggetti bloccati: %s" % ("SÌ" if in_combat else "no"))
 			"SentinelGuard":
@@ -441,8 +782,7 @@ func _update_class_special() -> void:
 
 func _update_status_effects() -> void:
 	var s: DebugSection = get_section("status_effects")
-	if not s:
-		return
+	if not s: return
 	var sem: Node = get_node_or_null("/root/StatusEffectManager")
 	if not sem:
 		s.update(["StatusEffectManager: non caricato"])
@@ -454,9 +794,7 @@ func _update_status_effects() -> void:
 	var lines: Array[String] = []
 	for tid: int in all_effects:
 		var effects: Array = all_effects[tid]
-		if effects.is_empty():
-			continue
-		# Tenta di risolvere il nome dell'entità dall'instance_id
+		if effects.is_empty(): continue
 		var entity_name: String = "id:%d" % tid
 		var instance = instance_from_id(tid)
 		if is_instance_valid(instance) and instance.has_method("get"):
@@ -472,8 +810,7 @@ func _update_status_effects() -> void:
 
 func _update_targeting() -> void:
 	var s: DebugSection = get_section("targeting")
-	if not s:
-		return
+	if not s: return
 	var rt: Node = get_node_or_null("/root/ClassRuntime")
 	if not rt:
 		s.update(["ClassRuntime: non caricato"])
@@ -485,8 +822,8 @@ func _update_targeting() -> void:
 	var active: bool    = bool(overlay.call("is_active"))
 	var player: Variant = rt.get("_targeting_player")
 	var lines: Array[String] = [
-		"Overlay attivo: %s" % ("SÌ" if active else "no"),
-		"Player in attesa: %s" % ("sì" if (player != null and is_instance_valid(player)) else "no"),
+		"Overlay attivo: %s"     % ("SÌ" if active else "no"),
+		"Player in attesa: %s"   % ("sì" if (player != null and is_instance_valid(player)) else "no"),
 	]
 	if active:
 		var valid_tiles: Array = overlay.get("_valid_tiles")
@@ -501,8 +838,7 @@ func _update_targeting() -> void:
 
 func _update_ally_manager() -> void:
 	var s: DebugSection = get_section("ally_manager")
-	if not s:
-		return
+	if not s: return
 	var am: Node = get_node_or_null("/root/AllyManager")
 	if not am:
 		s.update(["AllyManager: non caricato"])
@@ -528,8 +864,7 @@ func _update_ally_manager() -> void:
 
 func _update_druid_form() -> void:
 	var s: DebugSection = get_section("druid_form")
-	if not s:
-		return
+	if not s: return
 	var rt: Node = get_node_or_null("/root/ClassRuntime")
 	if not rt:
 		s.update(["ClassRuntime: non caricato"])
@@ -556,8 +891,7 @@ func _update_druid_form() -> void:
 
 func _update_milestones() -> void:
 	var s: DebugSection = get_section("milestones")
-	if not s:
-		return
+	if not s: return
 	var gmt: Node = get_node_or_null("/root/GlobalMilestoneTracker")
 	if not gmt:
 		s.update(["GlobalMilestoneTracker: non caricato"])
@@ -571,27 +905,26 @@ func _update_milestones() -> void:
 		"Sbloccate:   %d / %d" % [unlocked.size(), total],
 		"Completate:  %d / %d" % [completed.size(), total],
 		"──────────────────",
-		"kills_total:      %d" % int(data.get("kills_total", 0)),
-		"kills_boss:       %d" % int(data.get("kills_boss", 0)),
-		"deaths_total:     %d" % int(data.get("deaths_total", 0)),
-		"dungeon_floors:   %d" % int(data.get("dungeon_floors_total", 0)),
-		"chests_opened:    %d" % int(data.get("chests_opened", 0)),
-		"save_points:      %d" % int(data.get("save_points_used", 0)),
-		"dmg_dealt:        %d" % int(data.get("damage_dealt_total", 0)),
-		"dmg_taken:        %d" % int(data.get("damage_taken_total", 0)),
+		"kills_total:      %d" % int(data.get("kills_total",           0)),
+		"kills_boss:       %d" % int(data.get("kills_boss",            0)),
+		"deaths_total:     %d" % int(data.get("deaths_total",          0)),
+		"dungeon_floors:   %d" % int(data.get("dungeon_floors_total",  0)),
+		"chests_opened:    %d" % int(data.get("chests_opened",         0)),
+		"save_points:      %d" % int(data.get("save_points_used",      0)),
+		"dmg_dealt:        %d" % int(data.get("damage_dealt_total",    0)),
+		"dmg_taken:        %d" % int(data.get("damage_taken_total",    0)),
 		"──────────────────",
 		"Run corrente:",
-		"  kills:     %d" % int(GameState.run_milestones.get("kills_total", 0)),
-		"  floors:    %d" % int(GameState.run_milestones.get("dungeon_floors_total", 0)),
-		"  dmg dealt: %d" % int(GameState.run_milestones.get("damage_dealt_total", 0)),
+		"  kills:     %d" % int(GameState.run_milestones.get("kills_total",           0)),
+		"  floors:    %d" % int(GameState.run_milestones.get("dungeon_floors_total",   0)),
+		"  dmg dealt: %d" % int(GameState.run_milestones.get("damage_dealt_total",    0)),
 	]
 	s.update(lines)
 
 
 func _update_respec() -> void:
 	var s: DebugSection = get_section("respec")
-	if not s:
-		return
+	if not s: return
 	var svc: Node = get_node_or_null("/root/ClassRespecService")
 	var gmt: Node = get_node_or_null("/root/GlobalMilestoneTracker")
 	var gs: Node  = get_node_or_null("/root/GameState")
@@ -599,9 +932,9 @@ func _update_respec() -> void:
 		s.update(["ClassRespecService: non caricato"])
 		return
 	var respec_count: int = gmt.call("get_value", "class_respec_count") if gmt else 0
-	var current: String = str(gs.get("current_class")) if gs else "—"
-	var ba: Dictionary = gs.get("base_attributes") if gs else {}
-	var cb: Dictionary = gs.get("class_bonus")     if gs else {}
+	var current: String   = str(gs.get("current_class")) if gs else "—"
+	var ba: Dictionary = gs.get("base_attributes")      if gs else {}
+	var cb: Dictionary = gs.get("class_bonus")          if gs else {}
 	var ea: Dictionary = gs.get("effective_attributes") if gs else {}
 	var lines: Array[String] = [
 		"Classe attiva:  %s" % current,
@@ -622,17 +955,14 @@ func _update_respec() -> void:
 
 # ── DevClassSwitch ────────────────────────────────────────────────────────────
 
-func _build_class_switcher() -> void:
+func _build_class_switcher(parent: VBoxContainer) -> void:
 	var reg: Node = get_node_or_null("/root/ClassRegistry")
-	if not reg:
-		return
+	if not reg: return
 
-	# Contenitore collassabile (stessa logica di DebugSection, ma con pulsanti)
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
-	# Header collassabile
 	var header := Button.new()
 	header.text = "▼ DevClassSwitch"
 	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -651,7 +981,6 @@ func _build_class_switcher() -> void:
 		header.text = ("▼ " if body.visible else "► ") + "DevClassSwitch"
 	)
 
-	# Riga stato corrente
 	_switcher_current_lbl = Label.new()
 	_switcher_current_lbl.add_theme_font_size_override("font_size", 10)
 	_switcher_current_lbl.add_theme_color_override("font_color", Color(0.85, 0.85, 0.85))
@@ -659,14 +988,12 @@ func _build_class_switcher() -> void:
 
 	body.add_child(HSeparator.new())
 
-	# Pulsanti per tier
 	var all_classes: Array[Dictionary] = reg.call("get_all")
 	for tier: int in range(0, 7):
 		var tier_classes: Array = all_classes.filter(
 			func(d: Dictionary) -> bool: return int(d.get("tier", 0)) == tier
 		)
-		if tier_classes.is_empty():
-			continue
+		if tier_classes.is_empty(): continue
 
 		var tier_lbl := Label.new()
 		tier_lbl.text = "Tier %d" % tier
@@ -680,7 +1007,7 @@ func _build_class_switcher() -> void:
 		body.add_child(flow)
 
 		for data: Dictionary in tier_classes:
-			var class_id: String = str(data.get("id", ""))
+			var class_id: String      = str(data.get("id", ""))
 			var class_name_str: String = str(data.get("name", class_id))
 			var is_impl: bool = str((data.get("implementation", {}) as Dictionary) \
 				.get("status", "")) == "implemented"
@@ -690,25 +1017,20 @@ func _build_class_switcher() -> void:
 			btn.focus_mode = Control.FOCUS_NONE
 			btn.add_theme_font_size_override("font_size", 9)
 			btn.tooltip_text = "[Tier %d]  %s%s" % [
-				tier,
-				class_id,
-				"" if is_impl else "  (planned)"
+				tier, class_id, "" if is_impl else "  (planned)"
 			]
-
-			# Colore sfondo per tier, più scuro se non implementata
 			var bg_col: Color = TIER_COLORS[tier] if is_impl else TIER_COLORS[tier].darkened(0.5)
 			var style_btn := StyleBoxFlat.new()
 			style_btn.bg_color = bg_col
 			style_btn.set_corner_radius_all(3)
-			style_btn.content_margin_left  = 6.0
-			style_btn.content_margin_right = 6.0
-			style_btn.content_margin_top   = 2.0
+			style_btn.content_margin_left   = 6.0
+			style_btn.content_margin_right  = 6.0
+			style_btn.content_margin_top    = 2.0
 			style_btn.content_margin_bottom = 2.0
 			btn.add_theme_stylebox_override("normal",   style_btn)
 			btn.add_theme_stylebox_override("hover",    _btn_hover_style(bg_col))
 			btn.add_theme_stylebox_override("pressed",  _btn_pressed_style(bg_col))
 			btn.add_theme_color_override("font_color", Color.WHITE)
-
 			btn.pressed.connect(_do_class_switch.bind(class_id))
 			flow.add_child(btn)
 
@@ -718,12 +1040,10 @@ func _do_ttk_sim() -> void:
 
 
 func _do_level_up() -> void:
-	if GameState.level >= 100:
-		return
+	if GameState.level >= 100: return
 	GameState.level += 1
 	var ls: Node = get_node_or_null("/root/LevelSystem")
-	if ls:
-		ls.call("_apply_level_up")
+	if ls: ls.call("_apply_level_up")
 	_refresh()
 
 
@@ -731,7 +1051,7 @@ func _btn_hover_style(base: Color) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = base.lightened(0.25)
 	s.set_corner_radius_all(3)
-	s.content_margin_left = 6.0; s.content_margin_right = 6.0
+	s.content_margin_left = 6.0; s.content_margin_right  = 6.0
 	s.content_margin_top  = 2.0; s.content_margin_bottom = 2.0
 	return s
 
@@ -740,49 +1060,43 @@ func _btn_pressed_style(base: Color) -> StyleBoxFlat:
 	var s := StyleBoxFlat.new()
 	s.bg_color = base.darkened(0.2)
 	s.set_corner_radius_all(3)
-	s.content_margin_left = 6.0; s.content_margin_right = 6.0
+	s.content_margin_left = 6.0; s.content_margin_right  = 6.0
 	s.content_margin_top  = 2.0; s.content_margin_bottom = 2.0
 	return s
 
 
 func _do_class_switch(class_id: String) -> void:
 	var gs: Node = get_node_or_null("/root/GameState")
-	if not gs:
-		return
+	if not gs: return
 	if str(gs.get("character_name")) == "":
-		# Nessuna partita in corso — aggiorna solo ClassRuntime (utile per debug)
 		var rt: Node = get_node_or_null("/root/ClassRuntime")
-		if rt:
-			rt.call("set_active_class", class_id)
+		if rt: rt.call("set_active_class", class_id)
 		return
 	gs.call("apply_class", class_id)
-	# Forza aggiornamento immediato del debug screen
 	_refresh()
 
 
 func _update_loot_db() -> void:
 	var s: DebugSection = get_section("loot_db")
-	if not s:
-		return
-	var idb: Node  = get_node_or_null("/root/ItemDB")
+	if not s: return
+	var idb:  Node = get_node_or_null("/root/ItemDB")
 	var iadb: Node = get_node_or_null("/root/ItemAffixDB")
 	var ltdb: Node = get_node_or_null("/root/LootTableDB")
 	var igen: Node = get_node_or_null("/root/ItemGenerator")
 	var lres: Node = get_node_or_null("/root/LootResolver")
-	var lines: Array[String] = [
-		"ItemDB:        %s  (%d item)"   % [("OK" if idb  else "NON CARICATO"), (idb.get("_items")  as Dictionary).size() if idb  else 0],
-		"ItemAffixDB:   %s  (%d affissi)"% [("OK" if iadb else "NON CARICATO"), (iadb.get("_affixes") as Dictionary).size() if iadb else 0],
-		"LootTableDB:   %s  (%d cache)"  % [("OK" if ltdb else "NON CARICATO"), (ltdb.get("_cache")  as Dictionary).size() if ltdb else 0],
-		"ItemGenerator: %s"              %  ("OK" if igen else "NON CARICATO"),
-		"LootResolver:  %s"              %  ("OK" if lres else "NON CARICATO"),
-	]
-	s.update(lines)
+	s.update([
+		"ItemDB:        %s  (%d item)"    % [("OK" if idb  else "NON CARICATO"), (idb.get("_items")   as Dictionary).size() if idb  else 0],
+		"ItemAffixDB:   %s  (%d affissi)" % [("OK" if iadb else "NON CARICATO"), (iadb.get("_affixes") as Dictionary).size() if iadb else 0],
+		"LootTableDB:   %s  (%d cache)"   % [("OK" if ltdb else "NON CARICATO"), (ltdb.get("_cache")  as Dictionary).size() if ltdb else 0],
+		"ItemGenerator: %s"               %  ("OK" if igen else "NON CARICATO"),
+		"LootResolver:  %s"               %  ("OK" if lres else "NON CARICATO"),
+	])
 
 
-func _build_loot_tools() -> void:
+func _build_loot_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ LootTools"
@@ -802,7 +1116,6 @@ func _build_loot_tools() -> void:
 		header.text = ("▼ " if body.visible else "► ") + "LootTools"
 	)
 
-	# Row 1: resolve buttons
 	var row1 := HBoxContainer.new()
 	row1.add_theme_constant_override("separation", 6)
 	body.add_child(row1)
@@ -825,7 +1138,6 @@ func _build_loot_tools() -> void:
 	btn_ground.pressed.connect(_debug_loot_ground)
 	row1.add_child(btn_ground)
 
-	# Row 2: ItemGenerator tests
 	var row2 := HBoxContainer.new()
 	row2.add_theme_constant_override("separation", 6)
 	body.add_child(row2)
@@ -848,7 +1160,6 @@ func _build_loot_tools() -> void:
 	btn_open_screen.pressed.connect(_debug_open_loot_screen)
 	row2.add_child(btn_open_screen)
 
-	# Row 3: identify test
 	var row3 := HBoxContainer.new()
 	row3.add_theme_constant_override("separation", 6)
 	body.add_child(row3)
@@ -868,24 +1179,19 @@ func _build_loot_tools() -> void:
 
 func _debug_loot_enemy() -> void:
 	var lres: Node = get_node_or_null("/root/LootResolver")
-	if not lres:
-		print("[LootTools] LootResolver non caricato")
-		return
+	if not lres: print("[LootTools] LootResolver non caricato"); return
 	var ctx: Dictionary = {
 		"source_type": "enemy", "loot_profile": "humanoid_low",
 		"player_class": str(GameState.current_class), "player_level": GameState.level, "floor": 1,
 	}
 	var drops: Array = lres.call("resolve", ctx)
 	print("[LootTools] enemy drops (%d):" % drops.size())
-	for d: Variant in drops:
-		print("  ", d)
+	for d: Variant in drops: print("  ", d)
 
 
 func _debug_loot_chest() -> void:
 	var lres: Node = get_node_or_null("/root/LootResolver")
-	if not lres:
-		print("[LootTools] LootResolver non caricato")
-		return
+	if not lres: print("[LootTools] LootResolver non caricato"); return
 	for variant: String in ["comune", "ricca", "abbondante", "boss", "segreto"]:
 		var ctx: Dictionary = {
 			"source_type": "chest", "chest_variant": variant,
@@ -893,30 +1199,24 @@ func _debug_loot_chest() -> void:
 		}
 		var drops: Array = lres.call("resolve", ctx)
 		print("[LootTools] chest[%s] drops (%d):" % [variant, drops.size()])
-		for d: Variant in drops:
-			print("  ", d)
+		for d: Variant in drops: print("  ", d)
 
 
 func _debug_loot_ground() -> void:
 	var lres: Node = get_node_or_null("/root/LootResolver")
-	if not lres:
-		print("[LootTools] LootResolver non caricato")
-		return
+	if not lres: print("[LootTools] LootResolver non caricato"); return
 	var ctx: Dictionary = {
 		"source_type": "ground",
 		"player_class": str(GameState.current_class), "player_level": GameState.level, "floor": 1,
 	}
 	var drops: Array = lres.call("resolve", ctx)
 	print("[LootTools] ground drops (%d):" % drops.size())
-	for d: Variant in drops:
-		print("  ", d)
+	for d: Variant in drops: print("  ", d)
 
 
 func _debug_drop_item(base_id: String) -> void:
 	var igen: Node = get_node_or_null("/root/ItemGenerator")
-	if not igen:
-		print("[LootTools] ItemGenerator non caricato")
-		return
+	if not igen: print("[LootTools] ItemGenerator non caricato"); return
 	var instance: Dictionary = igen.call("drop", base_id, GameState.level, null, 0)
 	print("[LootTools] drop '%s': %s" % [base_id, instance])
 	if not bool(instance.get("identified", false)):
@@ -927,12 +1227,9 @@ func _debug_drop_item(base_id: String) -> void:
 
 func _debug_identify_test() -> void:
 	var igen: Node = get_node_or_null("/root/ItemGenerator")
-	if not igen:
-		print("[LootTools] ItemGenerator non caricato")
-		return
-	# Drop same item twice with same seed — verify same affixes
+	if not igen: print("[LootTools] ItemGenerator non caricato"); return
 	var instance: Dictionary = igen.call("drop", "spada_corta", 15, null, 2)
-	instance["quality"] = "raro"  # force raro for test
+	instance["quality"] = "raro"
 	print("[LootTools] seed: %d" % int(instance.get("affix_seed", 0)))
 	var id1: Dictionary = igen.call("identify", instance.duplicate(true), 15)
 	var id2: Dictionary = igen.call("identify", instance.duplicate(true), 15)
@@ -944,8 +1241,7 @@ func _debug_identify_test() -> void:
 
 func _debug_open_loot_screen() -> void:
 	var igen: Node = get_node_or_null("/root/ItemGenerator")
-	if not igen:
-		return
+	if not igen: return
 	var test_drops: Array = [
 		igen.call("drop", "spada_corta",     GameState.level, null, 1),
 		igen.call("drop", "armatura_cuoio",  GameState.level, null, 0),
@@ -965,8 +1261,7 @@ func _debug_invalidate_loot_cache() -> void:
 
 
 func _update_switcher() -> void:
-	if not is_instance_valid(_switcher_current_lbl):
-		return
+	if not is_instance_valid(_switcher_current_lbl): return
 	var gs: Node = get_node_or_null("/root/GameState")
 	if not gs:
 		_switcher_current_lbl.text = "Nessuna partita in corso"
@@ -975,17 +1270,16 @@ func _update_switcher() -> void:
 	var current: String = str(gs.get("current_class"))
 	var has_sp: bool    = rt != null and rt.get("_active_special") != null
 	_switcher_current_lbl.text = "Attiva: %s  |  special: %s" % [
-		current,
-		"caricata" if has_sp else "non implementata"
+		current, "caricata" if has_sp else "non implementata"
 	]
 
 
 # ── Validatori JSON ───────────────────────────────────────────────────────────
 
-func _build_validation_tools() -> void:
+func _build_validation_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ Validatori JSON"
@@ -1005,7 +1299,6 @@ func _build_validation_tools() -> void:
 		header.text = ("▼ " if body.visible else "► ") + "Validatori JSON"
 	)
 
-	# Riga pulsanti
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 4)
 	body.add_child(row)
@@ -1025,13 +1318,12 @@ func _build_validation_tools() -> void:
 	var style_all := StyleBoxFlat.new()
 	style_all.bg_color = Color(0.20, 0.45, 0.20)
 	style_all.set_corner_radius_all(3)
-	style_all.content_margin_left = 6.0; style_all.content_margin_right = 6.0
+	style_all.content_margin_left = 6.0; style_all.content_margin_right  = 6.0
 	style_all.content_margin_top  = 2.0; style_all.content_margin_bottom = 2.0
 	btn_all.add_theme_stylebox_override("normal", style_all)
 	btn_all.pressed.connect(_run_all_validators_debug)
 	row.add_child(btn_all)
 
-	# Label risultati
 	_val_result_lbl = RichTextLabel.new()
 	_val_result_lbl.bbcode_enabled    = true
 	_val_result_lbl.fit_content       = true
@@ -1059,7 +1351,7 @@ func _run_all_validators_debug() -> void:
 		results.append(r)
 		_print_val_result(r)
 	_show_val_results(results)
-	var grand_err: int  = results.reduce(func(acc, r): return acc + (r["errors"] as Array).size(), 0)
+	var grand_err:  int = results.reduce(func(acc, r): return acc + (r["errors"]   as Array).size(), 0)
 	var grand_warn: int = results.reduce(func(acc, r): return acc + (r["warnings"] as Array).size(), 0)
 	print("══════════════════════════════════════════")
 	if grand_err == 0 and grand_warn == 0:
@@ -1085,19 +1377,16 @@ func _print_val_result(r: Dictionary) -> void:
 		return
 	if not errors.is_empty():
 		print("  ERRORI (%d):" % errors.size())
-		for e: Variant in errors:
-			print("    [ERR]  %s" % str(e))
+		for e: Variant in errors: print("    [ERR]  %s" % str(e))
 	if not warnings.is_empty():
 		print("  WARNING (%d):" % warnings.size())
-		for w: Variant in warnings:
-			print("    [WARN] %s" % str(w))
+		for w: Variant in warnings: print("    [WARN] %s" % str(w))
 
 
 func _show_val_results(results: Array) -> void:
-	if not is_instance_valid(_val_result_lbl):
-		return
+	if not is_instance_valid(_val_result_lbl): return
 	var out: String = ""
-	var grand_err: int = 0
+	var grand_err: int  = 0
 	var grand_warn: int = 0
 	for r in results:
 		var errors:   Array = r["errors"]   as Array
@@ -1111,15 +1400,11 @@ func _show_val_results(results: Array) -> void:
 		if errors.is_empty() and warnings.is_empty():
 			out += "  [color=#44dd44]OK[/color]"
 		else:
-			if not errors.is_empty():
-				out += "  [color=#ff5555]%d ERR[/color]" % errors.size()
-			if not warnings.is_empty():
-				out += "  [color=#ffaa44]%d WARN[/color]" % warnings.size()
+			if not errors.is_empty():   out += "  [color=#ff5555]%d ERR[/color]"   % errors.size()
+			if not warnings.is_empty(): out += "  [color=#ffaa44]%d WARN[/color]" % warnings.size()
 		out += "\n"
-		for e: Variant in errors:
-			out += "  [color=#ff7777]• %s[/color]\n" % str(e)
-		for w: Variant in warnings:
-			out += "  [color=#ffcc66]△ %s[/color]\n" % str(w)
+		for e: Variant in errors:   out += "  [color=#ff7777]• %s[/color]\n"  % str(e)
+		for w: Variant in warnings: out += "  [color=#ffcc66]△ %s[/color]\n" % str(w)
 	if results.size() > 1:
 		var summary_col: String = "#44dd44" if grand_err == 0 else "#ff5555"
 		out += "[color=%s]─── Totale: %d errori, %d warning ───[/color]" % [
@@ -1132,8 +1417,7 @@ func _show_val_results(results: Array) -> void:
 
 func _update_faction_db() -> void:
 	var s: DebugSection = get_section("faction_db")
-	if not s:
-		return
+	if not s: return
 	var reg: Node = get_node_or_null("/root/FactionRegistry")
 	if not reg:
 		s.update(["FactionRegistry: non caricato"])
@@ -1151,10 +1435,10 @@ func _update_faction_db() -> void:
 	s.update(lines)
 
 
-func _build_faction_tools() -> void:
+func _build_faction_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ FactionTools"
@@ -1174,7 +1458,6 @@ func _build_faction_tools() -> void:
 		header.text = ("▼ " if body.visible else "► ") + "FactionTools"
 	)
 
-	# ── Rep table ────────────────────────────────────────────────────────────
 	var rep_lbl := Label.new()
 	rep_lbl.text = "Rep attuale:"
 	rep_lbl.add_theme_font_size_override("font_size", 10)
@@ -1189,7 +1472,6 @@ func _build_faction_tools() -> void:
 
 	body.add_child(HSeparator.new())
 
-	# ── Rep editor ───────────────────────────────────────────────────────────
 	var editor_lbl := Label.new()
 	editor_lbl.text = "Editor reputazione:"
 	editor_lbl.add_theme_font_size_override("font_size", 10)
@@ -1253,7 +1535,6 @@ func _build_faction_tools() -> void:
 
 	body.add_child(HSeparator.new())
 
-	# ── Membership panel ──────────────────────────────────────────────────────
 	var memb_lbl := Label.new()
 	memb_lbl.text = "Membership:"
 	memb_lbl.add_theme_font_size_override("font_size", 10)
@@ -1300,8 +1581,7 @@ func _build_faction_tools() -> void:
 
 
 func _update_faction_rep_table() -> void:
-	if not is_instance_valid(_faction_rep_rtl):
-		return
+	if not is_instance_valid(_faction_rep_rtl): return
 	var reg: Node = get_node_or_null("/root/FactionRegistry")
 	if not reg:
 		_faction_rep_rtl.text = "[color=#666666]FactionRegistry non caricato[/color]"
@@ -1312,10 +1592,10 @@ func _update_faction_rep_table() -> void:
 	)
 	var out: String = ""
 	for data: Dictionary in all:
-		var fid: String  = str(data.get("id", ""))
-		var rep: int     = FactionReputation.get_rep(fid)
+		var fid: String   = str(data.get("id", ""))
+		var rep: int      = FactionReputation.get_rep(fid)
 		var state: String = FactionReputation.get_state_id(fid)
-		var col: String  = str(STATE_HEX.get(state, "#aaaaaa"))
+		var col: String   = str(STATE_HEX.get(state, "#aaaaaa"))
 		var badges: String = ""
 		if FactionMembership.is_member(fid):
 			badges = " [color=#ffcc00]M[r%d][/color]" % FactionMembership.get_rank(fid)
@@ -1326,8 +1606,7 @@ func _update_faction_rep_table() -> void:
 
 
 func _update_faction_member_table() -> void:
-	if not is_instance_valid(_faction_member_rtl):
-		return
+	if not is_instance_valid(_faction_member_rtl): return
 	var out: String = ""
 	for fid: String in JOINABLE_FACTIONS:
 		if FactionMembership.is_member(fid):
@@ -1340,11 +1619,9 @@ func _update_faction_member_table() -> void:
 
 
 func _do_rep_delta(d: int) -> void:
-	if not is_instance_valid(_faction_rep_opt):
-		return
+	if not is_instance_valid(_faction_rep_opt): return
 	var fid: String = _faction_rep_opt.get_item_text(_faction_rep_opt.selected)
-	if fid == "":
-		return
+	if fid == "": return
 	var propagate: bool = is_instance_valid(_faction_propagate_cb) and _faction_propagate_cb.button_pressed
 	FactionReputation.add_rep(fid, d, "debug", propagate)
 	_refresh()
@@ -1374,11 +1651,10 @@ func _do_faction_advance(fid: String) -> void:
 
 func _update_crime() -> void:
 	var s: DebugSection = get_section("crime")
-	if not s:
-		return
-	var city_id: String  = GameState.current_city_id
-	var active: bool     = city_id != "" and CrimeSystem.is_crime_active(city_id)
-	var record: Array    = CrimeSystem.get_criminal_record()
+	if not s: return
+	var city_id: String = GameState.current_city_id
+	var active: bool    = city_id != "" and CrimeSystem.is_crime_active(city_id)
+	var record: Array   = CrimeSystem.get_criminal_record()
 	var lines: Array[String] = [
 		"current_city_id:  %s"  % (city_id if city_id != "" else "(nessuna)"),
 		"crime_attivo:     %s"  % ("SÌ" if active else "no"),
@@ -1392,10 +1668,10 @@ func _update_crime() -> void:
 	s.update(lines)
 
 
-func _build_crime_tools() -> void:
+func _build_crime_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ CrimeTools"
@@ -1424,9 +1700,8 @@ func _build_crime_tools() -> void:
 	btn_crime.add_theme_font_size_override("font_size", 10)
 	btn_crime.pressed.connect(func() -> void:
 		var cid: String = GameState.current_city_id
-		if cid != "":
-			CrimeSystem.register_crime(cid)
-			_refresh()
+		if cid != "": CrimeSystem.register_crime(cid)
+		_refresh()
 	)
 	row1.add_child(btn_crime)
 
@@ -1435,9 +1710,8 @@ func _build_crime_tools() -> void:
 	btn_arrest.add_theme_font_size_override("font_size", 10)
 	btn_arrest.pressed.connect(func() -> void:
 		var cid: String = GameState.current_city_id
-		if cid != "":
-			CrimeSystem.arrest_player(cid)
-			_refresh()
+		if cid != "": CrimeSystem.arrest_player(cid)
+		_refresh()
 	)
 	row1.add_child(btn_arrest)
 
@@ -1446,9 +1720,8 @@ func _build_crime_tools() -> void:
 	btn_clear.add_theme_font_size_override("font_size", 10)
 	btn_clear.pressed.connect(func() -> void:
 		var cid: String = GameState.current_city_id
-		if cid != "":
-			CrimeSystem.clear_crime(cid)
-			_refresh()
+		if cid != "": CrimeSystem.clear_crime(cid)
+		_refresh()
 	)
 	row1.add_child(btn_clear)
 
@@ -1511,8 +1784,7 @@ func _update_amuleto_btn(btn: Button) -> void:
 
 func _update_time_system() -> void:
 	var s: DebugSection = get_section("time_system")
-	if not s:
-		return
+	if not s: return
 	var tm: Node = get_node_or_null("/root/TimeManager")
 	if not tm:
 		s.update(["TimeManager: non caricato"])
@@ -1548,10 +1820,10 @@ func _update_time_system() -> void:
 	s.update(lines)
 
 
-func _build_time_tools() -> void:
+func _build_time_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ TimeTools"
@@ -1582,8 +1854,7 @@ func _build_time_tools() -> void:
 		btn.add_theme_font_size_override("font_size", 10)
 		btn.pressed.connect(func() -> void:
 			var tm: Node = get_node_or_null("/root/TimeManager")
-			if tm:
-				tm.call("advance", minutes)
+			if tm: tm.call("advance", minutes)
 			_refresh()
 		)
 		row.add_child(btn)
@@ -1602,8 +1873,7 @@ func _build_time_tools() -> void:
 
 func _update_needs() -> void:
 	var s: DebugSection = get_section("needs")
-	if not s:
-		return
+	if not s: return
 	var nm: Node = get_node_or_null("/root/NeedsManager")
 	var mods: Dictionary = GameState.needs_modifiers
 	var lines: Array[String] = [
@@ -1672,10 +1942,10 @@ func _temp_zone_label() -> String:
 	return "0 (comodo)"
 
 
-func _build_needs_tools() -> void:
+func _build_needs_tools(parent: VBoxContainer) -> void:
 	var wrapper := VBoxContainer.new()
 	wrapper.add_theme_constant_override("separation", 2)
-	_vbox.add_child(wrapper)
+	parent.add_child(wrapper)
 
 	var header := Button.new()
 	header.text = "▼ NeedsTools"
@@ -1695,7 +1965,7 @@ func _build_needs_tools() -> void:
 		header.text = ("▼ " if body.visible else "► ") + "NeedsTools"
 	)
 
-	# ── Toggle HUD ────────────────────────────────────────────────────────────
+	# ── Toggle HUD / Reset ────────────────────────────────────────────────────
 	var row0 := HBoxContainer.new()
 	row0.add_theme_constant_override("separation", 6)
 	body.add_child(row0)
@@ -1760,8 +2030,7 @@ func _build_needs_tools() -> void:
 			var nm: Node = get_node_or_null("/root/NeedsManager")
 			GameState.set(prop, clampf(float(spin.value),
 				float(cfg["min"]), float(cfg["max"])))
-			if nm:
-				nm.call("rebuild_modifiers")
+			if nm: nm.call("rebuild_modifiers")
 			_refresh()
 		)
 		row.add_child(btn)
@@ -1861,8 +2130,7 @@ func _build_needs_tools() -> void:
 	add_dis_btn.add_theme_font_size_override("font_size", 10)
 	add_dis_btn.pressed.connect(func() -> void:
 		var nm: Node = get_node_or_null("/root/NeedsManager")
-		if nm:
-			nm.call("add_disease", dis_opt.get_item_text(dis_opt.selected))
+		if nm: nm.call("add_disease", dis_opt.get_item_text(dis_opt.selected))
 		_refresh()
 	)
 	dis_row.add_child(add_dis_btn)
@@ -1882,8 +2150,7 @@ func _build_needs_tools() -> void:
 					entry["stage_index"] = cur + 1
 					entry["elapsed_minutes"] = 0.0
 					var nm: Node = get_node_or_null("/root/NeedsManager")
-					if nm:
-						nm.call("rebuild_modifiers")
+					if nm: nm.call("rebuild_modifiers")
 				break
 		_refresh()
 	)
@@ -1894,8 +2161,7 @@ func _build_needs_tools() -> void:
 	cure_btn.add_theme_font_size_override("font_size", 10)
 	cure_btn.pressed.connect(func() -> void:
 		var nm: Node = get_node_or_null("/root/NeedsManager")
-		if nm:
-			nm.call("cure_all_diseases")
+		if nm: nm.call("cure_all_diseases")
 		_refresh()
 	)
 	dis_row.add_child(cure_btn)
@@ -1955,8 +2221,7 @@ func _build_needs_tools() -> void:
 	use_item_btn.add_theme_font_size_override("font_size", 10)
 	use_item_btn.pressed.connect(func() -> void:
 		var iid: String = item_opt.get_item_text(item_opt.selected)
-		if not Inventory.has_item(iid):
-			Inventory.add_item(iid, 1, false)
+		if not Inventory.has_item(iid): Inventory.add_item(iid, 1, false)
 		Inventory.use_item(iid)
 		_refresh()
 	)

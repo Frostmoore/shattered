@@ -11,8 +11,8 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [x] **Time System** *(completo — plan_time_system.md)*
   `total_minutes`, `TimeManager`, hook in `Player._action_done()`, HUD label, WaitScreen, save/load, continuità temporale multi-personaggio per mondo.
 
-- [ ] **Needs System** *(plan_needs_system.md — ancora da progettare nel dettaglio)*
-  Fame, sete, sonno, stanchezza. Dipende da Time System per i tick di consumo.
+- [x] **Needs System** *(plan_needs_system.md — completo FASI 0–5)*
+  Fame, sete, exhaustion, temperatura, malattie (32), item consumabili, save point rest, cure automatiche, disease-on-hit da nemici.
 
 - [ ] **Camping System** *(plan_camping_system.md)*
   Bivacco su overworld/dungeon. Dipende da Time System; hook Needs deferred.
@@ -99,7 +99,7 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [ ] Implementare schermata di configurazione NPC nel CityBuilder (nome, dialoghi, reputazione, fazioni con ruolo primary/secondary, love interest, dialoghi condizionali per rep/fazione/quest)
 - [ ] AI differenziata per controller (mantiene distanza), assassin (approccio dal retro), artillery (ranged)
 - [ ] Validazione TTK tier 3-6 con CombatSimulator dopo aver avviato il gioco
-- [ ] Sistema bisogni: fame, sete, sonno, stanchezza, malattia
+- [x] Sistema bisogni: fame, sete, sonno, stanchezza, malattia ✅ completo
 - [ ] Sistema di viaggio. Nell'overworld si devono consumare risorse come cibo e acqua
 - [ ] Tutte le classi devono avere un'abilità attiva e una passiva
 - [ ] Quando si cambia classe, si mantengono tutte le passive delle classi precedenti
