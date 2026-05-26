@@ -1,0 +1,23 @@
+{
+  "id": "putrefazione",
+  "name": "Putrefazione",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "dmg_taken_mult": 0.10 },
+      "damage_per_30min": 3,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 240 }]
+    },
+    {
+      "label": "avanzata",
+      "malus": { "dmg_taken_mult": 0.20, "atk_mult": -0.15, "action_cost_mult": 0.20 },
+      "damage_per_30min": 8,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "antidote" },
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

@@ -155,6 +155,27 @@ deserto:             peso basso → rovine antiche, tombe
 - Piazzamento villaggio iniziale: cerca cluster di `plains` vicino al centro, sceglie tile valido
 - Output: `WorldData` con `biome_map` e `player_start` popolati
 
+### Temperatura per bioma (integrazione Sistema Bisogni)
+
+Ogni bioma ha un `temperature_target` — il valore di equilibrio verso cui si avvicina la temperatura del player — e un `approach_rate k` usati da `NeedsManager._get_temperature_target()` e `_get_approach_rate()`. Il modello è `lerpf(temperature, target, k * minutes)`: la temperatura si stabilizza, non cresce indefinitamente.
+
+| Bioma | `temperature_target` | `k` (per minuto) | Note |
+|-------|---------------------|-----------------:|------|
+| `plains` | 0 | 0.007 | Temperatura neutra |
+| `forest` | −5 | 0.006 | Leggermente più fresco (ombra) |
+| `dense_forest` | −10 | 0.006 | Fresco e umido |
+| `mountain` | −40 | 0.010 | Freddo d'alta quota |
+| `mountain_dense` | −55 | 0.012 | Gelido — picchi impassabili |
+| `desert` | +60 | 0.012 | Caldo intenso |
+| `swamp` | +30 | 0.008 | Caldo afoso |
+| `coast` | +10 | 0.007 | Mite |
+| `sea` | −15 | 0.008 | Freddo marino (viaggio astratto) |
+
+Range temperature: −100 (gelo assoluto) … +100 (ustionante). Soglie malattia: ipotermia ≤ −75, ipertermia ≥ +85.
+Valori da bilanciare in Fase 10. Definiti come costanti in `WorldData.gd` o in `data/world/biome_defs.json`.
+
+`NeedsManager` riceve il bioma corrente come `context["biome"]` — passato da `OverworldMap` / `WorldManager` tramite `TimeManager.advance()` ad ogni movimento overworld.
+
 **Decisioni:**
 - Mountain dense: impassabili. Mountain (pendici): passabili, costose (~3 giorni/tile).
 - Dense forest: impassabili.
@@ -304,6 +325,7 @@ swamp:           villaggio 1%, dungeon 3%, rovina 2%
 ## Dipendenze
 
 - **Sistema bisogni** (cibo/acqua): placeholder in Fase 4, implementazione futura separata
+- **Sistema bisogni — temperatura**: ogni bioma espone `temperature_target` e `approach_rate k` (tabella in Fase 2 WorldGenerator). `NeedsManager` li legge da `context["biome"]` passato via `TimeManager.advance()` durante il movimento overworld.
 - **City Builder plugin**: già funzionante; va esteso in Fase 0 con biome_tags e porto
 - **LocationRegistry**: già funzionante, nessuna modifica necessaria
 - **CityGenerator**: già funzionante, nessuna modifica necessaria
@@ -356,6 +378,8 @@ swamp:           villaggio 1%, dungeon 3%, rovina 2%
   - [ ] Loop 5000×5000 → popola `biome_map`
   - [ ] Piazzamento villaggio iniziale: cerca cluster plains vicino al centro, sceglie tile valido
   - [ ] Output: `WorldData` con `biome_map` e `player_start` popolati
+  - [ ] Definire tabella `temperature_target` + `approach_rate` per bioma (costanti in `WorldData.gd` o `data/world/biome_defs.json`)
+- [ ] Aggiornare `TimeManager.advance()` / `OverworldMap` per passare `{"biome": biome_id}` nel context durante movimento overworld (necessario per `NeedsManager._get_temperature_target()`)
 - [ ] Rimuovere / svuotare `OverworldGenerator.gd` (sostituito)
 - [ ] Aggiornare `LocationRegistry._generate()`: rimuovere o reindirizzare il caso `"overworld"`
 

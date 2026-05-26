@@ -1,0 +1,17 @@
+{
+  "id": "sete_magica",
+  "name": "Sete Magica",
+  "stages": [
+    {
+      "label": "attiva",
+      "malus": { "int_mult": -0.15, "wil_mult": -0.15, "food_drain_mult": 0.50 },
+      "damage_per_30min": 3,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" },
+    { "type": "item_use", "item_id": "acqua_fonte_sacra" }
+  ],
+  "natural_recovery": {}
+}

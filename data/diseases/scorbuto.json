@@ -1,0 +1,23 @@
+{
+  "id": "scorbuto",
+  "name": "Scorbuto",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "atk_mult": -0.10, "dmg_taken_mult": 0.10 },
+      "damage_per_30min": 2,
+      "advance_triggers": [{ "type": "needs_zero", "need": "food", "min_minutes": 720 }]
+    },
+    {
+      "label": "avanzato",
+      "malus": { "atk_mult": -0.25, "dmg_taken_mult": 0.25, "action_cost_mult": 0.30 },
+      "damage_per_30min": 7,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "need_above", "need": "food", "threshold": 80 },
+    { "type": "item_tag", "item_tag": "herbal" }
+  ],
+  "natural_recovery": {}
+}

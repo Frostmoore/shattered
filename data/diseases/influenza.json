@@ -1,0 +1,29 @@
+{
+  "id": "influenza",
+  "name": "Influenza",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "exhaustion_gain_mult": 0.30, "atk_mult": -0.10, "int_mult": -0.10 },
+      "damage_per_30min": 3,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "acuta",
+      "malus": { "exhaustion_gain_mult": 0.50, "atk_mult": -0.20, "int_mult": -0.15, "action_cost_mult": 0.20 },
+      "damage_per_30min": 7,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "medicine" },
+    { "type": "item_tag", "item_tag": "herbal" },
+    { "type": "rest_type", "rest_type": "inn" },
+    { "type": "time_elapsed", "minutes": 5760 }
+  ],
+  "natural_recovery": {
+    "condition": "exhaustion_below",
+    "threshold": 30,
+    "minutes_per_stage": 1440
+  }
+}

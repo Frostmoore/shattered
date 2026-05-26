@@ -1,0 +1,29 @@
+{
+  "id": "corruzione_magica",
+  "name": "Corruzione Magica",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "int_mult": -0.10, "wil_mult": -0.10 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 360 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "int_mult": -0.20, "wil_mult": -0.20, "atk_mult": -0.10 },
+      "damage_per_30min": 3,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "int_mult": -0.35, "wil_mult": -0.35, "atk_mult": -0.20, "dmg_taken_mult": 0.15 },
+      "damage_per_30min": 8,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" },
+    { "type": "rest_type", "rest_type": "inn" }
+  ],
+  "natural_recovery": {}
+}

@@ -37,3 +37,19 @@ NOTIF_CRIME_CLEARED,Il mandato è stato cancellato.
 NOTIF_CRIME_SAFE_HOUSE,Rifugio sicuro — il mandato è stato cancellato.
 NOTIF_CRIME_WITNESSED,Crimine testimoniato!
 NOTIF_WAIT_DONE,Hai aspettato {hours} ore. {time}.
+# Needs System
+NOTIF_NEEDS_FOOD_WARNING,Hai fame.
+NOTIF_NEEDS_FOOD_CRITICAL,Stai morendo di fame!
+NOTIF_NEEDS_FOOD_DEPLETED,Sei senza cibo — morirai presto!
+NOTIF_NEEDS_WATER_WARNING,Hai sete.
+NOTIF_NEEDS_WATER_CRITICAL,Stai morendo di sete!
+NOTIF_NEEDS_WATER_DEPLETED,Sei senz'acqua — morirai presto!
+NOTIF_NEEDS_EXHAUSTION_WARNING,Ti senti stanco.
+NOTIF_NEEDS_EXHAUSTION_CRITICAL,Sei esausto — riposati!
+NOTIF_NEEDS_EXHAUSTION_DEPLETED,Sei collassato dalla stanchezza!
+NOTIF_DISEASE_ACQUIRED,Hai contratto: {name}
+NOTIF_DISEASE_PROGRESSED,"{name} è peggiorata: {stage}"
+NOTIF_DISEASE_CURED,Guarito da: {name}
+NOTIF_MEAL_PRANZO,È ora di pranzo.
+NOTIF_MEAL_CENA,È ora di cena.
+NOTIF_PLAYER_COLLAPSED,Sei collassato dalla stanchezza.

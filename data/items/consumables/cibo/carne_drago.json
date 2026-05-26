@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Brucia ancora in gola. Potenziante.",
   "effect": {
-    "restore_hp": 50,
-    "restore_stamina": 40
+    "type": "needs",
+    "changes": { "food": 65, "water": 10, "exhaustion": -25 }
   },
   "stackable": true,
   "loot_weight": 5

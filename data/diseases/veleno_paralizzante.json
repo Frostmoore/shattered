@@ -1,0 +1,28 @@
+{
+  "id": "veleno_paralizzante",
+  "name": "Veleno Paralizzante",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "action_cost_mult": 0.30, "atk_mult": -0.15 },
+      "damage_per_30min": 4,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 120 }]
+    },
+    {
+      "label": "paralisi",
+      "malus": { "action_cost_mult": 0.60, "atk_mult": -0.30, "dmg_taken_mult": 0.15 },
+      "damage_per_30min": 6,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_use", "item_id": "antidoto" },
+    { "type": "item_tag", "item_tag": "antidote" }
+  ],
+  "natural_recovery": {
+    "condition": "need_above",
+    "need": "water",
+    "threshold": 60,
+    "minutes_per_stage": 240
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "falo_portatile",
+  "name": "Falò Portatile",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "tags": ["heat_source"],
+  "description": "Un piccolo fuoco da campo in una scatola. Scaldati prima che il freddo ti uccida.",
+  "effect": {
+    "type": "needs",
+    "changes": { "temperature": 20 }
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

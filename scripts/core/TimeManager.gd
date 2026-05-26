@@ -12,11 +12,16 @@ const MONTH_KEYS: Array[String] = [
 ]
 
 
-func advance(minutes: int) -> void:
+func advance(minutes: int, extra_ctx: Dictionary = {}) -> void:
 	var prev_slot:    String = get_slot()
 	var prev_abs_day: int    = get_absolute_day()
 
 	GameState.total_minutes += minutes
+
+	var map: BaseMap = WorldManager.get_current_map()
+	var ctx: Dictionary = { "map_type": map.map_type if map else "building" }
+	ctx.merge(extra_ctx)
+	NeedsManager.tick(minutes, ctx)
 
 	if get_absolute_day() != prev_abs_day:
 		EventBus.day_changed.emit(get_absolute_day())

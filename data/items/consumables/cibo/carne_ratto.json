@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Sopravvivenza di base.",
   "effect": {
-    "restore_hp": 6,
-    "restore_stamina": 4
+    "type": "needs",
+    "changes": { "food": 12, "exhaustion": -2 }
   },
   "stackable": true,
   "loot_weight": 20

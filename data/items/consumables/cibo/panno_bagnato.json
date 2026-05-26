@@ -1,0 +1,16 @@
+{
+  "id": "panno_bagnato",
+  "name": "Panno Bagnato",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "tags": ["cooling"],
+  "description": "Strofinato sulla pelle abbassa la temperatura corporea. Utile contro il caldo eccessivo.",
+  "effect": {
+    "type": "needs",
+    "changes": { "temperature": -15 }
+  },
+  "stackable": true,
+  "loot_weight": 12
+}

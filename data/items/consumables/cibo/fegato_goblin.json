@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Sgradevole ma energizzante.",
   "effect": {
-    "restore_hp": 8,
-    "restore_stamina": 20
+    "type": "needs",
+    "changes": { "food": 15, "exhaustion": -8 }
   },
   "stackable": true,
   "loot_weight": 14

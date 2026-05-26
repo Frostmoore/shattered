@@ -1,0 +1,29 @@
+{
+  "id": "setticemia",
+  "name": "Setticemia",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "dmg_taken_mult": 0.10, "exhaustion_gain_mult": 0.20 },
+      "damage_per_30min": 4,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 360 }]
+    },
+    {
+      "label": "sistemica",
+      "malus": { "dmg_taken_mult": 0.25, "exhaustion_gain_mult": 0.40, "atk_mult": -0.15 },
+      "damage_per_30min": 10,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 480 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "dmg_taken_mult": 0.40, "exhaustion_gain_mult": 0.60, "atk_mult": -0.30 },
+      "damage_per_30min": 18,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "medicine" },
+    { "type": "item_tag", "item_tag": "herbal" }
+  ],
+  "natural_recovery": {}
+}

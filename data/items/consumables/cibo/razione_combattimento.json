@@ -6,8 +6,8 @@
   "item_category": "consumable",
   "item_subtype": "cibo",
   "effect": {
-    "restore_stamina": 15,
-    "restore_hp": 20
+    "type": "needs",
+    "changes": { "food": 40, "water": 5, "exhaustion": -10 }
   },
   "stackable": true,
   "loot_weight": 14

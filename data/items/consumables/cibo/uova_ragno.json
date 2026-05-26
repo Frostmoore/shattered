@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Gelatinose. Nutrienti in modo inquietante.",
   "effect": {
-    "restore_hp": 10,
-    "restore_stamina": 6
+    "type": "needs",
+    "changes": { "food": 15, "water": 3, "exhaustion": -3 }
   },
   "stackable": true,
   "loot_weight": 15

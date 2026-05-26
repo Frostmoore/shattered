@@ -1,0 +1,22 @@
+{
+  "id": "mal_di_viaggio",
+  "name": "Mal di Viaggio",
+  "stages": [
+    {
+      "label": "affaticato",
+      "malus": { "exhaustion_gain_mult": 0.30, "atk_mult": -0.05 },
+      "damage_per_30min": 0,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "rest_type", "rest_type": "inn" },
+    { "type": "rest_type", "rest_type": "camp" },
+    { "type": "time_elapsed", "minutes": 720 }
+  ],
+  "natural_recovery": {
+    "condition": "exhaustion_below",
+    "threshold": 30,
+    "minutes_per_stage": 480
+  }
+}

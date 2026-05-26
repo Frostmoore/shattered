@@ -65,3 +65,5 @@ res://locales/strings_items.it.translation
 res://scripts/core/GlobalMilestoneTracker.gd
 res://scripts/world/MapRenderer.gd
 res://scripts/ui/WaitScreen.gd
+res://scripts/core/TimeManager.gd
+res://scripts/ui/QuickFoodMenu.gd

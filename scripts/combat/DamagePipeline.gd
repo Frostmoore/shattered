@@ -6,6 +6,7 @@ extends Node
 func execute(ctx: Object) -> void:
 	var runtime: Node = get_node_or_null("/root/ClassRuntime")
 	var sem: Node     = get_node_or_null("/root/StatusEffectManager")
+	var nm: Node      = get_node_or_null("/root/NeedsManager")
 
 	var player_attacks: bool = (ctx.attacker != null and ctx.attacker.faction == "player")
 	var player_defends: bool = (ctx.defender != null and ctx.defender.faction == "player")
@@ -45,6 +46,18 @@ func execute(ctx: Object) -> void:
 			ctx.set("attack_multiplier",
 				float(ctx.get("attack_multiplier")) * faction_mult)
 
+	# Needs: debuff ATK e DMG_TAKEN dal sistema bisogni
+	if player_attacks:
+		var needs_atk: float = float(GameState.needs_modifiers.get("atk_mult", 0.0))
+		if needs_atk != 0.0:
+			ctx.set("attack_multiplier",
+				float(ctx.get("attack_multiplier")) * (1.0 + needs_atk))
+	if player_defends:
+		var needs_dmg: float = float(GameState.needs_modifiers.get("dmg_taken_mult", 0.0))
+		if needs_dmg != 0.0:
+			ctx.set("target_multiplier",
+				float(ctx.get("target_multiplier")) * (1.0 + needs_dmg))
+
 	if bool(ctx.get("instant_kill")):
 		ctx.set("final_damage", ctx.defender.max_hp)
 	else:
@@ -81,6 +94,13 @@ func execute(ctx: Object) -> void:
 
 	# ── Step 3: applica danno ─────────────────────────────────────────────────
 	ctx.defender.take_damage(int(ctx.get("final_damage")))
+
+	# Fatica da colpo pesante: danno > 10% max_hp → +0.2 exhaustion
+	if player_defends and nm:
+		var final_d: int  = int(ctx.get("final_damage"))
+		var max_hp_v: int = int(GameState.player_stats.get("max_hp", 1))
+		if final_d * 10 > max_hp_v:
+			nm.call("consume", {"exhaustion": 0.2})
 
 	# ── Step 4: hook post-azione ──────────────────────────────────────────────
 	if player_attacks:

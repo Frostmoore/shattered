@@ -1,0 +1,35 @@
+{
+  "id": "febbre_infettiva",
+  "name": "Febbre Infettiva",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "atk_mult": -0.05, "exhaustion_gain_mult": 0.20 },
+      "damage_per_30min": 2,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 240 }]
+    },
+    {
+      "label": "alta",
+      "malus": { "atk_mult": -0.15, "exhaustion_gain_mult": 0.40, "int_mult": -0.10 },
+      "damage_per_30min": 5,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 480 }]
+    },
+    {
+      "label": "delirante",
+      "malus": { "atk_mult": -0.30, "exhaustion_gain_mult": 0.60, "int_mult": -0.20, "dmg_taken_mult": 0.15 },
+      "damage_per_30min": 10,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "medicine" },
+    { "type": "item_tag", "item_tag": "herbal" },
+    { "type": "rest_type", "rest_type": "inn" },
+    { "type": "time_elapsed", "minutes": 2880 }
+  ],
+  "natural_recovery": {
+    "condition": "exhaustion_below",
+    "threshold": 50,
+    "minutes_per_stage": 720
+  }
+}

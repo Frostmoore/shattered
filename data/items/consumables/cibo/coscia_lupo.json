@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Carne cruda di lupo. Commestibile, se si è disperati.",
   "effect": {
-    "restore_hp": 12,
-    "restore_stamina": 8
+    "type": "needs",
+    "changes": { "food": 25, "water": 2, "exhaustion": -5 }
   },
   "stackable": true,
   "loot_weight": 18

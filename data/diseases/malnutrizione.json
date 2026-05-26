@@ -1,0 +1,28 @@
+{
+  "id": "malnutrizione",
+  "name": "Malnutrizione",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "atk_mult": -0.10, "wil_mult": -0.05 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "needs_zero", "need": "food", "min_minutes": 240 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "atk_mult": -0.20, "dmg_taken_mult": 0.10, "action_cost_mult": 0.20, "wil_mult": -0.10 },
+      "damage_per_30min": 3,
+      "advance_triggers": [{ "type": "needs_zero", "need": "food", "min_minutes": 480 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "atk_mult": -0.40, "dmg_taken_mult": 0.20, "action_cost_mult": 0.40, "wil_mult": -0.20 },
+      "damage_per_30min": 8,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "need_above", "need": "food", "threshold": 60 }
+  ],
+  "natural_recovery": {}
+}

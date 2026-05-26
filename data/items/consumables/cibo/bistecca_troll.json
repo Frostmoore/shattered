@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Si rigenera mentre la si mastica. Strano.",
   "effect": {
-    "restore_hp": 30,
-    "restore_stamina": 15
+    "type": "needs",
+    "changes": { "food": 42, "water": 5, "exhaustion": -10 }
   },
   "stackable": true,
   "loot_weight": 10

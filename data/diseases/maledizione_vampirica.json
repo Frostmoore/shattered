@@ -1,0 +1,22 @@
+{
+  "id": "maledizione_vampirica",
+  "name": "Maledizione Vampirica",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "int_mult": -0.05, "wil_mult": -0.10, "food_drain_mult": 0.30 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 480 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "int_mult": -0.15, "wil_mult": -0.20, "food_drain_mult": 0.60, "dmg_taken_mult": 0.10 },
+      "damage_per_30min": 4,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

@@ -1,0 +1,22 @@
+{
+  "id": "febbre_necrotica",
+  "name": "Febbre Necrotica",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "dmg_taken_mult": 0.20, "atk_mult": -0.15, "exhaustion_gain_mult": 0.30 },
+      "damage_per_30min": 8,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "acuta",
+      "malus": { "dmg_taken_mult": 0.40, "atk_mult": -0.30, "exhaustion_gain_mult": 0.50 },
+      "damage_per_30min": 15,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

@@ -1,0 +1,28 @@
+{
+  "id": "avvelenamento",
+  "name": "Avvelenamento",
+  "stages": [
+    {
+      "label": "acuto",
+      "malus": { "atk_mult": -0.10, "dmg_taken_mult": 0.10 },
+      "damage_per_30min": 6,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 180 }]
+    },
+    {
+      "label": "sistemico",
+      "malus": { "atk_mult": -0.20, "dmg_taken_mult": 0.20, "action_cost_mult": 0.20 },
+      "damage_per_30min": 10,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_use", "item_id": "antidoto" },
+    { "type": "item_tag", "item_tag": "antidote" }
+  ],
+  "natural_recovery": {
+    "condition": "need_above",
+    "need": "water",
+    "threshold": 70,
+    "minutes_per_stage": 480
+  }
+}

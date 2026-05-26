@@ -37,7 +37,7 @@ func _draw() -> void:
 
 	# Night overlay mode: village/city with active lights.
 	# Tiles are drawn at full color; a per-tile black gradient overlay is applied on top.
-	# Player and each light source cast a circular gradient (0.0 at center → 0.5 at edge).
+	# Player and each light source cast a circular gradient (0.0 at center → 0.85 at edge).
 	var night_overlay_mode: bool = map._lights_active and map.map_type in ["village", "city"]
 
 	# Dungeon: traditional binary FOV dim.
@@ -55,8 +55,8 @@ func _draw() -> void:
 			var visible: int = map.is_tile_visible(pos)
 			var seen: int    = map.is_tile_seen(pos)
 
-			if (use_fov or night_overlay_mode) and seen == 0:
-				continue  # never seen — leave as background (dark)
+			if use_fov and seen == 0:
+				continue  # never seen — leave as background (dark, dungeon only)
 
 			var dim: bool = use_fov and visible == 0  # dungeon: seen but not in FOV
 
@@ -109,7 +109,7 @@ func _draw() -> void:
 			)
 
 			if night_overlay_mode:
-				var ov: float = tile_overlay.get(pos, 0.5) as float
+				var ov: float = tile_overlay.get(pos, 0.85) as float
 				if ov > 0.0:
 					draw_rect(Rect2(x * CELL, y * CELL, CELL, CELL), Color(0.0, 0.0, 0.0, ov))
 
@@ -123,8 +123,6 @@ func _draw() -> void:
 	if map._lights_active:
 		for ls: Dictionary in map._light_sources:
 			var lp: Vector2i = ls["pos"] as Vector2i
-			if map.is_tile_seen(lp) == 0:
-				continue
 			var lc: Color = ls.get("color", Color(1.0, 0.82, 0.20)) as Color
 			draw_string(_font,
 				Vector2(lp.x * CELL, lp.y * CELL + BASELINE_Y),
@@ -144,7 +142,7 @@ func _fill_overlay(map: BaseMap, overlay: Dictionary, origin: Vector2i, radius: 
 			if not map.has_line_of_sight(origin, tp):
 				continue
 			var dist: float = Vector2(float(dx), float(dy)).length()
-			var alpha: float = 0.5 * (dist / float(radius))
+			var alpha: float = 0.85 * (dist / float(radius))
 			if not overlay.has(tp) or (overlay[tp] as float) > alpha:
 				overlay[tp] = alpha
 
@@ -161,9 +159,7 @@ func _draw_corpses(map: BaseMap, use_fov: bool, tile_overlay: Dictionary) -> voi
 				col = col * GameBalance.FOV_MEMORY_ALPHA
 				col.a = 1.0
 		elif night_overlay_mode:
-			if map.is_tile_seen(pos) == 0:
-				continue
-			var ov: float = tile_overlay.get(pos, 0.5) as float
+			var ov: float = tile_overlay.get(pos, 0.85) as float
 			col = col.darkened(ov * 0.8)
 		draw_string(
 			_font,
@@ -187,11 +183,7 @@ func _draw_entities(map: BaseMap, use_fov: bool, tile_overlay: Dictionary) -> vo
 			continue
 
 		if night_overlay_mode:
-			if map.is_tile_seen(entity.grid_position) == 0:
-				entity.visible = false
-				entity.modulate = Color.WHITE
-				continue
-			var ov: float = tile_overlay.get(entity.grid_position, 0.5) as float
+			var ov: float = tile_overlay.get(entity.grid_position, 0.85) as float
 			if entity is NPC or entity is Enemy or entity is Ally:
 				entity.visible = ov < 0.5
 				entity.modulate = Color.WHITE

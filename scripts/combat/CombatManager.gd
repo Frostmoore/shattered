@@ -60,6 +60,8 @@ func attack(attacker: Entity, defender: Entity) -> void:
 		if defender.faction == "player":
 			EventBus.damage_taken.emit(final_dmg)
 		_check_guard_arrest(attacker, defender)
+		if defender.faction == "player" and attacker.faction != "player":
+			_check_disease_on_hit(attacker)
 
 
 func _calc_hit(attacker: Entity, defender: Entity) -> Dictionary:
@@ -70,7 +72,10 @@ func _calc_hit(attacker: Entity, defender: Entity) -> Dictionary:
 		match _player_combat_type():
 			"melee":  hit_stat = (float(attrs.get("str", 5)) + float(attrs.get("dex", 5))) / 2.0
 			"ranged": hit_stat = float(attrs.get("dex", 5))
-			"magic":  hit_stat = (float(attrs.get("int", 5)) + float(attrs.get("wil", 5))) / 2.0
+			"magic":
+				var int_m: float = 1.0 + float(GameState.needs_modifiers.get("int_mult", 0.0))
+				var wil_m: float = 1.0 + float(GameState.needs_modifiers.get("wil_mult", 0.0))
+				hit_stat = (float(attrs.get("int", 5)) * int_m + float(attrs.get("wil", 5)) * wil_m) / 2.0
 			_:        hit_stat = float(attrs.get("dex", 5))
 		dodge_stat = float(defender.dex)
 	else:
@@ -78,11 +83,13 @@ func _calc_hit(attacker: Entity, defender: Entity) -> Dictionary:
 		dodge_stat = float(GameState.effective_attributes.get("dex", 5))
 	var eff_hit:   float = hit_stat   + float(attacker.accuracy) * BalanceCombat.accuracy_multiplier(attacker.dex)
 	var eff_dodge: float = dodge_stat + float(defender.evasion)  * BalanceCombat.accuracy_multiplier(defender.dex)
-	return {
-		"chance":   clampf(GameBalance.BASE_HIT_CHANCE + (eff_hit - eff_dodge) * GameBalance.ACCURACY_K,
-		                   GameBalance.MIN_HIT_CHANCE, GameBalance.MAX_HIT_CHANCE),
-		"is_dodge": eff_dodge > eff_hit,
-	}
+	var chance: float    = clampf(GameBalance.BASE_HIT_CHANCE + (eff_hit - eff_dodge) * GameBalance.ACCURACY_K,
+	                              GameBalance.MIN_HIT_CHANCE, GameBalance.MAX_HIT_CHANCE)
+	if attacker.faction == "player":
+		var acc_pen: float = float(GameState.needs_modifiers.get("accuracy_penalty", 0.0))
+		if acc_pen != 0.0:
+			chance = clampf(chance + acc_pen, GameBalance.MIN_HIT_CHANCE, GameBalance.MAX_HIT_CHANCE)
+	return { "chance": chance, "is_dodge": eff_dodge > eff_hit }
 
 
 func _player_combat_type() -> String:
@@ -133,6 +140,22 @@ func _check_and_register_crime() -> void:
 		return
 	if CrimeSystem.has_witnesses(GameState.player_position):
 		CrimeSystem.register_crime(city_id)
+
+
+func _check_disease_on_hit(attacker: Entity) -> void:
+	var eid: String = str(attacker.get("enemy_data_id") if attacker.get("enemy_data_id") != null else "")
+	if eid == "":
+		return
+	var tmpl: Dictionary = EnemyRegistry.get_enemy_data(eid)
+	var doh: String = str(tmpl.get("disease_on_hit", ""))
+	if doh == "":
+		return
+	var chance: float = float(tmpl.get("disease_on_hit_chance", 0.30))
+	if randf() >= chance:
+		return
+	var nm: Node = get_node_or_null("/root/NeedsManager")
+	if nm:
+		nm.call("add_disease", doh)
 
 
 func _check_guard_arrest(attacker: Entity, defender: Entity) -> void:

@@ -1,0 +1,15 @@
+{
+  "id": "zuppa_calda",
+  "name": "Zuppa Calda",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Calda e corroborante. Scalda il corpo e l'anima.",
+  "effect": {
+    "type": "needs",
+    "changes": { "food": 35, "water": 15, "exhaustion": -5 }
+  },
+  "stackable": true,
+  "loot_weight": 14
+}

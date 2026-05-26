@@ -30,6 +30,7 @@ func _ready() -> void:
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
 	EventBus.equipment_changed.connect(_refresh_stats)
 	EventBus.player_stats_changed.connect(_refresh_stats)
+	EventBus.player_took_needs_damage.connect(_on_needs_damage)
 	_refresh_stats()
 
 
@@ -235,6 +236,9 @@ func _use_save_point() -> void:
 			GameState.player_stats["mp"]      = int(GameState.player_stats["max_mp"])
 			GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 			EventBus.player_stats_changed.emit()
+			var nm: Node = get_node_or_null("/root/NeedsManager")
+			if nm:
+				nm.call("rest", "save_point")
 			FactionEconomy.on_rest()
 			SaveManager.save_game(),
 		func() -> void:
@@ -249,7 +253,15 @@ func _action_done(override_cost: int = -1) -> void:
 	if map != null:
 		var cost: int = override_cost if override_cost >= 0 \
 			else TimeManager.get_action_cost(map.map_type, _last_action)
+		var cost_mult: float = 1.0 + float(GameState.needs_modifiers.get("action_cost_mult", 0.0))
+		if cost_mult != 1.0:
+			cost = maxi(1, roundi(float(cost) * cost_mult))
 		TimeManager.advance(cost)
+	# Fatica da combattimento: ogni attacco aggiunge 0.1 exhaustion
+	if _last_action == Action.ATTACK:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		if nm:
+			nm.call("consume", {"exhaustion": 0.1})
 	EventBus.turn_ended.emit(self)
 	TurnManager.on_player_action_done()
 
@@ -311,6 +323,10 @@ func _get_move_cost_overworld() -> int:
 	var terrain_mult: float = 1.0   # placeholder — Overworld System
 	var mount_mult: float   = 1.0   # placeholder — Mount System
 	return ceili(240.0 * terrain_mult * mount_mult)
+
+
+func _on_needs_damage(_source: String, amount: int) -> void:
+	take_damage(amount)
 
 
 func _on_dialogue_started(_id: String) -> void:

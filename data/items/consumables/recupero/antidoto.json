@@ -1,0 +1,15 @@
+{
+  "id": "antidoto",
+  "name": "Antidoto",
+  "gender": "m",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "description": "Neutralizza i veleni che scorrono nel sangue.",
+  "effect": {
+    "type": "disease_cure_by_item"
+  },
+  "tags": ["antidote"],
+  "stackable": true,
+  "loot_weight": 10
+}

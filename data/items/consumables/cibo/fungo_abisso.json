@@ -6,6 +6,8 @@
   "item_category": "consumable",
   "item_subtype": "cibo",
   "effect": {
+    "type": "needs",
+    "changes": { "food": 10, "water": 5 },
     "restore_mp": 40
   },
   "stackable": true,

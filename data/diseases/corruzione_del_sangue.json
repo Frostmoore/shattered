@@ -1,0 +1,28 @@
+{
+  "id": "corruzione_del_sangue",
+  "name": "Corruzione del Sangue",
+  "stages": [
+    {
+      "label": "iniziale",
+      "malus": { "atk_mult": -0.10, "wil_mult": -0.15, "dmg_taken_mult": 0.10, "food_drain_mult": 0.30 },
+      "damage_per_30min": 5,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 1440 }]
+    },
+    {
+      "label": "profonda",
+      "malus": { "atk_mult": -0.25, "wil_mult": -0.30, "dmg_taken_mult": 0.25, "food_drain_mult": 0.60 },
+      "damage_per_30min": 12,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 2880 }]
+    },
+    {
+      "label": "terminale",
+      "malus": { "atk_mult": -0.40, "wil_mult": -0.50, "dmg_taken_mult": 0.40, "food_drain_mult": 1.00 },
+      "damage_per_30min": 25,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

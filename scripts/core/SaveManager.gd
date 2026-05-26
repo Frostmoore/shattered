@@ -58,6 +58,11 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"criminal_record":        GameState.criminal_record.duplicate(true),
 		"known_faction_members":  GameState.known_faction_members.duplicate(true),
 		"total_minutes":          GameState.total_minutes,
+		"food":                   GameState.food,
+		"water":                  GameState.water,
+		"exhaustion":             GameState.exhaustion,
+		"temperature":            GameState.temperature,
+		"active_diseases":        GameState.active_diseases.duplicate(true),
 	}
 	var path: String = get_char_path(world_name, char_name)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
@@ -232,6 +237,16 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 	EventBus.quick_slots_changed.emit()
 
 	GameState.total_minutes = int(data.get("total_minutes", 480))
+
+	GameState.food        = float(data.get("food",        100.0))
+	GameState.water       = float(data.get("water",       100.0))
+	GameState.exhaustion  = float(data.get("exhaustion",  0.0))
+	GameState.temperature = float(data.get("temperature", 0.0))
+	var raw_diseases: Variant = data.get("active_diseases", [])
+	if raw_diseases is Array:
+		GameState.active_diseases = (raw_diseases as Array).duplicate(true)
+	# needs_modifiers non serializzato — ricalcolato dopo il load
+	NeedsManager.rebuild_modifiers()
 
 	var raw_pa: Variant = data.get("permanent_allies", [])
 	if raw_pa is Array:

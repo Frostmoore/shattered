@@ -1,0 +1,22 @@
+{
+  "id": "astenia",
+  "name": "Astenia",
+  "stages": [
+    {
+      "label": "muscolare",
+      "malus": { "atk_mult": -0.15, "action_cost_mult": 0.20 },
+      "damage_per_30min": 0,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "need_above", "need": "food", "threshold": 75 },
+    { "type": "item_tag", "item_tag": "medicine" }
+  ],
+  "natural_recovery": {
+    "condition": "need_above",
+    "need": "food",
+    "threshold": 70,
+    "minutes_per_stage": 720
+  }
+}

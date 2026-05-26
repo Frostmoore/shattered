@@ -59,6 +59,14 @@ var xp:    int = 0
 
 var total_minutes: int = 480   # contatore assoluto, mai resettato
 
+# ── Bisogni (Needs System) ────────────────────────────────────────────────────
+var food:            float = 100.0   # 100 = sazio,    0 = affamato
+var water:           float = 100.0   # 100 = idratato, 0 = assetato
+var exhaustion:      float = 0.0     # 0 = riposato,   100 = collasso
+var temperature:     float = 0.0     # 0 = comodo, <0 = freddo, >0 = caldo
+var active_diseases: Array = []      # [{id, stage_index, elapsed_minutes}]
+var needs_modifiers: Dictionary = {} # derivato da NeedsManager._update_modifiers()
+
 var world_time: int:
 	get: return total_minutes % 1440
 
@@ -85,8 +93,10 @@ func recalculate_derived_stats() -> void:
 	var int_a: int = int(effective_attributes["int"])
 	var wil:   int = int(effective_attributes["wil"])
 
+	var int_m: float = 1.0 + float(needs_modifiers.get("int_mult", 0.0))
+	var wil_m: float = 1.0 + float(needs_modifiers.get("wil_mult", 0.0))
 	player_stats["max_hp"]      = vit * 5
-	player_stats["max_mp"]      = (int_a + wil) * 2
+	player_stats["max_mp"]      = roundi((float(int_a) * int_m + float(wil) * wil_m) * 2.0)
 	player_stats["max_stamina"] = (str_a + dex) * 2
 	player_stats["attack"]      = 2 + int(str_a * 0.5)
 	player_stats["defense"]     = int(vit * 0.25)

@@ -1,0 +1,15 @@
+{
+  "id": "borraccia_acqua",
+  "name": "Borraccia d'Acqua",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "cibo",
+  "description": "Acqua fresca. Essenziale per sopravvivere.",
+  "effect": {
+    "type": "needs",
+    "changes": { "water": 40 }
+  },
+  "stackable": true,
+  "loot_weight": 20
+}

@@ -1149,8 +1149,8 @@ func _draw_canvas() -> void:
 
 	_canvas.draw_rect(Rect2(Vector2.ZERO, Vector2(_width * CELL, _height * CELL)), THEME_BG)
 
-	# Pre-compute per-tile night overlay alpha (0.0 = fully lit, 0.5 = fully dark).
-	# Tiles within a light's radius get a gradient fading from 0.0 at the source to 0.5 at the edge.
+	# Pre-compute per-tile night overlay alpha (0.0 = fully lit, 0.85 = fully dark).
+	# Tiles within a light's radius get a gradient fading from 0.0 at the source to 0.85 at the edge.
 	var tile_overlay: Dictionary = {}   # Vector2i → float
 	if _lights_preview:
 		for e: Variant in _entities:
@@ -1169,7 +1169,7 @@ func _draw_canvas() -> void:
 						var tp := Vector2i(lx + dx, ly + dy)
 						if _in_bounds(tp) and _preview_has_los(origin, tp):
 							var dist: float = Vector2(float(dx), float(dy)).length()
-							var alpha: float = 0.5 * (dist / float(rad))
+							var alpha: float = 0.85 * (dist / float(rad))
 							if not tile_overlay.has(tp) or (tile_overlay[tp] as float) > alpha:
 								tile_overlay[tp] = alpha
 
@@ -1192,7 +1192,7 @@ func _draw_canvas() -> void:
 					str(td["c"]), HORIZONTAL_ALIGNMENT_CENTER, CELL, FONT_SIZE,
 					td["col"] as Color)
 			if _lights_preview:
-				var ov: float = tile_overlay.get(Vector2i(x, y), 0.5) as float
+				var ov: float = tile_overlay.get(Vector2i(x, y), 0.85) as float
 				if ov > 0.0:
 					_canvas.draw_rect(Rect2(x * CELL, y * CELL, CELL, CELL),
 							Color(0.0, 0.0, 0.0, ov))
@@ -1216,7 +1216,7 @@ func _draw_canvas() -> void:
 
 		if _lights_preview:
 			var ep  := Vector2i(ex, ey)
-			var ov: float = tile_overlay.get(ep, 0.5) as float
+			var ov: float = tile_overlay.get(ep, 0.85) as float
 			if kind == "light_source":
 				var params: Dictionary = e.get("params", {}) as Dictionary
 				var carr: Array = params.get("color", [1.0, 0.72, 0.10]) as Array

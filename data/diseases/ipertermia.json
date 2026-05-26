@@ -1,0 +1,29 @@
+{
+  "id": "ipertermia",
+  "name": "Ipertermia",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "atk_mult": -0.10, "int_mult": -0.05, "food_drain_mult": 0.20 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 120 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "atk_mult": -0.20, "int_mult": -0.10, "dmg_taken_mult": 0.10, "food_drain_mult": 0.40 },
+      "damage_per_30min": 4,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 240 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "atk_mult": -0.35, "int_mult": -0.20, "dmg_taken_mult": 0.20, "food_drain_mult": 0.60 },
+      "damage_per_30min": 10,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "cooling" },
+    { "type": "rest_type", "rest_type": "inn" }
+  ],
+  "natural_recovery": {}
+}

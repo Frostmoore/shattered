@@ -1,0 +1,22 @@
+{
+  "id": "morso_mannaro",
+  "name": "Morso Mannaro",
+  "stages": [
+    {
+      "label": "incubazione",
+      "malus": { "wil_mult": -0.05 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "trasformazione",
+      "malus": { "atk_mult": -0.20, "wil_mult": -0.30, "dmg_taken_mult": 0.20 },
+      "damage_per_30min": 5,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

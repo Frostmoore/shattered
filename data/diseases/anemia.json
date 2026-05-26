@@ -1,0 +1,28 @@
+{
+  "id": "anemia",
+  "name": "Anemia",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "atk_mult": -0.10, "exhaustion_gain_mult": 0.20 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "atk_mult": -0.20, "exhaustion_gain_mult": 0.40, "dmg_taken_mult": 0.10 },
+      "damage_per_30min": 3,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "medicine" },
+    { "type": "need_above", "need": "food", "threshold": 70 }
+  ],
+  "natural_recovery": {
+    "condition": "need_above",
+    "need": "food",
+    "threshold": 60,
+    "minutes_per_stage": 1440
+  }
+}

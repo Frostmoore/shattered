@@ -450,10 +450,12 @@ func _on_day_slot_changed(slot: String) -> void:
 
 
 func _get_player_fov_radius() -> int:
+	var base: int = GameBalance.FOV_RADIUS
 	var tm: Node = get_node_or_null("/root/TimeManager")
 	if tm != null:
-		return roundi(GameBalance.FOV_RADIUS * tm.call("get_vision_modifier", map_type))
-	return GameBalance.FOV_RADIUS
+		base = roundi(float(base) * float(tm.call("get_vision_modifier", map_type)))
+	var vis_pen: int = int(GameState.needs_modifiers.get("vision_penalty", 0))
+	return maxi(1, base + vis_pen)
 
 
 func _compute_fov(origin: Vector2i, radius: int) -> void:

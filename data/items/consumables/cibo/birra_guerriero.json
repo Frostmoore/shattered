@@ -5,9 +5,10 @@
   "icon": "!",
   "item_category": "consumable",
   "item_subtype": "cibo",
+  "tags": ["alcohol"],
   "effect": {
-    "accuracy_penalty": 10,
-    "restore_stamina": 40
+    "type": "needs",
+    "changes": { "food": 12, "water": 20, "exhaustion": -5 }
   },
   "stackable": true,
   "loot_weight": 12

@@ -1,0 +1,23 @@
+{
+  "id": "febbre_desertica",
+  "name": "Febbre Desertica",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "exhaustion_gain_mult": 0.25, "int_mult": -0.10, "food_drain_mult": 0.30 },
+      "damage_per_30min": 2,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 360 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "exhaustion_gain_mult": 0.50, "int_mult": -0.20, "food_drain_mult": 0.60, "atk_mult": -0.15 },
+      "damage_per_30min": 6,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "cooling" },
+    { "type": "need_above", "need": "water", "threshold": 80 }
+  ],
+  "natural_recovery": {}
+}

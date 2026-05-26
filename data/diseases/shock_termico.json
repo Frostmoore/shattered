@@ -1,0 +1,17 @@
+{
+  "id": "shock_termico",
+  "name": "Shock Termico",
+  "stages": [
+    {
+      "label": "acuto",
+      "malus": { "atk_mult": -0.15, "dmg_taken_mult": 0.15, "action_cost_mult": 0.25 },
+      "damage_per_30min": 5,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "rest_type", "rest_type": "inn" },
+    { "type": "time_elapsed", "minutes": 480 }
+  ],
+  "natural_recovery": {}
+}

@@ -7,8 +7,8 @@
   "item_subtype": "cibo",
   "description": "Carne dura ma nutriente.",
   "effect": {
-    "restore_hp": 18,
-    "restore_stamina": 12
+    "type": "needs",
+    "changes": { "food": 32, "water": 5, "exhaustion": -8 }
   },
   "stackable": true,
   "loot_weight": 16

@@ -1,0 +1,33 @@
+{
+  "id": "insonnia_cronica",
+  "name": "Insonnia Cronica",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "exhaustion_gain_mult": 0.20, "int_mult": -0.05, "wil_mult": -0.05 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "exhaustion_above", "threshold": 90 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "exhaustion_gain_mult": 0.40, "int_mult": -0.15, "wil_mult": -0.15, "atk_mult": -0.10 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "exhaustion_above", "threshold": 95 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "exhaustion_gain_mult": 0.60, "int_mult": -0.25, "wil_mult": -0.25, "atk_mult": -0.20 },
+      "damage_per_30min": 2,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "rest_type", "rest_type": "inn" },
+    { "type": "item_tag", "item_tag": "herbal" }
+  ],
+  "natural_recovery": {
+    "condition": "exhaustion_below",
+    "threshold": 30,
+    "minutes_per_stage": 1440
+  }
+}

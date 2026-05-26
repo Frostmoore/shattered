@@ -1,0 +1,23 @@
+{
+  "id": "spore_fungine",
+  "name": "Infezione da Spore",
+  "stages": [
+    {
+      "label": "inalata",
+      "malus": { "int_mult": -0.10, "wil_mult": -0.10, "vision_penalty": 1 },
+      "damage_per_30min": 2,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 480 }]
+    },
+    {
+      "label": "sistemica",
+      "malus": { "int_mult": -0.20, "wil_mult": -0.15, "atk_mult": -0.10, "vision_penalty": 2 },
+      "damage_per_30min": 6,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "antidote" },
+    { "type": "item_tag", "item_tag": "medicine" }
+  ],
+  "natural_recovery": {}
+}

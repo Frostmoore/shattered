@@ -9,13 +9,13 @@ script = ExtResource("1")
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 244.0
-offset_bottom = 210.0
+offset_bottom = 248.0
 
 [node name="VBox" type="VBoxContainer" parent="Panel"]
 offset_left = 6.0
 offset_top = 4.0
 offset_right = 238.0
-offset_bottom = 206.0
+offset_bottom = 244.0
 theme_override_constants/separation = 3
 
 [node name="HPRow" type="HBoxContainer" parent="Panel/VBox"]
@@ -116,6 +116,22 @@ theme_override_font_sizes/font_size = 11
 text = "Quest: —"
 theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
+
+[node name="Sep2" type="HSeparator" parent="Panel/VBox"]
+
+[node name="NeedsRTL" type="RichTextLabel" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 15)
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+theme_override_font_sizes/normal_font_size = 11
+text = "[F:--]  [W:--]  [E:--]"
+
+[node name="DiseasesLabel" type="Label" parent="Panel/VBox"]
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+visible = false
 
 [node name="TimeLabel" type="Label" parent="."]
 offset_left = 0.0

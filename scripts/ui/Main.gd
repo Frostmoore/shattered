@@ -18,6 +18,7 @@ var _options_from_main_menu: bool = false
 var _class_picker:    Node = null
 var _respec_screen:   Node = null
 var _faction_screen:  Node = null
+var _quick_food_menu: Node = null
 var _pending_world: String = ""
 var _pending_char: String  = ""
 var _pending_pd: bool      = false
@@ -30,9 +31,11 @@ func _ready() -> void:
 	_setup_class_picker()
 	_setup_respec_screen()
 	_setup_faction_screen()
+	_setup_quick_food_menu()
 	_setup_targeting_overlay()
 	_setup_enemy_tooltip()
 	_connect_menus()
+	_connect_needs_signals()
 	main_menu.show_menu()
 	_setup_debug_screen()
 
@@ -65,6 +68,69 @@ func _setup_faction_screen() -> void:
 func _open_faction_screen() -> void:
 	pause_menu.hide_panel()
 	_faction_screen.open()
+
+
+func _setup_quick_food_menu() -> void:
+	_quick_food_menu = load("res://scripts/ui/QuickFoodMenu.gd").new()
+	_quick_food_menu.name = "QuickFoodMenu"
+	add_child(_quick_food_menu)
+
+
+func _connect_needs_signals() -> void:
+	EventBus.need_warning.connect(_on_need_state_changed.bind("warning"))
+	EventBus.need_critical.connect(_on_need_state_changed.bind("critical"))
+	EventBus.need_depleted.connect(_on_need_state_changed.bind("depleted"))
+	EventBus.disease_acquired.connect(_on_disease_acquired_log)
+	EventBus.disease_progressed.connect(_on_disease_progressed_log)
+	EventBus.disease_cured.connect(_on_disease_cured_log)
+	EventBus.meal_hint.connect(_on_meal_hint)
+	EventBus.player_collapsed.connect(_on_player_collapsed)
+
+
+func _on_need_state_changed(need: String, level: String) -> void:
+	var key: String = "NOTIF_NEEDS_" + need.to_upper() + "_" + level.to_upper()
+	var msg: String = LocaleManager.t(key)
+	EventBus.notification_shown.emit(Notification.warning(msg))
+	EventBus.combat_log.emit(msg)
+
+
+func _on_disease_acquired_log(_disease_id: String, display_name: String) -> void:
+	EventBus.combat_log.emit(LocaleManager.t("NOTIF_DISEASE_ACQUIRED", {"name": display_name}))
+
+
+func _on_disease_progressed_log(_disease_id: String, display_name: String, stage_label: String) -> void:
+	EventBus.combat_log.emit(LocaleManager.t("NOTIF_DISEASE_PROGRESSED",
+		{"name": display_name, "stage": stage_label}))
+
+
+func _on_disease_cured_log(disease_id: String) -> void:
+	var dis_reg: Node = get_node_or_null("/root/DiseaseRegistry")
+	var display_name: String = disease_id
+	if dis_reg:
+		var def: Dictionary = dis_reg.call("get_def", disease_id)
+		display_name = str(def.get("name", disease_id))
+	EventBus.combat_log.emit(LocaleManager.t("NOTIF_DISEASE_CURED", {"name": display_name}))
+
+
+func _on_meal_hint(meal: String) -> void:
+	var key: String = "NOTIF_MEAL_" + meal.to_upper()
+	EventBus.combat_log.emit(LocaleManager.t_or(key, meal))
+
+
+func _on_player_collapsed() -> void:
+	EventBus.combat_log.emit(LocaleManager.t("NOTIF_PLAYER_COLLAPSED"))
+	if not _game_started:
+		return
+	ScreenFade.fade(
+		func() -> void:
+			TimeManager.advance(60, { "activity": "sleep" })
+			GameState.exhaustion = maxf(0.0, GameState.exhaustion - 25.0)
+			var max_hp: int = int(GameState.player_stats.get("max_hp", 1))
+			var loss:   int = maxi(1, int(max_hp * 0.10))
+			GameState.player_stats["hp"] = maxi(1, int(GameState.player_stats.get("hp", 1)) - loss)
+			EventBus.player_stats_changed.emit(),
+		Callable()
+	)
 
 
 func _setup_targeting_overlay() -> void:
@@ -138,6 +204,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				_open_quest_journal()
 			get_viewport().set_input_as_handled()
+		if ke.keycode == KEY_F and ke.is_pressed() and not ke.is_echo():
+			if _quick_food_menu:
+				if _quick_food_menu.visible:
+					_quick_food_menu.close()
+				else:
+					_quick_food_menu.open()
+				get_viewport().set_input_as_handled()
 		if ke.keycode == KEY_G and ke.is_pressed() and not ke.is_echo():
 			if _faction_screen and _faction_screen.visible:
 				_faction_screen.close()
@@ -350,6 +423,12 @@ func _reset_game_state(world_name: String, char_name: String, permadeath: bool =
 		"cloak": "", "trinket": "", "hands": ""
 	}
 	GameState.quick_slots      = ["", "", ""]
+	GameState.food            = 100.0
+	GameState.water           = 100.0
+	GameState.exhaustion      = 0.0
+	GameState.temperature     = 0.0
+	GameState.active_diseases = []
+	GameState.needs_modifiers = {}
 	FactionReputation.initialize_for_new_game()
 	FactionMembership.initialize_for_new_game()
 	CrimeSystem.initialize_for_new_game()

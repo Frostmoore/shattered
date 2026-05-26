@@ -1,0 +1,22 @@
+{
+  "id": "corruzione_abissale",
+  "name": "Corruzione Abissale",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "wil_mult": -0.15, "int_mult": -0.10, "food_drain_mult": 0.20 },
+      "damage_per_30min": 3,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "profonda",
+      "malus": { "wil_mult": -0.30, "int_mult": -0.20, "atk_mult": -0.15, "dmg_taken_mult": 0.20, "food_drain_mult": 0.40 },
+      "damage_per_30min": 10,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

@@ -1,0 +1,15 @@
+{
+  "id": "erbe_medicinali",
+  "name": "Erbe Medicinali",
+  "gender": "f",
+  "icon": "!",
+  "item_category": "consumable",
+  "item_subtype": "recupero",
+  "description": "Erbe curative che combattono infezioni e febbre.",
+  "effect": {
+    "type": "disease_cure_by_item"
+  },
+  "tags": ["herbal", "medicine"],
+  "stackable": true,
+  "loot_weight": 10
+}

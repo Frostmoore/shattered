@@ -77,12 +77,14 @@ func _ready() -> void:
 	_add_section("faction_db",       "FactionDB")
 	_add_section("crime",            "CrimeSystem")
 	_add_section("time_system",      "Time System")
+	_add_section("needs",            "Needs System")
 	_build_class_switcher()
 	_build_loot_tools()
 	_build_validation_tools()
 	_build_faction_tools()
 	_build_crime_tools()
 	_build_time_tools()
+	_build_needs_tools()
 	_refresh()
 
 
@@ -213,6 +215,7 @@ func _refresh() -> void:
 	_update_switcher()
 	_update_crime()
 	_update_time_system()
+	_update_needs()
 
 
 func _update_sistema() -> void:
@@ -1593,3 +1596,398 @@ func _build_time_tools() -> void:
 		_refresh()
 	)
 	row.add_child(btn_reset)
+
+
+# ── Needs System ──────────────────────────────────────────────────────────────
+
+func _update_needs() -> void:
+	var s: DebugSection = get_section("needs")
+	if not s:
+		return
+	var nm: Node = get_node_or_null("/root/NeedsManager")
+	var mods: Dictionary = GameState.needs_modifiers
+	var lines: Array[String] = [
+		"food:        %.1f  [%s]" % [GameState.food,       _need_state_label("food")],
+		"water:       %.1f  [%s]" % [GameState.water,      _need_state_label("water")],
+		"exhaustion:  %.1f  [%s]" % [GameState.exhaustion, _need_state_label("exhaustion")],
+		"temperature: %.1f  zona %s" % [GameState.temperature, _temp_zone_label()],
+	]
+	var diseases: Array = GameState.active_diseases
+	if diseases.is_empty():
+		lines.append("diseases:    nessuna")
+	else:
+		lines.append("diseases:    %d attive" % diseases.size())
+		for d: Variant in diseases:
+			var e: Dictionary = d as Dictionary
+			lines.append("  • %s  stage %d  (%d min)" % [
+				str(e.get("id", "?")),
+				int(e.get("stage_index", 0)),
+				int(e.get("elapsed_minutes", 0)),
+			])
+	if mods.is_empty():
+		lines.append("modifiers:   nessuno")
+	else:
+		for k: String in mods.keys():
+			var v: Variant = mods[k]
+			if v is float:
+				lines.append("  %-26s %.3f" % [k + ":", float(v)])
+			else:
+				lines.append("  %-26s %s"   % [k + ":", str(v)])
+	if nm:
+		lines.append("acc food_zero:  %.1f" % nm.get("_food_zero_acc"))
+		lines.append("acc water_zero: %.1f" % nm.get("_water_zero_acc"))
+		lines.append("acc exh_dmg:    %.1f" % nm.get("_exh_dmg_acc"))
+		lines.append("exh_count_90+:  %d"   % nm.get("_high_exhaustion_count"))
+	s.update(lines)
+
+
+func _need_state_label(need: String) -> String:
+	match need:
+		"food":
+			if GameState.food <= 0.0:       return "DEPLETED"
+			if GameState.food <= 24.0:      return "critical"
+			if GameState.food <= 49.0:      return "warning"
+		"water":
+			if GameState.water <= 0.0:      return "DEPLETED"
+			if GameState.water <= 24.0:     return "critical"
+			if GameState.water <= 49.0:     return "warning"
+		"exhaustion":
+			if GameState.exhaustion >= 100.0: return "COLLASSO"
+			if GameState.exhaustion >= 91.0:  return "grave"
+			if GameState.exhaustion >= 76.0:  return "critical"
+			if GameState.exhaustion >= 56.0:  return "moderato"
+			if GameState.exhaustion >= 31.0:  return "warning"
+	return "ok"
+
+
+func _temp_zone_label() -> String:
+	var t: float = GameState.temperature
+	if t < -75.0:   return "3 cold (IPOTERMIA)"
+	if t < -50.0:   return "2 cold (freddissimo)"
+	if t < -25.0:   return "1 cold (freddo)"
+	if t >  85.0:   return "3 hot (IPERTERMIA)"
+	if t >  57.0:   return "3 hot (surriscaldamento)"
+	if t >  29.0:   return "2 hot (caldissimo)"
+	if t >  25.0:   return "1 hot (caldo)"
+	return "0 (comodo)"
+
+
+func _build_needs_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ NeedsTools"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(1.0, 0.75, 0.4))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "NeedsTools"
+	)
+
+	# ── Toggle HUD ────────────────────────────────────────────────────────────
+	var row0 := HBoxContainer.new()
+	row0.add_theme_constant_override("separation", 6)
+	body.add_child(row0)
+
+	var toggle_btn := Button.new()
+	toggle_btn.text = "Toggle HUD Bisogni"
+	toggle_btn.add_theme_font_size_override("font_size", 10)
+	toggle_btn.pressed.connect(func() -> void:
+		var hud_node: Node = get_node_or_null("/root/Main/HUD")
+		if hud_node and hud_node.has_method("toggle_needs_hud"):
+			hud_node.call("toggle_needs_hud")
+	)
+	row0.add_child(toggle_btn)
+
+	var reset_btn := Button.new()
+	reset_btn.text = "Reset tutti"
+	reset_btn.add_theme_font_size_override("font_size", 10)
+	reset_btn.pressed.connect(func() -> void:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		if nm:
+			nm.call("consume", { "food": 999.0, "water": 999.0 })
+			GameState.exhaustion  = 0.0
+			GameState.temperature = 0.0
+			nm.call("rebuild_modifiers")
+		_refresh()
+	)
+	row0.add_child(reset_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Set food / water / exhaustion / temperature ────────────────────────
+	for cfg: Dictionary in [
+		{ "label": "Food",        "prop": "food",        "min": 0.0,    "max": 100.0,  "step": 1.0 },
+		{ "label": "Water",       "prop": "water",       "min": 0.0,    "max": 100.0,  "step": 1.0 },
+		{ "label": "Exhaustion",  "prop": "exhaustion",  "min": 0.0,    "max": 100.0,  "step": 1.0 },
+		{ "label": "Temperature", "prop": "temperature", "min": -100.0, "max": 100.0,  "step": 5.0 },
+	]:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 4)
+		body.add_child(row)
+
+		var lbl := Label.new()
+		lbl.text = str(cfg["label"]) + ":"
+		lbl.custom_minimum_size = Vector2(80, 0)
+		lbl.add_theme_font_size_override("font_size", 10)
+		row.add_child(lbl)
+
+		var spin := SpinBox.new()
+		spin.min_value = float(cfg["min"])
+		spin.max_value = float(cfg["max"])
+		spin.step      = float(cfg["step"])
+		spin.value     = float(GameState.get(str(cfg["prop"])))
+		spin.custom_minimum_size = Vector2(80, 0)
+		spin.add_theme_font_size_override("font_size", 10)
+		row.add_child(spin)
+
+		var prop: String = str(cfg["prop"])
+		var btn := Button.new()
+		btn.text = "Set"
+		btn.add_theme_font_size_override("font_size", 10)
+		btn.pressed.connect(func() -> void:
+			var nm: Node = get_node_or_null("/root/NeedsManager")
+			GameState.set(prop, clampf(float(spin.value),
+				float(cfg["min"]), float(cfg["max"])))
+			if nm:
+				nm.call("rebuild_modifiers")
+			_refresh()
+		)
+		row.add_child(btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Tick N minuti ──────────────────────────────────────────────────────
+	var tick_row := HBoxContainer.new()
+	tick_row.add_theme_constant_override("separation", 4)
+	body.add_child(tick_row)
+
+	var tick_lbl := Label.new()
+	tick_lbl.text = "Tick:"
+	tick_lbl.add_theme_font_size_override("font_size", 10)
+	tick_row.add_child(tick_lbl)
+
+	var tick_spin := SpinBox.new()
+	tick_spin.min_value = 1
+	tick_spin.max_value = 1440
+	tick_spin.value     = 60
+	tick_spin.custom_minimum_size = Vector2(70, 0)
+	tick_spin.add_theme_font_size_override("font_size", 10)
+	tick_row.add_child(tick_spin)
+
+	var tick_btn := Button.new()
+	tick_btn.text = "min (needs only)"
+	tick_btn.add_theme_font_size_override("font_size", 10)
+	tick_btn.pressed.connect(func() -> void:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		var wm: Node = get_node_or_null("/root/WorldManager")
+		if nm:
+			var map: Node = wm.call("get_current_map") if wm else null
+			var map_type: String = map.get("map_type") if map else "building"
+			nm.call("tick", int(tick_spin.value), { "map_type": map_type })
+		_refresh()
+	)
+	tick_row.add_child(tick_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Simula bioma (target temperatura) ─────────────────────────────────
+	var biome_row := HBoxContainer.new()
+	biome_row.add_theme_constant_override("separation", 4)
+	body.add_child(biome_row)
+
+	var biome_lbl := Label.new()
+	biome_lbl.text = "Bioma:"
+	biome_lbl.add_theme_font_size_override("font_size", 10)
+	biome_row.add_child(biome_lbl)
+
+	var biome_opt := OptionButton.new()
+	biome_opt.add_theme_font_size_override("font_size", 10)
+	var biome_targets: Dictionary = {
+		"plain (0)": 0.0, "forest (-5)": -5.0, "dense_forest (-10)": -10.0,
+		"coast (-15)": -15.0, "swamp (+30)": 30.0, "mountain (-40)": -40.0,
+		"desert (+60)": 60.0, "mountain_dense (-55)": -55.0, "OFF": 0.0,
+	}
+	for bname: String in biome_targets.keys():
+		biome_opt.add_item(bname)
+	biome_row.add_child(biome_opt)
+
+	var biome_btn := Button.new()
+	biome_btn.text = "Set target"
+	biome_btn.add_theme_font_size_override("font_size", 10)
+	biome_btn.pressed.connect(func() -> void:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		if nm:
+			var bname: String = biome_opt.get_item_text(biome_opt.selected)
+			nm.set("_debug_biome_target", float(biome_targets[bname]))
+		_refresh()
+	)
+	biome_row.add_child(biome_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Malattie ───────────────────────────────────────────────────────────
+	var dis_row := HBoxContainer.new()
+	dis_row.add_theme_constant_override("separation", 4)
+	body.add_child(dis_row)
+
+	var dis_opt := OptionButton.new()
+	dis_opt.add_theme_font_size_override("font_size", 10)
+	for did: String in [
+			"malnutrizione", "disidratazione_grave", "ipotermia", "ipertermia",
+			"insonnia_cronica", "avvelenamento", "veleno_paralizzante", "putrefazione",
+			"febbre_infettiva", "setticemia", "morbo_oscuro", "morso_mannaro",
+			"maledizione_vampirica", "corruzione_magica", "corruzione_abissale",
+			"corruzione_del_sangue", "raffreddore", "influenza", "morbo_delle_paludi",
+			"febbre_desertica", "febbre_necrotica", "spore_fungine", "miasma_sotterraneo",
+			"sete_magica", "piaghe", "scorbuto", "anemia", "astenia",
+			"shock_termico", "intossicazione_alcolica", "paranoia", "mal_di_viaggio"]:
+		dis_opt.add_item(did)
+	dis_row.add_child(dis_opt)
+
+	var add_dis_btn := Button.new()
+	add_dis_btn.text = "+ Aggiungi"
+	add_dis_btn.add_theme_font_size_override("font_size", 10)
+	add_dis_btn.pressed.connect(func() -> void:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		if nm:
+			nm.call("add_disease", dis_opt.get_item_text(dis_opt.selected))
+		_refresh()
+	)
+	dis_row.add_child(add_dis_btn)
+
+	var adv_dis_btn := Button.new()
+	adv_dis_btn.text = "Avanza"
+	adv_dis_btn.add_theme_font_size_override("font_size", 10)
+	adv_dis_btn.pressed.connect(func() -> void:
+		var did: String = dis_opt.get_item_text(dis_opt.selected)
+		for d: Variant in GameState.active_diseases:
+			var entry: Dictionary = d as Dictionary
+			if str(entry.get("id", "")) == did:
+				var def: Dictionary = DiseaseRegistry.get_def(did)
+				var stage_max: int = (def.get("stages", []) as Array).size() - 1
+				var cur: int = int(entry.get("stage_index", 0))
+				if cur < stage_max:
+					entry["stage_index"] = cur + 1
+					entry["elapsed_minutes"] = 0.0
+					var nm: Node = get_node_or_null("/root/NeedsManager")
+					if nm:
+						nm.call("rebuild_modifiers")
+				break
+		_refresh()
+	)
+	dis_row.add_child(adv_dis_btn)
+
+	var cure_btn := Button.new()
+	cure_btn.text = "Cura tutte"
+	cure_btn.add_theme_font_size_override("font_size", 10)
+	cure_btn.pressed.connect(func() -> void:
+		var nm: Node = get_node_or_null("/root/NeedsManager")
+		if nm:
+			nm.call("cure_all_diseases")
+		_refresh()
+	)
+	dis_row.add_child(cure_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Simula azione combattimento ────────────────────────────────────────
+	var combat_row := HBoxContainer.new()
+	combat_row.add_theme_constant_override("separation", 4)
+	body.add_child(combat_row)
+
+	var combat_opt := OptionButton.new()
+	combat_opt.add_theme_font_size_override("font_size", 10)
+	for aname: String in ["attacco (+0.1 exh)", "colpo_pesante_subito (+0.2 exh)"]:
+		combat_opt.add_item(aname)
+	combat_row.add_child(combat_opt)
+
+	var combat_btn := Button.new()
+	combat_btn.text = "Simula"
+	combat_btn.add_theme_font_size_override("font_size", 10)
+	combat_btn.pressed.connect(func() -> void:
+		var nm2: Node = get_node_or_null("/root/NeedsManager")
+		if nm2:
+			var gain: float = 0.1 if combat_opt.selected == 0 else 0.2
+			nm2.call("consume", {"exhaustion": gain})
+		_refresh()
+	)
+	combat_row.add_child(combat_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Dai / Usa oggetto needs ────────────────────────────────────────────
+	var item_row := HBoxContainer.new()
+	item_row.add_theme_constant_override("separation", 4)
+	body.add_child(item_row)
+
+	var item_opt := OptionButton.new()
+	item_opt.add_theme_font_size_override("font_size", 10)
+	for iid: String in [
+			"borraccia_acqua", "zuppa_calda", "falo_portatile", "panno_bagnato",
+			"antidoto", "erbe_medicinali", "pane_fresco", "carne_essiccata",
+			"zuppa_ossa", "birra_guerriero", "ambrosia", "acqua_fonte_sacra"]:
+		item_opt.add_item(iid)
+	item_row.add_child(item_opt)
+
+	var give_btn := Button.new()
+	give_btn.text = "Dai x3"
+	give_btn.add_theme_font_size_override("font_size", 10)
+	give_btn.pressed.connect(func() -> void:
+		Inventory.add_item(item_opt.get_item_text(item_opt.selected), 3)
+		_refresh()
+	)
+	item_row.add_child(give_btn)
+
+	var use_item_btn := Button.new()
+	use_item_btn.text = "Usa"
+	use_item_btn.add_theme_font_size_override("font_size", 10)
+	use_item_btn.pressed.connect(func() -> void:
+		var iid: String = item_opt.get_item_text(item_opt.selected)
+		if not Inventory.has_item(iid):
+			Inventory.add_item(iid, 1, false)
+		Inventory.use_item(iid)
+		_refresh()
+	)
+	item_row.add_child(use_item_btn)
+
+	body.add_child(HSeparator.new())
+
+	# ── Riposa ────────────────────────────────────────────────────────────────
+	var rest_row := HBoxContainer.new()
+	rest_row.add_theme_constant_override("separation", 4)
+	body.add_child(rest_row)
+
+	var rest_lbl := Label.new()
+	rest_lbl.text = "Riposa:"
+	rest_lbl.add_theme_font_size_override("font_size", 10)
+	rest_row.add_child(rest_lbl)
+
+	var rest_opt := OptionButton.new()
+	rest_opt.add_theme_font_size_override("font_size", 10)
+	for rtype: String in ["save_point (exh −30)", "inn (exh=0 temp=0)", "camp (exh −50 temp=0)"]:
+		rest_opt.add_item(rtype)
+	rest_row.add_child(rest_opt)
+
+	var rest_btn := Button.new()
+	rest_btn.text = "Riposa"
+	rest_btn.add_theme_font_size_override("font_size", 10)
+	rest_btn.pressed.connect(func() -> void:
+		var nm3: Node = get_node_or_null("/root/NeedsManager")
+		if nm3:
+			var rtypes: Array[String] = ["save_point", "inn", "camp"]
+			nm3.call("rest", rtypes[rest_opt.selected])
+		_refresh()
+	)
+	rest_row.add_child(rest_btn)

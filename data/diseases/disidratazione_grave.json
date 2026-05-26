@@ -1,0 +1,28 @@
+{
+  "id": "disidratazione_grave",
+  "name": "Disidratazione Grave",
+  "stages": [
+    {
+      "label": "lieve",
+      "malus": { "atk_mult": -0.15, "action_cost_mult": 0.10 },
+      "damage_per_30min": 0,
+      "advance_triggers": [{ "type": "needs_zero", "need": "water", "min_minutes": 120 }]
+    },
+    {
+      "label": "grave",
+      "malus": { "atk_mult": -0.25, "dmg_taken_mult": 0.15, "action_cost_mult": 0.30, "int_mult": -0.10 },
+      "damage_per_30min": 5,
+      "advance_triggers": [{ "type": "needs_zero", "need": "water", "min_minutes": 240 }]
+    },
+    {
+      "label": "critica",
+      "malus": { "atk_mult": -0.45, "dmg_taken_mult": 0.25, "action_cost_mult": 0.50, "int_mult": -0.20 },
+      "damage_per_30min": 12,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "need_above", "need": "water", "threshold": 60 }
+  ],
+  "natural_recovery": {}
+}

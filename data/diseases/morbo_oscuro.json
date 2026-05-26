@@ -1,0 +1,28 @@
+{
+  "id": "morbo_oscuro",
+  "name": "Morbo Oscuro",
+  "stages": [
+    {
+      "label": "latente",
+      "malus": { "int_mult": -0.10, "wil_mult": -0.10 },
+      "damage_per_30min": 2,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 720 }]
+    },
+    {
+      "label": "manifesto",
+      "malus": { "int_mult": -0.20, "wil_mult": -0.20, "atk_mult": -0.15, "dmg_taken_mult": 0.15 },
+      "damage_per_30min": 6,
+      "advance_triggers": [{ "type": "time_elapsed", "minutes": 1440 }]
+    },
+    {
+      "label": "terminale",
+      "malus": { "int_mult": -0.35, "wil_mult": -0.35, "atk_mult": -0.30, "dmg_taken_mult": 0.30 },
+      "damage_per_30min": 15,
+      "advance_triggers": []
+    }
+  ],
+  "cure_triggers": [
+    { "type": "item_tag", "item_tag": "holy" }
+  ],
+  "natural_recovery": {}
+}

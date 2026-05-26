@@ -104,12 +104,33 @@ func use_item(item_id: String) -> void:
 	if effect.is_empty():
 		return
 	var consumed: bool = false
-	# HP restore (legacy "heal" + new "restore_hp")
+
+	# Type-based dispatch
+	var effect_type: String = str(effect.get("type", ""))
+	match effect_type:
+		"needs":
+			var nm: Node = get_node_or_null("/root/NeedsManager")
+			var changes: Dictionary = effect.get("changes", {}) as Dictionary
+			if nm and not changes.is_empty():
+				nm.call("consume", changes)
+				consumed = true
+		"disease_cure":
+			var nm: Node = get_node_or_null("/root/NeedsManager")
+			var disease_id: String = str(effect.get("disease_id", ""))
+			if nm and disease_id != "":
+				nm.call("cure_disease", disease_id)
+				consumed = true
+		"disease_cure_by_item":
+			var nm: Node = get_node_or_null("/root/NeedsManager")
+			if nm:
+				nm.call("cure_diseases_matching_item", item_id)
+				consumed = true
+
+	# Legacy effects (also processed for hybrid items like ambrosia)
 	var hp_val: int = int(effect.get("restore_hp", effect.get("heal", 0)))
 	if hp_val > 0:
 		GameState.heal_player(hp_val)
 		consumed = true
-	# MP restore
 	var mp_val: int = int(effect.get("restore_mp", 0))
 	if mp_val > 0:
 		GameState.player_stats["mp"] = mini(
@@ -117,7 +138,6 @@ func use_item(item_id: String) -> void:
 			int(GameState.player_stats["max_mp"]))
 		EventBus.player_stats_changed.emit()
 		consumed = true
-	# Stamina restore
 	var st_val: int = int(effect.get("restore_stamina", 0))
 	if st_val > 0:
 		GameState.player_stats["stamina"] = mini(
@@ -125,14 +145,12 @@ func use_item(item_id: String) -> void:
 			int(GameState.player_stats["max_stamina"]))
 		EventBus.player_stats_changed.emit()
 		consumed = true
-	# Full restore (HP + MP + Stamina)
 	if bool(effect.get("restore_all", false)):
 		GameState.player_stats["hp"]      = int(GameState.player_stats["max_hp"])
 		GameState.player_stats["mp"]      = int(GameState.player_stats["max_mp"])
 		GameState.player_stats["stamina"] = int(GameState.player_stats["max_stamina"])
 		EventBus.player_stats_changed.emit()
 		consumed = true
-	# Identify: auto-identifies the first unidentified item in inventory
 	if bool(effect.get("identify", false)):
 		for i: int in GameState.inventory.size():
 			var entry: Dictionary = GameState.inventory[i]

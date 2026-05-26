@@ -20,12 +20,14 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `FactionEffects` | `scripts/core/FactionEffects.gd` | `apply_join_passive(id)` / `remove_join_passive(id)` — dispatch per 7 fazioni; `get_xp_multiplier(context)` — bonus XP Corporazione; `get_gold_multiplier(context)` — +25% oro Corrieri; `get_attack_mult(defender)` — moltiplicatore ATK Cacciatori; `has_active_passive(id)` — legge `faction_passive_flags` |
 | `FactionEconomy` | `scripts/core/FactionEconomy.gd` | `get_price_multiplier(context)` — discount/rep/sign logic. `on_rest()` — deducte tasse periodiche per ogni fazione joined (chiamata da `Player._use_save_point()` prima del save). `collect_deposit_tax(base_reward)` — 20% sul reward deposito cartografi. `has_tax_restrictions(faction_id) -> bool` — true se `tax_debt >= 1`. Tasse per-fazione: camere 25g, rogna 10g, cartografi 20% deposito, ponti 15g (solo con stazioni), corrieri 10g, officine 10g, tavola 20g. |
 | `TimeManager` | `scripts/core/TimeManager.gd` | Tempo di gioco. `advance(min)` — avanza `GameState.total_minutes`, emette i 4 segnali time. `get_slot()` → `"alba/mattina/pomeriggio/sera/notte"`. `format_time()` / `format_date()` / `format_date_from(min)` / `format_time_from(min)` — tutte via `LocaleManager.t()`. `get_action_cost(map_type, action_int)`. `get_vision_modifier(map_type)`. Registrato **dopo** `EventBus` e **prima** di `WorldManager`. |
+| `DiseaseRegistry` | `scripts/core/DiseaseRegistry.gd` | Carica tutti i `data/diseases/*.json` in `_ready()` via `DirAccess`. `get_def(id) → Dictionary` (empty dict se non trovato). `get_all_defs() → Array`. 32 malattie definite in `data/diseases/`. |
+| `NeedsManager` | `scripts/core/NeedsManager.gd` | Bisogni sopravvivenza (FASE 1-5). `tick(minutes, ctx)` — avanzamento bisogni, segmentato in passi ≤60 min. `consume(changes)` — modifiche istantanee. `rest(type)` — "save_point" (exh −30), "inn" (exh=0 temp=0), "camp" (exh −50 temp=0); chiama `_check_rest_cures(type)`. `add_disease(id)` / `cure_disease(id)` / `cure_all_diseases()` / `cure_diseases_matching_item(item_id)` (controlla cure_triggers item_use+item_tag) / `rebuild_modifiers()`. Cure automatiche: `_check_time_cure_triggers` (accumula `_cure_time_acc`), `_check_need_cure_triggers` (need_above), `_check_rest_cures` (rest_type), `_check_natural_recovery` (riduce stage_index, accumula `_nat_recovery_acc`). |
 | `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa; `change_map()` aggiorna `GameState.current_location_faction_id` dalla signoria + `current_city_id`; applica flee penalty (`CrimeSystem.apply_post_crime_rep_on_flee()`) quando si esce da una città con crimine attivo; spawna guardie di pattuglia al rientro |
 | `LocationRegistry` | `scripts/world/LocationRegistry.gd` | Registro stati per-mappa (fog, morti, porte, cadaveri) |
 | `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load; serializza `faction_rep`, `faction_membership`, `known_faction_members` nel save personaggio |
 | `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo + `WorldState` in `world.json`. Traccia `character_timestamps` (dict `char_name → total_minutes`) nel meta per la continuità temporale multi-personaggio. |
 | `TurnManager` | `scripts/core/TurnManager.gd` | Gestione turni giocatore/nemici |
-| `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText. Gate NPC attacks: richiede `amuleto_del_sangue` equipaggiato (slot neck); se manca → warning + return. Dopo ogni attacco guardia→player controlla arresto se HP ≤ CRIME_GUARD_MIN_HP. |
+| `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText. Gate NPC attacks: richiede `amuleto_del_sangue` equipaggiato. Dopo colpo non-cancelled su player da nemico: `_check_disease_on_hit(attacker)` — legge `disease_on_hit` + `disease_on_hit_chance` (default 0.30) dal JSON nemico tramite `EnemyRegistry`, chiama `NeedsManager.add_disease()` se randf() < chance. |
 | `DamagePipeline` | `scripts/combat/DamagePipeline.gd` | Catena di modificatori danno, chiama `take_damage()` |
 | `EnemyRegistry` | *(autoload)* | Lookup dati nemici da JSON; `get_enemy_data(id)`, `get_display_name(id)` — i JSON nemici hanno ora campo `faction_id` |
 | `AffixRegistry` | *(autoload)* | Lookup affissi nemici; `get_affix(id)`, `get_display_prefix(id)` |
@@ -42,7 +44,7 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `LootResolver` | `scripts/items/LootResolver.gd` | `resolve(ctx: Dictionary) → Array`; legge `drop_context`, risolve loot table, restituisce array di drop (item instance o `{type:"gold", amount:N}`) |
 | `LootScreen` | `scripts/ui/LootScreen.gd` | CanvasLayer layer 80; si apre via `EventBus.loot_screen_open`; griglia con item, tooltip qualità, take-single, take-all, chiudi (Esc); blocca `_can_act` del player |
 | `ItemTooltipBuilder` | `scripts/items/ItemTooltipBuilder.gd` | Classe statica. `build_instance(entry, qty)`, `build_instance_compare(entry, qty, compare_stats)`, `build_legacy(item_id, data, qty)`, `build_gold(amount)`, `build_empty_slot(slot_name)` → BBCode string per `RichTextLabel`. |
-| `Inventory` | `scripts/items/Inventory.gd` | Autoload. `add_item(id, qty)`, `remove_item(id, qty)`, `has_item(id, qty)`, `add_item_instance(instance)`, `identify_instance(instance_id, lv)`, `use_item(id)` |
+| `Inventory` | `scripts/items/Inventory.gd` | Autoload. `add_item(id, qty)`, `remove_item(id, qty)`, `has_item(id, qty)`, `add_item_instance(instance)`, `identify_instance(instance_id, lv)`, `use_item(id)` — dispatch su `effect.type`: `"needs"` → `NeedsManager.consume(changes)`, `"disease_cure"` → `cure_disease(id)`, `"disease_cure_by_item"` → `cure_diseases_matching_item(item_id)`; legacy keys (restore_hp/mp/stamina, restore_all, identify) sempre processate (supportano item ibridi) |
 | `Equipment` | `scripts/items/Equipment.gd` | Autoload. `equip(item_id) → bool`, `unequip(slot)`, `is_equipped(id) → bool`, `get_equipped_slot(id)`, `get_stats(id)`, `get_base_data(id)`, `get_attack_bonus()`, `get_defense_bonus()` |
 
 ---
@@ -133,6 +135,25 @@ func get_display_name(id: String) -> String:
 }
 ```
 
+### Schema item consumabile needs (`data/items/consumables/cibo/*.json`)
+```jsonc
+{
+  "id": "pane_fresco", "name": "Pane Fresco", "gender": "m", "icon": "!",
+  "item_category": "consumable", "item_subtype": "cibo",
+  "effect": {
+    "type": "needs",
+    "changes": { "food": 20, "water": 2, "exhaustion": -3 },
+    // Campi legacy opzionali (item ibridi come ambrosia):
+    "restore_hp": 0, "restore_mp": 0
+  },
+  "stackable": true, "loot_weight": 18
+}
+// type: "disease_cure" → "disease_id": "veleno" (cura malattia specifica)
+// type: "disease_cure_by_item" → cura malattie compatibili con il tag dell'oggetto (FASE 5)
+// tag: ["alcohol"] → usato in futuro per effetti intossicazione
+// tag: ["heat_source"] / ["cooling"] → usato in futuro per effetti ambientali
+```
+
 ### Schema affisso item (`data/item_affixes/**/*.json`)
 ```jsonc
 {
@@ -203,6 +224,15 @@ map.clear_corpse_loot_at(pos)
 ## Stato del giocatore — `GameState`
 
 ```
+GameState.food                        # float 0–100 — fame; 100 = sazio
+GameState.water                       # float 0–100 — idratazione; 100 = dissetato
+GameState.exhaustion                  # float 0–100 — stanchezza; 100 = collasso
+GameState.temperature                 # float −100…+100 — temperatura corporea; 0 = neutro
+GameState.active_diseases             # Array di String (disease_id); gestiti da NeedsManager
+GameState.needs_modifiers             # Dictionary — moltiplicatori derivati dai bisogni; ricreato da NeedsManager.rebuild_modifiers()
+                                      # chiavi: atk_mult, dmg_taken_mult, action_cost_mult, int_mult, wil_mult,
+                                      #         accuracy_penalty, vision_penalty, food_drain_mult_sum,
+                                      #         exhaustion_gain_mult_sum, temp_zone (int −2..+2), temp_direction (String)
 GameState.total_minutes               # int — contatore assoluto mai resettato; default 480 (= 08:00 del 1 Nevargento 472 C)
 GameState.world_time                  # int — derivato: total_minutes % 1440; minuti nella giornata corrente (0–1439)
 # Calendario e display sempre via TimeManager: format_time(), format_date(), get_slot(), is_night()
@@ -214,7 +244,7 @@ GameState.current_location_faction_id # String — signoria del villaggio/città
 GameState.crime_state                 # {city_id: int} — livelli: 0=nessuno, 1=attivo, 2=arrestato; NON persiste nel save
 GameState.criminal_record             # Array [{city_id, city_name, turn}] — persiste nel save
 GameState.player_position             # Vector2i
-GameState.player_stats                # {hp, max_hp, mp, max_mp, stamina, attack, defense, gold}
+GameState.player_stats                # {hp, max_hp, mp, max_mp, stamina, max_stamina, attack, defense, gold}
 GameState.base_attributes             # {str, dex, int, vit, wil} — crescono con level-up
 GameState.class_bonus                 # {str,…} — bonus fisso classe corrente (sostituito, mai accumulato)
 GameState.effective_attributes        # base + class_bonus — usati dal gioco
@@ -229,16 +259,51 @@ GameState.character_faction_membership # Dictionary faction_id → {rank: int, j
                                       # tax_debt: 0=corrente, 1=in ritardo (warn+blocco rank), 2+=moroso (espulso)
 GameState.faction_passive_flags       # Dictionary chiave → valore; DERIVATO, non persiste nel save
                                       # Ricreato da FactionMembership.reapply_all_passives() al load
-                                      # Flag corporazione_camere: contract_access, dungeon_archive_access,
-                                      #   camere_xp_bonus_pct (int), elite_contract_access (rank 5+)
 GameState.known_faction_members       # {faction_id: {npc_id: display_name}} — NPC incontrati per fazione
-                                      # Popolato da NPC.interact() ad ogni interazione; persiste nel save
-                                      # Resettato da FactionMembership.initialize_for_new_game()
 GameState.record_known_member(faction_id, npc_id, name)  # helper che aggiorna known_faction_members
 # Per leggere/scrivere rep usare sempre FactionReputation.get_rep/set_rep/add_rep
 # Per membership usare sempre FactionMembership.is_member/join_faction/leave_faction
 # Per check segno di riconoscimento: FactionMembership.wears_recognition_sign(faction_id)
 ```
+
+### `GameState.recalculate_derived_stats()`
+
+Chiamata da `apply_class()`, `LevelSystem.level_up()`, `NeedsManager._update_modifiers()` (ad ogni tick/consume/rest/disease change), e ogni volta che cambiano attributi o equipment. Ricalcola in questo ordine:
+
+```gdscript
+recalculate_effective_attributes()   # effective = base + class_bonus
+
+max_hp      = vit * 5
+# max_mp usa int_mult / wil_mult da needs_modifiers (FASE 2):
+int_m   = 1.0 + needs_modifiers.get("int_mult", 0.0)
+wil_m   = 1.0 + needs_modifiers.get("wil_mult", 0.0)
+max_mp  = roundi((int * int_m + wil * wil_m) * 2.0)
+max_stamina = (str + dex) * 2
+attack      = 2 + int(str * 0.5)     # str guida il danno melee
+defense     = int(vit * 0.25)        # vit guida la resistenza
+
+# cap: hp/mp/stamina non superano il nuovo max
+```
+
+Equipment bonus (`Equipment.get_attack_bonus()` / `get_defense_bonus()`) sono aggiunti in `Player._refresh_stats()` quando le Entity fields vengono lette, **non** in `player_stats` direttamente.
+
+### `Player._refresh_stats()`
+
+Chiamata su `player_stats_changed` e `equipment_changed`. Sincronizza i campi Entity del player:
+
+```gdscript
+level   = GameState.level
+dex     = GameState.effective_attributes["dex"]
+hp      = GameState.player_stats["hp"]
+max_hp  = GameState.player_stats["max_hp"]
+attack  = GameState.player_stats["attack"] + Equipment.get_attack_bonus()
+defense = GameState.player_stats["defense"] + Equipment.get_defense_bonus()
+# mp e stamina vivono solo in GameState — nessun campo Entity corrispondente
+```
+
+**Nota**: `accuracy` e `evasion` su `Entity` sono sempre 0 per il player (non usati attivamente). I nemici li usano per specializzarsi (es. schivata).
+
+---
 
 ---
 
@@ -316,7 +381,7 @@ toggle_lights()                                 # debug — inverte _lights_acti
 `_on_day_slot_changed(slot)` (connesso a `EventBus.day_slot_changed`) imposta `_lights_active = slot in ["sera","notte"]` e ricomputa il FOV.  
 `_ready()` chiama `_on_day_slot_changed(TimeManager.get_slot())` subito dopo la connessione al signal, per inizializzare `_lights_active` dallo stato corrente al momento del load (senza questo, il bool resterebbe `false` e la mappa apparirebbe sempre di giorno al caricamento di un salvataggio notturno).
 
-Il FOV in `_compute_fov()` usa `_cast_fov_from(origin, radius)` (Bresenham + `_is_opaque()`) sia per il player che per ogni luce attiva. `_is_opaque()` controlla `_blocked_tiles` e porte chiuse (`GameBalance.FOV_DOORS_BLOCK_SIGHT`).
+Il FOV in `_compute_fov()` usa `_cast_fov_from(origin, radius)` (Bresenham + `_is_opaque()`) sia per il player che per ogni luce attiva. `_get_player_fov_radius()` applica `vision_penalty` da `needs_modifiers` (es. −2 da cecità) oltre al modificatore giorno/notte di TimeManager; risultato sempre ≥ 1. `_is_opaque()` controlla `_blocked_tiles` e porte chiuse (`GameBalance.FOV_DOORS_BLOCK_SIGHT`).
 
 ### MapData — struttura dati mappa (`scripts/world/MapData.gd`)
 
@@ -427,7 +492,7 @@ Il colore e il raggio vengono iniettati nei `params` al momento del piazzamento 
 ```
 
 **Preview notturna nel City Builder**: pulsante "🕯 Luci notte" nel pannello palette.  
-Attiva un overlay nero per tile con gradiente (0.0 al centro luce → 0.5 fuori raggio).  
+Attiva un overlay nero per tile con gradiente (0.0 al centro luce → 0.85 fuori raggio).  
 Usa LOS Bresenham (`_preview_has_los()`) che rispetta `BLOCKED_CATS` (muri, staccionate, buche).  
 `NPC`, `enemy`, `guard` (`NIGHT_HIDDEN_KINDS`) diventano invisibili se overlay ≥ 0.5.
 
@@ -562,11 +627,17 @@ Entity (scripts/entities/Entity.gd)           ← Node2D, classe base
 
 ```gdscript
 grid_position: Vector2i
-hp, max_hp, attack, defense, dex: int
+hp, max_hp: int
+attack: int        # danno base (player: da player_stats + equipment)
+defense: int       # riduzione danno (player: da player_stats + equipment)
+dex: int           # stat destrezza (player: da effective_attributes.dex)
+accuracy: int      # bonus flat all'accuratezza (sommato pesato in _calc_hit)
+evasion: int       # bonus flat alla schivata (sommato pesato in _calc_hit)
+level: int
 is_dead: bool
 faction: String          # "player" | "enemy" | "neutral"
-entity_char: String      # carattere ASCII (impostato in _setup_visual)
-entity_color: Color      # colore originale (impostato in _setup_visual)
+entity_char: String      # carattere ASCII
+entity_color: Color      # colore originale
 display_name: String
 
 take_damage(amount)      # chiama die() se hp <= 0
@@ -628,17 +699,6 @@ Persistono in `LocationState.corpse_defs`. Vengono azzerati al save point.
 
 ## Combattimento
 
-### Flusso attacco
-
-```
-CombatManager.attack(attacker, defender)
-  └─ _calc_hit() → {chance, is_dodge}
-  └─ se hit: DamagePipeline.execute(DamageContext)
-       └─ modifica base_damage attraverso la catena
-       └─ ctx.defender.take_damage(final_damage)
-            └─ Entity.die() se hp <= 0
-```
-
 ### TurnManager
 
 ```gdscript
@@ -659,6 +719,8 @@ var _last_action: int = Action.MOVE
 func _action_done(override_cost: int = -1) -> void:
     # Legge map.map_type, chiama TimeManager.advance(cost) PRIMA di TurnManager.on_player_action_done()
     # cost = override_cost se >= 0, altrimenti TimeManager.get_action_cost(map_type, _last_action)
+    # action_cost_mult da needs_modifiers applicato al cost finale (FASE 2)
+    # Se _last_action == ATTACK: NeedsManager.consume({"exhaustion": 0.1}) — fatica attacco (FASE 2)
 
 func _get_move_cost_overworld() -> int:
     # ceili(240.0 * terrain_mult * mount_mult) — terrain/mount = 1.0 placeholder
@@ -704,40 +766,119 @@ ESC chiude durante la selezione (intercettato in `_unhandled_input`). Annulla di
 
 ---
 
-## Bilanciamento Combattimento
+## Combattimento — flusso completo
 
-### Costanti — `BalanceCombat` (`scripts/core/game_balance/BalanceCombat.gd`)
+### Flusso attacco
+
+```
+CombatManager.attack(attacker, defender)
+  └─ _calc_hit(attacker, defender) → {chance, is_dodge}
+  └─ se mancato/schivato: combat_log + return
+  └─ crea DamageContext; base_damage = attacker.attack
+  └─ DamagePipeline.execute(ctx)
+       ├─ ClassRuntime.on_before_player_attack(ctx)  [hook classi]
+       ├─ StatusEffectManager: applica atk_mult effetti nemico se nemico attacca
+       ├─ StatusEffectManager: applica dmg_taken_mult effetti difensore
+       ├─ FactionEffects.get_attack_mult(defender)   [hook fazione]
+       ├─ calcolo danno finale (vedi formula)
+       ├─ guardie: cap danno a CRIME_GUARD_MIN_HP
+       └─ ctx.defender.take_damage(final_damage)
+```
+
+### `DamageContext` — campi (`scripts/combat/DamageContext.gd`)
 
 ```gdscript
-DAMAGE_K: float = 5.0          # divisore danno
-DAMAGE_MIN: int = 1            # danno minimo garantito
-BASE_HIT_CHANCE: float = 0.75  # a parità di stat
-ACCURACY_K: float = 0.02       # delta hit per punto di stat
+attacker:          Node    # entità attaccante
+defender:          Node    # entità difensore
+base_damage:       int     # = attacker.attack al momento del call
+flat_bonus:        int     # bonus piatto (hook classi, default 0)
+attack_multiplier: float   # moltiplicatore danno in uscita (default 1.0)
+target_multiplier: float   # moltiplicatore danno ricevuto (default 1.0)
+defense_bonus:     int     # bonus difesa temporaneo del difensore (default 0)
+ignore_defense:    bool    # bypassa eff_def (default false)
+damage_type:       String  # "physical" | "magic" | "pure"
+tags:              Array   # tag extra per hook
+min_damage:        int     # override al DAMAGE_MIN (default 1)
+cancelled:         bool    # hook ha annullato l'attacco
+instant_kill:      bool    # porta HP a 0 ignorando tutto
+final_damage:      int     # valorizzato da pipeline, usato poi da take_damage
+```
+
+### Formula danno (`DamagePipeline`)
+
+```
+lf       = BalanceCombat.level_factor(attacker.level)   # = 2*level/5 + 2.0
+out_mult = BalanceCombat.output_multiplier(attacker.level)
+
+eff_def  = max(1.0, defender.defense + ctx.defense_bonus)
+raw      = lf * (base_damage + flat_bonus) * attack_multiplier * target_multiplier / eff_def / DAMAGE_K
+final    = max(DAMAGE_MIN, floor(raw * out_mult))
+```
+
+**Nota critica**: `max(1, eff_def)` — `defense=0` e `defense=1` producono lo stesso danno. Tenere `def_base` ≤ 2 nei nemici e usare `def_growth` per la progressione.
+
+### `_calc_hit()` — accuratezza (`CombatManager`)
+
+```gdscript
+# Attaccante = player
+match combat_type:  # letto da ClassRegistry.get_class_data(current_class)["combat_type"]
+    "melee":  hit_stat = (effective_attributes["str"] + effective_attributes["dex"]) / 2.0
+    "ranged": hit_stat = effective_attributes["dex"]
+    "magic":  hit_stat = (effective_attributes["int"] + effective_attributes["wil"]) / 2.0
+dodge_stat = defender.dex
+
+# Attaccante = nemico
+hit_stat   = attacker.dex
+dodge_stat = effective_attributes["dex"]   # sempre dex del player
+
+eff_hit   = hit_stat   + attacker.accuracy * BalanceCombat.accuracy_multiplier(attacker.dex)
+eff_dodge = dodge_stat + defender.evasion  * BalanceCombat.accuracy_multiplier(defender.dex)
+
+hit_chance = clamp(BASE_HIT_CHANCE + (eff_hit - eff_dodge) * ACCURACY_K, 0.10, 0.95)
+is_dodge   = (eff_dodge > eff_hit)   # determina se il log dice "schivato" vs "mancato"
+```
+
+### Hook punti in DamagePipeline
+
+| Quando | Campo modificato | Chi lo usa ora |
+|--------|-----------------|----------------|
+| Player attacca | `ctx.attack_multiplier *= mult` | FactionEffects, ClassRuntime |
+| Nemico attacca player | `ctx.target_multiplier *= mult` | StatusEffectManager (dmg_taken_mult) |
+| Qualsiasi | `ctx.flat_bonus += n` | ClassRuntime (ability bonus) |
+| Qualsiasi | `ctx.defense_bonus += n` | ClassRuntime (Sentinella) |
+| Qualsiasi | `ctx.cancelled = true` | ClassRuntime (schivata speciale) |
+| Qualsiasi | `ctx.ignore_defense = true` | ClassRuntime (attacco puro) |
+
+**Per i bisogni (FASE 2 — implementato)**: `atk_mult` da `needs_modifiers` applicato dopo FactionEffects su `attack_multiplier` (player attacca); `dmg_taken_mult` applicato su `target_multiplier` (player difende). Dopo `take_damage()`: se `final_damage * 10 > max_hp` → `NeedsManager.consume({"exhaustion": 0.2})`.
+
+### Bilanciamento Combattimento
+
+#### Costanti — `BalanceCombat` (`scripts/core/game_balance/BalanceCombat.gd`)
+
+```gdscript
+DAMAGE_K: float = 5.0
+DAMAGE_MIN: int = 1
+BASE_HIT_CHANCE: float = 0.75
+ACCURACY_K: float = 0.02
 MIN_HIT_CHANCE: float = 0.10
 MAX_HIT_CHANCE: float = 0.95
 
-level_factor(level) -> float   # = 2*level/5 + 2.0  (lf(1)=2.4)
+level_factor(level) -> float           # = 2*level/5 + 2.0  (lf(1)=2.4)
+output_multiplier(level) -> float      # scaling out danno per livello alto
+accuracy_multiplier(dex) -> float      # peso dell'accuracy/evasion in base alla dex
 ```
 
-### Formule danni (CombatSimulator)
+#### Formule CombatSimulator (stima teorica)
 
 ```
-lf       = level_factor(level)
-p_atk    = class attack stat at level   (usato per il danno)
-p_dex    = class dex stat at level
-hit_stat = floor((p_atk + p_dex) / 2)  # melee/magic
-         = p_dex                        # ranged
-
-hit_chance = clamp(BASE_HIT_CHANCE + (hit_stat - e_dex) * ACCURACY_K, 0.10, 0.95)
-p_dmg      = max(DAMAGE_MIN, floor(lf * p_atk / max(1.0, e_def) / DAMAGE_K))
+lf          = level_factor(level)
+hit_chance  = clamp(0.75 + (hit_stat - e_dex) * 0.02, 0.10, 0.95)
+p_dmg       = max(1, floor(lf * p_atk / max(1.0, e_def) / DAMAGE_K))
 e_hp_scaled = round(hp_base * lf / lf(1))
-TTK        = ceil(e_hp_scaled / (hit_chance * p_dmg))
+TTK         = ceil(e_hp_scaled / (hit_chance * p_dmg))
 ```
 
-**Nota critica:** `max(1, def)` — def=0 e def=1 producono lo stesso danno.  
-Il simulatore usa `def_base` raw (senza growth). Tenere `def_base` basso (≤ 2) e usare `def_growth` per la progressione.
-
-### Target TTK per ruolo
+#### Target TTK per ruolo
 
 | Ruolo | TTK min | TTK max |
 |-------|---------|---------|
@@ -755,7 +896,7 @@ Il simulatore usa `def_base` raw (senza growth). Tenere `def_base` basso (≤ 2)
 Testato a `zone_min_level`, profili primari: `melee_bruiser` e `caster_burst`.  
 Eseguire `CombatSimulator.run_validation()` dal pulsante TTK Sim nel DebugScreen.
 
-### Profili classe (ClassCombatProfile — `scripts/tools/ClassCombatProfile.gd`)
+#### Profili classe (ClassCombatProfile — `scripts/tools/ClassCombatProfile.gd`)
 
 | Profilo | atk_l1 | atk_growth | dex_l1 | dex_growth | tipo |
 |---------|--------|-----------|--------|-----------|------|
@@ -815,14 +956,14 @@ Calibrazione TTK verificata con `CombatSimulator.run_validation()`.
 |----------|----------|---------------|
 | `dungeon` | **FOV binario** | Tile mai viste = skip; tile viste fuori FOV = `FOV_MEMORY_ALPHA`; entità visibili solo se tile in FOV |
 | `village`/`city` di giorno | **Tutto visibile** | Tile tutte al colore pieno; entità sempre visibili |
-| `village`/`city` di notte (`_lights_active`) | **Night overlay** | Tile al colore pieno + overlay nero per tile; entità mobili nascoste in zone buie |
+| `village`/`city` di notte (`_lights_active`) | **Night overlay** | **Tutti i tile sempre visibili** (nessun FOV/seen skip) + overlay nero per tile; entità mobili nascoste in zone buie (overlay ≥ 0.5) |
 
 ### Night overlay mode (village/city con `_lights_active = true`)
 
 `_fill_overlay(map, overlay, origin, radius)` calcola per ogni tile raggiungibile via LOS da `origin`:  
-`alpha = 0.5 * (distanza / radius)` → 0.0 al centro luce, 0.5 al bordo.  
+`alpha = 0.85 * (distanza / radius)` → 0.0 al centro luce, 0.85 al bordo.  
 Sorgenti: player (`GameBalance.FOV_RADIUS`) + ogni `_light_source` della mappa.  
-Tile senza LOS da nessuna sorgente: overlay = 0.5 (massimo scuro).  
+Tile senza LOS da nessuna sorgente: overlay = 0.85 (massimo scuro).  
 Più sorgenti sovrapposti: si prende il minimo alpha (unione degli aloni).
 
 Il `has_line_of_sight()` di BaseMap viene chiamato per ogni tile in ogni raggio → stesso algoritmo usato dal FOV di gioco, muri e porte bloccano la luce.
@@ -870,6 +1011,11 @@ day_slot_changed(slot: String)       # emesso al cambio slot interno ("alba","ma
                                      # ↳ BaseMap._on_day_slot_changed() → aggiorna _lights_active + ricomputa FOV
                                      # ↳ MapRenderer._on_redraw_needed() → queue_redraw()
 world_ticked(ticks: int, tick_size: int)  # emesso per avanzamenti ≥ 30 min; usato da WorldActor (futuro)
+
+# Bisogni (FASE 1)
+needs_changed                              # emesso da NeedsManager.tick() ad ogni aggiornamento
+player_took_needs_damage(source: String, amount: int)  # fame/sete/malattia → Player.take_damage()
+player_collapsed                           # esaurimento 100 → collasso; Main gestisce fade + penalità HP
 
 # Fazioni (Fase 2–4)
 faction_rep_changed(faction_id: String, old_val: int, new_val: int)
