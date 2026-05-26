@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var stats_label: Label   = $Panel/VBox/StatsLabel
 @onready var map_label:   Label   = $Panel/VBox/MapLabel
 @onready var quest_label: Label   = $Panel/VBox/QuestLabel
+@onready var _time_label: Label   = $TimeLabel
 
 
 func _ready() -> void:
@@ -25,6 +26,8 @@ func _ready() -> void:
 	EventBus.quest_started.connect(_on_quest_changed)
 	EventBus.quest_completed.connect(_on_quest_changed)
 	EventBus.inventory_changed.connect(_refresh)
+	EventBus.time_advanced.connect(_on_time_advanced)
+	_time_label.text = TimeManager.format_time()
 	_refresh()
 
 
@@ -87,3 +90,7 @@ func _on_map_changed(map_id: String) -> void:
 
 func _on_quest_changed(_id: String) -> void:
 	_refresh()
+
+
+func _on_time_advanced(_minutes: int) -> void:
+	_time_label.text = TimeManager.format_time()

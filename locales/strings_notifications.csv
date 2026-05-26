@@ -36,3 +36,4 @@ NOTIF_CRIME_ARRESTED,Arrestato. Multa: {fine}g.
 NOTIF_CRIME_CLEARED,Il mandato è stato cancellato.
 NOTIF_CRIME_SAFE_HOUSE,Rifugio sicuro — il mandato è stato cancellato.
 NOTIF_CRIME_WITNESSED,Crimine testimoniato!
+NOTIF_WAIT_DONE,Hai aspettato {hours} ore. {time}.

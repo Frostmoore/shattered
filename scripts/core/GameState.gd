@@ -57,6 +57,11 @@ var quick_slots: Array = ["", "", ""]
 var level: int = 1
 var xp:    int = 0
 
+var total_minutes: int = 480   # contatore assoluto, mai resettato
+
+var world_time: int:
+	get: return total_minutes % 1440
+
 var character_faction_rep:        Dictionary = {} # faction_id → int
 var character_faction_membership: Dictionary = {} # faction_id → {rank, join_date}
 var faction_passive_flags:        Dictionary = {} # derived from membership — recalculated on load

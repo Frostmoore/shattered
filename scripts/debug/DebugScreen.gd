@@ -76,11 +76,13 @@ func _ready() -> void:
 	_add_section("loot_db",          "LootDB")
 	_add_section("faction_db",       "FactionDB")
 	_add_section("crime",            "CrimeSystem")
+	_add_section("time_system",      "Time System")
 	_build_class_switcher()
 	_build_loot_tools()
 	_build_validation_tools()
 	_build_faction_tools()
 	_build_crime_tools()
+	_build_time_tools()
 	_refresh()
 
 
@@ -210,6 +212,7 @@ func _refresh() -> void:
 	_update_faction_member_table()
 	_update_switcher()
 	_update_crime()
+	_update_time_system()
 
 
 func _update_sistema() -> void:
@@ -218,12 +221,21 @@ func _update_sistema() -> void:
 		return
 	var vi: Dictionary = Engine.get_version_info()
 	var vp: Vector2    = get_viewport().get_visible_rect().size
+	var tm: Node = get_node_or_null("/root/TimeManager")
+	var time_line: String
+	if tm:
+		time_line = "Ora:          %02d:%02d  (tot %d min)" % [
+			tm.call("get_hour"), tm.call("get_minute"), GameState.total_minutes
+		]
+	else:
+		time_line = "Ora:          TimeManager non caricato"
 	s.update([
 		"FPS:          %d"    % Engine.get_frames_per_second(),
 		"Godot:        %s"    % vi.get("string", "4.x"),
 		"Build:        debug",
 		"Piattaforma:  %s"    % OS.get_name(),
 		"Risoluzione:  %dx%d" % [int(vp.x), int(vp.y)],
+		time_line,
 	])
 
 
@@ -1490,3 +1502,94 @@ func _build_crime_tools() -> void:
 
 func _update_amuleto_btn(btn: Button) -> void:
 	btn.text = "Rimuovi amuleto" if Equipment.is_equipped("amuleto_del_sangue") else "Equip amuleto"
+
+
+# ── Time System ───────────────────────────────────────────────────────────────
+
+func _update_time_system() -> void:
+	var s: DebugSection = get_section("time_system")
+	if not s:
+		return
+	var tm: Node = get_node_or_null("/root/TimeManager")
+	if not tm:
+		s.update(["TimeManager: non caricato"])
+		return
+	var map: Node = null
+	var wm: Node = get_node_or_null("/root/WorldManager")
+	if wm and wm.has_method("get_current_map"):
+		map = wm.call("get_current_map")
+	var map_type: String = map.get("map_type") if map != null else "—"
+	var lines: Array[String] = [
+		"total_minutes: %d"      % GameState.total_minutes,
+		"world_time:    %d  (%02d:%02d)" % [GameState.world_time, tm.call("get_hour"), tm.call("get_minute")],
+		"slot:          %s"      % tm.call("get_slot"),
+		"display:       %s"      % tm.call("format_time"),
+		"abs_day:       %d"      % tm.call("get_absolute_day"),
+		"data:          gg %d  mese %d  anno %d" % [tm.call("get_day_of_month"), int(tm.call("get_month_index")) + 1, tm.call("get_year")],
+		"map_type:      %s"      % map_type,
+		"action_costs:  M:%d A:%d I:%d W:%d" % [
+			tm.call("get_action_cost", map_type, 0),
+			tm.call("get_action_cost", map_type, 1),
+			tm.call("get_action_cost", map_type, 2),
+			tm.call("get_action_cost", map_type, 4),
+		],
+	]
+	var wait_scr: Node = get_node_or_null("/root/Main/WaitScreen")
+	if wait_scr != null:
+		lines.append("wait_open:     %s" % str(wait_scr.visible))
+		if wait_scr.visible:
+			lines.append("wait_anim:     %s" % str(wait_scr.get("_animating")))
+			lines.append("wait_target:   %d min" % int(wait_scr.get("_target_minutes")))
+	var hud_lbl: Label = get_node_or_null("/root/Main/HUD/TimeLabel")
+	lines.append("hud_time_label: %s" % (hud_lbl.text if hud_lbl != null else "NON TROVATA ⚠"))
+	s.update(lines)
+
+
+func _build_time_tools() -> void:
+	var wrapper := VBoxContainer.new()
+	wrapper.add_theme_constant_override("separation", 2)
+	_vbox.add_child(wrapper)
+
+	var header := Button.new()
+	header.text = "▼ TimeTools"
+	header.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	header.flat = true
+	header.focus_mode = Control.FOCUS_NONE
+	header.add_theme_color_override("font_color", Color(0.6, 0.85, 1.0))
+	header.add_theme_font_size_override("font_size", 11)
+	wrapper.add_child(header)
+
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	wrapper.add_child(body)
+
+	header.pressed.connect(func() -> void:
+		body.visible = not body.visible
+		header.text = ("▼ " if body.visible else "► ") + "TimeTools"
+	)
+
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	body.add_child(row)
+
+	for label_text: String in ["+1h", "+8h", "+1 giorno"]:
+		var minutes: int = 60 if label_text == "+1h" else (480 if label_text == "+8h" else 1440)
+		var btn := Button.new()
+		btn.text = label_text
+		btn.add_theme_font_size_override("font_size", 10)
+		btn.pressed.connect(func() -> void:
+			var tm: Node = get_node_or_null("/root/TimeManager")
+			if tm:
+				tm.call("advance", minutes)
+			_refresh()
+		)
+		row.add_child(btn)
+
+	var btn_reset := Button.new()
+	btn_reset.text = "Reset"
+	btn_reset.add_theme_font_size_override("font_size", 10)
+	btn_reset.pressed.connect(func() -> void:
+		GameState.total_minutes = 480
+		_refresh()
+	)
+	row.add_child(btn_reset)

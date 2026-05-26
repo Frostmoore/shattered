@@ -9,7 +9,7 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | Nome | File | Ruolo |
 |------|------|-------|
 | `LocaleManager` | `scripts/core/LocaleManager.gd` | i18n runtime: carica CSV da `locales/`; `t(key, params?)`, `t_or(key, fallback, params?)` |
-| `GameState` | `scripts/core/GameState.gd` | Stato globale del run (livello, stats, mappa corrente, inventario, `character_faction_rep`, `character_faction_membership`, `faction_passive_flags`, `known_faction_members`) |
+| `GameState` | `scripts/core/GameState.gd` | Stato globale del run (livello, stats, mappa corrente, inventario, `character_faction_rep`, `character_faction_membership`, `faction_passive_flags`, `known_faction_members`). Campo tempo: `total_minutes: int = 480`; proprietà derivata `world_time` (`total_minutes % 1440`). |
 | `WorldState` | `scripts/core/WorldState.gd` | Stato world-persistent fazioni (post station, safe houses, dungeon maps, servizi, village changes, `dungeon_archive`). Serializzato in `world.json` via `WorldSaveManager`. API completa: vedi sezione WorldState sotto. |
 | `FactionActionsService` | `scripts/core/FactionActionsService.gd` | Azioni fazione world-persistent: `try_deposit_map()`, `try_build_post_station()`, `try_open_ambulatorio()`, `try_reduce_bounty_tsn()` (chiama `CrimeSystem.clear_crime(current_city_id)`). Trigger: tasti F5/F6/F7 + NPC `faction_action_id`. |
 | `CrimeSystem` | `scripts/core/CrimeSystem.gd` | Autoload. Gestisce crimini nelle città. `register_crime(city_id)`, `arrest_player(city_id)`, `clear_crime(city_id)`, `is_crime_active(city_id)`, `has_witnesses(origin)`, `track_attacked_npc(npc)`, `get_criminal_record()`, `spawn_guards_debug(count)`, `apply_post_crime_rep_on_flee()`, `initialize_for_new_game()`. Costanti: `CRIME_FINE_PCT=0.25`, `CRIME_GUARD_COUNT=6`, `CRIME_GUARD_WAVE_TURNS=8`, `CRIME_GUARD_WAVE_SIZE=3`, `NPC_VIEW_RANGE=30`, `CRIME_NPC_REP_PENALTY=-50`, `CRIME_GUARD_MIN_HP=1`. |
@@ -19,10 +19,11 @@ Godot 4.4 · GDScript · roguelike ASCII turn-based · CELL = 16 px
 | `FactionDisplay` | `scripts/core/FactionDisplay.gd` | Helper i18n per fazioni: `get_display_name/desc/state/rank/passive_name/passive_desc/crime()` via `LocaleManager.t_or()` |
 | `FactionEffects` | `scripts/core/FactionEffects.gd` | `apply_join_passive(id)` / `remove_join_passive(id)` — dispatch per 7 fazioni; `get_xp_multiplier(context)` — bonus XP Corporazione; `get_gold_multiplier(context)` — +25% oro Corrieri; `get_attack_mult(defender)` — moltiplicatore ATK Cacciatori; `has_active_passive(id)` — legge `faction_passive_flags` |
 | `FactionEconomy` | `scripts/core/FactionEconomy.gd` | `get_price_multiplier(context)` — discount/rep/sign logic. `on_rest()` — deducte tasse periodiche per ogni fazione joined (chiamata da `Player._use_save_point()` prima del save). `collect_deposit_tax(base_reward)` — 20% sul reward deposito cartografi. `has_tax_restrictions(faction_id) -> bool` — true se `tax_debt >= 1`. Tasse per-fazione: camere 25g, rogna 10g, cartografi 20% deposito, ponti 15g (solo con stazioni), corrieri 10g, officine 10g, tavola 20g. |
+| `TimeManager` | `scripts/core/TimeManager.gd` | Tempo di gioco. `advance(min)` — avanza `GameState.total_minutes`, emette i 4 segnali time. `get_slot()` → `"alba/mattina/pomeriggio/sera/notte"`. `format_time()` / `format_date()` / `format_date_from(min)` / `format_time_from(min)` — tutte via `LocaleManager.t()`. `get_action_cost(map_type, action_int)`. `get_vision_modifier(map_type)`. Registrato **dopo** `EventBus` e **prima** di `WorldManager`. |
 | `WorldManager` | `scripts/core/WorldManager.gd` | Mappa attiva, cambio mappa; `change_map()` aggiorna `GameState.current_location_faction_id` dalla signoria + `current_city_id`; applica flee penalty (`CrimeSystem.apply_post_crime_rep_on_flee()`) quando si esce da una città con crimine attivo; spawna guardie di pattuglia al rientro |
 | `LocationRegistry` | `scripts/world/LocationRegistry.gd` | Registro stati per-mappa (fog, morti, porte, cadaveri) |
 | `SaveManager` | `scripts/core/SaveManager.gd` | Entry point save/load; serializza `faction_rep`, `faction_membership`, `known_faction_members` nel save personaggio |
-| `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo + `WorldState` in `world.json` |
+| `WorldSaveManager` | `scripts/core/WorldSaveManager.gd` | Serializza LocationRegistry + metadati mondo + `WorldState` in `world.json`. Traccia `character_timestamps` (dict `char_name → total_minutes`) nel meta per la continuità temporale multi-personaggio. |
 | `TurnManager` | `scripts/core/TurnManager.gd` | Gestione turni giocatore/nemici |
 | `CombatManager` | `scripts/combat/CombatManager.gd` | Attacchi, calcolo hit, FloatingText. Gate NPC attacks: richiede `amuleto_del_sangue` equipaggiato (slot neck); se manca → warning + return. Dopo ogni attacco guardia→player controlla arresto se HP ≤ CRIME_GUARD_MIN_HP. |
 | `DamagePipeline` | `scripts/combat/DamagePipeline.gd` | Catena di modificatori danno, chiama `take_damage()` |
@@ -202,6 +203,9 @@ map.clear_corpse_loot_at(pos)
 ## Stato del giocatore — `GameState`
 
 ```
+GameState.total_minutes               # int — contatore assoluto mai resettato; default 480 (= 08:00 del 1 Nevargento 472 C)
+GameState.world_time                  # int — derivato: total_minutes % 1440; minuti nella giornata corrente (0–1439)
+# Calendario e display sempre via TimeManager: format_time(), format_date(), get_slot(), is_night()
 GameState.level                       # int, livello corrente
 GameState.xp                          # int
 GameState.current_map_id              # String, es. "dungeon_floor_1"
@@ -235,6 +239,24 @@ GameState.record_known_member(faction_id, npc_id, name)  # helper che aggiorna k
 # Per membership usare sempre FactionMembership.is_member/join_faction/leave_faction
 # Per check segno di riconoscimento: FactionMembership.wears_recognition_sign(faction_id)
 ```
+
+---
+
+## HUD — `scenes/ui/HUD.tscn` / `scripts/ui/HUD.gd`
+
+`CanvasLayer` sempre visibile durante il gioco. Aggiornato via `EventBus`.
+
+| Nodo | Percorso | Aggiornato da |
+|------|----------|---------------|
+| HP / MP / ST bar + val | `Panel/VBox/{HP,MP,ST}Row/*` | `player_stats_changed`, `equipment_changed` |
+| XP bar + level tag | `Panel/VBox/XPRow/*` | `xp_gained`, `player_leveled_up` |
+| GoldLabel | `Panel/VBox/GoldLabel` | `player_stats_changed` |
+| StatsLabel | `Panel/VBox/StatsLabel` | `player_stats_changed`, `equipment_changed` |
+| MapLabel | `Panel/VBox/MapLabel` | `map_changed` |
+| QuestLabel | `Panel/VBox/QuestLabel` | `quest_started`, `quest_completed` |
+| **TimeLabel** | **figlio diretto di HUD** (non dentro Panel) | **`time_advanced`** → `TimeManager.format_time()` |
+
+`TimeLabel`: `offset (0,4)→(640,18)`, `font_size=11`, `horizontal_alignment=CENTER` — mostra la data e la fase del giorno (es. `"1 Nevargento 472 C — Giorno"`) in alto al centro dello schermo, sopra tutto l'HUD.
 
 ---
 
@@ -291,7 +313,8 @@ toggle_lights()                                 # debug — inverte _lights_acti
 ```
 
 `_light_sources` viene popolato in `_spawn_entity()` per ogni entità `kind == "light_source"` letta dal JSON.  
-`_on_day_slot_changed(slot)` (connesso a `EventBus.day_slot_changed`) imposta `_lights_active = slot in ["sera","notte"]` e ricomputa il FOV.
+`_on_day_slot_changed(slot)` (connesso a `EventBus.day_slot_changed`) imposta `_lights_active = slot in ["sera","notte"]` e ricomputa il FOV.  
+`_ready()` chiama `_on_day_slot_changed(TimeManager.get_slot())` subito dopo la connessione al signal, per inizializzare `_lights_active` dallo stato corrente al momento del load (senza questo, il bool resterebbe `false` e la mappa apparirebbe sempre di giorno al caricamento di un salvataggio notturno).
 
 Il FOV in `_compute_fov()` usa `_cast_fov_from(origin, radius)` (Bresenham + `_is_opaque()`) sia per il player che per ogni luce attiva. `_is_opaque()` controlla `_blocked_tiles` e porte chiuse (`GameBalance.FOV_DOORS_BLOCK_SIGHT`).
 
@@ -483,7 +506,7 @@ SaveManager.save_game()
   └─ WorldSaveManager.save_world(world_name)      # serializza LocationRegistry
   └─ _save_character(world_name, char_name)
        └─ current_map.save_location_state()       # flush mappa corrente prima di serializzare
-       └─ scrive {level, xp, stats, inventory, position, …} in user://saves/<world>/<char>.json
+       └─ scrive {level, xp, stats, inventory, position, total_minutes, …} in user://saves/<world>/<char>.json
 ```
 
 ### Flusso save point (Player.gd `_use_save_point`)
@@ -501,9 +524,20 @@ EventBus.save_point_used.emit()
 ```
 SaveManager.load_game(world_name, char_name)
   └─ WorldSaveManager.load_world(world_name)    # ripristina LocationRegistry
-  └─ _load_character(…)                         # ripristina GameState
+  └─ _load_character(…)                         # ripristina GameState, incluso total_minutes
 → WorldManager.change_map(GameState.current_map_id, GameState.player_position)
+     └─ BaseMap._ready() → _on_day_slot_changed(TimeManager.get_slot())  # lights init post-load
 ```
+
+**Nuova partita in mondo esistente** — `Main._start_new_game()` legge `WorldSaveManager.get_world_max_minutes(world_name)` e calcola `start_minutes = (giorno_max + 1) * 1440 + 480`, passandolo a `_reset_game_state()`. Ogni nuovo personaggio parte alle 08:00 del giorno successivo al massimo tra tutti i personaggi salvati in quel mondo.
+
+**Nuova partita in mondo nuovo** — `has_world` = false (nessun `world.json`), quindi `start_minutes = 480` (08:00 del giorno 1) e viene chiamato `generate_new_world`.
+
+**`WorldSaveManager.save_world()`** legge i timestamp esistenti via `_read_character_timestamps()`, aggiorna l'entry del personaggio corrente (`GameState.character_name → GameState.total_minutes`) e scrive il dizionario `character_timestamps` nel meta. Viene chiamato solo da `save_game()` (save point esplicito) — mai al semplice ritorno al menù principale.
+
+**`WorldSaveManager._read_character_timestamps(world_name) -> Dictionary`** — helper interno; legge `meta.character_timestamps` dal `world.json` senza caricare il resto. Restituisce `{}` se il file non esiste o il campo manca.
+
+**`WorldSaveManager.get_world_max_minutes(world_name) -> int`** — restituisce il massimo tra tutti i valori in `character_timestamps`. Backward compat: se il campo è assente, legge il vecchio scalare `world_max_minutes`. Restituisce 0 se non c'è nulla (mondo mai salvato).
 
 ---
 
@@ -615,6 +649,58 @@ TurnManager.deactivate()             # fine combattimento (tutti i nemici morti)
 TurnManager.on_player_action_done()  # scatena turni alleati + nemici
 TurnManager.unregister_enemy(enemy)  # rimosso da die()
 ```
+
+### Player — integrazione Time System
+
+```gdscript
+enum Action { MOVE = 0, ATTACK = 1, USE_ITEM = 2, INTERACT = 3, WAIT = 4 }
+var _last_action: int = Action.MOVE
+
+func _action_done(override_cost: int = -1) -> void:
+    # Legge map.map_type, chiama TimeManager.advance(cost) PRIMA di TurnManager.on_player_action_done()
+    # cost = override_cost se >= 0, altrimenti TimeManager.get_action_cost(map_type, _last_action)
+
+func _get_move_cost_overworld() -> int:
+    # ceili(240.0 * terrain_mult * mount_mult) — terrain/mount = 1.0 placeholder
+```
+
+`_last_action` è settato immediatamente prima di ogni `_action_done()`:
+- Movimento (non-overworld): `Action.MOVE` → costo da `get_action_cost`
+- Movimento overworld: `Action.MOVE` → `_action_done(_get_move_cost_overworld())`
+- Attacco nemico / NPC: `Action.ATTACK`
+- Abilità di classe (anche con targeting/menu): `Action.ATTACK`
+- Interazione NPC / loot cadavere: `Action.INTERACT`
+- Fuga (tutte le branch): `Action.MOVE`
+
+### CombatBar — integrazione Time System
+
+Wait gestito interamente in `CombatBar._process()` (rimosso da `_unhandled_input`):
+- **Tap R** (< 0.4s): `_on_quick_wait()` → `TimeManager.advance(get_action_cost(map_type, 4))` + `TurnManager.on_player_action_done()`
+- **Hold R in esplorazione** (≥ 0.4s): `_wait_screen_open = true` + `_wait_screen.open()`; alla chiusura `wait_completed` → `_on_wait_screen_closed()` resetta il flag
+- **Hold R in combattimento** (≥ 0.4s): quick wait normale (come tap)
+- Guard: se `TurnManager.is_active and not is_player_turn` → reset timer, return
+- Testo pulsante: `[R] Aspetta` (CSV aggiornato)
+- `_wait_screen` recuperato in `_ready()` via `get_node_or_null("/root/Main/WaitScreen")`
+
+### WaitScreen — `scenes/ui/WaitScreen.tscn` / `scripts/ui/WaitScreen.gd`
+
+`CanvasLayer` layer=10 (sopra HUD). UI costruita a codice in `_ready()`. Aperta da `CombatBar` su hold R in esplorazione.
+
+```gdscript
+signal wait_completed           # emesso alla chiusura (sia conferma che annulla)
+const WAIT_TICK_DELAY: float = 0.08   # secondi per ora simulata
+const MAX_WAIT_HOURS:  int   = 8
+
+func open() -> void             # apre la schermata; _start_minutes = GameState.total_minutes
+func _on_wait_confirmed()       # disabilita input, avvia animazione
+func _run_wait_animation()      # await loop: advance(60) per ora, aggiorna slider + NowLabel
+func _finish()                  # Notification.wait_finished() + TurnManager.on_player_action_done() + hide() + emit wait_completed
+func _on_cancel_pressed()       # solo se not _animating → hide() + emit wait_completed
+```
+
+**Fase selezione**: FromLabel "Da: [ora]", ToLabel "A: [ora target]", slider 1–8 ore, HoursLabel.  
+**Fase animazione**: slider scorre da target→0, NowLabel "Ora: [ora corrente]" aggiornato ad ogni passo.  
+ESC chiude durante la selezione (intercettato in `_unhandled_input`). Annulla disabilitato durante animazione.
 
 ---
 
@@ -777,9 +863,9 @@ damage_dealt(amount, source) / damage_taken(amount)
 combat_log(text: String)
 notification_shown(notif: Notification)
 
-# Time System (segnali presenti — TimeManager non ancora implementato)
+# Time System
 time_advanced(minutes: int)          # emesso da TimeManager.advance() ad ogni avanzamento
-day_changed(day_count: int)          # emesso quando total_minutes supera un multiplo di 1440
+day_changed(abs_day: int)            # emesso quando total_minutes supera un multiplo di 1440
 day_slot_changed(slot: String)       # emesso al cambio slot interno ("alba","mattina","pomeriggio","sera","notte")
                                      # ↳ BaseMap._on_day_slot_changed() → aggiorna _lights_active + ricomputa FOV
                                      # ↳ MapRenderer._on_redraw_needed() → queue_redraw()
@@ -806,6 +892,7 @@ Notification.faction_supporter_lost(msg)
 Notification.faction_access_denied(fname) # rosso Color(0.9, 0.3, 0.25) — accesso negato
 Notification.faction_action(msg)          # ciano Color(0.4, 0.85, 0.95) — azione faction world (F11+)
 Notification.faction_rep_delta(name, delta) # verde/rosso — Δrep ≥5 senza cambio stato; durata 2s
+Notification.wait_finished(hours, new_time) # azzurro — fine attesa; "Hai aspettato {hours} ore. {time}."
 Notification.warning(msg)                 # arancio — warning generico
 Notification.crime_committed()            # rosso — crimine commesso
 Notification.player_arrested(fine)        # rosso — arrestato, mostra multa
@@ -958,13 +1045,16 @@ Pure-code `CanvasLayer` (layer=8), nessuna TSCN (stesso pattern di ClassPickerPa
 **DebugScreen** (`scripts/debug/DebugScreen.gd`) — accessibile in-game (tasto È).
 
 Sezioni statiche (aggiornate ogni 0.5s da timer):
-- **Sistema / ClassRegistry / GameState / ClassPicker / DamagePipeline / ClassRuntime / AbilityUseTracker / ClassSpecial / StatusEffects / Targeting / AllyManager / DruidForm / Milestones / Respec / LootDB / FactionDB**
+- **Sistema / ClassRegistry / GameState / ClassPicker / DamagePipeline / ClassRuntime / AbilityUseTracker / ClassSpecial / StatusEffects / Targeting / AllyManager / DruidForm / Milestones / Respec / LootDB / FactionDB / Time System**
+
+`Time System` mostra: `total_minutes`, `world_time` (H:MM), `slot`, `display` (stringa localizzata), `abs_day`, data calendario (gg/mese/anno), `map_type` corrente, `action_costs` M/A/I/W, stato `WaitScreen` (se aperta), testo di `HUD/TimeLabel`.
 
 Sezioni interattive (costruite una volta in `_build_*`, display aggiornato da `_refresh()`):
 - **TTK Sim** → `CombatSimulator.run_validation()`
 - **LootTools** — simula drop nemico/chest/ground, genera istanze, apre LootScreen, testa idempotenza identify, invalida cache
 - **DevClassSwitch** — griglia per tier con bottoni per ogni classe (colore per tier, grigio = planned)
 - **Validatori JSON** — esegue `validate_items/affixes/loot_tables/classes.gd` e mostra risultato inline
+- **TimeTools** — `+1h` / `+8h` / `+1 giorno` (`TimeManager.advance(N)`) + `Reset` (`total_minutes = 480`); header collassabile azzurro
 - **FactionTools** *(Fase 16)* — blocco collassabile viola:
   - *Rep table* (`_faction_rep_rtl`) — tutte le fazioni con rep numerica + colore per stato (`STATE_HEX`) + badge `M[rank]`/`S`
   - *Rep editor* — `OptionButton` (sorted) + delta ±10/±25/±50 + `CheckButton` propagazione + "Reset All Rep"

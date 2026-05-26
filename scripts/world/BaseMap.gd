@@ -34,6 +34,7 @@ func _ready() -> void:
 	_setup_turn_manager()
 	EventBus.player_moved.connect(_on_player_moved)
 	EventBus.day_slot_changed.connect(_on_day_slot_changed)
+	_on_day_slot_changed(TimeManager.get_slot())
 	_on_player_moved(GameState.player_position)
 
 

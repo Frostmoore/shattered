@@ -106,8 +106,15 @@ UI_INV_IDENTIFY_ALREADY,Questo oggetto è già identificato.
 UI_INV_JUNK_BTN,🗑 Getta tutto
 UI_INV_JUNK_TITLE,Getta ciarpame
 UI_INV_JUNK_CONFIRM,Eliminare {count} materiali dall'inventario?
+UI_WAIT_TITLE,ATTENDI
+UI_WAIT_FROM,Da:
+UI_WAIT_TO,A:
+UI_WAIT_NOW,Ora:
+UI_WAIT_START,Inizio:
+UI_WAIT_HOURS,{n} ore
+UI_WAIT_BTN,Aspetta
 UI_COMBATBAR_EXPLORE,Esplora il mondo...
-UI_COMBATBAR_WAIT,[Q] Aspetta
+UI_COMBATBAR_WAIT,[R] Aspetta
 UI_COMBATBAR_FLEE,[F] Fuggi
 UI_COMBATBAR_INVENTORY,[I] Inventario
 UI_COMBATBAR_MENU,[Esc] Menu
@@ -159,3 +166,21 @@ UI_FACTION_AMBUL_ALREADY_OPEN,Un ambulatorio è già aperto in questa città.
 UI_FACTION_AMBUL_OPENED,Ambulatorio aperto.
 UI_FACTION_SAFE_HOUSE_FOUND,Rifugio sicuro individuato.
 UI_FACTION_NO_BOUNTY,Non hai taglie attive.
+TIME_PHASE_ALBA,Alba
+TIME_PHASE_GIORNO,Giorno
+TIME_PHASE_TRAMONTO,Tramonto
+TIME_PHASE_NOTTE,Notte
+TIME_MONTH_1,Nevargento
+TIME_MONTH_2,Brumafonda
+TIME_MONTH_3,Fioralba
+TIME_MONTH_4,Verdeluce
+TIME_MONTH_5,Seminoro
+TIME_MONTH_6,Solcaldo
+TIME_MONTH_7,Altosole
+TIME_MONTH_8,Granarso
+TIME_MONTH_9,Rossovento
+TIME_MONTH_10,Vendemmiale
+TIME_MONTH_11,Cineroggia
+TIME_MONTH_12,Notteprima
+TIME_FORMAT_DATE,{day} {month} {year} C
+TIME_FORMAT_FULL,{date} — {phase}

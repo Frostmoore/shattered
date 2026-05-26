@@ -1,10 +1,13 @@
 extends Entity
 class_name Player
 
+enum Action { MOVE = 0, ATTACK = 1, USE_ITEM = 2, INTERACT = 3, WAIT = 4 }
+
 var _can_act: bool = true
 var _god_mode: bool = false
 var _loot_source_map: BaseMap = null
 var _loot_source_pos: Vector2i = Vector2i.ZERO
+var _last_action: int = Action.MOVE
 
 # Hold-to-move state
 var _hold_dir: Vector2i = Vector2i.ZERO
@@ -75,6 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("class_ability"):
 		var runtime: Node = get_node_or_null("/root/ClassRuntime")
 		if runtime and runtime.can_use_active():
+			_last_action = Action.ATTACK
 			if runtime.call("uses_targeting"):
 				runtime.call("start_targeting", self)
 				# _action_done() chiamato da confirm_targeting dopo la scelta del tile
@@ -137,11 +141,13 @@ func _try_move(dir: Vector2i) -> void:
 	var entity_at: Node = map.get_entity_at(target)
 	if entity_at != null:
 		if entity_at.faction == "enemy":
+			_last_action = Action.ATTACK
 			CombatManager.attack(self, entity_at)
 			_action_done()
 			return
 		if entity_at.get("npc_id") != null:
 			var has_amuleto: bool = Equipment.is_equipped("amuleto_del_sangue")
+			_last_action = Action.ATTACK
 			CombatManager.attack(self, entity_at)
 			if has_amuleto:
 				_action_done()
@@ -170,7 +176,11 @@ func _try_move(dir: Vector2i) -> void:
 	move_to(target)
 	GameState.player_position = target
 	EventBus.player_moved.emit(target)
-	_action_done()
+	_last_action = Action.MOVE
+	if map.map_type == "overworld":
+		_action_done(_get_move_cost_overworld())
+	else:
+		_action_done()
 
 
 func _try_interact() -> void:
@@ -186,6 +196,7 @@ func _try_interact() -> void:
 		var adj: Vector2i = grid_position + d
 		var entity_at: Node = map.get_entity_at(adj)
 		if entity_at != null and entity_at.has_method("interact"):
+			_last_action = Action.INTERACT
 			entity_at.interact(self)
 			_action_done()
 			return
@@ -202,6 +213,7 @@ func _try_interact() -> void:
 			_loot_source_pos = adj
 			EventBus.loot_screen_closed.connect(_on_corpse_loot_closed, CONNECT_ONE_SHOT)
 			EventBus.loot_screen_open.emit(loot, "Cadavere")
+		_last_action = Action.INTERACT
 		_action_done()
 		return
 
@@ -232,7 +244,12 @@ func _use_save_point() -> void:
 	)
 
 
-func _action_done() -> void:
+func _action_done(override_cost: int = -1) -> void:
+	var map: BaseMap = WorldManager.get_current_map()
+	if map != null:
+		var cost: int = override_cost if override_cost >= 0 \
+			else TimeManager.get_action_cost(map.map_type, _last_action)
+		TimeManager.advance(cost)
 	EventBus.turn_ended.emit(self)
 	TurnManager.on_player_action_done()
 
@@ -262,6 +279,7 @@ func flee_attempt() -> void:
 		return
 	if randf() > 0.70:
 		EventBus.combat_log.emit("Non riesci a fuggire!")
+		_last_action = Action.MOVE
 		_action_done()
 		return
 	var dirs: Array[Vector2i] = [Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0)]
@@ -272,9 +290,11 @@ func flee_attempt() -> void:
 			GameState.player_position = target
 			EventBus.player_moved.emit(target)
 			EventBus.combat_log.emit("Ti allontani dal nemico!")
+			_last_action = Action.MOVE
 			_action_done()
 			return
 	EventBus.combat_log.emit("Sei circondato, impossibile fuggire!")
+	_last_action = Action.MOVE
 	_action_done()
 
 
@@ -285,6 +305,12 @@ func _on_corpse_loot_closed(remaining: Array) -> void:
 		else:
 			_loot_source_map.set_corpse_loot_at(_loot_source_pos, remaining)
 	_loot_source_map = null
+
+
+func _get_move_cost_overworld() -> int:
+	var terrain_mult: float = 1.0   # placeholder — Overworld System
+	var mount_mult: float   = 1.0   # placeholder — Mount System
+	return ceili(240.0 * terrain_mult * mount_mult)
 
 
 func _on_dialogue_started(_id: String) -> void:

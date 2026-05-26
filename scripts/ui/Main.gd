@@ -23,6 +23,7 @@ var _pending_char: String  = ""
 var _pending_pd: bool      = false
 
 
+
 func _ready() -> void:
 	WorldManager.init(map_container)
 	hud.visible = false
@@ -192,11 +193,15 @@ func _start_new_game(world_name: String, char_name: String,
 		permadeath_enabled: bool = false, class_id: String = "noob") -> void:
 	get_tree().paused = false
 	WorldManager.discard_current_map()
-	_reset_game_state(world_name, char_name, permadeath_enabled, class_id)
+	var start_minutes: int = 480
 	if WorldSaveManager.has_world(world_name):
+		var world_max: int = WorldSaveManager.get_world_max_minutes(world_name)
+		start_minutes = (int(world_max / 1440.0) + 1) * 1440 + 480
+		_reset_game_state(world_name, char_name, permadeath_enabled, class_id, start_minutes)
 		WorldSaveManager.load_world(world_name)
 		LocationRegistry.clear_states()
 	else:
+		_reset_game_state(world_name, char_name, permadeath_enabled, class_id)
 		WorldSaveManager.generate_new_world(world_name)
 	_launch_game("overworld", Vector2i(5, 5))
 
@@ -260,6 +265,7 @@ func _hide_options() -> void:
 
 func _go_to_main_menu() -> void:
 	_game_started = false
+	get_tree().paused = false
 	pause_menu.visible = false
 	quest_journal.visible = false
 	if _faction_screen:
@@ -311,12 +317,13 @@ func _on_restart() -> void:
 
 
 func _reset_game_state(world_name: String, char_name: String, permadeath: bool = false,
-		class_id: String = "noob") -> void:
+		class_id: String = "noob", start_minutes: int = 480) -> void:
 	GameState.world_name      = world_name
 	GameState.character_name  = char_name
 	GameState.permadeath      = permadeath
 	GameState.level           = 1
 	GameState.xp              = 0
+	GameState.total_minutes   = start_minutes
 	GameState.current_map_id  = "overworld"
 	GameState.player_position = Vector2i(5, 5)
 	GameState.run_milestones  = {}

@@ -57,6 +57,7 @@ func _save_character(world_name: String, char_name: String) -> void:
 		"faction_membership":     GameState.character_faction_membership.duplicate(true),
 		"criminal_record":        GameState.criminal_record.duplicate(true),
 		"known_faction_members":  GameState.known_faction_members.duplicate(true),
+		"total_minutes":          GameState.total_minutes,
 	}
 	var path: String = get_char_path(world_name, char_name)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
@@ -229,6 +230,8 @@ func _apply_save_data(data: Dictionary, world_name: String, char_name: String) -
 
 	EventBus.equipment_changed.emit()
 	EventBus.quick_slots_changed.emit()
+
+	GameState.total_minutes = int(data.get("total_minutes", 480))
 
 	var raw_pa: Variant = data.get("permanent_allies", [])
 	if raw_pa is Array:

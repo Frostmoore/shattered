@@ -111,17 +111,67 @@ func _link_floor_transitions(floors: Array, dungeon_id: String, floor_count: int
 
 
 
+func _read_character_timestamps(world_name: String) -> Dictionary:
+	var path: String = get_world_path(world_name)
+	if not FileAccess.file_exists(path):
+		return {}
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if not file:
+		return {}
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	file.close()
+	if not parsed is Dictionary:
+		return {}
+	var meta: Variant = (parsed as Dictionary).get("meta", {})
+	if not meta is Dictionary:
+		return {}
+	var ts: Variant = (meta as Dictionary).get("character_timestamps", {})
+	if ts is Dictionary:
+		return (ts as Dictionary).duplicate()
+	return {}
+
+
+func get_world_max_minutes(world_name: String) -> int:
+	var path: String = get_world_path(world_name)
+	if not FileAccess.file_exists(path):
+		return 0
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if not file:
+		return 0
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	file.close()
+	if not parsed is Dictionary:
+		return 0
+	var meta: Variant = (parsed as Dictionary).get("meta", {})
+	if not meta is Dictionary:
+		return 0
+	var meta_dict: Dictionary = meta as Dictionary
+	# New format: per-character timestamps
+	var ts: Variant = meta_dict.get("character_timestamps", null)
+	if ts is Dictionary and not (ts as Dictionary).is_empty():
+		var max_min: int = 0
+		for v: Variant in (ts as Dictionary).values():
+			max_min = maxi(max_min, int(v))
+		return max_min
+	# Backward compat: old scalar world_max_minutes
+	return int(meta_dict.get("world_max_minutes", 0))
+
+
 func save_world(world_name: String) -> void:
 	var dir: String = SAVE_DIR + world_name + "/"
 	DirAccess.make_dir_recursive_absolute(dir)
 	var path: String = get_world_path(world_name)
+	var timestamps: Dictionary = _read_character_timestamps(world_name)
+	if GameState.character_name != "":
+		timestamps[GameState.character_name] = GameState.total_minutes
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if file:
 		var world_data: Dictionary = {
 			"meta": {
-				"world_seed":    GameState.world_seed,
-				"danger_rating": GameState.danger_rating,
-				"budget_curve":  GameState.budget_curve,
+				"world_seed":           GameState.world_seed,
+				"danger_rating":        GameState.danger_rating,
+				"budget_curve":         GameState.budget_curve,
+				"character_timestamps": timestamps,
 			},
 			"locations":   LocationRegistry.serialize_definitions(),
 			"world_state": WorldState.serialize(),

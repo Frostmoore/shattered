@@ -117,7 +117,7 @@ func _draw() -> void:
 	_draw_corpses(map, use_fov, tile_overlay if night_overlay_mode else {})
 
 	# Entities
-	_draw_entities(map, tile_overlay if night_overlay_mode else {})
+	_draw_entities(map, use_fov, tile_overlay if night_overlay_mode else {})
 
 	# Light source glyphs always on top (full brightness, never overlaid)
 	if map._lights_active:
@@ -175,7 +175,7 @@ func _draw_corpses(map: BaseMap, use_fov: bool, tile_overlay: Dictionary) -> voi
 		)
 
 
-func _draw_entities(map: BaseMap, tile_overlay: Dictionary) -> void:
+func _draw_entities(map: BaseMap, use_fov: bool, tile_overlay: Dictionary) -> void:
 	var night_overlay_mode: bool = not tile_overlay.is_empty()
 	for child: Node in map.get_children():
 		if not (child is Entity) or child is Player:
@@ -198,10 +198,13 @@ func _draw_entities(map: BaseMap, tile_overlay: Dictionary) -> void:
 			else:
 				entity.visible = true
 				entity.modulate = Color.WHITE.darkened(ov * 0.8)
+		elif use_fov:
+			# Dungeon: mostra solo se la tile è nel FOV corrente
+			entity.visible = map.is_tile_visible(entity.grid_position) > 0
+			entity.modulate = Color.WHITE
 		else:
-			# Dungeon / daytime: show only if tile is currently visible in FOV
-			var visible_tile: int = map.is_tile_visible(entity.grid_position)
-			entity.visible = visible_tile > 0
+			# Giorno in villaggio/città/edificio: sempre visibile
+			entity.visible = true
 			entity.modulate = Color.WHITE
 
 

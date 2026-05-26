@@ -178,6 +178,14 @@ static func crime_safe_house() -> Notification:
 	return n
 
 
+static func wait_finished(hours: int, new_time: String) -> Notification:
+	var n := Notification.new()
+	n.text     = LocaleManager.t("NOTIF_WAIT_DONE", {"hours": str(hours), "time": new_time})
+	n.color    = Color(0.6, 0.9, 1.0)
+	n.duration = 3.0
+	return n
+
+
 static func faction_rep_delta(faction_name: String, delta: int) -> Notification:
 	var n    := Notification.new()
 	var delta_prefix := "+" if delta > 0 else ""

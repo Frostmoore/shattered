@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://waitscreen"]
+
+[ext_resource type="Script" path="res://scripts/ui/WaitScreen.gd" id="1_ws"]
+
+[node name="WaitScreen" type="CanvasLayer"]
+layer = 10
+visible = false
+script = ExtResource("1_ws")

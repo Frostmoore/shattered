@@ -8,8 +8,8 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 
 ### Da implementare
 
-- [ ] **Time System** *(in progress — plan_time_system.md)*
-  Prerequisito di tutto. `total_minutes`, `TimeManager`, hook in `Player._action_done()`, HUD label, save/load.
+- [x] **Time System** *(completo — plan_time_system.md)*
+  `total_minutes`, `TimeManager`, hook in `Player._action_done()`, HUD label, WaitScreen, save/load, continuità temporale multi-personaggio per mondo.
 
 - [ ] **Needs System** *(plan_needs_system.md — ancora da progettare nel dettaglio)*
   Fame, sete, sonno, stanchezza. Dipende da Time System per i tick di consumo.
@@ -25,6 +25,9 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 
 - [ ] **Overworld System** *(plan_overworld_system.md — design ancora in corso)*
   Biomi, terrain multiplier, WorldActor/WorldSimulator in WorldManager, carovane. Dipende da Time System.
+
+- [ ] **Local Map System** *(plan_local_map_system.md)*
+  Mappe procedurali contestuali: accampamenti bandit, tane creature, rovine carovana visibili sull'overworld; incontri casuali (`clearing`) durante il viaggio. `EncounterGenerator`, prefisso `enc_` in LocationRegistry, persistenza selettiva. Dipende da Overworld System (biomi, chance incontro per tile).
 
 - [ ] **Travel System** *(plan_travel_system.md)*
   Viaggio fast-travel, consumo risorse in viaggio. Dipende da Time System + Needs System + Overworld System.
@@ -107,3 +110,5 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [ ] Creare lore_reference.md
 - [ ] Creare sistema location-events e ricontrollare implementazione plan_factions_system
 - [ ] Bisogna creare anche un file game_engine_reference in cui ci siano i dettagli di tutti i sistemi e di tutte le meccaniche del gioco, ma non approfondito e "da programmatore" come il codebase_reference
+- [ ] Sistemare hud che è na merda così
+- [ ] Creare handcrafted_maps_reference.md

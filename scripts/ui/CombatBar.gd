@@ -16,6 +16,11 @@ signal open_menu_requested()
 var _in_combat: bool = false
 var _slot_btns: Array[Button] = []
 
+var _wait_hold_timer:  float = 0.0
+var _wait_screen_open: bool  = false
+var _wait_screen:      Node  = null
+const WAIT_HOLD_THRESHOLD: float = 0.4
+
 
 func _ready() -> void:
 	visible = false
@@ -29,7 +34,8 @@ func _ready() -> void:
 	EventBus.inventory_changed.connect(_refresh_slots)
 	EventBus.quick_slots_changed.connect(_refresh_slots)
 
-	wait_btn.pressed.connect(_on_wait)
+	wait_btn.text = LocaleManager.t("UI_COMBATBAR_WAIT")
+	wait_btn.pressed.connect(_on_quick_wait)
 	flee_btn.pressed.connect(_on_flee)
 	inventory_btn.pressed.connect(func() -> void: use_item_requested.emit())
 	menu_btn.pressed.connect(func() -> void: open_menu_requested.emit())
@@ -40,6 +46,10 @@ func _ready() -> void:
 
 	_set_combat_buttons_active(false)
 	_refresh_slots()
+
+	_wait_screen = get_node_or_null("/root/Main/WaitScreen")
+	if _wait_screen != null:
+		_wait_screen.wait_completed.connect(_on_wait_screen_closed)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -58,10 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				KEY_3:
 					get_viewport().set_input_as_handled()
 					_use_slot(2)
-	if event.is_action_pressed("action_wait") and _in_combat:
-		get_viewport().set_input_as_handled()
-		_on_wait()
-	elif event.is_action_pressed("action_flee") and _in_combat:
+	if event.is_action_pressed("action_flee") and _in_combat:
 		get_viewport().set_input_as_handled()
 		_on_flee()
 
@@ -125,9 +132,39 @@ func _use_slot(idx: int) -> void:
 	Inventory.use_item(item_id)
 
 
-func _on_wait() -> void:
-	if not TurnManager.is_player_turn:
+func _process(delta: float) -> void:
+	if TurnManager.is_active and not TurnManager.is_player_turn:
+		_wait_hold_timer = 0.0
 		return
+	if _wait_screen_open:
+		return
+	if Input.is_action_pressed("action_wait"):
+		_wait_hold_timer += delta
+		if _wait_hold_timer >= WAIT_HOLD_THRESHOLD:
+			_wait_hold_timer  = 0.0
+			_wait_screen_open = true
+			if not _in_combat and _wait_screen != null:
+				_wait_screen.open()
+			else:
+				_on_quick_wait()
+				_wait_screen_open = false
+	elif _wait_hold_timer > 0.0:
+		if _wait_hold_timer < WAIT_HOLD_THRESHOLD:
+			_on_quick_wait()
+		_wait_hold_timer = 0.0
+
+
+func _on_wait_screen_closed() -> void:
+	_wait_screen_open = false
+	_wait_hold_timer  = 0.0
+
+
+func _on_quick_wait() -> void:
+	if TurnManager.is_active and not TurnManager.is_player_turn:
+		return
+	var map: BaseMap = WorldManager.get_current_map()
+	if map != null:
+		TimeManager.advance(TimeManager.get_action_cost(map.map_type, 4))
 	_set_combat_buttons_active(false)
 	TurnManager.on_player_action_done()
 

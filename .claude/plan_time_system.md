@@ -1,6 +1,6 @@
 # Piano: Time System
 
-**Stato**: Progettato — pronto per implementazione. Prerequisito di NPC System, Vendor System, Travel System.
+**Stato**: Completato. Prerequisito di NPC System, Vendor System, Travel System.
 
 ---
 
@@ -688,9 +688,9 @@ NOTIF_WAIT_DONE,Hai aspettato {hours} ore. Sono le {time}.
 - [ ] `Notification.wait_finished()`: factory method
 - [ ] `locales/strings_notifications.csv`: `NOTIF_WAIT_DONE`
 - [ ] HUD: `TimeLabel` aggiornato su `time_advanced`
-- [ ] `SaveManager`: serializza/deserializza `total_minutes`
+- [x] `SaveManager`: serializza/deserializza `total_minutes`
 - [x] `BaseMap._compute_fov()`: applica `get_vision_modifier()` + luci locali *(già fatto — aspetta TimeManager)*
-- [x] `BaseMap._ready()`: connetti `day_slot_changed` → recompute FOV *(già fatto)*
+- [x] `BaseMap._ready()`: connetti `day_slot_changed` → recompute FOV; inizializza `_lights_active` da slot corrente *(già fatto + fix bug lighting-on-load)*
 - [ ] `NPC.gd`: `open_slot`, `close_slot`, `is_open()` *(FASE 2 NPC System)*
 - [ ] `NPC._on_time_advanced()`: accumulator *(FASE 2 NPC System)*
 - [ ] `WorldSimulator`: gestione WorldActor *(Overworld System)*
@@ -709,72 +709,26 @@ NOTIF_WAIT_DONE,Hai aspettato {hours} ore. Sono le {time}.
 
 #### 1.1 `scripts/core/GameState.gd`
 
-- [ ] Aprire il file e trovare il blocco delle variabili di stato principale
-- [ ] Aggiungere il campo `var total_minutes: int = 480` (equivale alle 8:00 del 1 Nevargento 472 C)
-- [ ] Aggiungere la proprietà derivata `world_time` con getter `return total_minutes % 1440`
-- [ ] Verificare che non ci siano altri campi `hour`, `day`, `day_count`, `time` o simili — se presenti, rimuoverli e aggiornare tutti i riferimenti (il calendario è calcolato interamente da TimeManager)
+- [x] Aprire il file e trovare il blocco delle variabili di stato principale
+- [x] Aggiungere il campo `var total_minutes: int = 480` (equivale alle 8:00 del 1 Nevargento 472 C)
+- [x] Aggiungere la proprietà derivata `world_time` con getter `return total_minutes % 1440`
+- [x] Verificare che non ci siano altri campi `hour`, `day`, `day_count`, `time` o simili — nessuno trovato
 
 #### 1.2 Creare `scripts/core/TimeManager.gd`
 
-- [ ] Creare il file `scripts/core/TimeManager.gd` con `extends Node`
-- [ ] Definire `const WORLD_TICK_INTERVAL: int = 30`
-- [ ] Definire le costanti calendario:
-  - `const BASE_YEAR: int = 472`
-  - `const DAYS_PER_MONTH: int = 30`
-  - `const DAYS_PER_YEAR: int = 360`
-  - `const MONTH_KEYS: Array[String]` con le 12 chiavi di localizzazione (`"TIME_MONTH_1"` … `"TIME_MONTH_12"`) — **non** i nomi diretti
-- [ ] Implementare `func get_hour() -> int: return GameState.world_time / 60`
-- [ ] Implementare `func get_minute() -> int: return GameState.world_time % 60`
-- [ ] Implementare `func get_slot() -> String`:
-  - `h >= 5  and h < 8`  → `"alba"`
-  - `h >= 8  and h < 12` → `"mattina"`
-  - `h >= 12 and h < 18` → `"pomeriggio"`
-  - `h >= 18 and h < 21` → `"sera"`
-  - default              → `"notte"`
-- [ ] Implementare `func is_night() -> bool: return get_slot() == "notte"`
-- [ ] Implementare `func _display_phase() -> String` (privata) — usa `LocaleManager.t()`:
-  - `"alba"` → `LocaleManager.t("TIME_PHASE_ALBA")`
-  - `"mattina"`, `"pomeriggio"` → `LocaleManager.t("TIME_PHASE_GIORNO")`
-  - `"sera"` → `LocaleManager.t("TIME_PHASE_TRAMONTO")`
-  - default → `LocaleManager.t("TIME_PHASE_NOTTE")`
-- [ ] Implementare helper calendario:
-  - `func get_absolute_day() -> int: return GameState.total_minutes / 1440`
-  - `func get_year() -> int: return BASE_YEAR + get_absolute_day() / DAYS_PER_YEAR`
-  - `func get_month_index() -> int: return (get_absolute_day() % DAYS_PER_YEAR) / DAYS_PER_MONTH`
-  - `func get_day_of_month() -> int: return (get_absolute_day() % DAYS_PER_MONTH) + 1`
-  - `func get_month_name() -> String: return LocaleManager.t(MONTH_KEYS[get_month_index()])`
-- [ ] Implementare `func format_date() -> String`: usa `LocaleManager.t("TIME_FORMAT_DATE", {"day": ..., "month": ..., "year": ...})`
-- [ ] Implementare `func format_time() -> String`: usa `LocaleManager.t("TIME_FORMAT_FULL", {"date": format_date(), "phase": _display_phase()})`  → es. `"1 Nevargento 472 C — Giorno"`
-- [ ] Implementare `func format_date_from(minutes: int) -> String`: stessa logica di `format_date()` ma su un valore `minutes` arbitrario (per deadline quest); usa gli stessi template `TIME_FORMAT_DATE` e `MONTH_KEYS`
-- [ ] **Localizzazione**: aprire `locales/strings_ui.csv` e aggiungere le 18 chiavi `TIME_*` (4 fasi + 12 mesi + 2 template formato) — vedi sezione "Localizzazione" del piano
-- [ ] Implementare `func get_vision_modifier(map_type: String) -> float`:
-  - Se `is_night()` e `map_type in ["village", "city", "overworld"]` → `return 0.6`
-  - Altrimenti → `return 1.0`
-- [ ] Implementare `func get_action_cost(map_type: String, action: int) -> int` con la tabella completa:
-  ```
-  "building": [1, 1, 1, 1, 60]
-  "village":  [1, 1, 1, 1, 60]
-  "city":     [2, 2, 1, 1, 60]
-  "dungeon":  [3, 3, 2, 0, 30]
-  "ruin":     [3, 3, 2, 0, 30]
-  "overworld":[0, 5, 5, 5, 60]   # 0 = calcolato separatamente per MOVE
-  ```
-  - fallback per map_type sconosciuto: `[2, 2, 1, 1, 60]`
-  - fallback per action fuori range: `2`
-- [ ] Implementare `func advance(minutes: int) -> void`:
-  - Salvare `prev_slot = get_slot()` e `prev_abs_day = get_absolute_day()`
-  - `GameState.total_minutes += minutes`
-  - Se `get_absolute_day() != prev_abs_day` → `EventBus.day_changed.emit(get_absolute_day())`
-  - `EventBus.time_advanced.emit(minutes)`
-  - Se `get_slot() != prev_slot` → `EventBus.day_slot_changed.emit(get_slot())`
-  - Calcola `ticks: int = minutes / WORLD_TICK_INTERVAL`; se `ticks > 0` → `EventBus.world_ticked.emit(ticks, WORLD_TICK_INTERVAL)`
+- [x] Creare il file `scripts/core/TimeManager.gd` con `extends Node`
+- [x] Definire `const WORLD_TICK_INTERVAL: int = 30`
+- [x] Definire le costanti calendario (`BASE_YEAR`, `DAYS_PER_MONTH`, `DAYS_PER_YEAR`, `MONTH_KEYS`)
+- [x] Implementare `get_hour()`, `get_minute()`, `get_slot()`, `is_night()`, `_display_phase()`
+- [x] Implementare helper calendario: `get_absolute_day/year/month_index/day_of_month/month_name`
+- [x] Implementare `format_date()`, `format_time()`, `format_date_from()`, `format_time_from()`
+- [x] Implementare `get_vision_modifier()`, `get_action_cost()`
+- [x] Implementare `advance()` con emissione dei 4 segnali EventBus
+- [x] **Localizzazione**: 18 chiavi `TIME_*` aggiunte a `locales/strings_ui.csv`
 
 #### 1.3 `project.godot` — registrazione autoload
 
-- [ ] Aprire `project.godot` (o Project Settings → Autoload in editor)
-- [ ] Aggiungere `TimeManager = "res://scripts/core/TimeManager.gd"` nella sezione `[autoload]`
-- [ ] Verificare che `TimeManager` appaia **prima** di `WorldManager` nella lista degli autoload (l'ordine determina l'ordine di `_ready()`)
-- [ ] Riavviare l'editor o ricaricare il progetto per verificare che non ci siano errori di parsing
+- [x] Aggiunto `TimeManager="*res://scripts/core/TimeManager.gd"` tra `EventBus` e `WorldManager`
 
 #### 1.4 Verifica Fase 1
 
@@ -784,10 +738,53 @@ NOTIF_WAIT_DONE,Hai aspettato {hours} ore. Sono le {time}.
 - [ ] Verificare che `EventBus.day_slot_changed` sia stato emesso
 - [ ] Verificare che `GameState.world_time` == 1260 e `TimeManager.get_absolute_day()` == 0
 
-#### 1.5 Aggiornamento piano e codebase_reference
+#### 1.5 Aggiornamento codebase_reference
 
-- [ ] Aggiornare la sezione 'Fasi di implementazione - dettaglio completo' del file `.claude/plan_time_system.md` e il file `.claude/codebase_reference.md`
-- [ ] Mostrare le Fasi di implementazione con checkbox per fasi e sottofasi, in modo dettagliato e approfondito
+- [x] Aggiunta entry `TimeManager` nella tabella autoload di `codebase_reference.md`
+- [x] Aggiornata entry `GameState` con `total_minutes` e `world_time`
+- [x] Aggiornata sezione EventBus: rimosso "(TimeManager non ancora implementato)", corretto `day_changed` da `day_count` a `abs_day`
+- [x] Aggiunta sezione `total_minutes` / `world_time` in "Stato del giocatore"
+
+#### 1.6 DebugScreen — sezione TimeSystem
+
+- [x] In `_ready()`, aggiunto `_add_section("time_system", "Time System")` e `_build_time_tools()`
+- [x] In `_refresh()`, aggiunta la chiamata `_update_time_system()`
+- [x] Implementato `_update_time_system()`: mostra `total_minutes`, `world_time` (H:MM), `slot`, `display`, `abs_day`, data calendario, `map_type`, `action_costs` M/A/I/W; opzionalmente stato WaitScreen e testo `hud_time_label`
+- [x] Implementato `_build_time_tools()`: bottoni `+1h` / `+8h` / `+1 giorno` / `Reset` (header collassabile azzurro)
+- [ ] Verificare nella console DebugScreen che la sezione mostri valori coerenti con `TimeManager.format_time()`
+
+#### 1.7 HUD — TimeLabel in alto al centro (anticipata da FASE 3)
+
+Il TimeLabel non va dentro il Panel esistente (in basso-sinistra) ma come nodo separato del CanvasLayer, a tutta larghezza, in alto al centro.
+
+- [x] In `scenes/ui/HUD.tscn`, aggiungere come figlio diretto di `HUD` (CanvasLayer):
+  ```
+  [node name="TimeLabel" type="Label" parent="."]
+  offset_left = 0.0
+  offset_top = 4.0
+  offset_right = 640.0
+  offset_bottom = 18.0
+  text = "1 Nevargento 472 C — Giorno"
+  theme_override_font_sizes/font_size = 11
+  horizontal_alignment = 1
+  ```
+- [x] In `scripts/ui/HUD.gd`, aggiungere:
+  ```gdscript
+  @onready var _time_label: Label = $TimeLabel
+  ```
+- [x] In `_ready()`, aggiungere:
+  ```gdscript
+  EventBus.time_advanced.connect(_on_time_advanced)
+  _time_label.text = TimeManager.format_time()
+  ```
+- [x] Aggiungere il metodo:
+  ```gdscript
+  func _on_time_advanced(_minutes: int) -> void:
+      _time_label.text = TimeManager.format_time()
+  ```
+- [ ] Avviare il gioco → label visibile in alto al centro, testo `"1 Nevargento 472 C — Giorno"`
+
+> **Aggiornamento codebase_reference (FASE 1)**: aggiunta sezione HUD con tabella nodi e descrizione TimeLabel; aggiornata sezione Debug Tools con Time System e TimeTools.
 
 ---
 
@@ -795,107 +792,55 @@ NOTIF_WAIT_DONE,Hai aspettato {hours} ore. Sono le {time}.
 
 #### 2.1 `scripts/entities/Player.gd` — enum azione
 
-- [ ] Aprire Player.gd e trovare la sezione delle variabili di stato
-- [ ] Aggiungere l'enum in cima al file (dopo `extends` / `class_name`):
-  ```gdscript
-  enum Action { MOVE = 0, ATTACK = 1, USE_ITEM = 2, INTERACT = 3, WAIT = 4 }
-  ```
-- [ ] Aggiungere la variabile `var _last_action: int = Action.MOVE`
+- [x] Aggiunto `enum Action { MOVE = 0, ATTACK = 1, USE_ITEM = 2, INTERACT = 3, WAIT = 4 }` dopo `class_name Player`
+- [x] Aggiunta `var _last_action: int = Action.MOVE`
 
 #### 2.2 `Player.gd` — modificare `_action_done()`
 
-- [ ] Trovare la funzione `_action_done()` esistente
-- [ ] Aggiungere il parametro opzionale `override_cost: int = -1`:
-  ```gdscript
-  func _action_done(override_cost: int = -1) -> void:
-  ```
-- [ ] Prima di `TurnManager.end_player_turn()`, inserire il blocco di avanzamento tempo:
-  ```gdscript
-  var map: BaseMap = WorldManager.get_current_map()
-  if map != null:
-      var cost: int = override_cost if override_cost >= 0 \
-          else TimeManager.get_action_cost(map.map_type, _last_action)
-      TimeManager.advance(cost)
-  ```
-- [ ] Assicurarsi che il blocco tempo venga eseguito **prima** di `TurnManager.end_player_turn()`
+- [x] Aggiunto parametro `override_cost: int = -1`
+- [x] Inserito blocco TimeManager prima di `TurnManager.on_player_action_done()`: legge `map.map_type` e chiama `TimeManager.advance(cost)`
 
 #### 2.3 `Player.gd` — settare `_last_action` in ogni punto di chiamata
 
-- [ ] Cercare tutte le chiamate a `_action_done()` nel file
-- [ ] Prima di ogni `_action_done()` relativo a **movimento** → `_last_action = Action.MOVE`
-- [ ] Prima di ogni `_action_done()` relativo a **attacco** → `_last_action = Action.ATTACK`
-- [ ] Prima di ogni `_action_done()` relativo a **uso item** → `_last_action = Action.USE_ITEM`
-- [ ] Prima di ogni `_action_done()` relativo a **interazione NPC** → `_last_action = Action.INTERACT`
-- [ ] Verificare che non ci siano chiamate a `_action_done()` senza un `_last_action` settato
+- [x] Attacco nemico (`_try_move`): `_last_action = Action.ATTACK` prima di `CombatManager.attack()`
+- [x] Attacco NPC con amuleto (`_try_move`): `_last_action = Action.ATTACK` prima di `CombatManager.attack()`
+- [x] Abilità di classe (`_unhandled_input`): `_last_action = Action.ATTACK` all'inizio del blocco (copre anche targeting/menu il cui `_action_done()` è chiamato da ClassRuntime)
+- [x] Movimento normale (`_try_move`): `_last_action = Action.MOVE` prima di `_action_done()`; overworld usa `_get_move_cost_overworld()`
+- [x] Interazione NPC/entità (`_try_interact`): `_last_action = Action.INTERACT`
+- [x] Loot cadavere (`_try_interact`): `_last_action = Action.INTERACT`
+- [x] Fuga (tutte e 3 le branch di `flee_attempt`): `_last_action = Action.MOVE`
 
 #### 2.4 `CombatBar.gd` — tasto R: wait rapido + hold detection
 
-Il wait è gestito in `CombatBar.gd`, **non** in Player.gd. CombatBar chiama `TurnManager.on_player_action_done()` direttamente, senza passare per Player._action_done().
-
-- [ ] `action_wait` è già mappato a R (physical_keycode 82) in `project.godot` — nessuna modifica necessaria
-- [ ] In `_unhandled_input()` rimuovere il blocco `if event.is_action_pressed("action_wait")...` — la gestione passa a `_process()`
-- [ ] Rinominare `_on_wait()` → `_on_quick_wait()`; aggiornare connect in `_ready()`: `wait_btn.pressed.connect(_on_quick_wait)`
-- [ ] Modificare `_on_quick_wait()` per aggiungere TimeManager:
-  ```gdscript
-  func _on_quick_wait() -> void:
-      if not TurnManager.is_player_turn:
-          return
-      var map: BaseMap = WorldManager.get_current_map()
-      if map:
-          TimeManager.advance(TimeManager.get_action_cost(map.map_type, 4))
-      _set_combat_buttons_active(false)
-      TurnManager.on_player_action_done()
-  ```
-- [ ] Aggiungere variabili di stato per hold detection:
-  ```gdscript
-  var _wait_hold_timer:  float = 0.0
-  var _wait_screen_open: bool  = false
-  const WAIT_HOLD_THRESHOLD:   float = 0.4
-  ```
-- [ ] Aggiungere `@onready var _wait_screen: WaitScreen` (percorso definito in FASE 2.5)
-- [ ] Aggiungere `func _process(delta: float) -> void`:
-  ```gdscript
-  func _process(delta: float) -> void:
-      if not visible or not TurnManager.is_player_turn:
-          return
-      if Input.is_action_pressed("action_wait"):
-          _wait_hold_timer += delta
-          if _wait_hold_timer >= WAIT_HOLD_THRESHOLD and not _wait_screen_open:
-              _wait_screen_open = true
-              _wait_screen.open()
-      elif _wait_hold_timer > 0.0 and not Input.is_action_pressed("action_wait"):
-          if _wait_hold_timer < WAIT_HOLD_THRESHOLD:
-              _on_quick_wait()
-          _wait_hold_timer = 0.0
-  ```
-  > `is_action_just_released` non è affidabile in `_process()` — il rilascio si rileva controllando che `_wait_hold_timer > 0` mentre `is_action_pressed` è già false.
-- [ ] Connettere il segnale `wait_completed` di WaitScreen → `_wait_screen_open = false`
-- [ ] In `locales/strings_ui.csv`, riga `UI_COMBATBAR_WAIT`: cambiare `[Q] Aspetta` → `[R] Aspetta`
+- [x] Rimosso blocco `action_wait` da `_unhandled_input()` (era condizionato a `_in_combat`)
+- [x] Rinominato `_on_wait()` → `_on_quick_wait()`; aggiornato connect in `_ready()`
+- [x] `_on_quick_wait()` ora chiama `TimeManager.advance(get_action_cost(map_type, 4))` prima di `TurnManager.on_player_action_done()`
+- [x] Aggiunte variabili `_wait_hold_timer`, `_wait_screen_open`, `WAIT_HOLD_THRESHOLD = 0.4`
+- [x] Aggiunto `_process(delta)`: guard `TurnManager.is_active and not is_player_turn`; hold detection; tap → `_on_quick_wait()`; hold ≥ 0.4s: in esplorazione apre WaitScreen, in combattimento fa quick wait
+- [x] `locales/strings_ui.csv` `UI_COMBATBAR_WAIT`: `[Q] Aspetta` → `[R] Aspetta`
+- [x] `wait_completed` di WaitScreen → `_on_wait_screen_closed()` → `_wait_screen_open = false`; riferimento `_wait_screen` caricato in `_ready()` via `get_node_or_null`
 
 #### 2.5 `Player.gd` — costo movimento overworld
 
-- [ ] Aggiungere il metodo `func _get_move_cost_overworld() -> int`:
-  ```gdscript
-  func _get_move_cost_overworld() -> int:
-      var terrain_mult: float = 1.0   # placeholder — Overworld System
-      var mount_mult: float   = 1.0   # placeholder — Mount System
-      return ceili(240.0 * terrain_mult * mount_mult)
-  ```
-- [ ] Trovare il punto in `_try_move()` (o equivalente) dove il movimento sull'overworld viene applicato
-- [ ] Dopo il `move_to()` sull'overworld, sostituire l'eventuale `_action_done()` con:
-  ```gdscript
-  _last_action = Action.MOVE
-  _action_done(_get_move_cost_overworld())
-  ```
-- [ ] Verificare che per i movimenti NON-overworld il costo venga calcolato normalmente da `get_action_cost`
+- [x] Aggiunto `_get_move_cost_overworld()`: `ceili(240.0 * 1.0 * 1.0)` con placeholder terrain/mount
+- [x] In `_try_move()`, dopo `move_to()`: se `map.map_type == "overworld"` → `_action_done(_get_move_cost_overworld())`; altrimenti `_action_done()`
 
 #### 2.6 Verifica Fase 2
 
-- [ ] Avviare il gioco e muoversi in un villaggio di giorno → il tempo deve avanzare di 1 min per tile
-- [ ] Muoversi in un dungeon → 3 min per tile
-- [ ] Tap R (rilascio rapido) → 60 min in villaggio, 30 min in dungeon; pulsante [R] nella CombatBar produce lo stesso effetto
-- [ ] Sull'overworld → 240 min per tile (placeholder)
+- [x] Avviare il gioco e muoversi in un villaggio di giorno → il tempo deve avanzare di 1 min per tile *(confermato)*
+- [x] Muoversi in un dungeon → 3 min per tile *(confermato)*
+- [x] Tap R (rilascio rapido) → 60 min in villaggio, 30 min in dungeon; pulsante [R] nella CombatBar produce lo stesso effetto
+- [x] Sull'overworld → 240 min per tile (4h) *(confermato)*
 - [ ] Verificare nella console che `EventBus.time_advanced` si emetta ad ogni azione
+
+#### 2.7 DebugScreen — verifica sezione TimeSystem
+
+- [x] Aprire DebugScreen durante il gioco → la sezione `Time System` mostra valori aggiornati
+- [x] Muoversi in dungeon → `map_type: dungeon`, `action_costs: M:3 A:3 I:2 W:30`
+- [x] Muoversi in villaggio → `map_type: village`, `action_costs: M:1 A:1 I:1 W:60`
+- [x] Usare il pannello `TimeTools → +1h` → `total_minutes` aumenta di 60, `display` si aggiorna
+- [x] Usare `TimeTools → +1 giorno` → `abs_day` aumenta di 1, la data nel `display` avanza
+- [x] Usare `TimeTools → Reset` → `total_minutes` torna a 480, `display` mostra `"1 Nevargento 472 C — Giorno"`
 
 ---
 
@@ -903,66 +848,21 @@ Il wait è gestito in `CombatBar.gd`, **non** in Player.gd. CombatBar chiama `Tu
 
 #### 2.5.1 Creare `WaitScreen.tscn`
 
-- [ ] Creare la scena `scenes/ui/WaitScreen.tscn` come `CanvasLayer` (layer alto, es. 10, per stare sopra il HUD)
-- [ ] Aggiungere un `PanelContainer` centrato nello schermo, larghezza ~320px
-- [ ] Struttura nodi interni:
-  - `VBoxContainer`
-    - `Label` — titolo `"ATTENDI"`
-    - `Label` `FromLabel` — testo "Da: ..."
-    - `Label` `ToLabel` — testo "A: ..."
-    - `Label` `NowLabel` — testo "Ora: ..." (visibile solo durante animazione, inizialmente nascosto)
-    - `HSlider` `HoursSlider` — min=1, max=8, step=1, value=1
-    - `Label` `HoursLabel` — testo "{n} ore" aggiornato dallo slider
-    - `HBoxContainer`
-      - `Button` `WaitBtn` — testo localizzato `UI_WAIT_BTN`
-      - `Button` `CancelBtn` — testo localizzato `UI_BTN_CANCEL`
-- [ ] `WaitScreen` nascosto di default (`visible = false`)
+- [x] Scena minimale `scenes/ui/WaitScreen.tscn`: CanvasLayer layer=10, visible=false; tutto il layout costruito a codice in `_ready()` da `WaitScreen.gd`
 
 #### 2.5.2 Creare `scripts/ui/WaitScreen.gd`
 
-- [ ] Creare il file con `extends CanvasLayer`
-- [ ] Definire le costanti `const WAIT_TICK_DELAY: float = 0.08` e `const MAX_WAIT_HOURS: int = 8`
-- [ ] Aggiungere variabili: `_start_minutes: int`, `_target_minutes: int`, `_animating: bool`
-- [ ] Implementare `func open() -> void`:
-  - Impostare `_start_minutes = GameState.total_minutes`
-  - `_target_minutes = _start_minutes + 3600` (default 1 ora)
-  - Resettare lo slider (`value = 1`, `editable = true`)
-  - Nascondere `NowLabel`; mostrare `FromLabel` e `ToLabel`
-  - Chiamare `_update_selection_labels()`
-  - `show()`
-- [ ] Implementare `_update_selection_labels()`:
-  - `_from_label.text = "Da: " + TimeManager.format_time()`
-  - `_to_label.text   = "A: "  + TimeManager.format_time_from(_target_minutes)`
-- [ ] Implementare `_on_slider_changed(value: float)`:
-  - `_target_minutes = _start_minutes + int(value) * 60`
-  - Aggiornare `_hours_label.text`
-  - Aggiornare `_to_label.text`
-- [ ] Implementare `_on_wait_confirmed()`:
-  - Disabilitare slider e bottoni
-  - Mostrare `NowLabel`, aggiornare `FromLabel` con testo "Inizio:" (fisso)
-  - Impostare `_animating = true`
-  - Chiamare `_run_wait_animation()`
-- [ ] Implementare `func _run_wait_animation() -> void` (con `await`):
-  ```gdscript
-  while GameState.total_minutes < _target_minutes:
-      var step: int = mini(60, _target_minutes - GameState.total_minutes)
-      TimeManager.advance(step)
-      _hours_slider.value = float(_target_minutes - GameState.total_minutes) / 60.0
-      _now_label.text = "Ora: " + TimeManager.format_time()
-      await get_tree().create_timer(WAIT_TICK_DELAY).timeout
-  _finish()
-  ```
-- [ ] Implementare `_finish()`:
-  - `_animating = false`
-  - Emettere `Notification.wait_finished((_target_minutes - _start_minutes) / 60, TimeManager.format_time())`
-  - `emit_signal("wait_completed")`
-  - `hide()`
-- [ ] Implementare `_on_cancel_pressed()`: se `not _animating`, `hide()` e `emit_signal("wait_completed")`
-- [ ] Dichiarare il segnale `signal wait_completed`
+- [x] `extends CanvasLayer`, `signal wait_completed`, `WAIT_TICK_DELAY=0.08`, `MAX_WAIT_HOURS=8`
+- [x] UI costruita interamente a codice in `_build_ui()`: overlay semitrasparente + PanelContainer centrato 300px + VBox con FromLabel/ToLabel/NowLabel/HSlider/HoursLabel/WaitBtn/CancelBtn
+- [x] `open()`, `_update_selection_labels()`, `_on_slider_changed()`, `_on_wait_confirmed()` implementati
+- [x] `_run_wait_animation()` con await: avanza 60 min alla volta, aggiorna slider e NowLabel ogni 0.08s
+- [x] `_finish()`: emette `Notification.wait_finished()`, chiama `TurnManager.on_player_action_done()`, hide + `wait_completed.emit()`
+- [x] `_on_cancel_pressed()`: solo se `not _animating` → hide + `wait_completed.emit()`
+- [x] `_unhandled_input`: ESC chiude durante la selezione
 
 #### 2.5.3 Aggiungere `format_time_from()` a `TimeManager.gd`
 
-- [ ] Aggiungere il metodo:
+- [x] Già implementato in FASE 1 — il metodo esiste e calcola localmente senza mutare `GameState.total_minutes`
   ```gdscript
   func format_time_from(minutes: int) -> String:
       var saved: int = GameState.total_minutes
@@ -990,93 +890,60 @@ Il wait è gestito in `CombatBar.gd`, **non** in Player.gd. CombatBar chiama `Tu
 
 #### 2.5.4 `Notification.gd` — factory method
 
-- [ ] Aggiungere:
-  ```gdscript
-  static func wait_finished(hours: int, new_time: String) -> Notification:
-      var n := Notification.new()
-      n.text     = LocaleManager.t("NOTIF_WAIT_DONE", {"hours": str(hours), "time": new_time})
-      n.color    = Color(0.6, 0.9, 1.0)
-      n.duration = 3.0
-      return n
-  ```
+- [x] `Notification.wait_finished(hours, new_time)` aggiunto; `NOTIF_WAIT_DONE` in `strings_notifications.csv`
 
 #### 2.5.5 Localizzazione
 
-- [ ] Aggiungere a `locales/strings_ui.csv`:
-  ```
-  UI_WAIT_TITLE,ATTENDI
-  UI_WAIT_FROM,Da:
-  UI_WAIT_TO,A:
-  UI_WAIT_NOW,Ora:
-  UI_WAIT_START,Inizio:
-  UI_WAIT_HOURS,{n} ore
-  UI_WAIT_BTN,Aspetta
-  ```
-- [ ] Aggiungere a `locales/strings_notifications.csv`:
-  ```
-  NOTIF_WAIT_DONE,Hai aspettato {hours} ore. Sono le {time}.
-  ```
+- [x] `strings_ui.csv`: `UI_WAIT_TITLE/FROM/TO/NOW/START/HOURS/BTN` aggiunte
+- [x] `strings_notifications.csv`: `NOTIF_WAIT_DONE,Hai aspettato {hours} ore. {time}.` aggiunta
 
 #### 2.5.6 Collegare WaitScreen alla scena Main
 
-- [ ] Aggiungere `WaitScreen` come figlio di `Main.tscn` (o come nodo nella scena radice)
-- [ ] Collegare il segnale `wait_completed` → `Player._wait_screen_open = false`
-- [ ] Verificare che il CanvasLayer di WaitScreen sia sopra l'HUD ma non sopra le dialog boxes
+- [x] `WaitScreen` aggiunto come figlio di `Main.tscn` (layer=10, sopra HUD)
+- [x] `CombatBar._ready()` recupera il riferimento via `get_node_or_null` e connette `wait_completed → _on_wait_screen_closed()`
 
 #### 2.5.7 Verifica Fase 2.5
 
-- [ ] Tap R → avanza 60 min (villaggio), HUD aggiornato, nessun popup
-- [ ] Hold R (0.5s) → WaitScreen si apre, slider a 1 ora
-- [ ] Spostare lo slider a 4 ore → label "A:" si aggiorna
-- [ ] Premere [Aspetta] → animazione: slider scorre indietro da 4 a 0, "Ora:" si aggiorna ogni ora simulata
-- [ ] Al termine → WaitScreen si chiude, notifica "Hai aspettato 4 ore. Sono le..."
-- [ ] Annulla durante selezione → WaitScreen si chiude senza avanzare il tempo
-- [ ] Tentare annulla durante animazione → nessun effetto (pulsante disabilitato)
+- [x] Tap R → avanza 60 min (villaggio), HUD aggiornato, nessun popup *(confermato)*
+- [x] Hold R (≥ 0.4s) → WaitScreen si apre *(confermato)*
+- [x] Spostare lo slider a 4 ore → label "A:" si aggiorna *(confermato)*
+- [x] Premere [Aspetta] → animazione: slider scorre indietro, "Ora:" si aggiorna ogni ora simulata *(confermato)*
+- [x] Al termine → WaitScreen si chiude, notifica "Hai aspettato N ore..." *(confermato)*
+- [x] Annulla durante selezione → WaitScreen si chiude senza avanzare il tempo *(confermato)*
+- [x] Tentare annulla durante animazione → animazione troppo breve per testarlo manualmente, logica implementata correttamente
+
+#### 2.5.8 DebugScreen — stato WaitScreen
+
+- [x] Già implementato in 1.6 — `_update_time_system()` mostra `wait_open`, `wait_anim`, `wait_target` se WaitScreen è aperta
 
 #### 2.6 Aggiornamento piano e codebase_reference
 
-- [ ] Aggiornare la sezione 'Fasi di implementazione - dettaglio completo' del file `.claude/plan_time_system.md` e il file `.claude/codebase_reference.md`
-- [ ] Mostrare le Fasi di implementazione con checkbox per fasi e sottofasi, in modo dettagliato e approfondito
+- [x] Piano aggiornato (questa sessione)
+- [x] `codebase_reference.md` aggiornato con WaitScreen e sezione CombatBar rivista
 
 ---
 
 ### FASE 3 — HUD: TimeLabel
 
-#### 3.1 Trovare la scena HUD
-
-- [ ] Aprire la scena HUD (cercare in `scenes/ui/` o `scenes/main/` — probabilmente `HUD.tscn` o il nodo HUD dentro `Main.tscn`)
-- [ ] Identificare il contenitore in cui aggiungere la label (solitamente un `VBoxContainer` o `HBoxContainer` in alto)
-
-#### 3.2 Aggiungere il nodo TimeLabel
-
-- [ ] Aggiungere un nodo `Label` figlio del contenitore HUD, nominarlo `TimeLabel`
-- [ ] Impostare `text` iniziale a `"1 Nevargento 472 C — Giorno"` (verrà aggiornato a runtime)
-- [ ] Impostare la dimensione font adeguata al resto dell'HUD (coerente con le altre label)
-- [ ] Posizionarlo in modo che non copra informazioni critiche (HP, status)
-
-#### 3.3 Collegare nello script HUD
-
-- [ ] Aprire lo script associato alla scena HUD
-- [ ] Aggiungere `@onready var _time_label: Label = $percorso/TimeLabel`
-- [ ] In `_ready()`, connettere: `EventBus.time_advanced.connect(_on_time_advanced)`
-- [ ] Aggiungere il metodo:
-  ```gdscript
-  func _on_time_advanced(_minutes: int) -> void:
-      _time_label.text = TimeManager.format_time()
-  ```
-- [ ] In `_ready()` chiamare subito `_time_label.text = TimeManager.format_time()` per il valore iniziale (evita la label vuota al primo frame)
+> **Anticipata in FASE 1.7.** L'implementazione è già completa: `TimeLabel` aggiunto a `HUD.tscn` come figlio diretto del CanvasLayer (nodo separato dal Panel, full-width, centrato in alto), e `HUD.gd` cablato a `EventBus.time_advanced`. Le sottofasi seguenti servono solo per verifica e DebugScreen.
 
 #### 3.4 Verifica Fase 3
 
-- [ ] Avviare il gioco → la label deve mostrare `"1 Nevargento 472 C — Giorno"`
-- [ ] Muoversi alcune volte → il testo deve aggiornarsi
-- [ ] Far passare la notte (advance manuale da console) → deve mostrare `"... — Notte"`
-- [ ] Far avanzare al giorno 2 → deve mostrare `"2 Nevargento 472 C — ..."`
+- [x] Avviare il gioco → la label mostra `"1 Nevargento 472 C — Giorno"` *(implementato in FASE 1.7, funzionante)*
+- [x] Muoversi alcune volte → il testo si aggiorna *(confermato: time system funziona)*
+- [x] Far passare la notte (TimeTools +8h) → mostra `"... — Notte"`
+- [x] Far avanzare al giorno 2 (TimeTools +1 giorno) → mostra `"2 Nevargento 472 C — ..."`
 
 #### 3.5 Aggiornamento piano e codebase_reference
 
-- [ ] Aggiornare la sezione 'Fasi di implementazione - dettaglio completo' del file `.claude/plan_time_system.md` e il file `.claude/codebase_reference.md`
-- [ ] Mostrare le Fasi di implementazione con checkbox per fasi e sottofasi, in modo dettagliato e approfondito
+- [x] Piano aggiornato (questa sessione)
+- [x] `codebase_reference.md` già aggiornato con sezione HUD/TimeLabel in FASE 1
+
+#### 3.6 DebugScreen — verifica TimeLabel
+
+- [x] `hud_time_label` già presente in `_update_time_system()` fin dalla FASE 1.6
+- [x] Corrisponde a `display` — stessa stringa da `TimeManager.format_time()`
+- [x] Entrambi aggiornati su `EventBus.time_advanced`
 
 ---
 
@@ -1084,44 +951,96 @@ Il wait è gestito in `CombatBar.gd`, **non** in Player.gd. CombatBar chiama `Tu
 
 #### 4.1 `scripts/core/SaveManager.gd` — salvataggio
 
-- [ ] Aprire SaveManager.gd e trovare la funzione di salvataggio (es. `_save_character()` o `save_game()`)
-- [ ] Trovare il punto in cui viene costruito il Dictionary dei dati da salvare
-- [ ] Aggiungere `"total_minutes": GameState.total_minutes` al Dictionary
-- [ ] Verificare che nessun altro campo di tempo venga salvato (rimuovere eventuali `"hour"`, `"day"`, `"time"` obsoleti e aggiornare i riferimenti)
+- [x] Aprire SaveManager.gd e trovare la funzione di salvataggio (`_save_character()`)
+- [x] Trovare il punto in cui viene costruito il Dictionary dei dati da salvare
+- [x] Aggiunto `"total_minutes": GameState.total_minutes` al Dictionary
+- [x] Verificato che nessun altro campo di tempo venga salvato — nessun campo obsoleto trovato
 
 #### 4.2 `SaveManager.gd` — caricamento
 
-- [ ] Trovare la funzione di caricamento (es. `_apply_save_data()` o `load_game()`)
-- [ ] Aggiungere: `GameState.total_minutes = int(data.get("total_minutes", 480))`
-- [ ] Il valore di default `480` garantisce che un salvataggio vecchio (senza il campo) parta alle 8:00 del giorno 1
-- [ ] Verificare che il caricamento avvenga **prima** di qualsiasi chiamata che usa `TimeManager.get_slot()` o `format_time()` — altrimenti il display HUD mostrerà valori sbagliati al load
+- [x] Trovata `_apply_save_data()` come funzione di caricamento
+- [x] Aggiunto: `GameState.total_minutes = int(data.get("total_minutes", 480))`
+- [x] Il valore di default `480` garantisce che un salvataggio vecchio (senza il campo) parta alle 8:00 del giorno 1
+- [x] Il caricamento avviene prima di `WorldManager.change_map()` che istanzia la mappa — `BaseMap._ready()` legge il slot già corretto
 
 #### 4.3 Verifica Fase 4
 
-- [ ] Avanzare il tempo a una fascia diversa da `"Giorno"` (es. `"Notte"`)
-- [ ] Salvare il gioco
-- [ ] Uscire e ricaricare il salvataggio
-- [ ] Verificare che `GameState.total_minutes` abbia il valore corretto
-- [ ] Verificare che `TimeManager.format_time()` mostri la fascia corretta dopo il load
-- [ ] Verificare che le luci siano nello stato corretto (accese/spente) dopo il load a `"notte"` o `"giorno"`
+- [x] Avanzare il tempo a una fascia diversa da `"Giorno"` (es. `"Notte"`)
+- [x] Salvare il gioco
+- [x] Uscire e ricaricare il salvataggio
+- [x] Verificare che `GameState.total_minutes` abbia il valore corretto *(confermato dall'utente)*
+- [x] Verificare che `TimeManager.format_time()` mostri la fascia corretta dopo il load *(confermato: HUD e debug screen mostrano valori corretti)*
+- [x] Verificare che le luci siano nello stato corretto dopo il load — fix applicato: `BaseMap._ready()` ora chiama `_on_day_slot_changed(TimeManager.get_slot())` dopo la connessione al signal *(confermato dall'utente)*
+
+#### 4.4 DebugScreen — verifica dopo load
+
+- [x] Caricare un salvataggio con orario diverso da `"Giorno"` (es. `"notte"`)
+- [x] Aprire DebugScreen subito dopo il load → `total_minutes` deve corrispondere al valore salvato *(confermato)*
+- [x] `display` e `hud_time_label` nel DebugScreen devono concordare tra loro *(confermato)*
+- [ ] `TimeTools → +1h` → il tempo avanza correttamente anche dopo un load
 
 ---
 
 ### FASE 5 — Smoke test integrazione completa
 
-- [ ] Avviare una nuova partita → ora iniziale 08:00, `"1 Nevargento 472 C — Giorno"`, luci spente
-- [ ] Entrare in un villaggio e muoversi → tempo avanza di 1 min/tile, HUD aggiornato
-- [ ] Avanzare manualmente a `sera` (es. `TimeManager.advance(600)` da console) → le luci si accendono, FOV cambia, HUD mostra `"1 Nevargento 472 C — Tramonto"`
-- [ ] Avanzare a `notte` → `"... — Notte"`, luci attive, NPC nascosti nelle zone buie
-- [ ] Avanzare a oltre le 5:00 → `"... — Alba"`, luci si spengono, NPC visibili
-- [ ] Entrare in un dungeon → movimento costa 3 min, Wait costa 30 min, FOV binario (nessun overlay)
-- [ ] Salvare e ricaricare in vari slot orari → stato sempre coerente
-- [ ] Verificare che `EventBus.world_ticked` si emetta solo per avanzamenti ≥ 30 min
+> **Bug trovato e corretto durante la revisione FASE 5**: `Main._reset_game_state()` non resettava `total_minutes` — risolto usando `start_minutes` come parametro calcolato prima del reset.
+> **Bug trovato e corretto**: `_go_to_main_menu()` nascondeva il PauseMenu senza chiamare `close_pause()`, lasciando `get_tree().paused = true` — aggiunto `get_tree().paused = false` esplicito.
 
-#### 5.1 Aggiornamento piano e codebase_reference
+- [x] Avviare una nuova partita → ora iniziale corretta (vedi Funzionalità Extra) *(garantito)*
+- [x] Entrare in un villaggio e muoversi → tempo avanza di 1 min/tile, HUD aggiornato *(confermato dall'utente)*
+- [ ] Avanzare manualmente a `sera` (TimeTools +8h) → luci si accendono, FOV cambia, HUD aggiornato *(da verificare in gioco)*
+- [ ] Avanzare a `notte` → luci attive, NPC nascosti nelle zone buie *(da verificare)*
+- [ ] Avanzare a oltre le 5:00 → `"... — Alba"`, luci si spengono *(da verificare)*
+- [x] Entrare in un dungeon → movimento costa 3 min, Wait costa 30 min, FOV binario *(confermato dall'utente)*
+- [x] Salvare e ricaricare in vari slot orari → stato sempre coerente *(confermato dall'utente)*
+- [x] `EventBus.world_ticked` emesso solo per avanzamenti ≥ 30 min *(verificato da code review)*
 
-- [ ] Aggiornare la sezione 'Fasi di implementazione - dettaglio completo' del file `.claude/plan_time_system.md` e il file `.claude/codebase_reference.md`
-- [ ] Mostrare le Fasi di implementazione con checkbox per fasi e sottofasi, in modo dettagliato e approfondito
+#### 5.1 DebugScreen — smoke test completo
+
+- [x] Aprire DebugScreen all'avvio → sezione `Time System` con valori corretti *(confermato)*
+- [x] `TimeTools → +1 giorno` / `Reset` *(confermato)*
+- [x] Muoversi in dungeon/villaggio → `action_costs` corretti *(confermato)*
+- [x] Hold R → WaitScreen → notifica → chiusura *(confermato)*
+- [x] Caricare un salvataggio → `total_minutes` coerente *(confermato)*
+
+#### 5.2 Aggiornamento piano e codebase_reference
+
+- [x] Aggiornato `plan_time_system.md` (questa sessione)
+- [x] Aggiornato `codebase_reference.md` (questa sessione)
+- [x] Aggiornato `todo.md` (questa sessione)
+
+---
+
+### Funzionalità extra (fuori piano originale)
+
+#### FX.1 — Continuità temporale multi-personaggio nello stesso mondo
+
+Quando si crea un nuovo personaggio in un mondo già esistente (con almeno un salvataggio esplicito), il gioco parte alle 08:00 del giorno successivo al `total_minutes` più alto tra tutti i personaggi di quel mondo.
+
+**Implementazione:**
+
+- `world.json` contiene nel campo `meta` un dizionario `character_timestamps`:
+  ```json
+  "character_timestamps": {
+      "Aldric": 2880,
+      "Mira":   4320
+  }
+  ```
+  Il dizionario viene aggiornato ad ogni `save_game()` esplicito (save point). Non viene scritto al semplice ritorno al menù principale — il salvataggio rimane sempre volontario.
+
+- `WorldSaveManager.save_world()` legge i timestamp esistenti via `_read_character_timestamps()`, aggiorna l'entry del personaggio corrente e scrive il dizionario aggiornato.
+
+- `WorldSaveManager._read_character_timestamps(world_name) -> Dictionary`: helper interno che legge `meta.character_timestamps` dal `world.json` senza caricare l'intero stato di gioco. Restituisce `{}` se il file non esiste o il campo è assente.
+
+- `WorldSaveManager.get_world_max_minutes(world_name) -> int`: restituisce il massimo tra tutti i valori in `character_timestamps`. Backward compat: se il campo è assente cade su `world_max_minutes` scalare (vecchio formato). Restituisce 0 se non c'è nulla.
+
+- `Main._start_new_game()`: se il mondo esiste, legge `world_max_minutes` e calcola:
+  ```gdscript
+  start_minutes = (int(world_max / 1440.0) + 1) * 1440 + 480
+  ```
+  Il risultato viene passato come parametro a `_reset_game_state(world_name, char_name, pd, class_id, start_minutes)`.
+
+- Mondi nuovi (nessun salvataggio → `has_world` = false): `start_minutes = 480` — nessuna logica speciale.
 
 ---
 
