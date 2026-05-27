@@ -20,8 +20,17 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [x] **Needs System** *(plan_needs_system.md — completo FASI 0–5)*
   Fame, sete, exhaustion, temperatura, malattie (32), item consumabili, save point rest, cure automatiche, disease-on-hit da nemici.
 
+- [ ] **Overworld System** *(plan_overworld_system.md)*
+  Biomi, terrain multiplier, WorldActor/WorldSimulator in WorldManager, carovane. Dipende da Time System. Prerequisito per tutto ciò che viene dopo.
+
+- [ ] **Dungeons System** *(plan_dungeons_system.md)*
+  Refactor da dungeon singolo (`dungeon_01`) a multi-dungeon con ID univoci. Generazione 2–4 dungeon per mondo, tipi per bioma (cave/ruin/crypt/tower…), piazzamento overworld biome-aware, `dungeon_bosses_defeated` dict. Dipende da Overworld System.
+
+- [ ] **Local Map System** *(plan_local_map_system.md)*
+  Mappe procedurali contestuali: accampamenti bandit, tane creature, rovine visibili sull'overworld; incontri casuali durante il viaggio. Dipende da Overworld System e Dungeons System.
+
 - [ ] **Camping System** *(plan_camping_system.md)*
-  Bivacco su overworld/dungeon. Dipende da Time System; hook Needs deferred.
+  Bivacco su overworld/dungeon/local map. Recovery risorse, rischio incontro, bonus classe, limiti per dungeon. Dipende da Overworld + Dungeons + Local Map.
 
 - [ ] **NPC System — Fase 2** *(plan_npc_system.md)*
   Routine NPC, accumulator, schedule venditori (`open_slot`/`close_slot`, `is_open()`). Dipende da Time System.
@@ -29,20 +38,14 @@ L'ordine rispecchia le dipendenze tecniche. Ogni sistema è implementabile solo 
 - [ ] **Vendor System** *(plan_vendor_system.md)*
   Compra/vendi item, prezzi, stock. Dipende da NPC System Fase 2.
 
-- [ ] **Overworld System** *(plan_overworld_system.md — design ancora in corso)*
-  Biomi, terrain multiplier, WorldActor/WorldSimulator in WorldManager, carovane. Dipende da Time System.
-
-- [ ] **Local Map System** *(plan_local_map_system.md)*
-  Mappe procedurali contestuali: accampamenti bandit, tane creature, rovine carovana visibili sull'overworld; incontri casuali (`clearing`) durante il viaggio. `EncounterGenerator`, prefisso `enc_` in LocationRegistry, persistenza selettiva. Dipende da Overworld System (biomi, chance incontro per tile).
-
-- [ ] **Travel System** *(plan_travel_system.md)*
-  Viaggio fast-travel, consumo risorse in viaggio. Dipende da Time System + Needs System + Overworld System.
-
 - [ ] **Quest System — espansioni** *(plan_quest_system.md)*
   Deadline via `total_minutes`, quest con effetti world-persistent, quest a catena. Dipende da Time System + NPC System + Vendor System.
 
 - [ ] **Background Events System** *(plan_background_events_system.md — ancora da progettare)*
   Eventi world che avanzano mentre il player è altrove (WorldActor). Dipende da Overworld System.
+
+- [ ] **Travel System** *(plan_travel_system.md)*
+  Viaggio organizzato: carovane, compagni, fermate in dungeon/local map, acquisto risorse, consumo needs. Dipende da tutto: Overworld + Dungeons + Local Map + Camping + NPC + Vendor.
 
 - [ ] **Class System — Fasi K–L** *(plan_dev_phases.md)*
   Classi complesse con UI dedicata (K) e Tier 4–6 completi (L). Dipende da Item System attributi.
